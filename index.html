@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- ▼ 資安強化：Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; frame-ancestors 'none';">
+  <!-- ▼ 防止點擊劫持 -->
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <!-- ▼ 防止 MIME 類型嗅探 -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <title>成育典 // SYSTEM ONLINE</title>
   <style>
     /* ── RESET & BASE ── */
@@ -732,9 +739,10 @@
     <div class="contact-info">
       <p>無論是合作提案、技術討論，或是單純想打個招呼，都歡迎傳訊給我。我通常在 24 小時內回應。</p>
       <div class="contact-links">
-        <a href="mailto:dot1000110@gmail.com" class="contact-link"><div class="cl-icon">✉</div> dot1000110@gmail.com</a>
-        <a href="https://github.com/" target="_blank" class="contact-link"><div class="cl-icon">⌥</div> github.com/成育典</a>
-        <a href="https://linkedin.com/" target="_blank" class="contact-link"><div class="cl-icon">⎔</div> linkedin.com/in/成育典</a>
+        <!-- Email 由 JS 動態組合，防止爬蟲擷取 -->
+        <a href="#" id="email-link" class="contact-link"><div class="cl-icon">✉</div> <span id="email-display">載入中...</span></a>
+        <a href="https://github.com/dandycheng110" target="_blank" rel="noopener noreferrer" class="contact-link"><div class="cl-icon">⌥</div> github.com/dandycheng110</a>
+        <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" class="contact-link"><div class="cl-icon">⎔</div> linkedin.com/in/成育典</a>
         <a href="#" class="contact-link"><div class="cl-icon">◈</div> Taiwan, TW</a>
       </div>
     </div>
@@ -796,31 +804,51 @@
   setInterval(draw, 40);
 })();
 
-/* ===== TYPED SUBTITLE ===== */
+/* ===== TYPED SUBTITLE（安全版：改用 textContent 避免 innerHTML XSS） ===== */
 (function(){
-  const el    = document.getElementById('typed-subtitle');
+  const el     = document.getElementById('typed-subtitle');
+  const cursor = document.createElement('span');
+  cursor.className = 'blink';
+  cursor.textContent = '_';
+
   const texts = [
-    'Full Stack Developer_',
-    'Open Source Enthusiast_',
-    'Problem Solver_',
-    'Code. Build. Repeat._'
+    'Full Stack Developer',
+    'Open Source Enthusiast',
+    'Problem Solver',
+    'Code. Build. Repeat.'
   ];
   let ti = 0, ci = 0, deleting = false;
 
   function type(){
     const cur = texts[ti];
+    // 安全：用 textContent 而非 innerHTML
+    el.textContent = '> ' + cur.slice(0, ci);
+    el.appendChild(cursor);
+
     if(!deleting){
       ci++;
-      el.innerHTML = '&gt; ' + cur.slice(0,ci) + '<span class="blink">_</span>';
-      if(ci === cur.length){ deleting = true; setTimeout(type, 1800); return; }
+      if(ci > cur.length){ deleting = true; setTimeout(type, 1800); return; }
     } else {
       ci--;
-      el.innerHTML = '&gt; ' + cur.slice(0,ci) + '<span class="blink">_</span>';
-      if(ci === 0){ deleting = false; ti = (ti+1)%texts.length; }
+      if(ci < 0){ ci = 0; deleting = false; ti = (ti+1) % texts.length; }
     }
     setTimeout(type, deleting ? 45 : 80);
   }
   setTimeout(type, 800);
+})();
+
+/* ===== EMAIL 混淆（防爬蟲，動態組合 mailto） ===== */
+(function(){
+  // 分段儲存，讓爬蟲無法直接讀取完整 email
+  const u = ['d','o','t','1','0','0','0','1','1','0'].join('');
+  const d = ['g','m','a','i','l','.','c','o','m'].join('');
+  const email = u + '\u0040' + d;
+  const link  = document.getElementById('email-link');
+  const disp  = document.getElementById('email-display');
+  if(link && disp){
+    link.href    = 'mailto:' + email;
+    disp.textContent = email;
+  }
 })();
 
 /* ===== SKILL BARS (IntersectionObserver) ===== */
