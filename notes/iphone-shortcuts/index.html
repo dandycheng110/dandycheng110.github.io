@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iPhone 捷徑工具箱</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#15120f;
+    --card:#1e1a16;
+    --card-2:#241f1a;
+    --line:#2e2822;
+    --code:#2a2520;
+    --coral:#ff6b3d;
+    --amber:#f3b03c;
+    --teal:#6fb5a6;
+    --cream:#f3ece2;
+    --muted:#9a8e7e;
+    --muted-2:#6f655a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:"IBM Plex Sans TC",sans-serif;
+    background:var(--bg);
+    color:var(--cream);
+    line-height:1.75;
+    font-weight:300;
+    letter-spacing:.01em;
+    overflow-x:hidden;
+    background-image:
+      radial-gradient(rgba(255,107,61,.05) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(120% 80% at 50% -10%, rgba(255,107,61,.10), transparent 55%),
+               radial-gradient(90% 60% at 100% 120%, rgba(111,181,166,.06), transparent 60%);
+  }
+  .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:64px 22px 90px}
+
+  /* HEADER */
+  header{margin-bottom:54px}
+  .kicker{
+    font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12px;
+    letter-spacing:.32em;color:var(--coral);text-transform:uppercase;margin-bottom:18px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .kicker::before{content:"";width:34px;height:1px;background:var(--coral);display:inline-block}
+  h1{
+    font-family:"IBM Plex Mono",monospace;font-weight:700;
+    font-size:clamp(32px,8vw,52px);line-height:1.05;letter-spacing:-.01em;
+    margin-bottom:20px;
+  }
+  h1 .glow{color:var(--coral)}
+  .lede{font-size:16px;color:var(--muted);max-width:54ch;font-weight:300}
+  .lede b{color:var(--cream);font-weight:500}
+
+  /* SECTION LABEL */
+  .seclabel{
+    font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;
+    letter-spacing:.14em;color:var(--muted);margin:48px 0 18px;text-transform:uppercase;
+  }
+  .seclabel span{color:var(--coral)}
+
+  /* PREREQ PANEL */
+  .panel{
+    background:linear-gradient(180deg, var(--card-2), var(--card));
+    border:1px solid var(--line);border-radius:16px;padding:24px 24px 8px;
+    position:relative;overflow:hidden;
+  }
+  .panel::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--amber)}
+  .preq{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+  .preq:last-child{border-bottom:none}
+  .preq .n{font-family:"IBM Plex Mono",monospace;color:var(--amber);font-weight:600;font-size:13px;flex:0 0 auto;margin-top:2px}
+  .preq p{font-size:14.5px;color:var(--cream);font-weight:300}
+  .preq p b{font-weight:500}
+
+  /* CARD */
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:28px 26px 26px;margin-top:20px;position:relative;overflow:hidden;
+    opacity:0;transform:translateY(18px);
+    animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  @keyframes rise{to{opacity:1;transform:none}}
+  .card:nth-child(1){animation-delay:.05s}
+  .card:nth-child(2){animation-delay:.12s}
+  .card:nth-child(3){animation-delay:.19s}
+  .card:nth-child(4){animation-delay:.26s}
+  .card:nth-child(5){animation-delay:.33s}
+  .card::after{
+    content:"";position:absolute;top:0;left:0;width:0;height:3px;
+    background:var(--coral);transition:width .5s ease;
+  }
+  .card:hover::after{width:100%}
+  .card.infra::after{background:var(--teal)}
+
+  .chead{display:flex;align-items:flex-start;gap:16px;margin-bottom:6px}
+  .num{
+    font-family:"IBM Plex Mono",monospace;font-weight:700;font-size:34px;line-height:1;
+    color:var(--coral);flex:0 0 auto;opacity:.85;
+  }
+  .infra .num{color:var(--teal)}
+  .ctitle{flex:1}
+  .ctitle h2{font-size:20px;font-weight:600;letter-spacing:.01em;line-height:1.3}
+  .tag{
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;letter-spacing:.12em;
+    padding:4px 9px;border-radius:999px;text-transform:uppercase;display:inline-block;margin-top:8px;
+  }
+  .tag.daily{color:var(--coral);background:rgba(255,107,61,.12);border:1px solid rgba(255,107,61,.25)}
+  .tag.link{color:var(--teal);background:rgba(111,181,166,.12);border:1px solid rgba(111,181,166,.25)}
+
+  .use{font-size:14.5px;color:var(--muted);margin:12px 0 20px;font-weight:300}
+  .use b{color:var(--cream);font-weight:500}
+
+  .flowlabel{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.18em;
+    color:var(--muted-2);text-transform:uppercase;margin-bottom:14px;
+  }
+
+  /* STEPS */
+  ol.steps{list-style:none;counter-reset:s}
+  ol.steps>li{
+    counter-increment:s;position:relative;padding:0 0 16px 38px;font-size:14.5px;font-weight:300;
+  }
+  ol.steps>li::before{
+    content:counter(s);position:absolute;left:0;top:-1px;
+    font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12px;
+    width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;
+    background:var(--code);color:var(--coral);border:1px solid var(--line);
+  }
+  .infra ol.steps>li::before{color:var(--teal)}
+  ol.steps>li:not(:last-child)::after{
+    content:"";position:absolute;left:11px;top:25px;bottom:6px;width:1px;background:var(--line);
+  }
+  ol.steps b{font-weight:600;color:var(--cream)}
+  .sub{color:var(--muted);font-size:13px;display:block;margin-top:3px}
+
+  code,kbd{
+    font-family:"IBM Plex Mono",monospace;font-size:12.5px;
+    background:var(--code);color:var(--amber);padding:2px 7px;border-radius:6px;
+    border:1px solid var(--line);word-break:break-word;
+  }
+  kbd{color:var(--cream)}
+  .json{
+    display:block;font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--teal);
+    background:#181410;border:1px solid var(--line);border-left:2px solid var(--teal);
+    padding:11px 13px;border-radius:8px;margin:8px 0 2px;white-space:pre-wrap;word-break:break-word;line-height:1.6;
+  }
+
+  /* NOTE */
+  .note{
+    margin-top:18px;padding:14px 16px;border-radius:10px;
+    background:rgba(243,176,60,.06);border:1px solid rgba(243,176,60,.18);
+    font-size:13.5px;color:var(--cream);font-weight:300;
+  }
+  .note .h{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:11px;letter-spacing:.14em;color:var(--amber);text-transform:uppercase;display:block;margin-bottom:7px}
+  .note ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+  .note li{padding-left:16px;position:relative}
+  .note li::before{content:"›";position:absolute;left:0;color:var(--amber);font-weight:700}
+  .warn{color:var(--coral);font-weight:500}
+
+  .menu-row{
+    font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);
+    background:#181410;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0 2px;line-height:1.9;
+  }
+
+  /* AB BLOCK */
+  .ab{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 2px}
+  .ab .col{background:#181410;border:1px solid var(--line);border-radius:10px;padding:13px 14px}
+  .ab .col h4{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--coral);margin-bottom:8px;letter-spacing:.05em}
+  .ab .col.b h4{color:var(--teal)}
+  .ab .col p{font-size:12.8px;color:var(--cream);font-weight:300;margin-bottom:6px}
+  .ab .col p b{color:var(--muted);font-weight:600;font-family:"IBM Plex Mono",monospace;font-size:11px}
+  @media(max-width:520px){.ab{grid-template-columns:1fr}}
+
+  footer{margin-top:54px;padding-top:26px;border-top:1px solid var(--line);color:var(--muted-2);font-size:13px}
+  footer .sig{font-family:"IBM Plex Mono",monospace;color:var(--coral);font-size:12px;letter-spacing:.1em}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">iOS · Shortcuts · 為你的系統而生</div>
+    <h1>iPhone <span class="glow">捷徑</span><br>工具箱</h1>
+    <p class="lede">不是通用罐頭捷徑,而是接上<b>你自己的</b> n8n、Tailscale、Mac mini、Ollama,再加上你每天在用的記帳格式。照著動作流程在「捷徑」App 一步步搭即可——全部都能塞進主畫面或鎖定畫面按鈕。</p>
+  </header>
+
+  <div class="seclabel"><span>//</span> 前置設定 · 一次搞定</div>
+  <div class="panel">
+    <div class="preq"><span class="n">01</span><p>iPhone 安裝 <b>Tailscale</b> 並登入同一個 tailnet——串接 Mac mini／Ollama／n8n 全靠它走內網。</p></div>
+    <div class="preq"><span class="n">02</span><p>iOS「行事曆」已加入含 <b>「00 花費」</b> 的 Google 帳號,且該日曆可寫入(設定 → 行事曆 → 帳號)。</p></div>
+    <div class="preq"><span class="n">03</span><p>要遠端 SSH Mac mini:macOS <b>系統設定 → 一般 → 共享 → 開「遠端登入」</b>。</p></div>
+    <div class="preq"><span class="n">04</span><p>要手機連 Ollama:啟動時設 <code>OLLAMA_HOST=0.0.0.0</code> 再重啟 ollama,確認 <code>11434</code> 埠開著。</p></div>
+    <div class="preq"><span class="n">05</span><p>「捷徑」App → 設定,確認允許執行(日後要匯入別人的捷徑才需開「允許不受信任的捷徑」)。</p></div>
+  </div>
+
+  <div class="seclabel"><span>//</span> 五個捷徑</div>
+
+  <!-- 1 -->
+  <div class="card">
+    <div class="chead">
+      <div class="num">01</div>
+      <div class="ctitle">
+        <h2>⚡ 閃電記帳 → 寫進「00 花費」</h2>
+        <span class="tag daily">日常 · 每天用</span>
+      </div>
+    </div>
+    <p class="use"><b>三秒記一筆</b>,自動套你的格式 <code>🍱 $110 麥當勞</code>,直接落進花費日曆。設成主畫面 widget 或鎖定畫面按鈕最香。</p>
+    <div class="flowlabel">動作流程</div>
+    <ol class="steps">
+      <li><b>要求輸入</b>(Ask for Input)→ 類型「數字」→ 提示 <kbd>金額?</kbd><span class="sub">結果改名成變數「金額」</span></li>
+      <li><b>從選單中選擇</b>(Choose from Menu)→ 選項如下,每個分支放一個<b>文字</b>動作填入對應 emoji:
+        <span class="menu-row">🍱 伙食　🚌 客運　🛒 採買　🎓 學校　📚 學習
+💊 醫療　🏊 運動　💻 訂閱　💸 雜支　💰 收入</span></li>
+      <li><b>要求輸入</b> → 類型「文字」→ 提示 <kbd>說明?(可留空)</kbd><span class="sub">改名變數「說明」</span></li>
+      <li><b>文字</b>(Text)→ 內容打:<code>[類別] $[金額] [說明]</code><span class="sub">中間用半形空格;輸出 = 🍱 $110 麥當勞</span></li>
+      <li><b>加入新的行事曆活動</b>(Add New Calendar Event)<span class="sub">標題＝上一步文字 ／ 全天＝開 ／ 日曆＝<b>00 花費</b> ／ 開始＝今天</span></li>
+    </ol>
+    <div class="note">
+      <span class="h">套你的記帳慣例</span>
+      <ul>
+        <li>收入要記負數(你的格式 <code>💰 -$12000 退稅</code>)→ 把「收入」分支的文字改成 <code>💰 -</code> 即可。</li>
+        <li><b>投資不計入</b>花費,所以選單不放它;真要記就另開事件標 💼。</li>
+        <li>「吃存貨($0)」這種:說明照打、金額填 0。</li>
+        <li>進階玩法:把第 5 步換成 <b>取得 URL 內容</b> POST 給 n8n,改由 n8n 同步寫 Google Calendar + Notion,手機端零等待。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="card infra">
+    <div class="chead">
+      <div class="num">02</div>
+      <div class="ctitle">
+        <h2>🦞 問家裡的 AI(Ollama over Tailscale)</h2>
+        <span class="tag link">串接 · 你的私有大腦</span>
+      </div>
+    </div>
+    <p class="use">手機直接問你 Mac mini 上的 Ollama,<b>完全本地、不經雲端</b>。口袋裡的私有 ChatGPT——還能接上 小光／小暗 的人格。</p>
+    <div class="flowlabel">動作流程</div>
+    <ol class="steps">
+      <li><b>要求輸入</b> → 文字 → <kbd>想問什麼?</kbd></li>
+      <li><b>文字</b>(Text)→ 組 JSON(<code>[輸入]</code> 處插入上一步變數,model 換成你 <code>ollama list</code> 的實際名稱):
+        <span class="json">{"model":"llama3.1","prompt":"[輸入]","stream":false}</span></li>
+      <li><b>取得 URL 內容</b>(Get Contents of URL)<span class="sub">URL：<code>http://[mac-mini的tailscale名]:11434/api/generate</code> ／ 方法 POST ／ 標頭 <code>Content-Type: application/json</code> ／ 請求內文＝第 2 步的文字</span></li>
+      <li><b>取得字典值</b>(Get Dictionary Value)→ 鍵 <kbd>response</kbd></li>
+      <li><b>顯示結果</b>(Show Result)　或　<b>朗讀文字</b>(Speak Text)</li>
+    </ol>
+    <div class="note">
+      <span class="h">注意</span>
+      <ul>
+        <li>Mac mini 要先 <code>OLLAMA_HOST=0.0.0.0</code> 並重啟 ollama,手機 Tailscale 要連線中。</li>
+        <li>嫌慢就維持 <code>stream:false</code> + 用較小模型;回應太長可先在 prompt 限制字數。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="card infra">
+    <div class="chead">
+      <div class="num">03</div>
+      <div class="ctitle">
+        <h2>🔗 一鍵觸發 n8n 工作流</h2>
+        <span class="tag link">串接 · 接你的自動化</span>
+      </div>
+    </div>
+    <p class="use">手機按一下就跑你 n8n 的任一 workflow——丟訊息給 Discord 雙機器人、抓 YouTube 選題、跑每日摘要,通通行。</p>
+    <div class="flowlabel">動作流程</div>
+    <ol class="steps">
+      <li><span class="sub">(選用)</span><b>要求輸入</b> → 文字 → 當作 payload</li>
+      <li><b>取得 URL 內容</b>(Get Contents of URL)<span class="sub">URL：<code>https://[你的n8n網域]/webhook/[path]</code> ／ 方法 POST ／ 標頭 <code>Content-Type: application/json</code></span>
+        <span class="json">{"text":"[輸入]","from":"iphone"}</span></li>
+      <li><b>顯示結果</b>(Show Result)→ 看 n8n 回傳</li>
+    </ol>
+    <div class="note">
+      <span class="h">n8n 那一端</span>
+      <ul>
+        <li>用 <b>Webhook</b> 節點當 trigger,結尾接 <b>Respond to Webhook</b> 回 200。</li>
+        <li>走 Tailscale 內網最安全,或用你既有對外網域。</li>
+        <li>可複製成多顆按鈕,各自指不同 webhook(例:「叫小光發摘要」「跑選題」)。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="card infra">
+    <div class="chead">
+      <div class="num">04</div>
+      <div class="ctitle">
+        <h2>💻 遠端指令 Mac mini(SSH over Tailscale)</h2>
+        <span class="tag link">串接 · 兩台機都能管</span>
+      </div>
+    </div>
+    <p class="use">不在電腦前也能對<b>新店／新竹</b>的 Mac mini 下指令——喚醒、重啟服務、跑腳本、看 <code>docker ps</code>。</p>
+    <div class="flowlabel">動作流程</div>
+    <ol class="steps">
+      <li><span class="sub">(選用)</span><b>從選單中選擇</b>:新店機 ／ 新竹機<span class="sub">兩分支各帶不同主機名</span></li>
+      <li><b>透過 SSH 執行 Script</b>(Run Script Over SSH)<span class="sub">主機＝該機 Tailscale 名稱或 <code>100.x.y.z</code> ／ 埠 22 ／ 使用者＝你的帳號 ／ 認證＝SSH 金鑰(較佳)或密碼</span>
+        <span class="json">caffeinate -u -t 1        # 喚醒
+docker restart n8n        # 重啟服務
+ollama ps                 # 看 Ollama 狀態</span></li>
+      <li><b>顯示結果</b>(Show Result)</li>
+    </ol>
+    <div class="note">
+      <span class="h">注意</span>
+      <ul>
+        <li>macOS 先開「遠端登入」(見前置設定 03)。</li>
+        <li>建議用 <b>SSH 金鑰</b>:公鑰放 Mac mini 的 <code>~/.ssh/authorized_keys</code>,私鑰貼進捷徑的金鑰欄,比密碼安全。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="card">
+    <div class="chead">
+      <div class="num">05</div>
+      <div class="ctitle">
+        <h2>💊 今日保健食品(A/B 週速查)</h2>
+        <span class="tag daily">日常 · 防鋅超標</span>
+      </div>
+    </div>
+    <p class="use">解決「這週是 A 還 B?早上吃啥、晚上吃啥」的每日疑惑,守住<b>鋅每日上限 40mg</b>。</p>
+    <div class="flowlabel">動作流程</div>
+    <ol class="steps">
+      <li><b>從選單中選擇</b>(Choose from Menu)→ <kbd>A 週</kbd> ／ <kbd>B 週</kbd></li>
+      <li>每個分支放 <b>顯示提示</b>(Show Alert)或 <b>顯示結果</b>,內容:
+        <div class="ab">
+          <div class="col a">
+            <h4>A 週</h4>
+            <p><b>早餐</b> DHC 紅嫩鐵素(鐵)＋ DHC 維他命 B 群 ＋ 基礎(C／D3／Q10…)</p>
+            <p><b>晚餐</b> Swanson 甘胺酸鋅 30mg <span style="color:var(--muted)">(主鋅源)</span></p>
+          </div>
+          <div class="col b">
+            <h4>B 週</h4>
+            <p><b>早餐</b> DHC 綜合維生素 ＋ 鐵</p>
+            <p><b>晚餐</b> 肝臟萃取+鳥胺酸(鋅6mg)＋ 瑪卡 STRONG(鋅7.5mg)</p>
+          </div>
+        </div>
+      </li>
+    </ol>
+    <div class="note">
+      <span class="h">鐵則 · 別忘了</span>
+      <ul>
+        <li>鐵與鋅<b>間隔 2 小時以上</b>(早餐吃鐵、晚餐吃鋅)。</li>
+        <li class="warn">拔牙／手術前 2 週停:銀杏、EPA 魚油、維生素 E。</li>
+        <li class="warn">抽血健檢前 2–3 天停:生物素 5000mcg(干擾甲狀腺／心肌酵素)。</li>
+        <li class="warn">服用 warfarin 絕對禁:輔酶 Q10。</li>
+        <li>想全自動判週:開頭用「日期 → 格式化成週數 <code>ww</code>」再判奇偶——但每年週數會位移,手動選最穩。</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>
+    <p class="sig">// 建議搭法</p>
+    <p style="margin-top:8px">把 01 / 05 放<b style="color:var(--cream);font-weight:500">鎖定畫面按鈕</b>(每天會碰),02 / 03 / 04 收進一個「家裡」資料夾或主畫面 widget。串接型的三顆只要 Tailscale 一連,人在哪都能操作你的兩台 Mac mini。</p>
+  </footer>
+
+</div>
+</body>
+</html>

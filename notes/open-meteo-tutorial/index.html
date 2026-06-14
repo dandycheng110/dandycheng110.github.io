@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天氣是一個 GET 請求 · Open-Meteo API 互動教學</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1726;
+    --surface:#14213B;
+    --surface-2:#1C2D4F;
+    --line:rgba(168,186,212,0.16);
+    --line-strong:rgba(168,186,212,0.30);
+    --ink:#EAF0F8;
+    --ink-dim:#A7B8D2;
+    --ink-faint:#6E7F9E;
+    --amber:#F4A95C;       /* 位置 location */
+    --amber-bright:#FFC480;
+    --cyan:#4ED4C6;        /* 資料變數 / 連結 */
+    --violet:#A78BFA;      /* 設定 options */
+    --danger:#F0736F;
+    --ok:#6FD3A0;
+    --display:"Space Grotesk", -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
+    --body:-apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Segoe UI", sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --measure:760px;
+  }
+
+  *{box-sizing:border-box;}
+  html{ -webkit-text-size-adjust:100%; }
+  @media (prefers-reduced-motion: no-preference){ html{ scroll-behavior:smooth; } }
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 700px at 80% -8%, rgba(244,169,92,0.10), transparent 60%),
+      radial-gradient(900px 600px at -5% 5%, rgba(78,212,198,0.08), transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:17px;
+    line-height:1.72;
+    letter-spacing:.01em;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{ background:rgba(244,169,92,0.30); color:#fff; }
+
+  .wrap{ max-width:980px; margin:0 auto; padding:0 22px; }
+  .measure{ max-width:var(--measure); }
+
+  a{ color:var(--cyan); text-decoration:none; border-bottom:1px solid rgba(78,212,198,0.35); transition:border-color .15s, color .15s; }
+  a:hover{ color:var(--amber-bright); border-color:var(--amber-bright); }
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:blur(12px);
+    background:rgba(14,23,38,0.72);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-in{ max-width:980px; margin:0 auto; padding:12px 22px; display:flex; align-items:center; gap:18px; }
+  .brand{ font-family:var(--mono); font-size:13px; letter-spacing:.12em; color:var(--ink); white-space:nowrap; display:flex; align-items:center; gap:8px; }
+  .brand b{ color:var(--amber); font-weight:700; }
+  .dot{ width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 10px var(--cyan); }
+  .nav-links{ margin-left:auto; display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; }
+  .nav-links::-webkit-scrollbar{ display:none; }
+  .nav-links a{
+    font-family:var(--mono); font-size:12px; letter-spacing:.06em; color:var(--ink-dim);
+    padding:6px 10px; border-radius:7px; border:none; white-space:nowrap;
+  }
+  .nav-links a:hover{ color:var(--ink); background:var(--surface); }
+
+  /* ---------- hero ---------- */
+  .hero{ padding:74px 0 40px; }
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--amber); margin:0 0 22px;
+  }
+  .hero h1{
+    font-family:var(--display); font-weight:700; font-size:clamp(40px,8.2vw,76px);
+    line-height:1.02; letter-spacing:-.02em; margin:0 0 22px; color:#fff;
+  }
+  .hero h1 .gt{ color:var(--cyan); }
+  .hero .lead{ font-size:clamp(17px,2.4vw,20px); color:var(--ink-dim); max-width:600px; margin:0 0 8px; }
+  .hero .lead b{ color:var(--ink); font-weight:600; }
+
+  .reveal{ opacity:0; transform:translateY(16px); }
+  .is-in{ opacity:1; transform:none; transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+
+  /* ---------- live station card (hero signature) ---------- */
+  .station{
+    margin-top:40px;
+    background:linear-gradient(180deg, var(--surface) 0%, #101B30 100%);
+    border:1px solid var(--line-strong);
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 30px 70px -40px rgba(0,0,0,0.8), 0 0 0 1px rgba(244,169,92,0.04) inset;
+  }
+  .station-top{
+    display:flex; align-items:center; gap:12px;
+    padding:14px 20px; border-bottom:1px solid var(--line);
+    font-family:var(--mono); font-size:12px; letter-spacing:.1em; color:var(--ink-faint);
+  }
+  .live-tag{ display:flex; align-items:center; gap:7px; color:var(--amber); }
+  .live-pulse{ width:8px; height:8px; border-radius:50%; background:var(--amber); }
+  @media (prefers-reduced-motion: no-preference){
+    .live-pulse{ animation:pulse 1.8s ease-in-out infinite; }
+    @keyframes pulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(244,169,92,0.55);} 50%{ box-shadow:0 0 0 7px rgba(244,169,92,0);} }
+  }
+  .station-loc{ margin-left:auto; color:var(--ink-dim); }
+
+  .station-body{ display:grid; grid-template-columns:1.05fr 1fr; }
+  @media (max-width:640px){ .station-body{ grid-template-columns:1fr; } }
+
+  .station-now{ padding:26px 24px; border-right:1px solid var(--line); }
+  @media (max-width:640px){ .station-now{ border-right:none; border-bottom:1px solid var(--line); } }
+  .now-row{ display:flex; align-items:flex-start; gap:16px; }
+  .now-icon{ font-size:54px; line-height:1; filter:drop-shadow(0 6px 14px rgba(0,0,0,.4)); }
+  .now-temp{ font-family:var(--display); font-weight:600; font-size:64px; line-height:.95; letter-spacing:-.03em; color:#fff; }
+  .now-temp span{ font-size:26px; color:var(--ink-dim); font-weight:500; }
+  .now-desc{ color:var(--amber-bright); font-weight:600; margin-top:4px; }
+  .now-sub{ color:var(--ink-faint); font-size:14px; font-family:var(--mono); margin-top:2px; }
+
+  .now-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:22px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .metric{ background:#101B30; padding:12px 12px; }
+  .metric .k{ font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:var(--ink-faint); text-transform:uppercase; }
+  .metric .v{ font-family:var(--display); font-weight:600; font-size:20px; color:var(--ink); margin-top:3px; }
+  .metric .v small{ font-size:12px; color:var(--ink-dim); font-weight:400; }
+
+  .station-chart{ padding:22px 24px; display:flex; flex-direction:column; }
+  .sc-label{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--ink-faint); text-transform:uppercase; margin-bottom:6px; }
+  .sc-canvas-wrap{ position:relative; flex:1; min-height:150px; }
+  canvas{ display:block; width:100%; height:100%; }
+  .sc-foot{ display:flex; justify-content:space-between; font-family:var(--mono); font-size:11px; color:var(--ink-faint); margin-top:8px; }
+
+  /* ---------- sections ---------- */
+  section{ padding:54px 0; border-top:1px solid var(--line); }
+  .step{ font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; color:var(--cyan); text-transform:uppercase; display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .step b{ color:var(--bg); background:var(--cyan); border-radius:6px; padding:2px 9px; font-weight:700; letter-spacing:.05em; }
+  h2{ font-family:var(--display); font-weight:600; font-size:clamp(27px,4.6vw,40px); line-height:1.12; letter-spacing:-.018em; margin:0 0 16px; color:#fff; }
+  h3{ font-family:var(--display); font-weight:600; font-size:20px; letter-spacing:-.01em; color:var(--ink); margin:30px 0 10px; }
+  p{ margin:0 0 16px; }
+  p.lead{ font-size:19px; color:var(--ink-dim); }
+  .ink-dim{ color:var(--ink-dim); }
+  code.inl{ font-family:var(--mono); font-size:.88em; background:var(--surface-2); color:var(--amber-bright); padding:2px 7px; border-radius:6px; border:1px solid var(--line); }
+
+  /* spec chips */
+  .specs{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:26px 0 6px; }
+  @media (max-width:760px){ .specs{ grid-template-columns:repeat(2,1fr); } }
+  .spec{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px 16px; }
+  .spec .ico{ font-size:22px; }
+  .spec .t{ font-family:var(--display); font-weight:600; font-size:15px; color:var(--ink); margin-top:8px; }
+  .spec .d{ font-size:13.5px; color:var(--ink-dim); line-height:1.5; margin-top:3px; }
+
+  /* annotated url */
+  .anno{ background:#0B1322; border:1px solid var(--line-strong); border-radius:14px; padding:22px 20px; margin:8px 0 18px; }
+  .anno .url{ font-family:var(--mono); font-size:14px; line-height:2.1; word-break:break-all; }
+  .u-base{ color:var(--cyan); }
+  .u-loc{ color:var(--amber); }
+  .u-var{ color:var(--ink); }
+  .u-opt{ color:var(--violet); }
+  .u-amp{ color:var(--ink-faint); }
+  .anno .legend{ display:flex; flex-wrap:wrap; gap:8px 18px; margin-top:16px; padding-top:14px; border-top:1px solid var(--line); }
+  .leg{ display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-dim); }
+  .swatch{ width:11px; height:11px; border-radius:3px; }
+
+  /* callout */
+  .note{ border-left:3px solid var(--cyan); background:rgba(78,212,198,0.06); border-radius:0 12px 12px 0; padding:14px 18px; margin:20px 0; font-size:15px; color:var(--ink-dim); }
+  .note.warn{ border-left-color:var(--amber); background:rgba(244,169,92,0.07); }
+  .note b{ color:var(--ink); }
+
+  /* playground */
+  .pg{ background:linear-gradient(180deg,var(--surface),#101B30); border:1px solid var(--line-strong); border-radius:18px; overflow:hidden; box-shadow:0 30px 70px -45px rgba(0,0,0,.8); }
+  .pg-head{ padding:16px 22px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:12px; letter-spacing:.1em; color:var(--ink-faint); display:flex; align-items:center; gap:10px; }
+  .pg-body{ padding:22px; }
+
+  .field-label{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 9px; }
+  .cities{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .chip-btn{ font-family:var(--body); font-size:14px; color:var(--ink-dim); background:var(--surface-2); border:1px solid var(--line); border-radius:999px; padding:6px 14px; cursor:pointer; transition:all .14s; }
+  .chip-btn:hover{ color:var(--ink); border-color:var(--line-strong); }
+  .chip-btn.geo{ color:var(--cyan); border-color:rgba(78,212,198,.35); }
+
+  .coords{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+  @media (max-width:520px){ .coords{ grid-template-columns:1fr; } }
+  .inp{ display:flex; flex-direction:column; gap:6px; }
+  .inp input[type=number]{ font-family:var(--mono); font-size:15px; background:#0B1322; color:var(--ink); border:1px solid var(--line-strong); border-radius:10px; padding:11px 13px; width:100%; }
+  .inp input:focus{ outline:none; border-color:var(--amber); box-shadow:0 0 0 3px rgba(244,169,92,.16); }
+
+  .var-groups{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:18px; }
+  @media (max-width:760px){ .var-groups{ grid-template-columns:1fr; } }
+  .vg{ background:#0B1322; border:1px solid var(--line); border-radius:12px; padding:14px; }
+  .vg-title{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:11px; display:flex; align-items:center; gap:7px; }
+  .vg-c .dotc{ color:var(--amber); }
+  .vg-h .dotc{ color:var(--cyan); }
+  .vg-d .dotc{ color:var(--violet); }
+  .tog{ display:flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-dim); padding:5px 0; cursor:pointer; user-select:none; }
+  .tog input{ appearance:none; width:17px; height:17px; border:1.5px solid var(--line-strong); border-radius:5px; background:transparent; cursor:pointer; position:relative; flex:none; }
+  .tog input:checked{ background:var(--cyan); border-color:var(--cyan); }
+  .tog input:checked::after{ content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:12px; color:#0B1322; font-weight:700; }
+  .tog:hover{ color:var(--ink); }
+
+  .settings{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:22px; align-items:end; }
+  @media (max-width:640px){ .settings{ grid-template-columns:1fr 1fr; } }
+  .rng output{ font-family:var(--mono); color:var(--amber-bright); }
+  input[type=range]{ width:100%; accent-color:var(--amber); }
+  .seg{ display:flex; border:1px solid var(--line-strong); border-radius:9px; overflow:hidden; }
+  .seg button{ flex:1; font-family:var(--mono); font-size:13px; color:var(--ink-dim); background:transparent; border:none; padding:9px 4px; cursor:pointer; }
+  .seg button.on{ background:var(--amber); color:#0B1322; font-weight:700; }
+
+  .run{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .btn-run{ font-family:var(--display); font-weight:600; font-size:16px; letter-spacing:.01em; color:#0B1322; background:linear-gradient(135deg,var(--amber-bright),var(--amber)); border:none; border-radius:11px; padding:13px 26px; cursor:pointer; transition:transform .12s, filter .12s; }
+  .btn-run:hover{ filter:brightness(1.06); }
+  .btn-run:active{ transform:translateY(1px); }
+  .btn-run:disabled{ opacity:.55; cursor:wait; }
+  .run-hint{ font-size:13px; color:var(--ink-faint); font-family:var(--mono); }
+
+  /* output */
+  .out{ border-top:1px solid var(--line); margin-top:22px; padding-top:22px; }
+  .out-url{ background:#0B1322; border:1px solid var(--line); border-radius:11px; padding:13px 14px; display:flex; gap:10px; align-items:flex-start; }
+  .out-url code{ font-family:var(--mono); font-size:12.5px; color:var(--cyan); word-break:break-all; flex:1; line-height:1.7; }
+  .mini{ font-family:var(--mono); font-size:11px; color:var(--ink-dim); background:var(--surface-2); border:1px solid var(--line); border-radius:7px; padding:5px 9px; cursor:pointer; white-space:nowrap; }
+  .mini:hover{ color:var(--ink); }
+
+  .result{ margin-top:18px; display:none; }
+  .result.show{ display:block; }
+  .err{ display:none; margin-top:18px; border-left:3px solid var(--danger); background:rgba(240,115,111,.08); border-radius:0 11px 11px 0; padding:13px 16px; color:#FBC3C1; font-size:14.5px; }
+  .err.show{ display:block; }
+  .err code{ font-family:var(--mono); color:#fff; }
+
+  .res-now{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; background:#0B1322; border:1px solid var(--line); border-radius:12px; padding:18px 20px; }
+  .res-now .ic{ font-size:46px; }
+  .res-now .t{ font-family:var(--display); font-weight:600; font-size:46px; color:#fff; letter-spacing:-.02em; }
+  .res-now .t span{ font-size:20px; color:var(--ink-dim); }
+  .res-now .meta{ display:flex; gap:22px; flex-wrap:wrap; margin-left:auto; }
+  .res-now .meta div .k{ font-family:var(--mono); font-size:10px; color:var(--ink-faint); letter-spacing:.08em; text-transform:uppercase; }
+  .res-now .meta div .v{ font-family:var(--display); font-weight:600; font-size:18px; color:var(--ink); }
+
+  .res-chart{ margin-top:16px; background:#0B1322; border:1px solid var(--line); border-radius:12px; padding:16px 18px; }
+  .res-chart .sc-canvas-wrap{ min-height:190px; }
+
+  .daily-row{ display:grid; grid-auto-flow:column; grid-auto-columns:minmax(108px,1fr); gap:10px; margin-top:16px; overflow-x:auto; padding-bottom:6px; }
+  .dcard{ background:#0B1322; border:1px solid var(--line); border-radius:12px; padding:14px 10px; text-align:center; }
+  .dcard .dd{ font-family:var(--mono); font-size:11px; color:var(--ink-faint); letter-spacing:.05em; }
+  .dcard .di{ font-size:30px; margin:8px 0 6px; }
+  .dcard .dt{ font-family:var(--display); font-weight:600; font-size:16px; color:var(--ink); }
+  .dcard .dt small{ color:var(--ink-faint); font-weight:400; }
+  .dcard .dsun{ font-family:var(--mono); font-size:10.5px; color:var(--ink-dim); margin-top:7px; line-height:1.5; }
+
+  details.json{ margin-top:16px; background:#0B1322; border:1px solid var(--line); border-radius:11px; overflow:hidden; }
+  details.json summary{ cursor:pointer; padding:12px 16px; font-family:var(--mono); font-size:12px; letter-spacing:.06em; color:var(--ink-dim); list-style:none; }
+  details.json summary::-webkit-details-marker{ display:none; }
+  details.json summary::before{ content:"▸ "; color:var(--amber); }
+  details.json[open] summary::before{ content:"▾ "; }
+  details.json pre{ margin:0; padding:0 16px 16px; font-family:var(--mono); font-size:12px; color:var(--ink-dim); overflow-x:auto; line-height:1.6; max-height:340px; }
+
+  /* code tabs */
+  .tabs{ display:flex; gap:6px; margin-bottom:0; }
+  .tab{ font-family:var(--mono); font-size:13px; color:var(--ink-dim); background:var(--surface); border:1px solid var(--line); border-bottom:none; border-radius:9px 9px 0 0; padding:9px 16px; cursor:pointer; }
+  .tab.on{ color:var(--ink); background:#0B1322; border-color:var(--line-strong); position:relative; top:1px; }
+  .codebox{ background:#0B1322; border:1px solid var(--line-strong); border-radius:0 12px 12px 12px; padding:18px 20px; overflow-x:auto; }
+  .codebox pre{ margin:0; font-family:var(--mono); font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .codebox .pane{ display:none; }
+  .codebox .pane.on{ display:block; }
+  .cm{ color:var(--ink-faint); }   /* comment */
+  .ck{ color:var(--violet); }      /* keyword */
+  .cs{ color:var(--amber-bright); }/* string */
+  .cf{ color:var(--cyan); }        /* func/key */
+
+  /* tables */
+  .tbl-wrap{ overflow-x:auto; border:1px solid var(--line); border-radius:12px; margin:14px 0; }
+  table{ border-collapse:collapse; width:100%; font-size:14px; min-width:440px; }
+  th,td{ text-align:left; padding:11px 14px; border-bottom:1px solid var(--line); }
+  th{ font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint); background:#0B1322; }
+  td:first-child{ font-family:var(--mono); color:var(--amber-bright); white-space:nowrap; }
+  tr:last-child td{ border-bottom:none; }
+  .wmo td:nth-child(2){ font-size:22px; width:48px; }
+  .wmo td:last-child{ color:var(--ink-dim); }
+
+  /* footer */
+  footer{ border-top:1px solid var(--line); padding:44px 0 70px; color:var(--ink-faint); font-size:14px; }
+  footer .links{ display:flex; flex-wrap:wrap; gap:8px 20px; margin:12px 0 18px; }
+  footer .by{ font-family:var(--mono); font-size:12px; letter-spacing:.05em; }
+  footer .by b{ color:var(--amber); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <div class="brand"><span class="dot"></span> OPEN-METEO <b>·</b> API 教學</div>
+    <div class="nav-links">
+      <a href="#start">第一個請求</a>
+      <a href="#play">測試器</a>
+      <a href="#dims">資料維度</a>
+      <a href="#wmo">天氣代碼</a>
+      <a href="#code">程式碼</a>
+      <a href="#adv">進階</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow reveal">Open-Meteo · 天氣預報 API</p>
+    <h1 class="reveal">天氣,是一個<br><span class="gt">GET</span> 請求。</h1>
+    <p class="lead reveal"><b>免註冊、免 API Key、瀏覽器直接打。</b> Open-Meteo 把全世界十幾個國家氣象單位的模型,縫成一條乾淨的 JSON 時間序列——你只要給它一組經緯度。</p>
+    <p class="lead reveal" style="font-size:16px;">下面這張卡片,是你開啟頁面當下從 Open-Meteo <b>真的抓回來</b>的新竹天氣。它就是這份教學要教你做的東西。</p>
+
+    <div class="station reveal" id="station">
+      <div class="station-top">
+        <span class="live-tag"><span class="live-pulse"></span> LIVE</span>
+        <span>/v1/forecast</span>
+        <span class="station-loc" id="stationLoc">新竹市 · 載入中…</span>
+      </div>
+      <div class="station-body">
+        <div class="station-now">
+          <div class="now-row">
+            <div class="now-icon" id="heroIcon">🛰️</div>
+            <div>
+              <div class="now-temp" id="heroTemp">—<span>°C</span></div>
+              <div class="now-desc" id="heroDesc">正在連線氣象站…</div>
+              <div class="now-sub" id="heroTime">—</div>
+            </div>
+          </div>
+          <div class="now-grid">
+            <div class="metric"><div class="k">體感</div><div class="v" id="heroFeels">—</div></div>
+            <div class="metric"><div class="k">濕度</div><div class="v" id="heroHum">—</div></div>
+            <div class="metric"><div class="k">風速</div><div class="v" id="heroWind">—</div></div>
+          </div>
+        </div>
+        <div class="station-chart">
+          <div class="sc-label">未來 24 小時氣溫</div>
+          <div class="sc-canvas-wrap"><canvas id="heroChart"></canvas></div>
+          <div class="sc-foot"><span id="heroLo">最低 —</span><span id="heroHi">最高 —</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= 01 ================= -->
+<section id="start">
+  <div class="wrap measure">
+    <div class="step"><b>01</b> 拆解第一個請求</div>
+    <h2>一條網址 = 端點 + 你要的東西</h2>
+    <p class="lead">所有預報都打同一個端點 <code class="inl">https://api.open-meteo.com/v1/forecast</code>,後面用 query 參數告訴它:<b>哪裡</b>、<b>要哪些天氣變數</b>、<b>什麼設定</b>。三件事,三種顏色:</p>
+
+    <div class="anno">
+      <div class="url">
+        <span class="u-base">https://api.open-meteo.com/v1/forecast</span><br>
+        <span class="u-opt">?</span><span class="u-loc">latitude=24.80</span><span class="u-amp">&amp;</span><span class="u-loc">longitude=120.97</span><br>
+        <span class="u-amp">&amp;</span><span class="u-var">current=temperature_2m,weather_code</span><br>
+        <span class="u-amp">&amp;</span><span class="u-var">hourly=temperature_2m,precipitation_probability</span><br>
+        <span class="u-amp">&amp;</span><span class="u-opt">timezone=auto</span>
+      </div>
+      <div class="legend">
+        <span class="leg"><span class="swatch" style="background:var(--cyan)"></span> 端點 — 永遠不變</span>
+        <span class="leg"><span class="swatch" style="background:var(--amber)"></span> 位置 — 經緯度(必填)</span>
+        <span class="leg"><span class="swatch" style="background:var(--ink)"></span> 變數 — 你想要的天氣</span>
+        <span class="leg"><span class="swatch" style="background:var(--violet)"></span> 設定 — 時區、單位…</span>
+      </div>
+    </div>
+
+    <p>唯二的必填參數是 <code class="inl">latitude</code> 與 <code class="inl">longitude</code>(WGS84 十進位度數)。其餘全部選填——你沒填的東西它就不算、也不回傳,所以請求越精簡、回應越快。</p>
+    <div class="note warn"><b>南北美洲提醒:</b> 經度在格林威治以西要用<b>負值</b>。例如愛達荷州 Boise 是 <code class="inl">latitude=43.62&amp;longitude=-116.21</code>。台灣在東經,維持正值即可。</div>
+  </div>
+</section>
+
+<!-- ================= 02 ================= -->
+<section id="play">
+  <div class="wrap">
+    <div class="step measure"><b>02</b> 自己打一次看看</div>
+    <h2 class="measure">互動 API 測試器</h2>
+    <p class="lead measure">勾選想要的變數、調好設定,按下送出。它會幫你<b>組好網址</b>、<b>真的呼叫 Open-Meteo</b>,再把回傳畫成即時天氣與氣溫圖。這就是你之後寫程式時,在背後發生的事。</p>
+
+    <div class="pg">
+      <div class="pg-head"><span class="dot" style="background:var(--amber);box-shadow:0 0 10px var(--amber)"></span> REQUEST BUILDER</div>
+      <div class="pg-body">
+
+        <p class="field-label">快速選地點</p>
+        <div class="cities" id="cities">
+          <button class="chip-btn" data-lat="24.8047" data-lon="120.9714" data-name="新竹市">新竹</button>
+          <button class="chip-btn" data-lat="25.0330" data-lon="121.5654" data-name="台北市">台北</button>
+          <button class="chip-btn" data-lat="24.1477" data-lon="120.6736" data-name="台中市">台中</button>
+          <button class="chip-btn" data-lat="22.6273" data-lon="120.3014" data-name="高雄市">高雄</button>
+          <button class="chip-btn" data-lat="23.9871" data-lon="121.6015" data-name="花蓮">花蓮</button>
+          <button class="chip-btn" data-lat="35.6762" data-lon="139.6503" data-name="東京">東京</button>
+          <button class="chip-btn geo" id="geoBtn">📍 我的位置</button>
+        </div>
+
+        <div class="coords">
+          <label class="inp"><span class="field-label">緯度 latitude</span><input type="number" id="lat" value="24.8047" step="0.0001" min="-90" max="90"></label>
+          <label class="inp"><span class="field-label">經度 longitude</span><input type="number" id="lon" value="120.9714" step="0.0001" min="-180" max="180"></label>
+        </div>
+
+        <div class="var-groups" id="vars">
+          <div class="vg vg-c">
+            <div class="vg-title"><span class="dotc">●</span> CURRENT · 即時</div>
+            <label class="tog"><input type="checkbox" data-g="current" value="temperature_2m" checked> 氣溫</label>
+            <label class="tog"><input type="checkbox" data-g="current" value="apparent_temperature" checked> 體感溫度</label>
+            <label class="tog"><input type="checkbox" data-g="current" value="relative_humidity_2m" checked> 相對濕度</label>
+            <label class="tog"><input type="checkbox" data-g="current" value="precipitation"> 降水量</label>
+            <label class="tog"><input type="checkbox" data-g="current" value="wind_speed_10m" checked> 風速</label>
+            <label class="tog"><input type="checkbox" data-g="current" value="weather_code" checked> 天氣代碼</label>
+          </div>
+          <div class="vg vg-h">
+            <div class="vg-title"><span class="dotc">●</span> HOURLY · 逐時</div>
+            <label class="tog"><input type="checkbox" data-g="hourly" value="temperature_2m" checked> 氣溫</label>
+            <label class="tog"><input type="checkbox" data-g="hourly" value="precipitation_probability" checked> 降雨機率</label>
+            <label class="tog"><input type="checkbox" data-g="hourly" value="relative_humidity_2m"> 相對濕度</label>
+            <label class="tog"><input type="checkbox" data-g="hourly" value="wind_speed_10m"> 風速</label>
+            <label class="tog"><input type="checkbox" data-g="hourly" value="weather_code"> 天氣代碼</label>
+          </div>
+          <div class="vg vg-d">
+            <div class="vg-title"><span class="dotc">●</span> DAILY · 每日</div>
+            <label class="tog"><input type="checkbox" data-g="daily" value="weather_code" checked> 天氣代碼</label>
+            <label class="tog"><input type="checkbox" data-g="daily" value="temperature_2m_max" checked> 最高溫</label>
+            <label class="tog"><input type="checkbox" data-g="daily" value="temperature_2m_min" checked> 最低溫</label>
+            <label class="tog"><input type="checkbox" data-g="daily" value="precipitation_probability_max"> 最大降雨機率</label>
+            <label class="tog"><input type="checkbox" data-g="daily" value="sunrise" checked> 日出</label>
+            <label class="tog"><input type="checkbox" data-g="daily" value="sunset" checked> 日落</label>
+          </div>
+        </div>
+
+        <div class="settings">
+          <div class="rng">
+            <span class="field-label">預報天數 forecast_days — <output id="fdOut">7</output> 天</span>
+            <input type="range" id="fd" min="1" max="16" value="7">
+          </div>
+          <div>
+            <span class="field-label">溫度單位 temperature_unit</span>
+            <div class="seg" id="unitSeg">
+              <button class="on" data-u="celsius">°C</button>
+              <button data-u="fahrenheit">°F</button>
+            </div>
+          </div>
+          <div>
+            <span class="field-label">時區 timezone</span>
+            <div class="seg" id="tzSeg">
+              <button class="on" data-tz="auto">auto</button>
+              <button data-tz="GMT">GMT</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="run">
+          <button class="btn-run" id="runBtn">送出請求 →</button>
+          <span class="run-hint" id="runHint">會即時連線 api.open-meteo.com</span>
+        </div>
+
+        <div class="out">
+          <p class="field-label">產生的 API 網址</p>
+          <div class="out-url">
+            <code id="urlOut"></code>
+            <button class="mini" id="copyUrl">複製</button>
+            <a class="mini" id="openUrl" target="_blank" rel="noopener" style="border-bottom:none;">開啟 ↗</a>
+          </div>
+
+          <div class="err" id="errBox"></div>
+
+          <div class="result" id="result">
+            <div class="res-now" id="resNow"></div>
+            <div class="res-chart" id="resChartWrap" style="display:none;">
+              <div class="sc-label">逐時氣溫(未來 48 小時)</div>
+              <div class="sc-canvas-wrap"><canvas id="resChart"></canvas></div>
+              <div class="sc-foot"><span id="resLo"></span><span id="resHi"></span></div>
+            </div>
+            <div class="daily-row" id="dailyRow"></div>
+            <details class="json"><summary>檢視原始 JSON 回應</summary><pre id="jsonOut"></pre></details>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 ================= -->
+<section id="dims">
+  <div class="wrap measure">
+    <div class="step"><b>03</b> 三種時間維度</div>
+    <h2>current、hourly、daily</h2>
+    <p class="lead">同一個請求裡,你可以同時要這三種粒度的資料,各自獨立。理解它們的差別,就理解了 80% 的這支 API。</p>
+
+    <h3>current — 此刻一個值</h3>
+    <p>每個變數回傳<b>單一數字</b>,外加一個 <code class="inl">time</code> 與 <code class="inl">interval</code>(累計型變數如降水的回看秒數)。底層用 15 分鐘模型資料,適合做「現在幾度」的儀表板。</p>
+
+    <h3>hourly — 逐小時陣列</h3>
+    <p>回傳兩條平行陣列:<code class="inl">hourly.time[]</code> 與每個變數的數值陣列,<b>索引一一對應</b>。預設從今天 00:00 起算 168 小時(7 天)。畫折線圖、排程通知就靠它。</p>
+
+    <h3>daily — 每日彙整</h3>
+    <p>把逐時資料做 24 小時彙整(最高/最低/總和等)。<b>注意:</b>只要用了 <code class="inl">daily</code>,就<b>必須</b>同時帶 <code class="inl">timezone</code>,否則「一天」的邊界會錯亂。</p>
+
+    <div class="note">回應裡每組資料都附一個對應的 <code class="inl">_units</code> 物件(例如 <code class="inl">hourly_units.temperature_2m: "°C"</code>),直接拿來當圖表標籤,不用自己猜單位。</div>
+
+    <h3>幾個最常用的變數名</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>變數</th><th>維度</th><th>說明</th></tr></thead>
+        <tbody>
+          <tr><td>temperature_2m</td><td>current / hourly</td><td>地面 2 公尺氣溫</td></tr>
+          <tr><td>apparent_temperature</td><td>current / hourly</td><td>體感溫度(含風寒、濕度、輻射)</td></tr>
+          <tr><td>precipitation_probability</td><td>hourly</td><td>降水機率 %(集合模型推估)</td></tr>
+          <tr><td>weather_code</td><td>三者皆可</td><td>WMO 天氣代碼(見下一節)</td></tr>
+          <tr><td>wind_speed_10m</td><td>current / hourly</td><td>10 公尺風速</td></tr>
+          <tr><td>temperature_2m_max / _min</td><td>daily</td><td>當日最高 / 最低溫</td></tr>
+          <tr><td>sunrise / sunset</td><td>daily</td><td>日出 / 日落時間</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 ================= -->
+<section id="wmo">
+  <div class="wrap measure">
+    <div class="step"><b>04</b> 解讀天氣</div>
+    <h2>WMO 天氣代碼對照</h2>
+    <p class="lead"><code class="inl">weather_code</code> 回傳的是一個數字,遵循世界氣象組織(WMO)的標準。你要自己把它對應成文字或圖示——測試器裡的小圖示就是這樣來的。</p>
+    <div class="tbl-wrap">
+      <table class="wmo">
+        <thead><tr><th>代碼</th><th></th><th>意義</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>☀️</td><td>晴朗無雲</td></tr>
+          <tr><td>1 / 2 / 3</td><td>⛅</td><td>大致晴朗 / 局部多雲 / 陰</td></tr>
+          <tr><td>45 / 48</td><td>🌫️</td><td>霧 / 凍霧</td></tr>
+          <tr><td>51 / 53 / 55</td><td>🌦️</td><td>毛毛雨:小 / 中 / 大</td></tr>
+          <tr><td>61 / 63 / 65</td><td>🌧️</td><td>雨:小 / 中 / 大</td></tr>
+          <tr><td>66 / 67</td><td>🌧️</td><td>凍雨:小 / 大</td></tr>
+          <tr><td>71 / 73 / 75</td><td>🌨️</td><td>降雪:小 / 中 / 大</td></tr>
+          <tr><td>80 / 81 / 82</td><td>🌧️</td><td>陣雨:小 / 中 / 猛烈</td></tr>
+          <tr><td>85 / 86</td><td>❄️</td><td>陣雪:小 / 大</td></tr>
+          <tr><td>95</td><td>⛈️</td><td>雷雨(輕度至中度)</td></tr>
+          <tr><td>96 / 99</td><td>⛈️</td><td>雷雨夾冰雹</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="ink-dim" style="font-size:14px;">(*)夾冰雹的雷雨預報目前僅中歐地區提供。</p>
+  </div>
+</section>
+
+<!-- ================= 05 ================= -->
+<section id="code">
+  <div class="wrap measure">
+    <div class="step"><b>05</b> 接進你的程式</div>
+    <h2>JavaScript · Python · n8n</h2>
+    <p class="lead">沒有金鑰、沒有 OAuth,就是一個 fetch。下面三種,挑你的環境抄走即可。</p>
+
+    <div class="tabs">
+      <button class="tab on" data-pane="js">JavaScript</button>
+      <button class="tab" data-pane="py">Python</button>
+      <button class="tab" data-pane="n8">n8n</button>
+    </div>
+    <div class="codebox">
+      <div class="pane on" id="pane-js"><pre><span class="cm">// 瀏覽器或 Node 18+ 都能直接跑,免任何套件</span>
+<span class="ck">const</span> url = <span class="cs">"https://api.open-meteo.com/v1/forecast"</span>
+  + <span class="cs">"?latitude=24.80&amp;longitude=120.97"</span>
+  + <span class="cs">"&amp;current=temperature_2m,weather_code"</span>
+  + <span class="cs">"&amp;hourly=temperature_2m&amp;timezone=auto"</span>;
+
+<span class="ck">const</span> res  = <span class="ck">await</span> <span class="cf">fetch</span>(url);
+<span class="ck">const</span> data = <span class="ck">await</span> res.<span class="cf">json</span>();
+
+console.<span class="cf">log</span>(data.current.temperature_2m, <span class="cs">"°C"</span>);
+console.<span class="cf">log</span>(data.hourly.temperature_2m.<span class="cf">slice</span>(<span class="cs">0</span>, <span class="cs">24</span>)); <span class="cm">// 未來 24 小時</span></pre></div>
+
+      <div class="pane" id="pane-py"><pre><span class="cm"># pip install requests</span>
+<span class="ck">import</span> requests
+
+url = <span class="cs">"https://api.open-meteo.com/v1/forecast"</span>
+params = {
+    <span class="cs">"latitude"</span>:  <span class="cs">24.80</span>,
+    <span class="cs">"longitude"</span>: <span class="cs">120.97</span>,
+    <span class="cs">"current"</span>:   <span class="cs">"temperature_2m,weather_code"</span>,
+    <span class="cs">"hourly"</span>:    <span class="cs">"temperature_2m"</span>,
+    <span class="cs">"timezone"</span>:  <span class="cs">"auto"</span>,
+}
+
+data = requests.<span class="cf">get</span>(url, params=params).<span class="cf">json</span>()
+<span class="cf">print</span>(data[<span class="cs">"current"</span>][<span class="cs">"temperature_2m"</span>], <span class="cs">"°C"</span>)
+<span class="cf">print</span>(data[<span class="cs">"hourly"</span>][<span class="cs">"temperature_2m"</span>][:<span class="cs">24</span>])</pre></div>
+
+      <div class="pane" id="pane-n8"><pre><span class="cm"># 用 HTTP Request 節點即可,無需驗證</span>
+Method            : <span class="cs">GET</span>
+URL               : <span class="cs">https://api.open-meteo.com/v1/forecast</span>
+Authentication    : <span class="cs">None</span>
+Send Query Params : <span class="cs">ON</span>
+  latitude   = <span class="cs">24.80</span>
+  longitude  = <span class="cs">120.97</span>
+  current    = <span class="cs">temperature_2m,weather_code</span>
+  timezone   = <span class="cs">auto</span>
+
+<span class="cm"># 後面接 IF / Discord 節點,就能做「下雨自動通知小光」</span>
+<span class="cm"># 回傳路徑:{{ $json.current.temperature_2m }}</span></pre></div>
+    </div>
+
+    <div class="note"><b>高用量或正式服務?</b> 官方有 Python 套件 <code class="inl">openmeteo-requests</code>,內建快取與重試,回傳直接是 NumPy 陣列,適合排程跑模型。記得加快取,別對同一座標每分鐘狂打。</div>
+  </div>
+</section>
+
+<!-- ================= 06 ================= -->
+<section id="adv">
+  <div class="wrap measure">
+    <div class="step"><b>06</b> 再多一點控制</div>
+    <h2>進階參數速查</h2>
+    <p class="lead">這些都是選填,但很常用。記得規則:<b>未來不會新增任何必填參數</b>,所以你今天寫的網址,以後都不會壞。</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>參數</th><th>預設</th><th>作用</th></tr></thead>
+        <tbody>
+          <tr><td>forecast_days</td><td>7</td><td>預報天數,最多 16 天</td></tr>
+          <tr><td>past_days</td><td>0</td><td>往回補昨天/前幾天(最多 92 天)</td></tr>
+          <tr><td>timezone</td><td>GMT</td><td>設 <code class="inl">auto</code> 依座標自動判定當地時間;用 daily 時必填</td></tr>
+          <tr><td>temperature_unit</td><td>celsius</td><td>改 <code class="inl">fahrenheit</code></td></tr>
+          <tr><td>wind_speed_unit</td><td>kmh</td><td>可選 <code class="inl">ms</code> / <code class="inl">mph</code> / <code class="inl">kn</code></td></tr>
+          <tr><td>start_date / end_date</td><td>—</td><td>指定日期區間(YYYY-MM-DD)</td></tr>
+          <tr><td>models</td><td>auto</td><td>手動指定氣象模型,預設「最佳匹配」自動組合</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>一次查多個地點</h3>
+    <p><code class="inl">latitude</code> 與 <code class="inl">longitude</code> 都能用逗號串多組座標:<code class="inl">latitude=24.80,25.03&amp;longitude=120.97,121.57</code>。此時 JSON 會變成一個<b>陣列</b>,每個元素一個地點。</p>
+
+    <h3>錯誤長什麼樣</h3>
+    <p>參數打錯時,會回 HTTP 400 加一個 JSON:<code class="inl">{ "error": true, "reason": "..." }</code>。寫程式時先檢查 <code class="inl">error</code> 欄位,reason 會直接告訴你哪個變數拼錯了。</p>
+
+    <div class="note warn"><b>使用守則:</b> 個人與非商業用途完全免費。商業或高流量需付費,並改用 <code class="inl">customer-</code> 前綴的端點加上 <code class="inl">apikey</code>。無論如何,加上快取、避免過度頻繁呼叫,是當個好公民的基本盤。</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="by">龍蝦 AI · OpenClaw — Open-Meteo API 互動教學</div>
+    <div class="links">
+      <a href="https://open-meteo.com/en/docs" target="_blank" rel="noopener">官方文件</a>
+      <a href="https://open-meteo.com/en/docs/geocoding-api" target="_blank" rel="noopener">Geocoding API(地名轉座標)</a>
+      <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener">空氣品質 API</a>
+      <a href="https://github.com/open-meteo/open-meteo" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://open-meteo.com/en/pricing" target="_blank" rel="noopener">定價與用量</a>
+    </div>
+    <p style="margin:0;color:var(--ink-faint);font-size:13px;">資料來源:Open-Meteo.com,整合 DWD、NOAA、ECMWF、JMA 等多國國家氣象單位模型。本頁面所有即時數據皆由你的瀏覽器直接向 Open-Meteo 取得。</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var BASE = "https://api.open-meteo.com/v1/forecast";
+
+  // ---- WMO code -> {emoji, label} ----
+  function wmo(code, isDay){
+    var d = (isDay === 0) ? false : true;
+    var m = {
+      0:[d?"☀️":"🌙","晴朗"],1:["🌤️","大致晴朗"],2:["⛅","局部多雲"],3:["☁️","陰"],
+      45:["🌫️","霧"],48:["🌫️","凍霧"],
+      51:["🌦️","小毛雨"],53:["🌦️","毛毛雨"],55:["🌦️","大毛雨"],56:["🌧️","凍毛雨"],57:["🌧️","凍毛雨"],
+      61:["🌧️","小雨"],63:["🌧️","中雨"],65:["🌧️","大雨"],66:["🌧️","凍雨"],67:["🌧️","強凍雨"],
+      71:["🌨️","小雪"],73:["🌨️","中雪"],75:["🌨️","大雪"],77:["🌨️","雪粒"],
+      80:["🌦️","小陣雨"],81:["🌧️","陣雨"],82:["⛈️","猛烈陣雨"],85:["❄️","小陣雪"],86:["❄️","大陣雪"],
+      95:["⛈️","雷雨"],96:["⛈️","雷雨夾雹"],99:["⛈️","強雷雨夾雹"]
+    };
+    return m[code] || ["🛰️","—"];
+  }
+  function fmtTime(iso){ if(!iso) return "—"; return iso.replace("T"," ").slice(5,16); }
+  function fmtClock(iso){ if(!iso) return "—"; var p=iso.split("T"); return p[1]?p[1].slice(0,5):"—"; }
+  function $(id){ return document.getElementById(id); }
+
+  // ---- canvas line chart (DPI-aware) ----
+  function drawChart(canvas, values, labels, opts){
+    opts = opts || {};
+    var dpr = window.devicePixelRatio || 1;
+    var rect = canvas.getBoundingClientRect();
+    var w = Math.max(rect.width, 80), h = Math.max(rect.height, 80);
+    canvas.width = w*dpr; canvas.height = h*dpr;
+    var ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,w,h);
+    if(!values || !values.length) return;
+
+    var padL = opts.axes?34:6, padR = 6, padT = 14, padB = opts.axes?22:6;
+    var vmin = Math.min.apply(null,values), vmax = Math.max.apply(null,values);
+    if(vmin===vmax){ vmin-=1; vmax+=1; }
+    var pad = (vmax-vmin)*0.15; vmin-=pad; vmax+=pad;
+    var plotW = w-padL-padR, plotH = h-padT-padB;
+    var X = function(i){ return padL + (values.length<2?plotW/2:(i/(values.length-1))*plotW); };
+    var Y = function(v){ return padT + (1-(v-vmin)/(vmax-vmin))*plotH; };
+
+    if(opts.axes){
+      ctx.strokeStyle="rgba(168,186,212,0.12)"; ctx.lineWidth=1;
+      ctx.fillStyle="#6E7F9E"; ctx.font="11px JetBrains Mono, monospace"; ctx.textAlign="right";
+      for(var g=0; g<=3; g++){
+        var vy = vmin+(vmax-vmin)*(g/3), yy = Y(vy);
+        ctx.beginPath(); ctx.moveTo(padL,yy); ctx.lineTo(w-padR,yy); ctx.stroke();
+        ctx.fillText(Math.round(vy)+"°", padL-6, yy+3);
+      }
+      ctx.textAlign="center";
+      var step = Math.ceil(values.length/6);
+      for(var i=0;i<values.length;i+=step){
+        if(labels && labels[i]) ctx.fillText(labels[i], X(i), h-7);
+      }
+    }
+
+    // gradient fill under line
+    var grad = ctx.createLinearGradient(0,padT,0,padT+plotH);
+    grad.addColorStop(0,"rgba(244,169,92,0.28)");
+    grad.addColorStop(1,"rgba(244,169,92,0)");
+
+    function pathLine(){
+      ctx.beginPath();
+      for(var i=0;i<values.length;i++){ var x=X(i),y=Y(values[i]); i?ctx.lineTo(x,y):ctx.moveTo(x,y); }
+    }
+    function render(progress){
+      ctx.clearRect(0,0,w,h);
+      if(opts.axes){
+        ctx.strokeStyle="rgba(168,186,212,0.12)"; ctx.lineWidth=1;
+        ctx.fillStyle="#6E7F9E"; ctx.font="11px JetBrains Mono, monospace"; ctx.textAlign="right";
+        for(var g=0; g<=3; g++){ var vy=vmin+(vmax-vmin)*(g/3),yy=Y(vy); ctx.beginPath(); ctx.moveTo(padL,yy); ctx.lineTo(w-padR,yy); ctx.stroke(); ctx.fillText(Math.round(vy)+"°",padL-6,yy+3); }
+        ctx.textAlign="center";
+        var st=Math.ceil(values.length/6);
+        for(var k=0;k<values.length;k+=st){ if(labels&&labels[k]) ctx.fillText(labels[k],X(k),h-7); }
+      }
+      var n = Math.max(2, Math.floor(values.length*progress));
+      // area
+      ctx.beginPath(); ctx.moveTo(X(0),Y(values[0]));
+      for(var i=1;i<n;i++) ctx.lineTo(X(i),Y(values[i]));
+      ctx.lineTo(X(n-1),padT+plotH); ctx.lineTo(X(0),padT+plotH); ctx.closePath();
+      ctx.fillStyle=grad; ctx.fill();
+      // line
+      ctx.beginPath();
+      for(var j=0;j<n;j++){ var x=X(j),y=Y(values[j]); j?ctx.lineTo(x,y):ctx.moveTo(x,y); }
+      ctx.strokeStyle="#F4A95C"; ctx.lineWidth=2.4; ctx.lineJoin="round"; ctx.lineCap="round"; ctx.stroke();
+      // last dot
+      var lx=X(n-1),ly=Y(values[n-1]);
+      ctx.beginPath(); ctx.arc(lx,ly,3.6,0,Math.PI*2); ctx.fillStyle="#FFC480"; ctx.fill();
+      ctx.beginPath(); ctx.arc(lx,ly,7,0,Math.PI*2); ctx.fillStyle="rgba(255,196,128,0.18)"; ctx.fill();
+    }
+    if(REDUCED){ render(1); return; }
+    var start=null, dur=650;
+    function frame(t){ if(!start)start=t; var p=Math.min(1,(t-start)/dur); render(p); if(p<1) requestAnimationFrame(frame); }
+    requestAnimationFrame(frame);
+  }
+
+  // ---- HERO: live Hsinchu ----
+  function loadHero(){
+    var u = BASE + "?latitude=24.8047&longitude=120.9714"
+      + "&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m"
+      + "&hourly=temperature_2m&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=2";
+    fetch(u).then(function(r){ return r.json(); }).then(function(d){
+      if(d.error) throw new Error(d.reason||"error");
+      var c=d.current, wc=wmo(c.weather_code, c.is_day);
+      $("heroIcon").textContent = wc[0];
+      $("heroTemp").innerHTML = Math.round(c.temperature_2m) + "<span>°C</span>";
+      $("heroDesc").textContent = wc[1];
+      $("heroTime").textContent = "更新於 " + fmtTime(c.time) + " · 24.80°N 120.97°E";
+      $("heroFeels").innerHTML = Math.round(c.apparent_temperature) + "<small>°C</small>";
+      $("heroHum").innerHTML = Math.round(c.relative_humidity_2m) + "<small>%</small>";
+      $("heroWind").innerHTML = Math.round(c.wind_speed_10m) + "<small> km/h</small>";
+      $("stationLoc").textContent = "新竹市 · 即時";
+      // next 24h
+      var now = new Date();
+      var times = d.hourly.time, temps = d.hourly.temperature_2m;
+      var startI = 0;
+      for(var i=0;i<times.length;i++){ if(new Date(times[i]) >= now){ startI=Math.max(0,i-1); break; } }
+      var t24 = temps.slice(startI, startI+24);
+      var l24 = times.slice(startI, startI+24).map(function(x){ return fmtClock(x); });
+      drawChart($("heroChart"), t24, l24, {axes:false});
+      if(d.daily){ $("heroLo").textContent = "今日低 "+Math.round(d.daily.temperature_2m_min[0])+"°"; $("heroHi").textContent = "今日高 "+Math.round(d.daily.temperature_2m_max[0])+"°"; }
+      window.__heroData = {t:t24, l:l24};
+    }).catch(function(){
+      $("heroDesc").textContent = "氣象站暫時連不上";
+      $("heroTime").textContent = "請檢查網路後重新整理頁面";
+      $("stationLoc").textContent = "新竹市 · 離線";
+    });
+  }
+
+  // ---- PLAYGROUND ----
+  var state = { unit:"celsius", tz:"auto", fd:7 };
+
+  function collect(group){
+    return Array.prototype.slice.call(document.querySelectorAll('input[data-g="'+group+'"]:checked')).map(function(x){return x.value;});
+  }
+  function buildUrl(){
+    var lat = $("lat").value, lon = $("lon").value;
+    var cur = collect("current"), hr = collect("hourly"), dy = collect("daily");
+    var p = ["latitude="+lat, "longitude="+lon];
+    if(cur.length) p.push("current="+cur.join(","));
+    if(hr.length)  p.push("hourly="+hr.join(","));
+    if(dy.length)  p.push("daily="+dy.join(","));
+    if(!cur.length && !hr.length && !dy.length) p.push("current=temperature_2m");
+    if(state.unit!=="celsius") p.push("temperature_unit="+state.unit);
+    p.push("timezone="+state.tz);
+    p.push("forecast_days="+state.fd);
+    return BASE + "?" + p.join("&");
+  }
+  function refreshUrl(){
+    var u = buildUrl();
+    $("urlOut").textContent = u;
+    $("openUrl").href = u;
+    return u;
+  }
+  function unitSym(){ return state.unit==="celsius" ? "°C" : "°F"; }
+
+  function run(){
+    var url = refreshUrl();
+    var btn = $("runBtn");
+    btn.disabled = true; btn.textContent = "連線中…"; $("runHint").textContent = "正在向氣象站取得資料";
+    $("errBox").classList.remove("show");
+    fetch(url).then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+    .then(function(res){
+      var d = res.j;
+      if(!res.ok || d.error){ throw new Error(d.reason || ("HTTP " + (res.status||""))); }
+      renderResult(d);
+      $("result").classList.add("show");
+    })
+    .catch(function(e){
+      $("errBox").innerHTML = "請求失敗 — <code>" + (e.message||e) + "</code><br>檢查經緯度與變數拼字後再試一次。";
+      $("errBox").classList.add("show");
+      $("result").classList.remove("show");
+    })
+    .then(function(){ btn.disabled=false; btn.textContent="送出請求 →"; $("runHint").textContent="會即時連線 api.open-meteo.com"; });
+  }
+
+  function renderResult(d){
+    var sym = (d.current_units && d.current_units.temperature_2m) || unitSym();
+    // current
+    var rn = $("resNow");
+    if(d.current){
+      var c=d.current, wc=wmo(c.weather_code, c.is_day);
+      var html = '<div class="ic">'+wc[0]+'</div>';
+      if(c.temperature_2m!==undefined) html += '<div class="t">'+Math.round(c.temperature_2m)+'<span>'+sym+'</span></div>';
+      html += '<div class="meta">';
+      if(c.apparent_temperature!==undefined) html += '<div><div class="k">體感</div><div class="v">'+Math.round(c.apparent_temperature)+'°</div></div>';
+      if(c.relative_humidity_2m!==undefined) html += '<div><div class="k">濕度</div><div class="v">'+Math.round(c.relative_humidity_2m)+'%</div></div>';
+      if(c.wind_speed_10m!==undefined) html += '<div><div class="k">風速</div><div class="v">'+Math.round(c.wind_speed_10m)+'</div></div>';
+      if(c.precipitation!==undefined) html += '<div><div class="k">降水</div><div class="v">'+c.precipitation+'</div></div>';
+      if(c.weather_code!==undefined) html += '<div><div class="k">天氣</div><div class="v">'+wc[1]+'</div></div>';
+      html += '</div>';
+      rn.innerHTML = html; rn.style.display="flex";
+    } else { rn.style.display="none"; }
+
+    // hourly temp chart
+    var cw = $("resChartWrap");
+    if(d.hourly && d.hourly.temperature_2m){
+      var now=new Date(), times=d.hourly.time, temps=d.hourly.temperature_2m, s=0;
+      for(var i=0;i<times.length;i++){ if(new Date(times[i])>=now){ s=Math.max(0,i-1); break; } }
+      var tv=temps.slice(s,s+48), tl=times.slice(s,s+48).map(function(x){return fmtClock(x);});
+      drawChart($("resChart"), tv, tl, {axes:true});
+      $("resLo").textContent = "低 "+Math.round(Math.min.apply(null,tv))+"°";
+      $("resHi").textContent = "高 "+Math.round(Math.max.apply(null,tv))+"°";
+      cw.style.display="block";
+      window.__resData = {t:tv,l:tl};
+    } else { cw.style.display="none"; window.__resData=null; }
+
+    // daily cards
+    var dr = $("dailyRow");
+    if(d.daily && d.daily.time){
+      var dh="", D=d.daily, dsym=(d.daily_units&&d.daily_units.temperature_2m_max)||sym;
+      var wkd=["日","一","二","三","四","五","六"];
+      for(var k=0;k<D.time.length;k++){
+        var dt=new Date(D.time[k]+"T00:00"), wc=D.weather_code?wmo(D.weather_code[k],1):["",""];
+        dh += '<div class="dcard"><div class="dd">'+(D.time[k].slice(5))+' 週'+wkd[dt.getDay()]+'</div>';
+        dh += '<div class="di">'+wc[0]+'</div>';
+        var hi=D.temperature_2m_max?Math.round(D.temperature_2m_max[k])+'°':'';
+        var lo=D.temperature_2m_min?' <small>'+Math.round(D.temperature_2m_min[k])+'°</small>':'';
+        dh += '<div class="dt">'+hi+lo+'</div>';
+        if(D.sunrise||D.sunset){ dh += '<div class="dsun">'+(D.sunrise?'↑'+fmtClock(D.sunrise[k]):''); dh += D.sunset?'<br>↓'+fmtClock(D.sunset[k]):''; dh += '</div>'; }
+        dh += '</div>';
+      }
+      dr.innerHTML=dh; dr.style.display="grid";
+    } else { dr.style.display="none"; }
+
+    // json
+    $("jsonOut").textContent = JSON.stringify(d, null, 2);
+  }
+
+  // ---- wiring ----
+  function setCoords(lat,lon){ $("lat").value=lat; $("lon").value=lon; refreshUrl(); }
+
+  document.querySelectorAll("#cities .chip-btn[data-lat]").forEach(function(b){
+    b.addEventListener("click", function(){ setCoords(b.dataset.lat, b.dataset.lon); });
+  });
+  $("geoBtn").addEventListener("click", function(){
+    if(!navigator.geolocation){ $("runHint").textContent="此瀏覽器不支援定位"; return; }
+    $("geoBtn").textContent="定位中…";
+    navigator.geolocation.getCurrentPosition(function(pos){
+      setCoords(pos.coords.latitude.toFixed(4), pos.coords.longitude.toFixed(4));
+      $("geoBtn").textContent="📍 已套用";
+    }, function(){ $("geoBtn").textContent="📍 定位失敗"; });
+  });
+  $("lat").addEventListener("input", refreshUrl);
+  $("lon").addEventListener("input", refreshUrl);
+  document.querySelectorAll('#vars input').forEach(function(c){ c.addEventListener("change", refreshUrl); });
+  $("fd").addEventListener("input", function(){ state.fd=this.value; $("fdOut").textContent=this.value; refreshUrl(); });
+  $("unitSeg").addEventListener("click", function(e){ var b=e.target.closest("button"); if(!b)return; this.querySelectorAll("button").forEach(function(x){x.classList.remove("on");}); b.classList.add("on"); state.unit=b.dataset.u; refreshUrl(); });
+  $("tzSeg").addEventListener("click", function(e){ var b=e.target.closest("button"); if(!b)return; this.querySelectorAll("button").forEach(function(x){x.classList.remove("on");}); b.classList.add("on"); state.tz=b.dataset.tz; refreshUrl(); });
+  $("runBtn").addEventListener("click", run);
+  $("copyUrl").addEventListener("click", function(){
+    var t=$("urlOut").textContent;
+    if(navigator.clipboard){ navigator.clipboard.writeText(t).then(function(){ $("copyUrl").textContent="已複製"; setTimeout(function(){$("copyUrl").textContent="複製";},1400); }); }
+  });
+
+  // code tabs
+  document.querySelectorAll(".tab").forEach(function(t){
+    t.addEventListener("click", function(){
+      document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("on");});
+      document.querySelectorAll(".codebox .pane").forEach(function(x){x.classList.remove("on");});
+      t.classList.add("on"); $("pane-"+t.dataset.pane).classList.add("on");
+    });
+  });
+
+  // reveal on scroll
+  if("IntersectionObserver" in window && !REDUCED){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("is-in"); io.unobserve(en.target);} }); },{threshold:.12});
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("is-in"); });
+  }
+
+  // redraw charts on resize
+  var rt;
+  window.addEventListener("resize", function(){
+    clearTimeout(rt);
+    rt=setTimeout(function(){
+      if(window.__heroData) drawChart($("heroChart"), window.__heroData.t, window.__heroData.l, {axes:false});
+      if(window.__resData) drawChart($("resChart"), window.__resData.t, window.__resData.l, {axes:true});
+    },180);
+  });
+
+  // init
+  refreshUrl();
+  loadHero();
+})();
+</script>
+</body>
+</html>

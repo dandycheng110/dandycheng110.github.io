@@ -1,0 +1,118 @@
+/* ===== 共用樣式 / Shared styles — 首頁專用 ===== */
+
+:root {
+  --bg: #fbfbfa;
+  --fg: #1f1f1d;
+  --muted: #6b6b66;
+  --accent: #c45e36;
+  --card: #ffffff;
+  --border: #e7e6e1;
+  --radius: 14px;
+  --maxw: 940px;
+
+  /* 分類強調色 / category accents */
+  --c-tech: #c45e36;
+  --c-mind: #6e7e5e;
+  --c-career: #7c95a6;
+  --c-health: #15715a;
+  --c-travel: #c08a52;
+  --c-learn: #8a6db0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1a18;
+    --fg: #ece9e2;
+    --muted: #9a978d;
+    --accent: #e0855b;
+    --card: #242421;
+    --border: #34332e;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+main {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 52px 22px 96px;
+}
+
+/* ===== 頁首 / Page header ===== */
+.site-head { margin-bottom: 14px; }
+.site-head h1 {
+  font-size: 2rem; line-height: 1.2; margin: 0 0 .35em; letter-spacing: -.01em;
+}
+.site-head .subtitle { color: var(--muted); margin: 0; }
+.site-head .count {
+  display: inline-block; margin-top: 16px; font-size: .82rem; color: var(--muted);
+  border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px;
+}
+
+/* ===== 分類區塊 / Category section ===== */
+.category { margin-top: 44px; }
+.category-head {
+  display: flex; align-items: baseline; gap: 10px;
+  padding-bottom: 10px; margin-bottom: 18px;
+  border-bottom: 2px solid var(--cat, var(--accent));
+}
+.category-head .emoji { font-size: 1.25rem; }
+.category-head h2 {
+  font-size: 1.15rem; margin: 0; font-weight: 600; letter-spacing: .01em;
+}
+.category-head .n {
+  margin-left: auto; font-size: .8rem; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== 筆記卡片網格 / Note card grid ===== */
+.note-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
+  gap: 14px;
+}
+
+.note-card {
+  display: flex; flex-direction: column;
+  padding: 18px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cat, var(--accent));
+  border-radius: var(--radius);
+  transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+.note-card:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -20px rgba(0,0,0,.4);
+  border-color: var(--cat, var(--accent));
+}
+.note-card .title {
+  font-weight: 600; font-size: 1.02rem; color: var(--fg); line-height: 1.4;
+}
+.note-card .desc {
+  color: var(--muted); font-size: .86rem; margin-top: 7px; line-height: 1.55;
+}
+.note-card .go {
+  margin-top: auto; padding-top: 12px;
+  font-size: .78rem; color: var(--cat, var(--accent)); font-weight: 600;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+footer {
+  max-width: var(--maxw); margin: 0 auto; padding: 0 22px 48px;
+  color: var(--muted); font-size: .85rem; line-height: 1.7;
+}

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>遊戲工作室可行性規劃｜成claw</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --paper: #f2ede4;
+    --paper-dark: #e6dfd2;
+    --blood: #c8362b;
+    --gold: #b8873a;
+    --caution: #d97706;
+    --moss: #3d5240;
+    --grid: rgba(10,10,10,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif TC', serif;
+    line-height: 1.7;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: multiply;
+  }
+  .container { max-width: 1240px; margin: 0 auto; padding: 60px 40px; position: relative; z-index: 2; }
+
+  /* ---------- HEADER ---------- */
+  .masthead {
+    border-top: 6px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding: 24px 0;
+    margin-bottom: 48px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: end;
+    gap: 32px;
+  }
+  .masthead .stamp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blood);
+    border: 2px solid var(--blood);
+    padding: 6px 10px;
+    transform: rotate(-2deg);
+    white-space: nowrap;
+  }
+  .masthead h1 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(42px, 6vw, 78px);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+  .masthead h1 span { color: var(--blood); font-style: italic; }
+  .masthead .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-align: right;
+    line-height: 1.5;
+  }
+  .masthead .meta b { display: block; font-size: 14px; margin-bottom: 4px; }
+
+  /* ---------- VERDICT BOX ---------- */
+  .verdict {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 40px;
+    margin-bottom: 60px;
+    position: relative;
+    box-shadow: 12px 12px 0 var(--blood);
+  }
+  .verdict::before {
+    content: "判決";
+    position: absolute;
+    top: -14px; left: 32px;
+    background: var(--blood);
+    color: var(--paper);
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 900;
+    padding: 4px 14px;
+    letter-spacing: 0.3em;
+    font-size: 14px;
+  }
+  .verdict h2 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 32px;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+  .verdict p { font-size: 17px; margin-bottom: 14px; }
+  .verdict .ev {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--blood);
+    padding: 8px 16px;
+    margin-top: 10px;
+    font-weight: 700;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section { margin-bottom: 80px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    border-bottom: 3px double var(--ink);
+    padding-bottom: 12px;
+    margin-bottom: 36px;
+  }
+  .section-head .num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 48px;
+    color: var(--blood);
+    line-height: 1;
+  }
+  .section-head h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 900;
+    font-size: 32px;
+    letter-spacing: 0.02em;
+  }
+  .section-head .tag {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--moss);
+    text-transform: uppercase;
+  }
+
+  /* ---------- BUDGET TABLE ---------- */
+  .budget-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--paper-dark);
+    border: 2px solid var(--ink);
+  }
+  .budget-table th, .budget-table td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid rgba(10,10,10,0.15);
+  }
+  .budget-table th {
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .budget-table td:last-child { text-align: right; font-weight: 700; }
+  .budget-table tr.total {
+    background: var(--blood);
+    color: var(--paper);
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .budget-table tr.total td { border-bottom: none; }
+
+  /* ---------- ARCHITECTURE GRID ---------- */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .arch-card {
+    background: var(--paper-dark);
+    border: 2px solid var(--ink);
+    padding: 24px;
+    position: relative;
+  }
+  .arch-card .layer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--blood);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .arch-card h3 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 20px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .arch-card ul { list-style: none; font-size: 14px; font-family: 'JetBrains Mono', monospace; }
+  .arch-card li { padding: 4px 0; padding-left: 16px; position: relative; }
+  .arch-card li::before {
+    content: "▪"; position: absolute; left: 0; color: var(--blood);
+  }
+
+  /* ---------- RISK MATRIX ---------- */
+  .risk-matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .risk-card {
+    background: var(--paper-dark);
+    border-left: 6px solid var(--caution);
+    padding: 24px 28px;
+    position: relative;
+  }
+  .risk-card.high { border-left-color: var(--blood); }
+  .risk-card.mid { border-left-color: var(--caution); }
+  .risk-card.low { border-left-color: var(--moss); }
+  .risk-card .risk-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .risk-card.high .risk-label { color: var(--blood); }
+  .risk-card.mid .risk-label { color: var(--caution); }
+  .risk-card.low .risk-label { color: var(--moss); }
+  .risk-card h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 900;
+    font-size: 22px;
+    margin: 6px 0 12px;
+  }
+  .risk-card p { font-size: 15px; margin-bottom: 10px; }
+  .risk-card .mitigation {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 14px;
+    margin-top: 12px;
+  }
+  .risk-card .mitigation::before { content: "→ 緩解："; color: var(--gold); font-weight: 700; }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 12px; top: 10px; bottom: 10px;
+    width: 3px;
+    background: var(--ink);
+  }
+  .phase {
+    position: relative;
+    margin-bottom: 36px;
+    background: var(--paper-dark);
+    border: 2px solid var(--ink);
+    padding: 22px 28px;
+  }
+  .phase::before {
+    content: "";
+    position: absolute;
+    left: -35px; top: 24px;
+    width: 20px; height: 20px;
+    background: var(--blood);
+    border: 3px solid var(--ink);
+    border-radius: 50%;
+  }
+  .phase .week {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--blood);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .phase h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 900;
+    font-size: 22px;
+    margin: 4px 0 10px;
+  }
+  .phase .goals { font-size: 14px; margin-bottom: 10px; }
+  .phase .checkpoint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 8px 12px;
+    background: var(--ink);
+    color: var(--gold);
+    display: inline-block;
+  }
+
+  /* ---------- AI AUTOMATION ---------- */
+  .ai-stack {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .ai-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 28px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .ai-card h3 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 18px;
+    color: var(--gold);
+    margin-bottom: 14px;
+    letter-spacing: 0.05em;
+  }
+  .ai-card pre {
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    color: var(--paper);
+  }
+  .ai-card .note {
+    font-size: 11px;
+    color: var(--caution);
+    margin-top: 12px;
+    border-top: 1px dashed rgba(255,255,255,0.2);
+    padding-top: 10px;
+  }
+
+  /* ---------- CLOSING ---------- */
+  .closing {
+    background: var(--moss);
+    color: var(--paper);
+    padding: 48px;
+    text-align: center;
+  }
+  .closing h2 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 36px;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+  .closing p { font-size: 16px; max-width: 640px; margin: 0 auto 12px; }
+  .closing .signature {
+    margin-top: 30px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .container { padding: 40px 20px; }
+    .masthead { grid-template-columns: 1fr; }
+    .masthead .meta { text-align: left; }
+    .arch-grid, .risk-matrix, .ai-stack { grid-template-columns: 1fr; }
+    .masthead h1 { font-size: 42px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="stamp">機密 / 僅供內參</div>
+    <h1>遊戲工作室<br><span>可行性評估</span></h1>
+    <div class="meta">
+      <b>No. 2026-04-21</b>
+      客戶：成claw<br>
+      預算：NT$30,000<br>
+      賽道：8591 × MMORPG<br>
+      顧問：Claude
+    </div>
+  </header>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <h2>一句話結論：這條路的期望值是負的，但有一個取巧版本值得測</h2>
+    <p>以 3 萬預算 + MMORPG + 你在意封號風險這個組合，<strong>硬幹的模式賠率大於賺率</strong>。關鍵矛盾：MMORPG 手遊單價高 → 偵測嚴 → 封號率高 → 洋垃圾多開撐不住反作弊。用雷電模擬器在同一 IP 批量多開 MMORPG，基本上是自投羅網。</p>
+    <p>但如果你把目標從「<em>做出金流</em>」改成「<em>花 3 萬學一套可複製的自動化 + 風控知識</em>」，那這是一個極好的 side quest，甚至能跟你的論文（UAV 安全、反偵測）產生意外的交集。</p>
+    <div class="ev">期望值預估 · Month 1-3：-40% ~ +10% · 期望值中位數 ≈ -NT$6,000</div>
+  </div>
+
+  <!-- SECTION 1: 硬體 -->
+  <section>
+    <div class="section-head">
+      <span class="num">01</span>
+      <h2>硬體配置 · 洋垃圾矩陣</h2>
+      <span class="tag">Hardware Stack</span>
+    </div>
+    <p style="margin-bottom: 24px; font-size: 16px;">3 萬預算能建一台「勉強可用」的 6-10 開洋垃圾主機。不要買兩台，把錢集中在一台上 CPU + 記憶體 + SSD 拉滿。</p>
+    <table class="budget-table">
+      <thead><tr><th>品項</th><th>規格建議</th><th>備註</th><th>台幣</th></tr></thead>
+      <tbody>
+        <tr><td>CPU</td><td>Xeon E5-2680 v4 ×2（14C28T × 2）</td><td>露天/拍賣洋垃圾</td><td>$2,800</td></tr>
+        <tr><td>主機板</td><td>X99 雙路 (華南/科腦)</td><td>支援雙 CPU</td><td>$3,500</td></tr>
+        <tr><td>記憶體</td><td>DDR4 ECC REG 16GB × 8 = 128GB</td><td>模擬器吃記憶體</td><td>$4,800</td></tr>
+        <tr><td>SSD</td><td>NVMe 1TB + SATA 2TB</td><td>系統/模擬器鏡像分離</td><td>$2,800</td></tr>
+        <tr><td>顯卡</td><td>二手 GTX 1660 Super 或 RTX 3060</td><td>模擬器 GPU 直通</td><td>$5,500</td></tr>
+        <tr><td>電源 / 機殼 / 散熱</td><td>750W 銅牌 + 塔扇 ×2</td><td>雙路 CPU 要壓</td><td>$4,500</td></tr>
+        <tr><td>路由器 / 4G 分享器</td><td>雙 WAN + 行動網卡備援</td><td>IP 切換必備</td><td>$2,500</td></tr>
+        <tr><td>雜項 (線材/KVM)</td><td>—</td><td>—</td><td>$1,500</td></tr>
+        <tr class="total"><td colspan="3">硬體合計</td><td>NT$ 27,900</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top: 20px; font-size: 14px; color: var(--moss); font-family: 'JetBrains Mono', monospace;">
+      ⚠️ 電費實算：雙路 E5 + 1660 Super 滿載約 350W，24H 運轉月耗 252 kWh，以台電級距 5 元/度估 ≈ <strong>NT$1,260/月</strong>。這是你每月損益的基準線。
+    </p>
+  </section>
+
+  <!-- SECTION 2: 架構 -->
+  <section>
+    <div class="section-head">
+      <span class="num">02</span>
+      <h2>矩陣化三層架構</h2>
+      <span class="tag">System Architecture</span>
+    </div>
+    <div class="arch-grid">
+      <div class="arch-card">
+        <div class="layer">Layer 01 · 執行層</div>
+        <h3>模擬器矩陣</h3>
+        <ul>
+          <li>雷電 9 ×6-10 開</li>
+          <li>每個實例獨立機器碼</li>
+          <li>多開管理器批量控制</li>
+          <li>RootCloak / Magisk 隱藏</li>
+          <li>GPS/IMEI/Android ID 隨機</li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <div class="layer">Layer 02 · 自動化層</div>
+        <h3>腳本 + AI 視覺</h3>
+        <ul>
+          <li>按鍵精靈 / AutoJS</li>
+          <li>OpenCV 圖像辨識</li>
+          <li>YOLOv8 物件偵測（怪物）</li>
+          <li>隨機延遲仿人操作</li>
+          <li>異常事件 → Discord 警報</li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <div class="layer">Layer 03 · 變現層</div>
+        <h3>8591 交易管線</h3>
+        <ul>
+          <li>主帳 + 小帳分倉（風控）</li>
+          <li>價格爬蟲 → 動態定價</li>
+          <li>自動發文/刷新工具</li>
+          <li>金流：銀行虛擬帳號</li>
+          <li>買家身份驗證 SOP</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top: 24px; font-size: 15px; background: var(--paper-dark); padding: 16px 20px; border-left: 4px solid var(--blood);">
+      <strong>關鍵設計原則：</strong>養號帳號與變現帳號必須「<em>物理隔離</em>」。養號跑遊戲，變現帳號只收款不登入遊戲。8591 帳號又是第三組。任何一層被抓，另外兩層不能連坐。
+    </p>
+  </section>
+
+  <!-- SECTION 3: 風險 -->
+  <section>
+    <div class="section-head">
+      <span class="num">03</span>
+      <h2>三大風險 × 緩解策略</h2>
+      <span class="tag">Risk Matrix</span>
+    </div>
+    <div class="risk-matrix">
+      <div class="risk-card high">
+        <div class="risk-label">⚠ 高風險 · 發生機率 70%+</div>
+        <h3>封號 / 資產歸零</h3>
+        <p>MMORPG 反掛機制成熟：同 IP 多開偵測、行為模式分析、裝置指紋比對。雷電模擬器本身就在多數大廠黑名單。<strong>你論文研究 UAV 的反偵測方法，這裡其實是同類問題</strong>。</p>
+        <div class="mitigation">多帳號分 IP（4G 分享器輪替）+ 隨機延遲 + 每日上線時間差異化 + 分散儲值風險</div>
+      </div>
+
+      <div class="risk-card high">
+        <div class="risk-label">⚠ 高風險 · 發生機率 30-50%</div>
+        <h3>8591 交易詐騙</h3>
+        <p>常見手法：買家假匯款截圖、第三方支付盜刷、面交強搶帳號、事後爭議退款。<strong>賣家在糾紛中幾乎總是輸的一方</strong>，因為虛擬商品無法「退回」。</p>
+        <div class="mitigation">只接銀行轉帳 + 確認入帳 15 分鐘才交貨 + 保留全程對話 + 不走超商代收 + 單筆金額上限 NT$5,000</div>
+      </div>
+
+      <div class="risk-card mid">
+        <div class="risk-label">△ 中風險 · 必然發生</div>
+        <h3>電費 + 硬體吃光利潤</h3>
+        <p>每月固定成本 ≈ NT$1,260 (電) + NT$500 (硬體折舊) = <strong>NT$1,760 保本線</strong>。如果單帳號月產值低於 NT$300，6 開也只能打平。</p>
+        <div class="mitigation">第一個月只跑 3 開驗證單位產值 → 用 ROI 決定要不要擴到 10 開。夜間離峰電價 + 白天伺服器託管（爸媽家）</div>
+      </div>
+
+      <div class="risk-card mid">
+        <div class="risk-label">△ 法律灰色</div>
+        <h3>法律地帶分析</h3>
+        <p>台灣目前：<strong>腳本掛機本身不違法</strong>（違反遊戲商服務條款，民事），但：<br>
+        ① 販售外掛程式 → 刑法妨害電腦使用罪<br>
+        ② 盜用他人帳號/寶物 → 刑事<br>
+        ③ 未申報所得超過 NT$84,501/月 → 逃漏稅</p>
+        <div class="mitigation">不販售腳本本體、只賣正常獲取的遊戲幣/寶物、年收入超過免稅額老實報「網路拍賣所得」</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: 時程 -->
+  <section>
+    <div class="section-head">
+      <span class="num">04</span>
+      <h2>12 週實施路徑</h2>
+      <span class="tag">Roadmap</span>
+    </div>
+    <div class="timeline">
+      <div class="phase">
+        <div class="week">WEEK 01-02 · 驗證期</div>
+        <h3>單開手動打工，先搞懂經濟系統</h3>
+        <p class="goals">選定一款 MMORPG（推薦：冷門但 8591 有單量的，如某冒險、某原神類、RO 系列非旗艦款），單帳號手動玩到中階。記錄每小時產出、上架週轉天數、實際到帳金額。</p>
+        <span class="checkpoint">Checkpoint：單帳號時薪 ≥ NT$25 才繼續</span>
+      </div>
+      <div class="phase">
+        <div class="week">WEEK 03-04 · 腳本期</div>
+        <h3>自動化一帳號，測試封鎖率</h3>
+        <p class="goals">雷電模擬器 ×1，AutoJS 腳本打本/打材料。加入隨機延遲、夜間休眠、行為指紋擾動。跑兩週觀察是否封號。</p>
+        <span class="checkpoint">Checkpoint：14 天未收警告 → 進入矩陣期</span>
+      </div>
+      <div class="phase">
+        <div class="week">WEEK 05-08 · 矩陣期</div>
+        <h3>洋垃圾上線，擴到 3 → 6 → 10 開</h3>
+        <p class="goals">硬體組裝、IP 分散架構、多帳號並行。每週擴 2-3 開，觀察封鎖率。一旦某週封號率 >10% 立刻停擴並回檢指紋策略。</p>
+        <span class="checkpoint">Checkpoint：月淨利 ≥ NT$3,000 才值得繼續</span>
+      </div>
+      <div class="phase">
+        <div class="week">WEEK 09-12 · 最佳化期</div>
+        <h3>8591 變現優化 + 決定是否放大</h3>
+        <p class="goals">動態定價腳本、買家 VIP 分級、自動 FAQ 回覆。累計 90 天數據做成報表，用真實 ROI 決定下一季戰略（收手/持平/追加投資）。</p>
+        <span class="checkpoint">Checkpoint：3 個月累計淨利 > NT$10,000 才有擴張意義</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: AI 自動化 -->
+  <section>
+    <div class="section-head">
+      <span class="num">05</span>
+      <h2>AI 自動化建議 · 你的 edge</h2>
+      <span class="tag">AI Automation · Your Moat</span>
+    </div>
+    <p style="margin-bottom: 24px; font-size: 16px;">以你的技術背景（Python + Claude API + 論文做反偵測研究），這才是你真正比一般遊戲工作室強的地方。硬體跟腳本是 commodity，<strong>AI 決策層才是差異化</strong>。</p>
+    <div class="ai-stack">
+      <div class="ai-card">
+        <h3>▲ 價格情報機器人</h3>
+<pre># 用 pytrends 你已經熟悉了
+# 同樣技巧用在 8591 爬蟲
+
+def price_scout(game_id):
+    listings = scrape_8591(game_id)
+    p50 = median([l.price for l in listings])
+    p25 = percentile(listings, 25)
+    # 動態定價：永遠掛在 p25-p50 之間
+    # 週轉快但不至於血虧
+    return suggest_price(p25, p50)</pre>
+        <div class="note">這套邏輯跟你做 YouTube 選題的 scout 一樣，換個 domain 就能用</div>
+      </div>
+      <div class="ai-card">
+        <h3>▲ 異常偵測守衛</h3>
+<pre># 用 Claude API 看模擬器截圖
+# 比純 OpenCV 判斷更有容錯
+
+async def anomaly_guard(screenshot):
+    response = await claude.messages.create(
+      model="claude-sonnet-4-5",
+      messages=[{
+        "role":"user",
+        "content":[
+          {"type":"image","source":{...}},
+          {"type":"text","text":
+            "這張遊戲畫面是否有：警告視窗、驗證碼、異常登入提示？回傳 JSON"}
+        ]
+      }]
+    )
+    if response.alert:
+        send_discord_alert()
+        pause_all_instances()</pre>
+        <div class="note">把 OpenClaw 那套架構搬過來就能用</div>
+      </div>
+      <div class="ai-card">
+        <h3>▲ 買家話術機器人</h3>
+<pre># 8591 站內信自動應答
+# 過濾騙子、快速成交
+
+def classify_buyer(message):
+    signals = {
+      "asks_for_line_first": -10,  # 要求私下
+      "unusual_low_offer": -5,     # 砍價過頭
+      "mentions_third_party_pay": -15,
+      "verified_history": +10
+    }
+    score = claude_analyze(message, signals)
+    return "block" if score < -5 else "reply"</pre>
+        <div class="note">你的反詐騙判斷邏輯，跟 UAV 異常訊號偵測是同一個思維模型</div>
+      </div>
+      <div class="ai-card">
+        <h3>▲ 論文交集點（彩蛋）</h3>
+<pre># 這個專案意外能餵你的論文
+# 「商業級反偵測」是真實對抗場景
+
+研究價值：
+- 遊戲反作弊系統 ≈ UAV 入侵偵測
+- 行為指紋擾動 ≈ SDR 訊號偽裝
+- 分散式多帳號 ≈ 蜂群無人機
+- 你的 3 萬 = 一套活的 adversarial
+  testbed，每次封號都是真實標註
+
+建議：把過程寫成 blog / 影片，
+哪怕不賺錢也有論文素材 + YT 流量</pre>
+        <div class="note">這是這個案子真正值得做的理由</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <div class="closing">
+    <h2>給你的誠實建議</h2>
+    <p>如果目的是「<strong>賺錢</strong>」：放棄這條路。同樣 3 萬做 YouTube 廣告投手課、或 Upwork 接案，期望報酬率高 3-5 倍。</p>
+    <p>如果目的是「<strong>學反偵測 + 測試你的自動化設計 + 意外產出論文素材</strong>」：這是一個有趣的實驗。但把預算限制在 NT$15,000（先買記憶體跟 SSD 就好，CPU 用現有的 M4 Mac Mini 跑雷電）。</p>
+    <p><strong>折衷提案：</strong>洋垃圾先不要買。用你現在的 M4 Mac Mini 實驗組 ×1 跑 2-3 開，手動打工 2 週 + 腳本打工 2 週，看實際時薪。如果時薪 &lt; NT$30，直接停。這樣最多損失 NT$0，但學到的自動化經驗全留下。</p>
+    <div class="signature">— 以上為策略建議 · 非財務諮詢 · 非法律意見 —</div>
+  </div>
+
+</div>
+</body>
+</html>

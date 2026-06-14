@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《北歐時間》實踐學習單 — 找回剛剛好的幸福節奏</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F1E7;
+    --paper-2:#FBF8F1;
+    --card:#FFFDF8;
+    --ink:#2C2A24;
+    --ink-soft:#5C584E;
+    --line:#DCD3C2;
+    --sage:#6E7E5E;
+    --sage-deep:#54624A;
+    --sky:#7C95A6;
+    --amber:#C08A52;
+    --amber-soft:#E8D4B8;
+    --shadow:rgba(58,52,40,.10);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(192,138,82,.06), transparent 42%),
+      radial-gradient(circle at 88% 22%, rgba(124,149,166,.07), transparent 40%),
+      radial-gradient(circle at 50% 110%, rgba(110,126,94,.08), transparent 55%);
+    color:var(--ink);
+    font-family:"Noto Sans TC",sans-serif;
+    font-weight:300;
+    line-height:1.85;
+    letter-spacing:.01em;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* grain overlay */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply;
+  }
+  .wrap{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 22px 120px;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    text-align:center;
+    padding:78px 0 46px;
+  }
+  .kicker{
+    font-family:"Fraunces",serif;font-style:italic;font-size:15px;letter-spacing:.06em;
+    color:var(--amber);margin-bottom:18px;
+  }
+  .hero h1{
+    font-family:"Noto Serif TC",serif;font-weight:700;
+    font-size:clamp(33px,6.4vw,56px);line-height:1.2;margin:0 0 4px;letter-spacing:.02em;
+  }
+  .hero .sub-en{
+    font-family:"Fraunces",serif;font-weight:400;letter-spacing:.22em;text-transform:uppercase;
+    font-size:13px;color:var(--sage-deep);margin:10px 0 26px;
+  }
+  .creed{
+    font-family:"Noto Serif TC",serif;font-weight:500;
+    font-size:clamp(18px,3vw,23px);color:var(--sage-deep);
+    position:relative;display:inline-block;padding:0 4px;
+  }
+  .creed::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:9px;background:var(--amber-soft);opacity:.55;z-index:-1;border-radius:2px;}
+  .meta{
+    margin-top:30px;font-size:13.5px;color:var(--ink-soft);letter-spacing:.02em;
+  }
+  .meta b{font-weight:500;color:var(--ink);}
+  .rule{display:flex;align-items:center;justify-content:center;gap:14px;margin:34px auto 0;max-width:340px;color:var(--line);}
+  .rule::before,.rule::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,var(--line));}
+  .rule::after{background:linear-gradient(90deg,var(--line),transparent);}
+  .rule span{font-size:11px;}
+
+  /* ---------- INTRO CARD ---------- */
+  .intro{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:30px 34px;margin:6px 0 18px;box-shadow:0 14px 40px -28px var(--shadow);
+  }
+  .intro p{margin:0;font-size:15.5px;color:var(--ink-soft);}
+  .intro p+p{margin-top:12px;}
+
+  /* ---------- SECTION TITLES ---------- */
+  .block-title{
+    display:flex;align-items:baseline;gap:14px;margin:62px 0 22px;
+  }
+  .block-title .no{
+    font-family:"Fraunces",serif;font-style:italic;font-size:46px;line-height:1;color:var(--amber);opacity:.85;
+  }
+  .block-title h2{
+    font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(22px,3.4vw,27px);margin:0;letter-spacing:.02em;
+  }
+  .block-title h2 small{display:block;font-family:"Noto Sans TC";font-weight:300;font-size:13.5px;color:var(--ink-soft);letter-spacing:.04em;margin-top:3px;}
+
+  /* ---------- TIME CARDS ---------- */
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:26px 28px 24px;margin-bottom:20px;box-shadow:0 14px 40px -30px var(--shadow);
+    position:relative;overflow:hidden;
+  }
+  .card-head{display:flex;align-items:center;gap:16px;margin-bottom:16px;}
+  .icon{
+    flex:none;width:50px;height:50px;border-radius:14px;display:grid;place-items:center;
+    background:var(--paper-2);border:1px solid var(--line);
+  }
+  .icon svg{width:26px;height:26px;stroke:var(--sage);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+  .card-head .t .ord{font-family:"Fraunces",serif;font-style:italic;font-size:13px;color:var(--amber);letter-spacing:.04em;}
+  .card-head .t h3{font-family:"Noto Serif TC",serif;font-weight:600;font-size:20px;margin:1px 0 0;}
+  .card-head .t .tag{font-size:13px;color:var(--sky);font-weight:400;}
+
+  .row{display:grid;grid-template-columns:1fr;gap:4px;margin:14px 0;}
+  .lab{font-size:12.5px;font-weight:500;letter-spacing:.08em;color:var(--sage-deep);text-transform:uppercase;font-family:"Fraunces",serif;font-style:italic;}
+  .lab-zh{font-size:13px;font-weight:500;color:var(--sage-deep);letter-spacing:.05em;display:flex;align-items:center;gap:7px;}
+  .lab-zh::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--amber);flex:none;}
+  .body-txt{font-size:15px;color:var(--ink-soft);margin:2px 0 0;}
+  .body-txt b{color:var(--ink);font-weight:500;}
+
+  .ask{font-size:14.5px;color:var(--ink);font-weight:400;margin:2px 0 8px;}
+  textarea{
+    width:100%;min-height:74px;resize:vertical;border:1px dashed var(--line);border-radius:11px;
+    background:var(--paper-2);padding:11px 13px;font-family:"Noto Sans TC";font-size:14.5px;
+    font-weight:300;color:var(--ink);line-height:1.7;transition:border-color .2s,background .2s;
+  }
+  textarea:focus{outline:none;border-color:var(--sage);border-style:solid;background:#fff;box-shadow:0 0 0 3px rgba(110,126,94,.08);}
+  textarea::placeholder{color:#B5AD9C;font-weight:300;}
+
+  .action-box{
+    margin-top:16px;background:linear-gradient(180deg,rgba(232,212,184,.22),rgba(232,212,184,.08));
+    border:1px solid var(--amber-soft);border-radius:12px;padding:13px 15px;
+  }
+  .action-box .lab-zh{color:var(--amber);}
+  .action-box .lab-zh::before{background:var(--amber);}
+  .chk{display:flex;align-items:flex-start;gap:11px;margin-top:9px;}
+  .chk input{appearance:none;flex:none;width:20px;height:20px;margin-top:2px;border:1.5px solid var(--amber);border-radius:6px;cursor:pointer;background:#fff;transition:.2s;position:relative;}
+  .chk input:checked{background:var(--amber);}
+  .chk input:checked::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:13px;font-weight:700;}
+  .chk input[type=text]{appearance:auto;width:auto;flex:1;height:auto;border:none;border-bottom:1px solid var(--line);border-radius:0;background:transparent;padding:2px 4px;font-family:"Noto Sans TC";font-size:14.5px;font-weight:300;color:var(--ink);}
+  .chk input[type=text]:focus{outline:none;border-bottom-color:var(--sage);}
+  .chk label{font-size:14px;color:var(--ink-soft);flex:1;}
+
+  /* ---------- 四法則 ---------- */
+  .laws{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .law{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:20px 20px 18px;box-shadow:0 14px 40px -32px var(--shadow);}
+  .law .n{font-family:"Fraunces",serif;font-style:italic;font-size:28px;color:var(--amber);line-height:1;}
+  .law h4{font-family:"Noto Serif TC",serif;font-weight:600;font-size:17px;margin:8px 0 6px;}
+  .law p{font-size:13.5px;color:var(--ink-soft);margin:0;line-height:1.7;}
+
+  /* ---------- 每日三件事 ---------- */
+  .three-intro{font-size:14.5px;color:var(--ink-soft);margin:0 0 18px;}
+  .week{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 14px 40px -30px var(--shadow);}
+  .wrow{display:grid;grid-template-columns:78px 1fr 64px;align-items:center;border-bottom:1px solid var(--line);}
+  .wrow:last-child{border-bottom:none;}
+  .wrow .day{padding:14px 16px;font-family:"Noto Serif TC";font-weight:600;font-size:15px;color:var(--sage-deep);border-right:1px solid var(--line);background:var(--paper-2);height:100%;display:flex;flex-direction:column;justify-content:center;}
+  .wrow .day em{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:11px;color:var(--ink-soft);}
+  .wrow .day-in{padding:8px 14px;}
+  .wrow .day-in input{width:100%;border:none;background:transparent;font-family:"Noto Sans TC";font-weight:300;font-size:14px;color:var(--ink);padding:5px 2px;border-bottom:1px dotted var(--line);}
+  .wrow .day-in input:focus{outline:none;border-bottom-color:var(--sage);}
+  .wrow .day-in input::placeholder{color:#C3BBAA;}
+  .wrow .done{display:grid;place-items:center;border-left:1px solid var(--line);height:100%;}
+  .wrow .done input{appearance:none;width:26px;height:26px;border:1.5px solid var(--sage);border-radius:50%;cursor:pointer;background:#fff;transition:.2s;position:relative;}
+  .wrow .done input:checked{background:var(--sage);border-color:var(--sage);}
+  .wrow .done input:checked::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:14px;font-weight:700;}
+  .wk-head{display:grid;grid-template-columns:78px 1fr 64px;background:var(--sage-deep);color:#fff;}
+  .wk-head div{padding:11px 16px;font-size:12px;font-weight:500;letter-spacing:.06em;}
+  .wk-head div:nth-child(3){text-align:center;}
+
+  /* ---------- 承諾 ---------- */
+  .pledge{background:linear-gradient(165deg,#54624A,#3F4A38);color:#F4F0E6;border-radius:20px;padding:34px 32px;margin-top:14px;box-shadow:0 24px 50px -30px rgba(63,74,56,.55);}
+  .pledge h3{font-family:"Noto Serif TC";font-weight:600;font-size:21px;margin:0 0 6px;color:#fff;}
+  .pledge .ph{font-size:14px;color:#CDD3C0;margin:0 0 20px;}
+  .pledge .pl-row{margin-bottom:16px;}
+  .pledge label.pl-l{font-size:12.5px;letter-spacing:.06em;color:#B9C2A8;font-family:"Fraunces";font-style:italic;display:block;margin-bottom:6px;}
+  .pledge textarea{background:rgba(255,255,255,.07);border:1px dashed rgba(255,255,255,.28);color:#F4F0E6;}
+  .pledge textarea:focus{background:rgba(255,255,255,.12);border-color:#E8D4B8;box-shadow:none;}
+  .pledge textarea::placeholder{color:#9AA48C;}
+  .pledge .sign{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:6px;}
+  .pledge .sign input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.35);color:#fff;font-family:"Noto Serif TC";font-size:15px;padding:6px 2px;}
+  .pledge .sign input:focus{outline:none;border-bottom-color:#E8D4B8;}
+  .pledge .sign .s-l{font-size:11px;color:#9AA48C;letter-spacing:.05em;margin-bottom:4px;font-family:"Fraunces";font-style:italic;}
+
+  /* ---------- 名言 ---------- */
+  .quote{text-align:center;margin:64px auto 0;max-width:600px;}
+  .quote p{font-family:"Noto Serif TC";font-weight:500;font-size:clamp(18px,3vw,22px);line-height:1.7;color:var(--sage-deep);margin:0 0 12px;font-style:italic;}
+  .quote cite{font-family:"Fraunces";font-style:italic;font-size:14px;color:var(--amber);}
+  .closing{text-align:center;font-size:14.5px;color:var(--ink-soft);margin-top:34px;}
+
+  /* ---------- TOOLBAR ---------- */
+  .bar{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:10px;background:var(--ink);padding:9px 11px;border-radius:50px;box-shadow:0 18px 40px -14px rgba(44,42,36,.5);}
+  .bar button{border:none;cursor:pointer;font-family:"Noto Sans TC";font-weight:400;font-size:13.5px;letter-spacing:.03em;color:#F6F1E7;background:transparent;padding:9px 16px;border-radius:40px;display:flex;align-items:center;gap:7px;transition:.18s;}
+  .bar button:hover{background:rgba(255,255,255,.12);}
+  .bar button.primary{background:var(--amber);color:#2C2A24;font-weight:500;}
+  .bar button.primary:hover{background:#cf9a63;}
+  .bar svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+  .bar .sep{width:1px;background:rgba(255,255,255,.18);margin:4px 0;}
+
+  .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--sage-deep);color:#fff;padding:11px 22px;border-radius:30px;font-size:14px;z-index:60;opacity:0;pointer-events:none;transition:.3s;box-shadow:0 12px 30px -10px rgba(0,0,0,.35);}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* modal */
+  .modal{position:fixed;inset:0;z-index:80;background:rgba(44,42,36,.55);display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(3px);}
+  .modal.show{display:flex;}
+  .modal .box{background:var(--paper-2);border-radius:18px;max-width:640px;width:100%;max-height:84vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.4);}
+  .modal .mh{padding:20px 24px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
+  .modal .mh h4{font-family:"Noto Serif TC";font-weight:600;font-size:18px;margin:0;}
+  .modal .mh .x{cursor:pointer;border:none;background:none;font-size:24px;color:var(--ink-soft);line-height:1;}
+  .modal textarea{flex:1;margin:0;border:none;border-radius:0;background:#fff;min-height:320px;border-bottom:1px solid var(--line);font-family:ui-monospace,"Noto Sans TC",monospace;font-size:13px;line-height:1.7;}
+  .modal textarea:focus{box-shadow:none;}
+  .modal .mf{padding:14px 24px;display:flex;gap:10px;justify-content:flex-end;}
+  .modal .mf button{border:none;cursor:pointer;font-family:"Noto Sans TC";font-size:14px;padding:9px 20px;border-radius:40px;}
+  .modal .mf .cp{background:var(--amber);color:#2C2A24;font-weight:500;}
+  .modal .mf .cl{background:var(--line);color:var(--ink);}
+  .hint{font-size:12px;color:var(--ink-soft);padding:10px 24px 0;}
+
+  .reveal{opacity:0;transform:translateY(16px);}
+  .reveal.in{opacity:1;transform:none;transition:opacity .7s ease,transform .7s ease;}
+
+  @media (max-width:600px){
+    .laws{grid-template-columns:1fr;}
+    .pledge .sign{grid-template-columns:1fr;}
+    .bar button span.lbl{display:none;}
+    .bar button{padding:11px 13px;}
+    .wrow{grid-template-columns:64px 1fr 50px;}
+    .block-title .no{font-size:36px;}
+  }
+
+  /* ---------- PRINT ---------- */
+  @media print{
+    @page{margin:16mm 14mm;}
+    body{background:#fff;color:#000;}
+    body::before{display:none;}
+    .bar,.toast,.modal{display:none !important;}
+    .wrap{max-width:none;padding:0;}
+    .card,.intro,.law,.week,.pledge{box-shadow:none;break-inside:avoid;border-color:#bbb;}
+    .pledge{background:#fff !important;color:#000;border:1px solid #999;}
+    .pledge h3,.pledge textarea,.pledge .sign input{color:#000;}
+    .pledge .ph,.pledge label.pl-l,.pledge .s-l{color:#555;}
+    .pledge textarea{border-color:#bbb;}
+    textarea{background:#fff;border-color:#bbb;}
+    .reveal{opacity:1 !important;transform:none !important;}
+    header.hero{padding:20px 0 24px;}
+    .block-title{margin:30px 0 16px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker reveal">讀書實踐學習單 · Reading Worksheet</div>
+    <h1 class="reveal">北歐時間</h1>
+    <div class="sub-en reveal">The Nordic Way of Time</div>
+    <div class="reveal"><span class="creed">幸福，不在更快，而在過得剛剛好</span></div>
+    <div class="meta reveal">
+      原著《北歐時間：世界第一幸福國度教會我的事》<br>
+      作者 <b>日暮 Inko</b>　·　攝影 小島沙緒理　·　幸福文化出版
+    </div>
+    <div class="rule reveal"><span>❋</span></div>
+  </header>
+
+  <div class="intro reveal">
+    <p>作者日暮原是東京一名「提不起勁」的上班族，移居丹麥七年後，從北歐人對待時間的方式裡，重新學會了生活。她發現幸福不是遙不可及的逃離，而是每個人都能隨手實踐的選擇——關鍵在於<b>怎麼運用時間</b>。</p>
+    <p>本學習單把全書濃縮為「<b>五種時間</b>」與「<b>輕盈成功四法則</b>」。每一段都附上北歐人的具體做法、給你的自我提問，以及一個可以本週就開始的小行動。慢慢填，不用一次填完——這正是北歐時間的精神。</p>
+  </div>
+
+  <!-- ========== 五種時間 ========== -->
+  <div class="block-title reveal">
+    <div class="no">I</div>
+    <h2>北歐人的五種時間<small>逐一覺察，找到屬於你的節奏</small></h2>
+  </div>
+
+  <!-- 1 -->
+  <section class="card reveal">
+    <div class="card-head">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 21c-4-3-8-6-8-11a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-4 8-8 11z" opacity=".0"/><path d="M12 20c0-5 0-9 0-13M12 11c-2-1-4-1-5-3M12 8c2-1 3-1 4-3"/></svg></div>
+      <div class="t"><span class="ord">時間之一</span><h3>自我照顧的時間</h3><span class="tag">暫停．充電</span></div>
+    </div>
+    <div class="row"><span class="lab-zh">核心</span><p class="body-txt">世界上最重要的人，是<b>你自己</b>。自我照顧，就是<b>覺察自己何時需要暫停與充電</b>，並留心「內心的語言」——負面情緒的自己，不等於糟糕的自己。</p></div>
+    <div class="row"><span class="lab-zh">北歐做法</span><p class="body-txt">熱愛陽光與戶外，走進森林、親近大自然讓心靈呼吸；放下手機，與家人朋友一起走路、登山，補充能量與連結感。</p></div>
+    <div class="row"><p class="ask">✎ 最近一次「真正放鬆、把自己充飽電」是什麼時候？你的身體通常用什麼訊號提醒你該休息了？</p>
+      <textarea data-k="q1" placeholder="寫下你的覺察…"></textarea></div>
+    <div class="action-box"><span class="lab-zh">本週微行動</span>
+      <div class="chk"><input type="checkbox" data-k="a1"><label>安排一段 30 分鐘「不帶手機」的戶外散步或運動</label></div>
+      <div class="chk"><label style="flex:none;color:var(--ink-soft)">或自訂：</label><input type="text" data-k="a1c" placeholder="我想為自己做的一件充電小事…"></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="card reveal">
+    <div class="card-head">
+      <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
+      <div class="t"><span class="ord">時間之二</span><h3>活出本心的時間</h3><span class="tag">我就是我</span></div>
+    </div>
+    <div class="row"><span class="lab-zh">核心</span><p class="body-txt">放下迎合社會標準的壓力。<b>自己的風格，就是最棒的風格</b>。愛自己不需要理由——你就是你，這樣就有價值。</p></div>
+    <div class="row"><span class="lab-zh">北歐做法</span><p class="body-txt">素顏出門、穿二手衣也自在；不追逐流行或名牌，重視物品的<b>本質與永續</b>，二手家具與物品在北歐非常流行。</p></div>
+    <div class="row"><p class="ask">✎ 有哪一件事，你其實是「為了別人的眼光」才做的？如果完全不在意他人怎麼想，你會怎麼做？</p>
+      <textarea data-k="q2" placeholder="寫下你的覺察…"></textarea></div>
+    <div class="action-box"><span class="lab-zh">本週微行動</span>
+      <div class="chk"><input type="checkbox" data-k="a2"><label>做一件「忠於自己、不為討好他人」的小事</label></div>
+      <div class="chk"><label style="flex:none;color:var(--ink-soft)">或自訂：</label><input type="text" data-k="a2c" placeholder="我想忠於本心去做的事…"></div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="card reveal">
+    <div class="card-head">
+      <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.4"/><path d="M12 3v3M12 18v3"/></svg></div>
+      <div class="t"><span class="ord">時間之三</span><h3>單一任務的時間</h3><span class="tag">專注．而行</span></div>
+    </div>
+    <div class="row"><span class="lab-zh">核心</span><p class="body-txt"><b>一次只專心做好一件事</b>。做完任務一，再做任務二，能降低錯誤率、提升效率。也別擔心還沒發生的事。</p></div>
+    <div class="row"><span class="lab-zh">北歐做法 — 888 規則</span><p class="body-txt"><b>8 小時工作．8 小時休息．8 小時留給自己</b>（夢想或家人）。北歐人下午四點就下班，甚至瑞典曾實驗六小時工時——工時短就更不能拖延，所以在工作時段內用<b>極高專注力</b>完成，而非一心多用。</p></div>
+    <div class="row"><p class="ask">✎ 你最常被什麼打斷專注？在你的一天裡，「留給自己的那 8 小時」現在還剩多少？</p>
+      <textarea data-k="q3" placeholder="寫下你的覺察…"></textarea></div>
+    <div class="action-box"><span class="lab-zh">本週微行動</span>
+      <div class="chk"><input type="checkbox" data-k="a3"><label>挑一個任務，關掉所有通知，全程「單工」完成</label></div>
+      <div class="chk"><label style="flex:none;color:var(--ink-soft)">或自訂：</label><input type="text" data-k="a3c" placeholder="我要練習單工的那件事…"></div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="card reveal">
+    <div class="card-head">
+      <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg></div>
+      <div class="t"><span class="ord">時間之四</span><h3>創造探索的時間</h3><span class="tag">多點．玩心</span></div>
+    </div>
+    <div class="row"><span class="lab-zh">核心</span><p class="body-txt">生活需要加入<b>小巧思與驚喜</b>，而非單調度過。別忘了遊戲心與冒險魂。</p></div>
+    <div class="row"><span class="lab-zh">北歐做法</span><p class="body-txt">DIY 是生活的一部分；<b>燈光才是靈魂所在</b>；在二手店尋寶，挑一張椅子可以花上好幾個月；窗邊種點香草；冬天靠一杯<b>熱可可</b>溫暖心靈、預防冬季憂鬱。</p></div>
+    <div class="row"><p class="ask">✎ 上一次你「純粹為了好玩」去做一件事是什麼時候？你的家裡，有沒有一個讓你打從心裡開心的角落？</p>
+      <textarea data-k="q4" placeholder="寫下你的覺察…"></textarea></div>
+    <div class="action-box"><span class="lab-zh">本週微行動</span>
+      <div class="chk"><input type="checkbox" data-k="a4"><label>為生活加一個小驚喜：換個燈光／種盆香草／逛二手店／泡杯熱可可</label></div>
+      <div class="chk"><label style="flex:none;color:var(--ink-soft)">或自訂：</label><input type="text" data-k="a4c" placeholder="我想加進生活的小巧思…"></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="card reveal">
+    <div class="card-head">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3c0 2-2 3-2 5a2 2 0 0 0 4 0c0-2-2-3-2-5z"/><path d="M8 13h8v6a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2z"/><path d="M8 16h8"/></svg></div>
+      <div class="t"><span class="ord">時間之五</span><h3>享受 Hygge 的時光</h3><span class="tag">療癒．陪伴</span></div>
+    </div>
+    <div class="row"><span class="lab-zh">核心</span><p class="body-txt"><b>Hygge</b>（源自丹麥語）＝一種心裡暖呼呼、極度放鬆又安心的共享時刻。<b>越是忙碌，越要刻意為自己留一段暖心的時光</b>，並珍惜、感恩每一個當下。</p></div>
+    <div class="row"><span class="lab-zh">北歐做法</span><p class="body-txt">點上一根蠟燭；冰島的「耶誕書海」——耶誕互贈書籍、窩在一起閱讀；桌遊聚會、泡三溫暖靜心；甚至「一成不變」反而讓人安心，黃昏則是大自然的禮物。</p></div>
+    <div class="row"><p class="ask">✎ 什麼樣的時刻會讓你覺得「心裡暖暖的」？你上一次刻意為自己安排這種時刻，是什麼時候？</p>
+      <textarea data-k="q5" placeholder="寫下你的覺察…"></textarea></div>
+    <div class="action-box"><span class="lab-zh">本週微行動</span>
+      <div class="chk"><input type="checkbox" data-k="a5"><label>創造一段 Hygge 時光：蠟燭＋熱飲＋一本書，或與最親近的人窩著聊天</label></div>
+      <div class="chk"><label style="flex:none;color:var(--ink-soft)">或自訂：</label><input type="text" data-k="a5c" placeholder="我的專屬暖心時光…"></div>
+    </div>
+  </section>
+
+  <!-- ========== 輕盈成功四法則 ========== -->
+  <div class="block-title reveal">
+    <div class="no">II</div>
+    <h2>輕盈成功四法則<small>不必等到未來，此刻做著熱愛的事，你就是成功的</small></h2>
+  </div>
+  <div class="laws">
+    <div class="law reveal"><div class="n">1</div><h4>接納自我</h4><p>承認並接納自己的所有情緒，包括負面情緒，不急著否定或強迫轉正。愛自己，不需要根據。</p></div>
+    <div class="law reveal"><div class="n">2</div><h4>減少不喜歡的事</h4><p>把你極度討厭做的事設法減少、或委託給專業人士，把省下的時間留給你真正熱愛的事物。</p></div>
+    <div class="law reveal"><div class="n">3</div><h4>每日三件重要事</h4><p>每天只列三件最重要、最想完成的事，做到就給自己 100 分；多做的，就當作獎勵點數。</p></div>
+    <div class="law reveal"><div class="n">4</div><h4>練習取捨</h4><p>透過「只做三件事」，練習分辨哪些是「現在必須做」的，減少「永遠做不完」的無力感。</p></div>
+  </div>
+
+  <!-- ========== 每日三件事 ========== -->
+  <div class="block-title reveal">
+    <div class="no">III</div>
+    <h2>本週「三件重要事」練習<small>把第三法則變成每天的習慣</small></h2>
+  </div>
+  <p class="three-intro reveal">每天睡前或早晨，寫下隔天（或今天）最重要的三件事。完成就在右側畫圈，給自己 100 分。這份練習的重點不是「做更多」，而是練習<b>取捨與聚焦</b>。</p>
+  <div class="week reveal">
+    <div class="wk-head"><div>星期 / Day</div><div>今日三件重要事</div><div>完成</div></div>
+    <div class="wrow"><div class="day">週一<em>Mon</em></div><div class="day-in"><input data-k="d1a" placeholder="1."><input data-k="d1b" placeholder="2."><input data-k="d1c" placeholder="3."></div><div class="done"><input type="checkbox" data-k="d1d"></div></div>
+    <div class="wrow"><div class="day">週二<em>Tue</em></div><div class="day-in"><input data-k="d2a" placeholder="1."><input data-k="d2b" placeholder="2."><input data-k="d2c" placeholder="3."></div><div class="done"><input type="checkbox" data-k="d2d"></div></div>
+    <div class="wrow"><div class="day">週三<em>Wed</em></div><div class="day-in"><input data-k="d3a" placeholder="1."><input data-k="d3b" placeholder="2."><input data-k="d3c" placeholder="3."></div><div class="done"><input type="checkbox" data-k="d3d"></div></div>
+    <div class="wrow"><div class="day">週四<em>Thu</em></div><div class="day-in"><input data-k="d4a" placeholder="1."><input data-k="d4b" placeholder="2."><input data-k="d4c" placeholder="3."></div><div class="done"><input type="checkbox" data-k="d4d"></div></div>
+    <div class="wrow"><div class="day">週五<em>Fri</em></div><div class="day-in"><input data-k="d5a" placeholder="1."><input data-k="d5b" placeholder="2."><input data-k="d5c" placeholder="3."></div><div class="done"><input type="checkbox" data-k="d5d"></div></div>
+    <div class="wrow"><div class="day">週六<em>Sat</em></div><div class="day-in"><input data-k="d6a" placeholder="1."><input data-k="d6b" placeholder="2."><input data-k="d6c" placeholder="3."></div><div class="done"><input type="checkbox" data-k="d6d"></div></div>
+    <div class="wrow"><div class="day">週日<em>Sun</em></div><div class="day-in"><input data-k="d7a" placeholder="1."><input data-k="d7b" placeholder="2."><input data-k="d7c" placeholder="3."></div><div class="done"><input type="checkbox" data-k="d7d"></div></div>
+  </div>
+
+  <!-- ========== 承諾 ========== -->
+  <div class="block-title reveal">
+    <div class="no">IV</div>
+    <h2>我的北歐時間承諾<small>從一件小事開始，就足夠</small></h2>
+  </div>
+  <div class="pledge reveal">
+    <h3>給三個月後的自己</h3>
+    <p class="ph">不必全部做到。挑一兩件最打動你的，認真開始。</p>
+    <div class="pl-row"><label class="pl-l">我最想先改變的「時間用法」是 ——</label>
+      <textarea data-k="p1" placeholder="例如：每天下班後留一小時純屬於自己，不碰工作訊息。"></textarea></div>
+    <div class="pl-row"><label class="pl-l">我想減少 / 委託出去的事是 ——</label>
+      <textarea data-k="p2" placeholder="例如：把家裡整理外包、減少滑手機的時間。"></textarea></div>
+    <div class="pl-row"><label class="pl-l">我要為自己保留的 Hygge 時光是 ——</label>
+      <textarea data-k="p3" placeholder="例如：每週日晚上，一杯熱茶＋一本書，不看螢幕。"></textarea></div>
+    <div class="sign">
+      <div><div class="s-l">簽名 Signature</div><input data-k="sign" placeholder="你的名字"></div>
+      <div><div class="s-l">日期 Date</div><input data-k="date" placeholder="____ / ____ / ____"></div>
+    </div>
+  </div>
+
+  <!-- ========== 名言 ========== -->
+  <div class="quote reveal">
+    <p>「人最大的危機，<br>就是在不知不覺中失去了自己。」</p>
+    <cite>— 齊克果 Søren Kierkegaard</cite>
+  </div>
+  <p class="closing reveal">只要改變時間的用法，人生也會開始改變。<br>人生不用很厲害，但你也可以過得很好。</p>
+
+</div>
+
+<!-- toolbar -->
+<div class="bar">
+  <button onclick="window.print()"><svg viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg><span class="lbl">列印 / 存 PDF</span></button>
+  <div class="sep"></div>
+  <button onclick="clearAll()"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg><span class="lbl">清空</span></button>
+  <button class="primary" onclick="exportMD()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span class="lbl">匯出筆記 → Notion</span></button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- export modal -->
+<div class="modal" id="modal">
+  <div class="box">
+    <div class="mh"><h4>匯出為 Markdown</h4><button class="x" onclick="closeModal()">×</button></div>
+    <p class="hint">下面是你的學習單筆記。可直接貼進 Notion / Obsidian。標題與勾選都已轉成 Markdown 格式。</p>
+    <textarea id="mdout" readonly></textarea>
+    <div class="mf"><button class="cl" onclick="closeModal()">關閉</button><button class="cp" onclick="copyMD()">複製全部</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="nordic-time-worksheet-v1";
+  var fields=Array.prototype.slice.call(document.querySelectorAll("[data-k]"));
+  var hasStore = (typeof window.storage!=="undefined" && window.storage && typeof window.storage.get==="function");
+
+  function val(el){return el.type==="checkbox"?el.checked:el.value;}
+  function setVal(el,v){if(el.type==="checkbox"){el.checked=!!v;}else{el.value=v||"";}}
+
+  function collect(){var o={};fields.forEach(function(el){o[el.dataset.k]=val(el);});return o;}
+  function apply(o){if(!o)return;fields.forEach(function(el){if(o.hasOwnProperty(el.dataset.k))setVal(el,o[el.dataset.k]);});}
+
+  // ---- persistence (graceful) ----
+  var saveTimer=null;
+  function save(){
+    var data=JSON.stringify(collect());
+    if(hasStore){
+      try{window.storage.set(KEY,data,false);}catch(e){}
+    }
+  }
+  function debouncedSave(){clearTimeout(saveTimer);saveTimer=setTimeout(save,400);}
+
+  function load(){
+    if(hasStore){
+      try{
+        window.storage.get(KEY,false).then(function(r){ if(r&&r.value){try{apply(JSON.parse(r.value));}catch(e){}} }).catch(function(){});
+      }catch(e){}
+    }
+  }
+
+  fields.forEach(function(el){
+    el.addEventListener("input",debouncedSave);
+    el.addEventListener("change",debouncedSave);
+  });
+  load();
+
+  // ---- toast ----
+  var toastEl=document.getElementById("toast");var tT;
+  window.toast=function(msg){toastEl.textContent=msg;toastEl.classList.add("show");clearTimeout(tT);tT=setTimeout(function(){toastEl.classList.remove("show");},2200);};
+
+  // ---- clear ----
+  window.clearAll=function(){
+    if(!confirm("確定要清空所有填寫的內容嗎？此動作無法復原。"))return;
+    fields.forEach(function(el){setVal(el,el.type==="checkbox"?false:"");});
+    save();toast("已清空");
+  };
+
+  // ---- export markdown ----
+  function v(k){var el=document.querySelector('[data-k="'+k+'"]');return el?(el.type==="checkbox"?el.checked:el.value.trim()):"";}
+  function chk(k){return v(k)?"[x]":"[ ]";}
+  function line(label,text){return text? ("- **"+label+"：** "+text+"\n"):"";}
+
+  function buildMD(){
+    var L=[];
+    L.push("# 《北歐時間》實踐學習單\n");
+    L.push("> 幸福，不在更快，而在過得剛剛好。\n");
+    L.push("原著：《北歐時間：世界第一幸福國度教會我的事》／日暮 Inko．幸福文化\n");
+
+    var times=[
+      ["自我照顧的時間（暫停．充電）","q1","a1","本週微行動：30 分鐘不帶手機的戶外時間","a1c"],
+      ["活出本心的時間（我就是我）","q2","a2","本週微行動：做一件忠於自己、不討好他人的小事","a2c"],
+      ["單一任務的時間（專注．而行）｜888 規則","q3","a3","本週微行動：挑一個任務全程單工完成","a3c"],
+      ["創造探索的時間（多點．玩心）","q4","a4","本週微行動：為生活加一個小驚喜","a4c"],
+      ["享受 Hygge 的時光（療癒．陪伴）","q5","a5","本週微行動：創造一段 Hygge 暖心時光","a5c"]
+    ];
+    L.push("\n## I. 五種時間\n");
+    times.forEach(function(t,i){
+      L.push("\n### "+(i+1)+". "+t[0]);
+      if(v(t[1])) L.push("\n**我的覺察：** "+v(t[1]));
+      L.push("\n- "+chk(t[2])+" "+t[3]);
+      if(v(t[4])) L.push("- 自訂行動："+v(t[4]));
+      L.push("");
+    });
+
+    L.push("\n## II. 本週「三件重要事」\n");
+    var days=[["週一","d1"],["週二","d2"],["週三","d3"],["週四","d4"],["週五","d5"],["週六","d6"],["週日","d7"]];
+    days.forEach(function(d){
+      var items=[v(d[1]+"a"),v(d[1]+"b"),v(d[1]+"c")].filter(Boolean);
+      if(items.length || v(d[1]+"d")){
+        L.push("- "+chk(d[1]+"d")+" **"+d[0]+"**："+(items.length?items.join("／"):"—"));
+      }
+    });
+
+    L.push("\n## III. 我的北歐時間承諾\n");
+    L.push(line("最想先改變的時間用法",v("p1")));
+    L.push(line("想減少／委託出去的事",v("p2")));
+    L.push(line("要為自己保留的 Hygge 時光",v("p3")));
+    if(v("sign")||v("date")) L.push("\n_簽名："+(v("sign")||"____")+"　日期："+(v("date")||"____")+"_");
+
+    L.push("\n---\n> 「人最大的危機，就是在不知不覺中失去了自己。」— 齊克果\n> 只要改變時間的用法，人生也會開始改變。");
+    return L.filter(function(x){return x!==undefined && x!==null;}).join("\n").replace(/\n{3,}/g,"\n\n");
+  }
+
+  var modal=document.getElementById("modal");
+  var mdout=document.getElementById("mdout");
+  window.exportMD=function(){mdout.value=buildMD();modal.classList.add("show");mdout.scrollTop=0;};
+  window.closeModal=function(){modal.classList.remove("show");};
+  modal.addEventListener("click",function(e){if(e.target===modal)closeModal();});
+
+  window.copyMD=function(){
+    mdout.select();mdout.setSelectionRange(0,99999);
+    var ok=false;
+    try{ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(mdout.value).then(function(){toast("已複製，可貼進 Notion ✦");}).catch(function(){fallbackCopy();}); return;} }catch(e){}
+    fallbackCopy();
+    function fallbackCopy(){ try{ok=document.execCommand("copy");}catch(e){} toast(ok?"已複製，可貼進 Notion ✦":"請手動長按選取複製"); }
+  };
+
+  // ---- reveal on scroll ----
+  var revs=document.querySelectorAll(".reveal");
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.08});
+    revs.forEach(function(el,i){ el.style.transitionDelay=(Math.min(i,6)*0.04)+"s"; io.observe(el); });
+  } else { revs.forEach(function(el){el.classList.add("in");}); }
+  // hero reveals immediately
+  setTimeout(function(){document.querySelectorAll("header .reveal").forEach(function(el){el.classList.add("in");});},60);
+})();
+</script>
+</body>
+</html>
