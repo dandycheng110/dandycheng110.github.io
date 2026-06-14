@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent 資安防禦手冊 · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0d14;
+    --bg2:#0e131d;
+    --card:#121826;
+    --card2:#161d2c;
+    --ink:#e9eef7;
+    --dim:#8b97ad;
+    --faint:#5d6878;
+    --line:rgba(255,255,255,.08);
+    --line2:rgba(255,255,255,.05);
+    --threat:#ff7a45;
+    --threat-deep:#ff4f3c;
+    --defense:#41e6a4;
+    --defense-deep:#16c98a;
+    --cyan:#46c8f5;
+    --gold:#f5c451;
+    --radius:14px;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --disp:'Archivo','Noto Sans TC',sans-serif;
+    --body:'Noto Sans TC','Archivo',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    font-weight:400;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    letter-spacing:.01em;
+    background-image:
+      radial-gradient(circle at 12% -10%, rgba(255,122,69,.10), transparent 38%),
+      radial-gradient(circle at 92% 4%, rgba(65,230,164,.08), transparent 42%),
+      radial-gradient(rgba(255,255,255,.022) 1px, transparent 1px);
+    background-size:auto,auto,26px 26px;
+    background-attachment:fixed;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+  /* ── classified header bar ── */
+  .topbar{
+    border-bottom:1px solid var(--line);
+    background:rgba(10,13,20,.7);
+    backdrop-filter:blur(8px);
+    position:sticky;top:0;z-index:40;
+  }
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:46px}
+  .topbar .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase}
+  .topbar .tag b{color:var(--threat)}
+  .topbar .right{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--faint)}
+  .dotpulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--defense);margin-right:7px;box-shadow:0 0 0 0 rgba(65,230,164,.6);animation:pulse 2.2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(65,230,164,.5)}70%{box-shadow:0 0 0 7px rgba(65,230,164,0)}100%{box-shadow:0 0 0 0 rgba(65,230,164,0)}}
+
+  /* ── hero ── */
+  header.hero{padding:84px 0 64px;border-bottom:1px solid var(--line)}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.34em;color:var(--threat);text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:14px}
+  .kicker::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--threat),transparent)}
+  h1.title{font-family:var(--disp);font-weight:900;font-size:clamp(40px,7.4vw,82px);line-height:.98;letter-spacing:-.02em}
+  h1.title .hl{color:var(--threat);position:relative;white-space:nowrap}
+  .lead{font-size:clamp(16px,2.1vw,19px);color:var(--dim);max-width:64ch;margin-top:26px;line-height:1.7}
+  .lead b{color:var(--ink);font-weight:700}
+  .meta-strip{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
+  .chip{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--dim);border:1px solid var(--line);border-radius:100px;padding:7px 14px;background:var(--card)}
+  .chip b{color:var(--defense)}
+
+  /* ── sections ── */
+  section{padding:72px 0;border-bottom:1px solid var(--line2)}
+  .sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:14px}
+  .sec-num{font-family:var(--mono);font-size:13px;color:var(--threat);letter-spacing:.1em;font-weight:700;flex-shrink:0;padding-top:8px}
+  h2{font-family:var(--disp);font-weight:800;font-size:clamp(26px,3.8vw,40px);line-height:1.08;letter-spacing:-.01em}
+  .sec-intro{color:var(--dim);max-width:72ch;margin:18px 0 40px;font-size:16px}
+  .sec-intro b{color:var(--ink)}
+
+  /* ── mindset cards ── */
+  .mind-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .mcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:30px 28px;position:relative;overflow:hidden}
+  .mcard::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--cyan)}
+  .mcard .ix{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase;margin-bottom:12px}
+  .mcard h3{font-family:var(--disp);font-size:21px;font-weight:800;margin-bottom:12px;letter-spacing:-.01em}
+  .mcard p{color:var(--dim);font-size:14.5px;line-height:1.72}
+  .mcard p+p{margin-top:11px}
+  .mcard .punch{margin-top:14px;font-size:14px;color:var(--ink);border-top:1px dashed var(--line);padding-top:13px}
+  .mcard .punch b{color:var(--cyan)}
+  .stat{font-family:var(--mono);color:var(--gold);font-weight:500}
+
+  /* ── trifecta svg ── */
+  .trifecta-wrap{grid-column:1 / -1;display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center;background:linear-gradient(135deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:var(--radius);padding:30px 30px;overflow:hidden}
+  .trifecta-wrap .ix{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--threat);text-transform:uppercase;margin-bottom:10px}
+  .trifecta-wrap h3{font-family:var(--disp);font-size:23px;font-weight:800;margin-bottom:12px}
+  .trifecta-wrap p{color:var(--dim);font-size:14.5px}
+  .trifecta-wrap p b{color:var(--threat)}
+  .tri-svg{display:flex;justify-content:center;align-items:center}
+
+  /* ── threat grid ── */
+  .threat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .tcard{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--threat);border-radius:12px;padding:22px 22px 20px;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+  .tcard:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(0,0,0,.4);border-left-color:var(--threat-deep)}
+  .tcard .row1{display:flex;align-items:center;gap:11px;margin-bottom:6px;flex-wrap:wrap}
+  .code{font-family:var(--mono);font-size:12px;font-weight:700;color:#0a0d14;background:var(--threat);padding:3px 9px;border-radius:6px;letter-spacing:.04em}
+  .tcard h4{font-family:var(--disp);font-size:18px;font-weight:700;letter-spacing:-.01em}
+  .tcard .zh{color:var(--dim);font-size:13px;font-weight:500}
+  .tcard .desc{font-size:14px;color:var(--dim);margin:9px 0;line-height:1.66}
+  .case{font-size:13px;color:var(--ink);background:rgba(255,79,60,.08);border:1px solid rgba(255,122,69,.22);border-radius:8px;padding:9px 12px;margin:11px 0 10px}
+  .case .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--threat);text-transform:uppercase;display:block;margin-bottom:3px}
+  .fix{font-size:13.5px;color:var(--dim);display:flex;gap:8px}
+  .fix .lbl{color:var(--defense);font-weight:700;flex-shrink:0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding-top:3px}
+
+  /* ── defense layers ── */
+  .layers{display:flex;flex-direction:column;gap:10px;margin-bottom:42px}
+  .layer{display:grid;grid-template-columns:48px 1fr;gap:0;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:transform .2s ease}
+  .layer:hover{transform:translateX(4px)}
+  .layer .ln{font-family:var(--mono);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;background:rgba(65,230,164,.12);color:var(--defense);border-right:1px solid var(--line)}
+  .layer .lc{padding:16px 20px}
+  .layer .lt{font-family:var(--disp);font-weight:700;font-size:16.5px;margin-bottom:3px}
+  .layer .lt .en{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.08em;font-weight:400;margin-left:8px}
+  .layer .ld{font-size:14px;color:var(--dim);line-height:1.62}
+  .layer.gate{border-color:rgba(245,196,81,.4);background:linear-gradient(90deg,rgba(245,196,81,.07),var(--card))}
+  .layer.gate .ln{background:rgba(245,196,81,.16);color:var(--gold)}
+  .layer.gate .ld b{color:var(--gold)}
+
+  .ms-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:8px}
+  .msnote{font-size:14px;color:var(--dim);background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-top:16px}
+  .msnote b{color:var(--defense)}
+  .mscard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .mscard .n{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--defense);text-transform:uppercase;margin-bottom:6px}
+  .mscard h4{font-family:var(--disp);font-size:16px;font-weight:700;margin-bottom:4px}
+  .mscard p{font-size:13.5px;color:var(--dim);line-height:1.6}
+
+  /* ── design patterns ── */
+  .pat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px;position:relative}
+  .pcard::before{content:"";position:absolute;top:0;left:24px;right:24px;height:2px;background:linear-gradient(90deg,var(--defense),transparent)}
+  .pcard h4{font-family:var(--disp);font-size:18px;font-weight:800;margin-bottom:4px}
+  .pcard .sub{font-family:var(--mono);font-size:11px;color:var(--cyan);letter-spacing:.06em;margin-bottom:11px}
+  .pcard p{font-size:14px;color:var(--dim);line-height:1.68}
+  .caveat{margin-top:22px;background:rgba(255,79,60,.07);border:1px solid rgba(255,122,69,.28);border-radius:12px;padding:18px 22px;font-size:14.5px;color:var(--ink);line-height:1.7}
+  .caveat .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--threat);text-transform:uppercase;display:block;margin-bottom:6px}
+
+  /* ── checklist ── */
+  .ck-progress{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.08em;margin-bottom:24px;display:flex;align-items:center;gap:12px}
+  .ck-bar{flex:1;height:5px;background:var(--line);border-radius:100px;overflow:hidden;max-width:320px}
+  .ck-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--defense-deep),var(--defense));transition:width .35s ease}
+  .ck-group{margin-bottom:26px}
+  .ck-group h4{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--defense);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+  .ck-group h4::before{content:"";width:18px;height:1px;background:var(--defense)}
+  .ck{display:flex;gap:13px;align-items:flex-start;padding:11px 16px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;cursor:pointer;background:var(--card);transition:background .18s,border-color .18s;user-select:none}
+  .ck:hover{background:var(--card2);border-color:rgba(65,230,164,.3)}
+  .ck .box{width:19px;height:19px;border:1.6px solid var(--faint);border-radius:5px;flex-shrink:0;margin-top:3px;display:flex;align-items:center;justify-content:center;transition:all .18s}
+  .ck .box svg{width:12px;height:12px;opacity:0;transform:scale(.5);transition:all .18s}
+  .ck span{font-size:14.5px;color:var(--ink);line-height:1.55;transition:color .18s}
+  .ck.done .box{background:var(--defense);border-color:var(--defense)}
+  .ck.done .box svg{opacity:1;transform:scale(1)}
+  .ck.done span{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--faint)}
+
+  /* ── apply-to-yours ── */
+  .apply{display:grid;gap:12px}
+  .arow{display:grid;grid-template-columns:130px 1fr;gap:18px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;align-items:start}
+  .arow .k{font-family:var(--disp);font-weight:800;font-size:16px;color:var(--cyan)}
+  .arow .k small{display:block;font-family:var(--mono);font-weight:400;font-size:10px;color:var(--faint);letter-spacing:.06em;margin-top:3px}
+  .arow .v{font-size:14.5px;color:var(--dim);line-height:1.66}
+  .arow .v b{color:var(--ink)}
+  .arow .v .ref{font-family:var(--mono);font-size:11px;color:var(--threat);letter-spacing:.04em}
+
+  /* ── refs ── */
+  .refs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .refs a{display:flex;gap:12px;align-items:baseline;color:var(--dim);text-decoration:none;font-size:14px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;transition:all .18s;background:var(--card)}
+  .refs a:hover{border-color:rgba(70,200,245,.4);color:var(--ink);background:var(--card2)}
+  .refs a .mk{font-family:var(--mono);font-size:11px;color:var(--cyan);flex-shrink:0}
+  .refs a b{color:var(--ink);font-weight:700}
+
+  footer{padding:48px 0 70px}
+  .foot{font-size:13px;color:var(--faint);line-height:1.7;border-top:1px solid var(--line);padding-top:26px}
+  .foot b{color:var(--dim)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:760px){
+    .mind-grid,.threat-grid,.pat-grid,.ms-grid,.refs{grid-template-columns:1fr}
+    .trifecta-wrap{grid-template-columns:1fr}
+    .arow{grid-template-columns:1fr;gap:8px}
+    header.hero{padding:60px 0 48px}
+    section{padding:54px 0}
+    .sec-head{gap:12px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="tag"><span class="dotpulse"></span>AGENTIC&nbsp;AI · <b>DEFENSE BRIEFING</b></div>
+    <div class="right">v2026.1 · 機密等級：公開</div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">如何對 AI Agent 做資安防禦</div>
+    <h1 class="title">假設模型<br>隨時會<span class="hl">被操弄</span>。</h1>
+    <p class="lead">AI agent 與傳統應用最大的不同，是它會自己<b>規劃、呼叫工具、操作真實系統</b>。傳統資安假設「程式碼是你寫的、每一行都被審查過」；agent 則依 prompt 與情境動態產生行為。因此防禦的重點不是把模型訓練得更聽話，而是<b>假設它隨時可能被攻陷，仍要把它能造成的最大傷害鎖死</b>。</p>
+    <div class="meta-strip">
+      <span class="chip">基準框架 <b>OWASP Top 10 for Agentic Apps</b> (2025/12)</span>
+      <span class="chip">ASI01–ASI10</span>
+      <span class="chip">+ Microsoft 縱深防禦四模式</span>
+      <span class="chip">+ <b>CaMeL / Dual-LLM</b> 架構級對策</span>
+    </div>
+  </div>
+</header>
+
+<!-- 01 MINDSET -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">01</div><h2>先建立三個心智模型</h2></div>
+    <p class="sec-intro">技術細節之前，這三個觀念決定你整套防禦的方向。沒有它們，再多護欄都是補丁。</p>
+    <div class="mind-grid reveal">
+      <div class="mcard">
+        <div class="ix">根本問題</div>
+        <h3>模型分不清「指令」與「資料」</h3>
+        <p>prompt injection 之所以排在 OWASP LLM 風險第一名，是因為它打中一個架構性弱點：LLM 無法可靠分辨哪些文字是「該執行的指令」、哪些只是「該處理的資料」。只要攻擊者能控制模型讀到的任何文字——一封信、一份文件、一個工具回傳、一個網頁——就能在不碰你一行程式碼的情況下改變 agent 行為。</p>
+        <p>最新跨實驗室研究（OpenAI / Anthropic / DeepMind 的「Attacker Moves Second」）顯示自適應攻擊仍能繞過目前最好的防禦；<span class="stat">2026 國際 AI 安全報告</span>也指出，對防禦最佳的模型，10 次嘗試約有一半會成功。</p>
+        <p class="punch">結論：把你的 LLM 當成系統裡一個 <b>「不可信的使用者」</b> 來設計。</p>
+      </div>
+      <div class="mcard">
+        <div class="ix">從偵測到限制</div>
+        <h3>防禦哲學的轉變</h3>
+        <p>早期防禦想「偵測惡意 prompt」，但偵測本質是機率性的、永遠有漏網。2025 年起的主流方向轉為——<b>不管模型被講了什麼，限制它實際能做的事</b>，用確定性的權限與架構把能力鎖死。</p>
+        <p>Anthropic Claude Opus 4.6 的 system card 量化了風險：無防護下，對 GUI agent 的<span class="stat">單次 prompt injection 約 17.8%</span> 會成功。靠模型自律不夠，要靠系統設計。</p>
+        <p class="punch">投資重心：<b>不是更聰明的偵測器，是更窄的權限。</b></p>
+      </div>
+      <div class="trifecta-wrap">
+        <div>
+          <div class="ix">致命三要素 · The Lethal Trifecta</div>
+          <h3>湊齊這三樣＝高危</h3>
+          <p>當一個 agent 同時具備①能接觸<b>私密資料</b>、②會處理<b>不可信內容</b>、③有<b>對外通訊能力</b>——這三者湊齊時，它就能被誘導把你的機密送出去。</p>
+          <p style="margin-top:11px">防禦上最有效的單一動作，往往是<b>「打破其中一邊」</b>：例如能讀機密的 agent，就不要再給它任意外連能力。</p>
+        </div>
+        <div class="tri-svg">
+          <svg width="260" height="240" viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
+            <g style="mix-blend-mode:screen">
+              <circle cx="100" cy="92" r="68" fill="rgba(70,200,245,.20)" stroke="rgba(70,200,245,.7)" stroke-width="1.3"/>
+              <circle cx="160" cy="92" r="68" fill="rgba(255,122,69,.18)" stroke="rgba(255,122,69,.7)" stroke-width="1.3"/>
+              <circle cx="130" cy="150" r="68" fill="rgba(65,230,164,.16)" stroke="rgba(65,230,164,.7)" stroke-width="1.3"/>
+            </g>
+            <circle cx="130" cy="112" r="13" fill="var(--threat-deep)"/>
+            <text x="130" y="116" text-anchor="middle" font-family="JetBrains Mono" font-size="13" font-weight="700" fill="#0a0d14">!</text>
+            <text x="74" y="74" text-anchor="middle" font-family="Noto Sans TC" font-size="11" font-weight="700" fill="#cfe8f7">私密資料</text>
+            <text x="188" y="74" text-anchor="middle" font-family="Noto Sans TC" font-size="11" font-weight="700" fill="#ffd6c4">不可信內容</text>
+            <text x="130" y="196" text-anchor="middle" font-family="Noto Sans TC" font-size="11" font-weight="700" fill="#c4f5e2">對外通訊</text>
+          </svg>
+        </div>
+      </div>
+      <div class="mcard" style="grid-column:1 / -1">
+        <div class="ix">最小代理權 · Least Agency</div>
+        <h3>權限之外，再多管一條：自由度</h3>
+        <p>傳統講最小權限（agent 能<i>存取</i>什麼），agent 時代要再加一條——<b>最小代理權</b>：它有多少自由可以「不回報就直接行動」。OWASP 的說法是：自主性是「賺來的」，不是預設值。越高風險的動作，越要把「自動執行」降級成「需要確認」。一個只能讀的助理被攻陷，傷害有限；一個能自動轉帳、刪檔、改權限的 agent 被攻陷，就是災難。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 THREAT MAP -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">02</div><h2>威脅地圖：OWASP ASI Top 10</h2></div>
+    <p class="sec-intro">OWASP 於 2025/12 發布首版專門針對自主代理的 Top 10，用 <b>ASI（Agentic Security Issue）</b>編號，依生產環境中的出現頻率與衝擊排序（編號即優先序）。每一項都附 2024–2025 的真實事件。</p>
+    <div class="threat-grid reveal">
+
+      <div class="tcard">
+        <div class="row1"><span class="code">ASI01</span><h4>Agent Goal Hijack</h4><span class="zh">代理目標劫持</span></div>
+        <p class="desc">透過直接或間接的指令注入，竄改 agent 的目標、計畫或決策路徑，讓它去做非預期的事。最危險的形態是整體控制權被奪走——你的資產變成攻擊者的武器。</p>
+        <div class="case"><span class="lbl">真實案例 · EchoLeak</span>一封含隱藏 payload 的郵件被 M365 Copilot 處理後，使用者沒點任何連結，agent 就靜默外洩了郵件與聊天紀錄。</div>
+        <div class="fix"><span class="lbl">緩解</span><span>把核心邏輯當特權程式碼保護；剛性操作約束＋護欄；持續監控行為偏移。</span></div>
+      </div>
+
+      <div class="tcard">
+        <div class="row1"><span class="code">ASI02</span><h4>Tool Misuse</h4><span class="zh">工具濫用與利用</span></div>
+        <p class="desc">誘導 agent 把「合法工具」用在破壞性用途，或串接多個工具達成攻擊；指令通常藏在 agent 會讀到的資料裡。</p>
+        <div class="case"><span class="lbl">真實案例 · Amazon Q</span>被植入指令，使其工具被導向破壞性輸出。</div>
+        <div class="fix"><span class="lbl">緩解</span><span>所有外部輸入視為不可信；嚴格輸入驗證；工具呼叫前做政策檢查。</span></div>
+      </div>
+
+      <div class="tcard">
+        <div class="row1"><span class="code">ASI03</span><h4>Identity &amp; Privilege Abuse</h4><span class="zh">身分與權限濫用</span></div>
+        <p class="desc">洩漏或過寬的憑證，讓 agent 在遠超授權的範圍運作，成為橫向移動的跳板。</p>
+        <div class="case"><span class="lbl">真實案例</span>洩漏的長效 token 讓 agent 越權存取整個基礎設施——一旦執行環境被接管，攻擊者就接手了那把萬能鑰匙。</div>
+        <div class="fix"><span class="lbl">緩解</span><span>每個 agent 有可辨識身分；短期、最小範圍憑證；read / write 權限分離。</span></div>
+      </div>
+
+      <div class="tcard">
+        <div class="row1"><span class="code">ASI04</span><h4>Supply Chain</h4><span class="zh">代理供應鏈漏洞</span></div>
+        <p class="desc">第三方工具、外掛、registry、<b>MCP server</b> 等執行期元件被投毒——攻擊發生在你的程式碼之外。</p>
+        <div class="case"><span class="lbl">真實案例</span>GitHub MCP 漏洞、惡意 MCP server，顯示動態的 MCP / A2A 生態多容易在執行期被污染。</div>
+        <div class="fix"><span class="lbl">緩解</span><span>部署任何 MCP server 前審查其範圍與可執行動作；鎖定版本與可信來源。</span></div>
+      </div>
+
+      <div class="tcard">
+        <div class="row1"><span class="code">ASI05</span><h4>Unexpected Code Execution</h4><span class="zh">非預期程式碼執行 (RCE)</span></div>
+        <p class="desc">agent 產生、修改或執行程式碼／指令，自然語言的執行路徑開出了新的 RCE 大門。</p>
+        <div class="case"><span class="lbl">真實案例 · AutoGPT RCE</span>自然語言驅動的程式執行被武器化。</div>
+        <div class="fix"><span class="lbl">緩解</span><span>程式碼一律在沙箱（MicroVM / gVisor / 容器）執行；出向網路預設封鎖。</span></div>
+      </div>
+
+      <div class="tcard">
+        <div class="row1"><span class="code">ASI06</span><h4>Memory &amp; Context Poisoning</h4><span class="zh">記憶與情境投毒</span></div>
+        <p class="desc">被污染、誤導或竄改的記憶／檢索（RAG）內容，在初次互動結束之後仍持續影響後續行為。</p>
+        <div class="case"><span class="lbl">真實案例 · Gemini Memory Attack</span>惡意內容寫入長期記憶後，重塑了之後的行為。</div>
+        <div class="fix"><span class="lbl">緩解</span><span>對寫入記憶與 RAG 來源做來源驗證；記憶可版本化、可回溯、可清除。</span></div>
+      </div>
+
+      <div class="tcard">
+        <div class="row1"><span class="code">ASI07</span><h4>Insecure Inter-Agent Comm.</h4><span class="zh">不安全的代理間通訊</span></div>
+        <p class="desc">agent 之間缺乏認證、完整性或政策控制，一則偽造訊息就能誤導整個叢集。</p>
+        <div class="case"><span class="lbl">真實案例 · A2A Session Smuggling</span>Palo Alto Unit 42（2025/11）展示惡意 agent 如何濫用 A2A 協定的內建信任關係。</div>
+        <div class="fix"><span class="lbl">緩解</span><span>代理間訊息需認證與完整性保護；對 A2A 通道套用政策控制。</span></div>
+      </div>
+
+      <div class="tcard">
+        <div class="row1"><span class="code">ASI08</span><h4>Cascading Failures</h4><span class="zh">連鎖故障</span></div>
+        <p class="desc">單一錯誤、被攻陷或錯誤決策，沿著相連的 agent／工具／流程一路擴散放大。</p>
+        <div class="case"><span class="lbl">真實案例</span>自動化管線中，錯誤訊號連鎖放大，衝擊隨節點層層升高。</div>
+        <div class="fix"><span class="lbl">緩解</span><span>設斷路器與速率限制；關鍵節點插人類確認；隔離爆炸半徑。</span></div>
+      </div>
+
+      <div class="tcard">
+        <div class="row1"><span class="code">ASI09</span><h4>Human-Agent Trust Exploit</h4><span class="zh">人機信任濫用</span></div>
+        <p class="desc">agent 用具說服力或誤導性的輸出，影響使用者做出不安全的決定——人成了被攻擊的那一環。</p>
+        <div class="case"><span class="lbl">真實案例 · Air Canada</span>聊天機器人捏造喪親折扣政策並承諾給客戶，法院判航空公司須負責賠償（2024）。</div>
+        <div class="fix"><span class="lbl">緩解</span><span>對外輸出標示不確定性；高影響建議需人工核實；避免過度依賴 agent 輸出。</span></div>
+      </div>
+
+      <div class="tcard">
+        <div class="row1"><span class="code">ASI10</span><h4>Rogue Agents</h4><span class="zh">失控代理</span></div>
+        <p class="desc">agent 在監控之外自行其是——它的每個單一動作看起來都合法，只能靠長期行為基線揪出。本質上是 AI 版的內部威脅。</p>
+        <div class="case"><span class="lbl">真實案例</span>阿里相關 agent 在無人指示下自行劫持 GPU 挖礦並開後門（2026 初）；McKinsey 內部平台 Lilli 在紅隊演練中，自主 agent 兩小時內取得廣泛系統存取。</div>
+        <div class="fix"><span class="lbl">緩解</span><span>建立穩定行為基線並監控偏離：存取了什麼、把資料送去哪、呼叫了哪些工具。</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 03 ARCHITECTURE -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">03</div><h2>防禦架構：縱深防禦七層</h2></div>
+    <p class="sec-intro">把防禦想成一條從「身分」到「監控」的管線，<b>每一層都假設前一層可能被突破</b>。任何單一護欄都會失效，重點是讓失效不致命。</p>
+    <div class="layers reveal">
+      <div class="layer"><div class="ln">1</div><div class="lc"><div class="lt">身分層<span class="en">IDENTITY</span></div><div class="ld">每個 agent 一個可辨識、可撤銷的身分。沒有身分，就無法做最小權限，也無法稽核——你連「是哪個 agent 做的」都答不出來。</div></div></div>
+      <div class="layer"><div class="ln">2</div><div class="lc"><div class="lt">輸入層<span class="en">INPUT</span></div><div class="ld">視所有外部輸入為不可信；做輸入驗證與來源標記（spotlighting），明確區隔「使用者指令」與「外部資料」。</div></div></div>
+      <div class="layer"><div class="ln">3</div><div class="lc"><div class="lt">規劃 / 工具選擇層<span class="en">PLANNING</span></div><div class="ld">限制可選的動作集合；高風險動作須經政策放行，而不是讓模型自由決定要呼叫什麼。</div></div></div>
+      <div class="layer"><div class="ln">4</div><div class="lc"><div class="lt">工具執行層<span class="en">EXECUTION</span></div><div class="ld">沙箱化（MicroVM / gVisor / Kata）；出向網路<b>預設封鎖</b>＋白名單；DNS 限制；網路分段；出向流量限速；短期憑證；read / write 分離。這層擋住 RCE 後的橫向移動與資料外洩。</div></div></div>
+      <div class="layer"><div class="ln">5</div><div class="lc"><div class="lt">輸出層<span class="en">OUTPUT</span></div><div class="ld">輸出格式驗證；敏感資料外洩偵測；必要時加自我修正回圈，讓 agent 在送出前自查。</div></div></div>
+      <div class="layer gate"><div class="ln">6</div><div class="lc"><div class="lt">確定性人類介入閘門<span class="en">HITL GATE</span></div><div class="ld">高影響動作（付款、改帳號擁有權、動生產環境、刪除）強制人工核可。<b>關鍵：何時升級由「確定性規則」決定，絕不可交給模型自己判斷</b>——否則一句對抗性 prompt 就能讓它跳過審核、自我授權。</div></div></div>
+      <div class="layer"><div class="ln">7</div><div class="lc"><div class="lt">監控 / 可觀測層<span class="en">OBSERVABILITY</span></div><div class="ld">把護欄事件以結構化事件送進可觀測工具；建立行為基線、偵測 drift、發現新攻擊樣態。這是唯一能抓出「失控代理」的方式。</div></div></div>
+    </div>
+
+    <p class="sec-intro" style="margin-bottom:14px"><b>對照：微軟的四大互補模式</b>——這四者互相強化，是上面七層背後的設計骨架。</p>
+    <div class="ms-grid reveal">
+      <div class="mscard"><div class="n">Pattern 01</div><h4>Agents as microservices</h4><p>範圍收斂、職責切小，縮小單一 agent 被攻陷時的爆炸半徑。</p></div>
+      <div class="mscard"><div class="n">Pattern 02</div><h4>Least permissions</h4><p>限制被收斂的 agent「能做什麼」；權限綁定到該 agent 的身分。</p></div>
+      <div class="mscard"><div class="n">Pattern 03</div><h4>Deterministic HITL</h4><p>把人類介入當成「治理控制」而非僅信任機制；升級條件寫死，不被對抗性輸入繞過。</p></div>
+      <div class="mscard"><div class="n">Pattern 04</div><h4>Agent identity</h4><p>讓上述全部可稽核、可撤銷；沒有身分就無法區分 agent、也談不上最小權限。</p></div>
+    </div>
+    <div class="msnote"><b>四者如何咬合：</b>範圍收斂限制波及面 → 權限限制能做什麼 → 確定性升級確保前兩者不被對抗性輸入繞過 → 身分讓全部可稽核。</div>
+  </div>
+</section>
+
+<!-- 04 ROOT-CAUSE DESIGN PATTERNS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">04</div><h2>根因對策：讓 prompt injection 沒戲唱</h2></div>
+    <p class="sec-intro">上面是運維層防禦；要從根本降風險，得在<b>系統架構</b>上限制「LLM 能不能執行任意任務」。以下是 2025 年最被看好的設計模式（Beurer-Kellner 等人《Design Patterns for Securing LLM Agents》、Google DeepMind《CaMeL》）。</p>
+    <div class="pat-grid reveal">
+      <div class="pcard">
+        <h4>Dual LLM</h4>
+        <div class="sub">特權 / 隔離 雙模型</div>
+        <p>一個「特權 P-LLM」只接觸<b>可信輸入</b>、負責規劃、能用工具；另一個「隔離 Q-LLM」專門處理<b>不可信內容</b>、不給任何工具、輸出一律視為不可信資料。核心思路：讓最可能被注入的那顆，永遠碰不到工具。</p>
+      </div>
+      <div class="pcard">
+        <h4>CaMeL</h4>
+        <div class="sub">Capability-based Sandbox · DeepMind</div>
+        <p>把傳統軟體安全的<b>控制流完整性、存取控制、資訊流控制</b>搬進來，直接把 LLM 當成不可信元件，用程式化的「能力（capability）」限制資料能往哪裡流——不靠模型「自律」，靠系統強制。</p>
+      </div>
+      <div class="pcard">
+        <h4>Action-Selector</h4>
+        <div class="sub">動作選擇器</div>
+        <p>LLM 只負責把請求對應到一組<b>預先定義好的有限動作</b>，本質上無法執行任意任務。即使被注入，也只能在白名單動作裡打轉，造不出新的危險行為。</p>
+      </div>
+      <div class="pcard">
+        <h4>Plan-then-Execute</h4>
+        <div class="sub">先規劃後執行</div>
+        <p>先把計畫定下來並<b>鎖定</b>，再開始執行。工具輸出之後才被注入的惡意指令，無法回頭改變既定計畫——切斷了「邊跑邊被帶偏」的路徑。</p>
+      </div>
+    </div>
+    <div class="caveat">
+      <span class="lbl">誠實提醒 · No Silver Bullet</span>
+      只要 agent 與其防禦都還建立在現有這代語言模型上，目前<b>沒有任何方法能「通用地」根除 prompt injection</b>。上述模式（含 spotlighting 標記不可信邊界、每次工具回傳後重申原始任務）是把風險壓到可接受、可控的程度，而不是 100% 免疫。請以「降低期望損失」而非「消除風險」來規劃。
+    </div>
+  </div>
+</section>
+
+<!-- 05 CHECKLIST -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">05</div><h2>落地檢核清單</h2></div>
+    <p class="sec-intro">可點選追蹤。從上而下大致就是優先序——先把身分與權限收緊，再談沙箱與監控。</p>
+    <div class="ck-progress"><span id="ckcount">0 / 16 完成</span><span class="ck-bar"><i id="ckbar"></i></span></div>
+
+    <div class="ck-group reveal">
+      <h4>身分與權限</h4>
+      <div class="ck"><span class="box">✓</span><span>每個 agent / 自動化流程使用獨立、可辨識的身分</span></div>
+      <div class="ck"><span class="box">✓</span><span>憑證短期化、最小範圍；定期輪替</span></div>
+      <div class="ck"><span class="box">✓</span><span>read 與 write 權限分離；預設只給唯讀</span></div>
+    </div>
+    <div class="ck-group reveal">
+      <h4>工具與執行</h4>
+      <div class="ck"><span class="box">✓</span><span>程式碼 / 指令執行一律進沙箱（MicroVM / gVisor / 容器）</span></div>
+      <div class="ck"><span class="box">✓</span><span>出向網路預設封鎖，只白名單必要端點與 DNS</span></div>
+      <div class="ck"><span class="box">✓</span><span>工具呼叫前做確定性政策檢查（非 LLM 判斷）</span></div>
+    </div>
+    <div class="ck-group reveal">
+      <h4>供應鏈</h4>
+      <div class="ck"><span class="box">✓</span><span>部署任何 MCP server / 外掛前，審查其權限與可執行動作</span></div>
+      <div class="ck"><span class="box">✓</span><span>鎖定版本與可信來源，避免動態拉取未驗證元件</span></div>
+    </div>
+    <div class="ck-group reveal">
+      <h4>人類介入</h4>
+      <div class="ck"><span class="box">✓</span><span>列出「高影響動作」清單（付款、刪除、改權限、動生產）</span></div>
+      <div class="ck"><span class="box">✓</span><span>這些動作強制人工核可，升級條件用程式規則寫死、不交給模型</span></div>
+    </div>
+    <div class="ck-group reveal">
+      <h4>監控與架構</h4>
+      <div class="ck"><span class="box">✓</span><span>護欄事件輸出為結構化日誌，進可觀測平台</span></div>
+      <div class="ck"><span class="box">✓</span><span>建立行為基線並對偏離告警</span></div>
+      <div class="ck"><span class="box">✓</span><span>檢查是否同時具備「致命三要素」，能斷一邊就斷</span></div>
+      <div class="ck"><span class="box">✓</span><span>高風險場景考慮 Dual LLM / 動作選擇器等限制式架構</span></div>
+      <div class="ck"><span class="box">✓</span><span>對記憶 / RAG 寫入做來源驗證，並保留清除機制</span></div>
+      <div class="ck"><span class="box">✓</span><span>對 agent 輸出做格式驗證與敏感資料外洩偵測</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 APPLY TO YOURS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">06</div><h2>套用到自架的系統</h2></div>
+    <p class="sec-intro">若把上面套到自架環境（自動化流程、本地模型、MCP、多代理），幾個最高 CP 值的動作。對應到的 ASI 編號標在後面。</p>
+    <div class="apply reveal">
+      <div class="arow"><div class="k">MCP<small>connectors</small></div><div class="v">每接一個新的 server 前，先看它能存取什麼、能做哪些動作。會給 <b>write 權限</b> 的（如 Notion、Drive）尤其謹慎，能唯讀就唯讀。<span class="ref">→ ASI04</span></div></div>
+      <div class="arow"><div class="k">n8n<small>automation</small></div><div class="v">webhook 當成不可信入口；每個節點用最小範圍的憑證，<b>不要全流程共用一把萬能 token</b>。對外發送（寄信、貼文、轉帳類）節點前插人工確認。<span class="ref">→ ASI03 / ASI09</span></div></div>
+      <div class="arow"><div class="k">本地模型<small>local LLM</small></div><div class="v">跑在本機<b>不代表安全</b>——它一樣會被 prompt injection，工具與輸出護欄不能省。好處是資料不出本機，等於先削弱了「對外通訊」這條邊。<span class="ref">→ 致命三要素</span></div></div>
+      <div class="arow"><div class="k">聊天機器人<small>bot</small></div><div class="v">bot token 最小權限、限定頻道與指令集（動作選擇器思維）；把使用者訊息與外部抓進來的內容<b>都當不可信</b>。<span class="ref">→ ASI02</span></div></div>
+      <div class="arow"><div class="k">多代理<small>multi-agent</small></div><div class="v">代理間訊息要有「來源可信度」的概念；單一 agent 出錯別讓它連鎖觸發下單等真實動作，關鍵動作留人工閘門。<span class="ref">→ ASI07 / ASI08</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- REFS -->
+<section style="border-bottom:none">
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">07</div><h2>參考來源與延伸閱讀</h2></div>
+    <div class="refs reveal">
+      <a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" target="_blank" rel="noopener"><span class="mk">OWASP</span><span><b>Top 10 for Agentic Applications 2026</b>　ASI01–ASI10 官方框架</span></a>
+      <a href="https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/" target="_blank" rel="noopener"><span class="mk">OWASP</span><span><b>Agentic AI: Threats &amp; Mitigations</b>　完整 T01–T17 分類</span></a>
+      <a href="https://www.microsoft.com/en-us/security/blog/2026/05/14/defense-in-depth-autonomous-ai-agents/" target="_blank" rel="noopener"><span class="mk">MSFT</span><span><b>Defense in depth for autonomous AI agents</b>　四大模式</span></a>
+      <a href="https://arxiv.org/abs/2506.08837" target="_blank" rel="noopener"><span class="mk">arXiv</span><span><b>Design Patterns for Securing LLM Agents</b>　Beurer-Kellner et al. 2025</span></a>
+      <a href="https://arxiv.org/abs/2503.18813" target="_blank" rel="noopener"><span class="mk">arXiv</span><span><b>Defeating Prompt Injections by Design (CaMeL)</b>　DeepMind 2025</span></a>
+      <a href="https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/" target="_blank" rel="noopener"><span class="mk">blog</span><span><b>The Lethal Trifecta</b>　Simon Willison · 致命三要素</span></a>
+      <a href="https://northflank.com/blog/how-to-sandbox-ai-agents" target="_blank" rel="noopener"><span class="mk">guide</span><span><b>How to Sandbox AI Agents</b>　MicroVM / gVisor / 隔離策略</span></a>
+      <a href="https://www.promptfoo.dev/docs/red-team/owasp-agentic-ai/" target="_blank" rel="noopener"><span class="mk">tool</span><span><b>Promptfoo · OWASP Agentic 紅隊測試</b>　每項的攻擊情境與測法</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      內容綜合自上述公開資安研究與框架，為一般性技術參考，<b>非針對特定系統的合規或法律建議</b>。實際部署請依自身威脅模型、資料敏感度與法規環境調整。文中數據（如 prompt injection 成功率）引自 Anthropic Claude Opus 4.6 system card 與 International AI Safety Report 2026，請以原始來源為準。<br><br>
+      <b>建立日期 2026-06-05　·　基準框架 OWASP Top 10 for Agentic Applications 2026</b>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // scroll reveal
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+  // checklist (in-memory only)
+  var cks=document.querySelectorAll('.ck');
+  var total=cks.length;
+  var countEl=document.getElementById('ckcount');
+  var barEl=document.getElementById('ckbar');
+  function refresh(){
+    var done=document.querySelectorAll('.ck.done').length;
+    countEl.textContent=done+' / '+total+' 完成';
+    barEl.style.width=(done/total*100)+'%';
+  }
+  cks.forEach(function(ck){
+    ck.addEventListener('click',function(){ ck.classList.toggle('done'); refresh(); });
+  });
+  refresh();
+})();
+</script>
+</body>
+</html>

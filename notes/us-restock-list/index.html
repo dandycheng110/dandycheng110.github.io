@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美國代購補貨清單｜從現有 19 罐挑值得在美國買的</title>
+<style>
+  :root{
+    --paper:#F6F7F4; --card:#FFFFFF;
+    --ink:#18211D; --ink-soft:#515A55; --ink-faint:#8B938D;
+    --line:#E3E7E1; --line-strong:#CDD3CC;
+    --go:#15715A; --go-bright:#2BA784; --go-tint:#E8F2ED;
+    --amber:#A66E13; --amber-tint:#FAF0DC;
+    --red:#A23A2F; --red-tint:#F7E9E6;
+    --grey-tint:#ECEEEB;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:"PingFang TC","Noto Sans TC","Microsoft JhengHei",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); line-height:1.6;
+    -webkit-font-smoothing:antialiased; padding:28px 18px 64px;
+  }
+  .wrap{max-width:860px; margin:0 auto}
+
+  /* ---------- masthead ---------- */
+  .kicker{
+    font-family:var(--mono); font-size:12px; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--go); font-weight:600;
+    display:flex; align-items:center; gap:10px;
+  }
+  .kicker::before{content:""; width:26px; height:2px; background:var(--go); display:inline-block}
+  h1{
+    font-size:clamp(28px,6vw,40px); line-height:1.12; font-weight:800;
+    letter-spacing:-.018em; margin:14px 0 0;
+  }
+  h1 .sub{display:block; font-size:clamp(15px,3.4vw,18px); font-weight:600; color:var(--ink-soft); letter-spacing:0; margin-top:8px}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px}
+  .meta span{
+    font-family:var(--mono); font-size:11.5px; color:var(--ink-soft);
+    background:var(--card); border:1px solid var(--line); border-radius:999px;
+    padding:4px 11px; white-space:nowrap;
+  }
+  .lead{margin:18px 0 0; color:var(--ink-soft); font-size:15px; max-width:62ch}
+  .lead b{color:var(--ink); font-weight:700}
+
+  /* ---------- rate plate (signature) ---------- */
+  .plate{
+    margin-top:26px; background:var(--card); border:1px solid var(--line-strong);
+    border-radius:14px; padding:18px 18px 16px; position:relative; overflow:hidden;
+  }
+  .plate::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:5px;
+    background:repeating-linear-gradient(180deg,var(--go) 0 9px,transparent 9px 18px);
+  }
+  .plate-head{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-faint)}
+  .formula{font-family:var(--mono); font-size:13px; color:var(--ink-soft); margin:8px 0 14px; line-height:1.9}
+  .formula b{color:var(--go); font-weight:600}
+  .rate-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .rate-row label{font-size:13.5px; font-weight:600; color:var(--ink)}
+  .rate-input{
+    font-family:var(--mono); font-size:16px; font-weight:600; color:var(--ink);
+    width:88px; padding:7px 10px; border:1.5px solid var(--line-strong);
+    border-radius:8px; background:var(--paper); text-align:right;
+  }
+  .rate-input:focus{outline:2px solid var(--go-bright); outline-offset:1px; border-color:var(--go)}
+  .rate-note{font-size:12px; color:var(--ink-faint)}
+
+  /* ---------- progress ---------- */
+  .progress{margin-top:24px; display:flex; align-items:center; gap:14px}
+  .bar{flex:1; height:8px; background:var(--grey-tint); border-radius:999px; overflow:hidden}
+  .bar i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--go),var(--go-bright)); border-radius:999px; transition:width .35s ease}
+  .progress-label{font-family:var(--mono); font-size:12.5px; color:var(--ink-soft); white-space:nowrap}
+  .progress-label b{color:var(--go); font-weight:700}
+
+  /* ---------- bucket ---------- */
+  .bucket{margin-top:34px}
+  .bucket-head{display:flex; align-items:baseline; gap:10px; padding-bottom:10px; border-bottom:1px solid var(--line)}
+  .tag{
+    font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.04em;
+    padding:3px 9px; border-radius:6px; text-transform:uppercase; white-space:nowrap;
+  }
+  .tag.go{background:var(--go-tint); color:var(--go)}
+  .tag.opt{background:var(--amber-tint); color:var(--amber)}
+  .tag.skip{background:var(--grey-tint); color:var(--ink-soft)}
+  .tag.block{background:var(--red-tint); color:var(--red)}
+  .bucket-title{font-size:18px; font-weight:800; letter-spacing:-.01em}
+  .bucket-count{font-family:var(--mono); font-size:12.5px; color:var(--ink-faint); margin-left:auto}
+  .bucket-sub{font-size:13.5px; color:var(--ink-soft); margin:10px 0 0}
+
+  /* ---------- card ---------- */
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:13px;
+    padding:16px 16px 15px; margin-top:12px; display:flex; gap:14px;
+    animation:rise .5s both;
+  }
+  .card.lit{border-color:var(--go); box-shadow:0 0 0 1px var(--go) inset, 0 4px 16px -10px rgba(21,113,90,.5)}
+  @keyframes rise{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+
+  .chk{position:relative; flex:0 0 auto; padding-top:2px}
+  .chk input{position:absolute; opacity:0; width:22px; height:22px; margin:0; cursor:pointer}
+  .box{
+    width:22px; height:22px; border:2px solid var(--line-strong); border-radius:7px;
+    display:grid; place-items:center; transition:all .18s ease; background:var(--paper);
+  }
+  .box svg{width:13px; height:13px; stroke:#fff; stroke-width:3.2; fill:none; stroke-dasharray:18; stroke-dashoffset:18; transition:stroke-dashoffset .22s ease .04s}
+  .chk input:checked + .box{background:var(--go); border-color:var(--go)}
+  .chk input:checked + .box svg{stroke-dashoffset:0}
+  .chk input:focus-visible + .box{outline:2px solid var(--go-bright); outline-offset:2px}
+  .chk-label{display:block; font-family:var(--mono); font-size:9.5px; color:var(--ink-faint); text-align:center; margin-top:5px; letter-spacing:.02em; line-height:1.3; width:34px; margin-left:-6px}
+
+  .body{flex:1; min-width:0}
+  .name{font-size:16.5px; font-weight:800; letter-spacing:-.01em}
+  .name .en{font-family:var(--mono); font-size:12px; font-weight:500; color:var(--ink-faint); margin-left:7px; letter-spacing:.02em}
+  .now{font-size:13px; color:var(--ink-soft); margin-top:3px}
+  .now b{color:var(--ink); font-weight:600}
+  .pick{
+    margin-top:10px; padding:10px 12px; background:var(--go-tint); border-radius:9px;
+    font-size:14px; display:flex; gap:8px; align-items:flex-start;
+  }
+  .pick .ar{color:var(--go); font-weight:800; font-family:var(--mono)}
+  .pick b{font-weight:700}
+  .chips{display:flex; flex-wrap:wrap; gap:7px; margin-top:11px}
+  .chip{font-family:var(--mono); font-size:11.5px; padding:3px 9px; border-radius:6px; border:1px solid var(--line); color:var(--ink-soft); background:var(--paper); white-space:nowrap}
+  .chip.store{border-color:var(--line-strong)}
+  .chip.usd{background:#1c2a25; color:#cfeee2; border-color:#1c2a25; font-weight:600}
+  .chip.nt{background:var(--go-tint); color:var(--go); border-color:transparent; font-weight:600}
+  .why{font-size:13.5px; color:var(--ink-soft); margin-top:11px}
+  .care{
+    font-size:12.5px; color:var(--amber); margin-top:9px; padding-left:20px; position:relative; line-height:1.55;
+  }
+  .care::before{content:"⚠"; position:absolute; left:0; top:0}
+  .care.hard{color:var(--red)}
+
+  /* skip list */
+  .skip-toggle{
+    margin-top:12px; width:100%; text-align:left; cursor:pointer;
+    background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:14px 16px; font-family:inherit; font-size:14px; color:var(--ink);
+    display:flex; align-items:center; gap:10px;
+  }
+  .skip-toggle:hover{border-color:var(--line-strong)}
+  .skip-toggle:focus-visible{outline:2px solid var(--go-bright); outline-offset:2px}
+  .skip-toggle .arrow{font-family:var(--mono); color:var(--ink-faint); transition:transform .25s ease; margin-left:auto}
+  .skip-toggle[aria-expanded="true"] .arrow{transform:rotate(90deg)}
+  .skip-panel{max-height:0; overflow:hidden; transition:max-height .35s ease}
+  .skip-grid{display:grid; grid-template-columns:1fr 1fr; gap:7px; padding:12px 2px 2px}
+  .skip-item{font-size:13px; color:var(--ink-soft); padding:7px 11px; background:var(--card); border:1px solid var(--line); border-radius:8px}
+  .skip-item .x{color:var(--ink-faint); font-family:var(--mono); margin-right:7px}
+  .note{font-size:12.5px; color:var(--ink-faint); margin-top:12px; padding:11px 13px; background:var(--card); border:1px dashed var(--line-strong); border-radius:9px; line-height:1.6}
+
+  /* footer */
+  .send{
+    margin-top:38px; background:#18211D; color:#E9EEEB; border-radius:14px; padding:20px;
+  }
+  .send-h{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#7FB8A4}
+  .send-msg{margin-top:11px; font-size:14.5px; line-height:1.75; color:#DCE4E0}
+  .send-msg .hi{color:#7DDCBE; font-weight:600}
+  .customs{margin-top:14px; font-size:12.5px; color:#9DACA5; line-height:1.7; border-top:1px solid #2C3833; padding-top:13px}
+  .src{margin-top:22px; font-size:11.5px; color:var(--ink-faint); text-align:center; line-height:1.7}
+
+  @media (max-width:560px){
+    .skip-grid{grid-template-columns:1fr}
+    .card{padding:14px}
+    .chk-label{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">代購補貨清單 · RESTOCK RUN</div>
+  <h1>哪幾罐值得趁這次在美國補
+    <span class="sub">從你現有 19 罐裡挑——跳過台灣本來就便宜／常特價的（＝ DHC 那一批）</span>
+  </h1>
+  <div class="meta">
+    <span>👤 同學 Shauna</span>
+    <span>📍 Boise, Idaho</span>
+    <span>🗓 表定 6/26 回台</span>
+    <span>🏬 實體店面為主</span>
+    <span>💊 庫存 19 罐</span>
+  </div>
+  <p class="lead">結論先講：真正值得在美國補的只有 <b>4 項</b>——兩款胺基酸（純原料、台灣是品牌價）＋兩款你本來就在吃的美牌（鋅、生物素）。其餘 11 罐 DHC 在台灣藥妝常打折、美國實體店也根本沒賣，留著在台灣補就好。</p>
+
+  <!-- signature: landed-price plate -->
+  <div class="plate">
+    <div class="plate-head">到手價試算 · USD → NT$</div>
+    <div class="formula">Shauna 報價公式：<br>美國標價(USD) × <b>含稅 6%</b> × <b>當天匯率</b> × <b>代購費 1.12</b> ≈ 你的實付<br>（等於美國貨架價約再 <b>×1.19</b>，可拿來跟你在台灣付的價格比）</div>
+    <div class="rate-row">
+      <label for="rate">當天匯率</label>
+      <input class="rate-input" id="rate" type="number" value="32.5" min="20" max="45" step="0.1" inputmode="decimal" aria-label="美元兌台幣匯率">
+      <span class="rate-note">改這格，下面每張卡的「到手 NT$」會即時更新</span>
+    </div>
+  </div>
+
+  <!-- progress -->
+  <div class="progress">
+    <div class="bar"><i id="barfill"></i></div>
+    <div class="progress-label">已寄連結給 Shauna <b id="pcount">0</b> / 7</div>
+  </div>
+
+  <!-- ============ BUY ============ -->
+  <section class="bucket">
+    <div class="bucket-head">
+      <span class="tag go">買 BUY</span>
+      <span class="bucket-title">值得在美國補貨</span>
+      <span class="bucket-count">4 項</span>
+    </div>
+    <p class="bucket-sub">這幾項在美國貨架價只是台灣的一部分，省得最有感。Swanson 兩款雖然是你現在吃的牌子，但它在美國以「網購」為主、實體貨架不一定有，所以下面直接給 Shauna 在店裡拿得到的同形式替代。</p>
+
+    <!-- L-Tyrosine -->
+    <div class="card" style="animation-delay:.04s">
+      <label class="chk"><input type="checkbox" class="chk-act"><span class="box"><svg viewBox="0 0 18 18"><path d="M3 9.5l4 4 8-9"/></svg></span><span class="chk-label">已寄連結</span></label>
+      <div class="body">
+        <div class="name">L-酪胺酸<span class="en">L-Tyrosine</span></div>
+        <div class="now">你現在：<b>L-酪胺酸</b>（早上空腹）</div>
+        <div class="pick"><span class="ar">→</span><div><b>NOW Foods L-Tyrosine 500mg・120 顆</b></div></div>
+        <div class="chips">
+          <span class="chip store">🏬 Natural Grocers</span>
+          <span class="chip store">🏬 Walmart</span>
+          <span class="chip usd">US$ 10–13</span>
+          <span class="chip nt">≈ NT$ <span class="est" data-usd="11">—</span> 到手</span>
+        </div>
+        <div class="why">純胺基酸、沒有品牌溢價，台灣進口要貴一截；美國一罐就一個漢堡錢。</div>
+        <div class="care">維持早上空腹、與 L-精胺酸時段錯開（你本來就這樣）。甲狀腺亢進者留意。</div>
+      </div>
+    </div>
+
+    <!-- Zinc -->
+    <div class="card" style="animation-delay:.1s">
+      <label class="chk"><input type="checkbox" class="chk-act"><span class="box"><svg viewBox="0 0 18 18"><path d="M3 9.5l4 4 8-9"/></svg></span><span class="chk-label">已寄連結</span></label>
+      <div class="body">
+        <div class="name">甘胺酸鋅<span class="en">Zinc Glycinate</span></div>
+        <div class="now">你現在：<b>Swanson Albion 甘胺酸鋅 30mg</b>（A 週鋅來源）</div>
+        <div class="pick"><span class="ar">→</span><div><b>NOW Foods Zinc Glycinate 30mg</b>（實體店首選；Walmart 貨架多是 gluconate／氧化鋅，形式不對）</div></div>
+        <div class="chips">
+          <span class="chip store">🏬 Natural Grocers</span>
+          <span class="chip usd">US$ 8–12</span>
+          <span class="chip nt">≈ NT$ <span class="est" data-usd="10">—</span> 到手</span>
+        </div>
+        <div class="why">你本來就吃 Swanson 這款美牌——但 Swanson 實體貨架不一定有，請 Shauna 拿同形式的 NOW 甘胺酸鋅即可。</div>
+        <div class="care">這是「補你現有的 A 週鋅」，不是多加一條鋅。維持 A／B 雙週輪替、每日鋅 ≤ 40mg，別再額外買任何含鋅產品。</div>
+      </div>
+    </div>
+
+    <!-- Biotin -->
+    <div class="card" style="animation-delay:.16s">
+      <label class="chk"><input type="checkbox" class="chk-act"><span class="box"><svg viewBox="0 0 18 18"><path d="M3 9.5l4 4 8-9"/></svg></span><span class="chk-label">已寄連結</span></label>
+      <div class="body">
+        <div class="name">生物素 5000mcg<span class="en">Biotin</span></div>
+        <div class="now">你現在：<b>Swanson 生物素 5000mcg</b></div>
+        <div class="pick"><span class="ar">→</span><div><b>Spring Valley Biotin</b>（Walmart 自有、最便宜）或 NOW Foods Biotin</div></div>
+        <div class="chips">
+          <span class="chip store">🏬 Walmart（最划算）</span>
+          <span class="chip usd">US$ 5–9</span>
+          <span class="chip nt">≈ NT$ <span class="est" data-usd="7">—</span> 到手</span>
+        </div>
+        <div class="why">生物素在美國超便宜，台灣同規格貴很多；Swanson 一樣網購為主，實體店拿 Spring Valley 就好。</div>
+        <div class="care">抽血健檢前 2–3 天要停（會干擾檢驗值）——這是服用注意，不影響購買。</div>
+      </div>
+    </div>
+
+    <!-- L-Arginine -->
+    <div class="card" style="animation-delay:.22s">
+      <label class="chk"><input type="checkbox" class="chk-act"><span class="box"><svg viewBox="0 0 18 18"><path d="M3 9.5l4 4 8-9"/></svg></span><span class="chk-label">已寄連結</span></label>
+      <div class="body">
+        <div class="name">L-精胺酸<span class="en">L-Arginine</span> &nbsp;·&nbsp; 價差最大</div>
+        <div class="now">你現在：<b>UNIQMAN L-精胺酸 1,080mg／份</b>（台灣品牌、單價偏高）</div>
+        <div class="pick"><span class="ar">→</span><div><b>NOW Foods L-Arginine 1000mg・120 錠</b>（1 錠 ≈ 你現在 1 份的量，換算很順）</div></div>
+        <div class="chips">
+          <span class="chip store">🏬 Walmart</span>
+          <span class="chip store">🏬 Natural Grocers</span>
+          <span class="chip usd">US$ 15–18（原價約26）</span>
+          <span class="chip nt">≈ NT$ <span class="est" data-usd="17">—</span> 到手</span>
+        </div>
+        <div class="why">胺基酸是通用原料，UNIQMAN 是品牌價；換美國 NOW 同劑量，這一罐的價差最有感。</div>
+        <div class="care hard">HSV 皰疹病史者避免、手術前 2 週停、睡前空腹、與 L-酪胺酸時段錯開（都在你 Notion 警示頁裡，美國這款標籤也寫了同樣提醒）。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OPTIONAL ============ -->
+  <section class="bucket">
+    <div class="bucket-head">
+      <span class="tag opt">可選 OPTIONAL</span>
+      <span class="bucket-title">要換品牌才划算，看你</span>
+      <span class="bucket-count">3 項</span>
+    </div>
+    <p class="bucket-sub">這幾項換成美國貨等於換品牌／配方，省的有限，所以擺中間——想順手再帶。</p>
+
+    <div class="card" style="animation-delay:.04s">
+      <label class="chk"><input type="checkbox" class="chk-act"><span class="box"><svg viewBox="0 0 18 18"><path d="M3 9.5l4 4 8-9"/></svg></span><span class="chk-label">已決定</span></label>
+      <div class="body">
+        <div class="name">葉黃素<span class="en">Lutein</span></div>
+        <div class="now">你現在：<b>寶瑞 葉黃素</b></div>
+        <div class="why">美國 NOW／Nature Made 葉黃素更便宜，但等於換品牌、配方也不同（含量、有無玉米黃素差異）。對寶瑞沒特別堅持再考慮。</div>
+      </div>
+    </div>
+
+    <div class="card" style="animation-delay:.1s">
+      <label class="chk"><input type="checkbox" class="chk-act"><span class="box"><svg viewBox="0 0 18 18"><path d="M3 9.5l4 4 8-9"/></svg></span><span class="chk-label">已決定</span></label>
+      <div class="body">
+        <div class="name">辣木<span class="en">Moringa</span></div>
+        <div class="now">你現在：<b>辣木原粉錠</b></div>
+        <div class="why">較小眾，美國雖有但價差不明顯、也不一定買得到你習慣的形式。列為次要。</div>
+      </div>
+    </div>
+
+    <div class="card" style="animation-delay:.16s">
+      <label class="chk"><input type="checkbox" class="chk-act"><span class="box"><svg viewBox="0 0 18 18"><path d="M3 9.5l4 4 8-9"/></svg></span><span class="chk-label">已決定</span></label>
+      <div class="body">
+        <div class="name">乳酸菌<span class="en">Probiotics</span></div>
+        <div class="now">你現在：<b>哺智 PRO 9 乳酸菌</b></div>
+        <div class="why">益生菌是「菌株專一」，換牌＝換產品；加上 6 月夏天回程高溫，益生菌怕熱、活性可能打折。除非想試特定美國菌株，否則建議留台灣買。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SKIP ============ -->
+  <section class="bucket">
+    <div class="bucket-head">
+      <span class="tag skip">跳過 SKIP</span>
+      <span class="bucket-title">台灣本來就便宜／常特價（你說的「特價品」）</span>
+      <span class="bucket-count">11 項</span>
+    </div>
+    <button class="skip-toggle" id="skipBtn" aria-expanded="false" aria-controls="skipPanel">
+      <span>📦 全部都是 DHC——展開看是哪 11 罐</span>
+      <span class="arrow">▶</span>
+    </button>
+    <div class="skip-panel" id="skipPanel">
+      <div class="skip-grid">
+        <div class="skip-item"><span class="x">×</span>DHC 輔酶 Q10</div>
+        <div class="skip-item"><span class="x">×</span>DHC 維生素 D3</div>
+        <div class="skip-item"><span class="x">×</span>DHC 維他命 C</div>
+        <div class="skip-item"><span class="x">×</span>DHC 維他命 B 群</div>
+        <div class="skip-item"><span class="x">×</span>DHC 綜合維生素</div>
+        <div class="skip-item"><span class="x">×</span>DHC EPA 魚油</div>
+        <div class="skip-item"><span class="x">×</span>DHC 天然維生素 E</div>
+        <div class="skip-item"><span class="x">×</span>DHC 銀杏葉 腦內 α</div>
+        <div class="skip-item"><span class="x">×</span>DHC 紅嫩鐵素</div>
+        <div class="skip-item"><span class="x">×</span>DHC 瑪卡 STRONG</div>
+        <div class="skip-item"><span class="x">×</span>DHC 肝臟萃取＋鳥胺酸</div>
+      </div>
+      <div class="note"><b>為什麼整批跳過：</b>DHC 是日系品牌，台灣藥妝／官方常打折，而且<b>美國實體店根本沒在賣 DHC</b>——這次代購買不到也不划算，留著在台灣補。<br><br><b>小例外：</b>維生素 D3 其實美國也很便宜，如果你已經要買上面那 4 項、想順手把 D3 換成 Spring Valley／NOW 也行；但單為了 D3 不值得，台灣 DHC 特價就夠。</div>
+    </div>
+  </section>
+
+  <!-- ============ CAN'T BUY ============ -->
+  <section class="bucket">
+    <div class="bucket-head">
+      <span class="tag block">不能代購 BLOCKED</span>
+      <span class="bucket-title">處方藥，走就醫管道</span>
+      <span class="bucket-count">1 項</span>
+    </div>
+    <div class="card" style="animation-delay:.04s; border-color:var(--red-tint)">
+      <div class="body">
+        <div class="name">阿德比膠囊<span class="en">Rx Probiotic</span></div>
+        <div class="now">醫師處方益生菌</div>
+        <div class="care hard">屬處方藥，依規定不能代購、轉售。請走原本的就醫管道拿，別讓 Shauna 踩這個（風險主要落在賣方身上）。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- send to Shauna -->
+  <div class="send">
+    <div class="send-h">📋 可直接複製給 Shauna 的一句話</div>
+    <div class="send-msg">
+      <span class="hi">嗨 Shauna～</span>我想代購這 4 樣，都是錠／膠囊保健品，超商實體店就有：<br>
+      ① NOW Foods L-Tyrosine 500mg（Natural Grocers）<br>
+      ② NOW Foods Zinc Glycinate 30mg（Natural Grocers）<br>
+      ③ Spring Valley Biotin 5000mcg（Walmart）<br>
+      ④ NOW Foods L-Arginine 1000mg（Walmart 或 Natural Grocers）<br>
+      麻煩看到順手拍個照／報價給我，謝謝你🙏
+    </div>
+    <div class="customs">⚖️ 海關提醒：錠／膠囊保健品每種 ≤ 12 瓶、合計 ≤ 36 瓶，僅限個人自用、不得販售——這 4 項各 1 瓶完全在範圍內。</div>
+  </div>
+
+  <div class="src">
+    美國價格／通路：NOW Foods 官網、Walmart、Natural Grocers、Amazon、iHerb（2026）。匯率為可調預設值，請以刷卡當天為準。<br>
+    服用注意與庫存以你 Notion 的保健品庫存頁（fc681d07）與警示頁（361d8e71）為準。
+  </div>
+
+</div>
+
+<script>
+  // live landed-price estimate
+  var rateEl = document.getElementById('rate');
+  function recalc(){
+    var r = parseFloat(rateEl.value);
+    if(isNaN(r) || r<=0) r = 32.5;
+    document.querySelectorAll('.est').forEach(function(el){
+      var usd = parseFloat(el.getAttribute('data-usd'));
+      var nt = Math.round(usd * 1.06 * r * 1.12);
+      el.textContent = nt.toLocaleString();
+    });
+  }
+  rateEl.addEventListener('input', recalc);
+  recalc();
+
+  // progress
+  var checks = document.querySelectorAll('.chk-act');
+  var fill = document.getElementById('barfill');
+  var pc = document.getElementById('pcount');
+  function updateProgress(){
+    var done = 0;
+    checks.forEach(function(c){ if(c.checked) done++; });
+    pc.textContent = done;
+    fill.style.width = (done / checks.length * 100) + '%';
+  }
+  checks.forEach(function(c){
+    c.addEventListener('change', function(){
+      var card = c.closest('.card');
+      if(card) card.classList.toggle('lit', c.checked);
+      updateProgress();
+    });
+  });
+
+  // skip toggle
+  var btn = document.getElementById('skipBtn');
+  var panel = document.getElementById('skipPanel');
+  btn.addEventListener('click', function(){
+    var open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    panel.style.maxHeight = open ? '0' : (panel.scrollHeight + 20) + 'px';
+  });
+</script>
+</body>
+</html>
