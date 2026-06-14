@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>私人筆記 / Private Notes</title>
+<style>
+  :root{ --bg:#0e1116; --card:#161b24; --line:#262e3a; --ink:#e8ecf3; --dim:#8b95a4; --accent:#c45e36; --ok:#41e6a4; --warn:#f0b860; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
+  .center{min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center}
+  .card{max-width:440px}
+  h1{font-size:1.6rem;margin-bottom:10px}
+  p{color:var(--dim)}
+  button{margin-top:20px;font-size:15px;padding:12px 26px;border:none;border-radius:10px;
+    background:#fff;color:#111;cursor:pointer;font-weight:600}
+  button:hover{opacity:.9}
+  .ghost{background:transparent;color:var(--dim);border:1px solid var(--line);font-weight:500}
+  .badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:13px;margin-bottom:14px}
+  .badge.wait{background:#3a2e12;color:var(--warn)} .badge.no{background:#3a1414;color:#ff8a8a}
+  .hide{display:none}
+  /* app */
+  header.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:14px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(14,17,22,.9);backdrop-filter:blur(8px);z-index:5}
+  header.bar .who{font-size:13px;color:var(--dim)}
+  .wrap{max-width:900px;margin:0 auto;padding:28px 20px 80px}
+  .lead{color:var(--dim);font-size:14px;margin-bottom:22px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+  .note{display:flex;flex-direction:column;text-align:left;padding:18px 20px;background:var(--card);
+    border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:14px;cursor:pointer;transition:.15s}
+  .note:hover{transform:translateY(-2px);border-color:var(--accent)}
+  .note .t{font-weight:600}
+  .note .d{color:var(--dim);font-size:.85rem;margin-top:6px}
+  .empty{color:var(--dim);padding:40px 0;text-align:center}
+  /* viewer */
+  .viewer{position:fixed;inset:0;background:var(--bg);z-index:30;display:none;flex-direction:column}
+  .viewer.show{display:flex}
+  .viewer .vbar{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--line)}
+  .viewer .vbar .vt{font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .viewer iframe{flex:1;width:100%;border:none;background:#fff}
+</style>
+</head>
+<body>
+
+<!-- 載入中 -->
+<div id="vLoading" class="center"><p>載入中…</p></div>
+
+<!-- 未登入 -->
+<div id="vLogin" class="center hide"><div class="card">
+  <h1>🔒 私人筆記</h1>
+  <p>這區是受邀請才能看的內容。請用 Google 登入，送出存取申請。</p>
+  <button id="btnLogin">使用 Google 登入</button>
+</div></div>
+
+<!-- 待核准 -->
+<div id="vPending" class="center hide"><div class="card">
+  <div class="badge wait">● 審核中</div>
+  <h1>申請已送出</h1>
+  <p id="pendMail"></p>
+  <p>等管理者核准後，重新整理即可進入。</p>
+  <button class="ghost" id="btnOut1">登出</button>
+</div></div>
+
+<!-- 被拒 -->
+<div id="vBlocked" class="center hide"><div class="card">
+  <div class="badge no">● 無權限</div>
+  <h1>目前無法存取</h1>
+  <p>這個帳號尚未獲得授權。</p>
+  <button class="ghost" id="btnOut2">登出</button>
+</div></div>
+
+<!-- 已核准：筆記列表 -->
+<div id="vApp" class="hide">
+  <header class="bar">
+    <strong>🔒 私人筆記</strong>
+    <span class="who" id="who"></span>
+    <button class="ghost" id="btnOut3" style="margin:0;padding:8px 14px">登出</button>
+  </header>
+  <div class="wrap">
+    <p class="lead">只有你看得到。點任一張卡開啟。</p>
+    <div class="grid" id="list"></div>
+    <div class="empty hide" id="empty">目前還沒有私人筆記。到 <code>admin.html</code> 上傳。</div>
+  </div>
+</div>
+
+<!-- 全螢幕閱讀器 -->
+<div class="viewer" id="viewer">
+  <div class="vbar"><button class="ghost" id="vClose" style="margin:0;padding:8px 14px">← 返回</button><span class="vt" id="vt"></span></div>
+  <iframe id="vframe" sandbox="allow-scripts allow-popups allow-forms allow-modals"></iframe>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { firebaseConfig } from "./firebase-config.js";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+const show = id => {
+  ["vLoading","vLogin","vPending","vBlocked","vApp"].forEach(v=>document.getElementById(v).classList.add("hide"));
+  document.getElementById(id).classList.remove("hide");
+};
+document.getElementById("btnLogin").onclick = () => signInWithPopup(auth, provider).catch(e=>alert(e.message));
+["btnOut1","btnOut2","btnOut3"].forEach(id=>document.getElementById(id).onclick=()=>signOut(auth));
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { show("vLogin"); return; }
+  const ref = doc(db,"users",user.uid);
+  let snap;
+  try { snap = await getDoc(ref); }
+  catch(e){ show("vLogin"); alert("讀取失敗，請確認 Firebase 設定：" + e.message); return; }
+
+  if (!snap.exists()) {
+    await setDoc(ref,{ email:user.email, name:user.displayName||"", status:"pending",
+      requestedAt:serverTimestamp(), approvedAt:null });
+    document.getElementById("pendMail").textContent = user.email;
+    show("vPending"); return;
+  }
+  const status = snap.data().status;
+  if (status === "approved") { document.getElementById("who").textContent = user.email; show("vApp"); loadNotes(); }
+  else if (status === "blocked") show("vBlocked");
+  else { document.getElementById("pendMail").textContent = user.email; show("vPending"); }
+});
+
+async function loadNotes(){
+  const list = document.getElementById("list");
+  const empty = document.getElementById("empty");
+  list.innerHTML = "";
+  const snap = await getDocs(collection(db,"private_notes"));
+  if (snap.empty){ empty.classList.remove("hide"); return; }
+  empty.classList.add("hide");
+  const docs = []; snap.forEach(d=>docs.push({id:d.id, ...d.data()}));
+  docs.sort((a,b)=>(a.title||"").localeCompare(b.title||""));
+  docs.forEach(n=>{
+    const el = document.createElement("div");
+    el.className = "note";
+    const t = document.createElement("div"); t.className="t"; t.textContent = n.title || n.id;
+    const d = document.createElement("div"); d.className="d"; d.textContent = n.desc || "";
+    el.append(t,d);
+    el.onclick = ()=>openNote(n);
+    list.appendChild(el);
+  });
+}
+
+const viewer = document.getElementById("viewer");
+const vframe = document.getElementById("vframe");
+function openNote(n){
+  document.getElementById("vt").textContent = n.title || n.id;
+  viewer.classList.add("show");
+  const fdoc = vframe.contentWindow.document;
+  fdoc.open(); fdoc.write(n.html || "<p style='font-family:sans-serif;padding:40px'>（這篇沒有內容）</p>"); fdoc.close();
+}
+document.getElementById("vClose").onclick = ()=>{ viewer.classList.remove("show"); vframe.src="about:blank"; };
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") document.getElementById("vClose").click(); });
+</script>
+</body>
+</html>
