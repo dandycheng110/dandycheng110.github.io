@@ -1,0 +1,4 @@
+# 私人筆記的原始 HTML — 只在本機，用 private/admin.html 上傳到 Firestore，絕不進 repo
+_private-source/
+# 本機部署輔助
+.DS_Store

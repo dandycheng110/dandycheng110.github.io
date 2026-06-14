@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>私人筆記 · 管理</title>
+<style>
+  :root{ --bg:#0e1116; --card:#161b24; --line:#262e3a; --ink:#e8ecf3; --dim:#8b95a4; --accent:#c45e36;
+    --ok:#16a34a; --warn:#f0b860; --no:#dc2626; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.6;padding:24px}
+  .wrap{max-width:780px;margin:0 auto}
+  h1{font-size:1.5rem;margin-bottom:4px}
+  h2{font-size:1.05rem;margin:30px 0 12px;color:var(--dim);font-weight:600}
+  .muted{color:var(--dim);font-size:13px}
+  button{font-size:14px;padding:9px 16px;border:none;border-radius:9px;cursor:pointer;font-weight:600}
+  .gbtn{background:#fff;color:#111;padding:12px 24px}
+  .ghost{background:transparent;color:var(--dim);border:1px solid var(--line);font-weight:500}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:12px;
+    background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 16px;margin-bottom:9px}
+  .row .info{font-size:14px;min-width:0}
+  .row .info small{display:block;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tag{font-size:11px;padding:3px 10px;border-radius:20px;margin-right:8px}
+  .tag.pending{background:#3a2e12;color:var(--warn)} .tag.approved{background:#13351f;color:#86d6a0} .tag.blocked{background:#3a1414;color:#ff8a8a}
+  .ok{background:var(--ok);color:#fff;margin-left:6px} .no{background:var(--no);color:#fff;margin-left:6px}
+  .hide{display:none}
+  .drop{border:1.5px dashed var(--line);border-radius:12px;padding:22px;text-align:center;color:var(--dim);background:var(--card)}
+  .drop input{display:block;margin:12px auto 0}
+  .field{margin:10px 0}
+  .field label{font-size:12px;color:var(--dim);display:block;margin-bottom:4px}
+  .field input,.field select{width:100%;padding:9px 11px;background:var(--bg);border:1px solid var(--line);
+    border-radius:8px;color:var(--ink);font-size:14px}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#13351f;color:#86d6a0;
+    padding:10px 20px;border-radius:30px;font-size:14px;opacity:0;transition:.3s;pointer-events:none}
+  .toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🔒 私人筆記 · 管理</h1>
+  <p class="muted">只有管理員 Email 登入後動得了（規則已強制）。</p>
+
+  <div id="login" style="margin-top:24px"><button class="gbtn" id="btnLogin">使用 Google 登入</button></div>
+  <p id="notAdmin" class="hide" style="margin-top:20px;color:#ff8a8a"></p>
+
+  <div id="panel" class="hide">
+    <p class="muted" id="me" style="margin-top:16px"></p>
+
+    <h2>① 上傳私人筆記 / Upload</h2>
+    <div class="drop">
+      把要設為私密的 <b>.html</b> 檔選進來（可多選）。內容會寫進 Firestore，不會進公開 repo。
+      <input type="file" id="files" accept=".html,text/html" multiple>
+    </div>
+    <div id="uploadForm" class="hide" style="margin-top:14px">
+      <div class="field"><label>分類 cat（tech / mind / career / health / travel / learn）</label>
+        <input id="upCat" value="mind"></div>
+      <div class="field"><label>一句話說明 desc（選填）</label><input id="upDesc" placeholder="（可留空）"></div>
+      <button class="ok" id="btnUpload" style="margin:6px 0 0">上傳這批</button>
+      <span class="muted" id="upInfo" style="margin-left:10px"></span>
+    </div>
+
+    <h2>② 現有私人筆記 / Notes</h2>
+    <div id="notes"></div>
+
+    <h2>③ 存取核准 / Users</h2>
+    <div id="users"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import { getFirestore, collection, getDocs, doc, setDoc, updateDoc, deleteDoc, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { firebaseConfig, ADMIN_EMAILS } from "./firebase-config.js";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+let pending = [];   // {slug,title,html}
+
+const $ = id => document.getElementById(id);
+const toast = m => { const t=$("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),2200); };
+$("btnLogin").onclick = ()=>signInWithPopup(auth,provider).catch(e=>alert(e.message));
+
+onAuthStateChanged(auth, u=>{
+  if(!u){ $("login").classList.remove("hide"); $("panel").classList.add("hide"); $("notAdmin").classList.add("hide"); return; }
+  if(!ADMIN_EMAILS.includes(u.email)){
+    $("login").classList.add("hide"); $("panel").classList.add("hide");
+    $("notAdmin").classList.remove("hide");
+    $("notAdmin").textContent = "「"+u.email+"」不是管理員。請改用 firebase-config.js 裡 ADMIN_EMAILS 的帳號登入。";
+    return;
+  }
+  $("login").classList.add("hide"); $("notAdmin").classList.add("hide"); $("panel").classList.remove("hide");
+  $("me").textContent = "管理員：" + u.email;
+  renderNotes(); renderUsers();
+});
+
+/* ---- 選檔：讀出每個檔的 slug/title/html ---- */
+$("files").onchange = async e => {
+  pending = [];
+  for (const f of e.target.files){
+    const html = await f.text();
+    const slug = f.name.replace(/\.html?$/i,"").replace(/[^a-zA-Z0-9-_]/g,"-").toLowerCase();
+    const m = html.match(/<title>([^<]*)<\/title>/i);
+    pending.push({ slug, title: m ? m[1].trim() : f.name, html });
+  }
+  $("uploadForm").classList.toggle("hide", pending.length===0);
+  $("upInfo").textContent = pending.length ? `已讀取 ${pending.length} 個：` + pending.map(p=>p.slug).join("、") : "";
+};
+
+$("btnUpload").onclick = async () => {
+  if(!pending.length) return;
+  const cat = $("upCat").value.trim() || "mind";
+  const desc = $("upDesc").value.trim();
+  for (const p of pending){
+    if (p.html.length > 950000){ toast("⚠ "+p.slug+" 太大（>0.9MB），略過"); continue; }
+    await setDoc(doc(db,"private_notes",p.slug), {
+      title:p.title, desc, cat, html:p.html, updatedAt:serverTimestamp()
+    });
+  }
+  toast("已上傳 ✓"); pending=[]; $("files").value=""; $("uploadForm").classList.add("hide"); $("upInfo").textContent="";
+  renderNotes();
+};
+
+async function renderNotes(){
+  const box = $("notes"); box.innerHTML = "";
+  const snap = await getDocs(collection(db,"private_notes"));
+  if (snap.empty){ box.innerHTML = '<p class="muted">（還沒有私人筆記）</p>'; return; }
+  snap.forEach(d=>{
+    const n = d.data();
+    const row = document.createElement("div"); row.className="row";
+    row.innerHTML = `<div class="info">${n.title||d.id}<small>${d.id} · ${n.cat||"-"}</small></div>`;
+    const del = document.createElement("button"); del.className="no"; del.textContent="刪除";
+    del.onclick = async ()=>{ if(confirm("刪除「"+(n.title||d.id)+"」？")){ await deleteDoc(doc(db,"private_notes",d.id)); toast("已刪除"); renderNotes(); } };
+    row.appendChild(del); box.appendChild(row);
+  });
+}
+
+async function renderUsers(){
+  const box = $("users"); box.innerHTML = "";
+  const snap = await getDocs(collection(db,"users"));
+  if (snap.empty){ box.innerHTML = '<p class="muted">（還沒有人申請）</p>'; return; }
+  snap.forEach(d=>{
+    const u = d.data();
+    const row = document.createElement("div"); row.className="row";
+    row.innerHTML = `<div class="info"><span class="tag ${u.status}">${u.status}</span>${u.name||""}<small>${u.email}</small></div>`;
+    const wrap = document.createElement("div");
+    const ok = document.createElement("button"); ok.className="ok"; ok.textContent="核准";
+    ok.onclick = async ()=>{ await updateDoc(doc(db,"users",d.id),{status:"approved",approvedAt:serverTimestamp()}); toast("已核准"); renderUsers(); };
+    const no = document.createElement("button"); no.className="no"; no.textContent="封鎖";
+    no.onclick = async ()=>{ await updateDoc(doc(db,"users",d.id),{status:"blocked"}); toast("已封鎖"); renderUsers(); };
+    wrap.append(ok,no); row.appendChild(wrap); box.appendChild(row);
+  });
+}
+</script>
+</body>
+</html>

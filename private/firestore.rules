@@ -1,0 +1,39 @@
+rules_version = '2';
+// 貼到 Firebase Console → Firestore Database → Rules → Publish
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() { return request.auth != null; }
+
+    // 管理員 Email（要和 private/firebase-config.js 的 ADMIN_EMAILS 一致）
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email in [
+        "dot1000110@gmail.com"
+      ];
+    }
+
+    function isApproved() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.status == 'approved';
+    }
+
+    // 使用者狀態：本人只能建立「自己的、pending 的」申請；只有管理員能改狀態
+    match /users/{uid} {
+      allow read:   if isSignedIn() && (request.auth.uid == uid || isAdmin());
+      allow create: if isSignedIn()
+                    && request.auth.uid == uid
+                    && request.resource.data.status == 'pending'
+                    && request.resource.data.email == request.auth.token.email;
+      allow update, delete: if isAdmin();
+    }
+
+    // 私人筆記：只有「已核准」或管理員讀得到；只有管理員能寫
+    match /private_notes/{slug} {
+      allow read:  if isApproved() || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // 其餘一律拒絕（沒寫 match = 拒絕）
+  }
+}
