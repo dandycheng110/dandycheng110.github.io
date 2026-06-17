@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思考致富 · 學習單與複習手冊｜拿破崙·希爾的 13 條成功白金法則</title>
+<meta name="description" content="《思考致富》Think and Grow Rich 互動學習單與容易遺忘的重點複習手冊：13 條白金法則、點石成金六步驟、智取六大恐懼、致富宣言產生器。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E1C22;          /* 深墨綠底 */
+  --ink-2:#13262E;        /* 面板 */
+  --ink-3:#1A323B;        /* 較亮面板 */
+  --line:#2B4651;         /* 分隔線 */
+  --gold:#C9A24B;         /* 鎏金主色 */
+  --gold-soft:#A98A43;
+  --gold-bright:#E7CB81;  /* 高光 */
+  --parchment:#F3ECDB;    /* 羊皮卡片 */
+  --parchment-2:#EAE0C9;
+  --p-ink:#2A2114;        /* 羊皮上的字 */
+  --p-ink-soft:#5C4F38;
+  --jade:#3C8472;         /* 玉色：實踐/正面 */
+  --jade-deep:#27574B;
+  --oxblood:#9A4A3C;      /* 牛血色：恐懼/警示 */
+  --cream:#ECE2CB;        /* 深底上的字 */
+  --muted:#9AACA4;        /* 深底上的次要字 */
+  --font-display:"Cinzel",serif;
+  --font-serif:"Noto Serif TC",serif;
+  --font-ui:"Noto Sans TC",system-ui,sans-serif;
+  --shadow:0 18px 50px rgba(0,0,0,.45);
+  --maxw:1080px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--ink);color:var(--cream);
+  font-family:var(--font-serif);line-height:1.85;
+  -webkit-font-smoothing:antialiased;font-feature-settings:"palt" 1;
+  overflow-x:hidden;
+}
+img{max-width:100%}
+a{color:inherit}
+::selection{background:var(--gold);color:var(--ink)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;overflow:hidden;padding:clamp(56px,10vw,120px) 22px clamp(48px,7vw,86px);text-align:center;border-bottom:1px solid var(--line)}
+.sunburst{
+  position:absolute;left:-15%;right:-15%;top:-26%;height:150%;
+  background:repeating-conic-gradient(from 0deg at 50% 6%,
+     rgba(201,162,75,.20) 0deg .55deg, transparent .55deg 6deg);
+  -webkit-mask:radial-gradient(120% 86% at 50% 6%,#000 0%,rgba(0,0,0,.55) 42%,transparent 74%);
+          mask:radial-gradient(120% 86% at 50% 6%,#000 0%,rgba(0,0,0,.55) 42%,transparent 74%);
+  pointer-events:none;transform:scale(.92);opacity:0;
+  animation:burst 1.6s cubic-bezier(.2,.7,.2,1) .15s forwards;
+}
+@keyframes burst{to{transform:scale(1);opacity:1}}
+.hero-inner{position:relative;max-width:760px;margin:0 auto}
+.eyebrow{font-family:var(--font-display);letter-spacing:.42em;font-size:.74rem;color:var(--gold);text-transform:uppercase;margin:0 0 22px;padding-left:.42em}
+.hero-rule{width:54px;height:1px;background:var(--gold);margin:0 auto 26px;position:relative}
+.hero-rule::before,.hero-rule::after{content:"";position:absolute;top:50%;width:5px;height:5px;background:var(--gold);transform:translateY(-50%) rotate(45deg)}
+.hero-rule::before{left:-13px}.hero-rule::after{right:-13px}
+.hero h1{font-family:var(--font-serif);font-weight:900;font-size:clamp(2.7rem,9vw,5rem);line-height:1.04;margin:0;letter-spacing:.04em;color:#F6EFDC;text-shadow:0 2px 30px rgba(0,0,0,.4)}
+.hero h1 .grad{background:linear-gradient(180deg,var(--gold-bright),var(--gold) 60%,var(--gold-soft));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .en{font-family:var(--font-display);font-weight:600;letter-spacing:.34em;font-size:clamp(.8rem,2.6vw,1.05rem);color:var(--gold);margin:24px 0 0;text-transform:uppercase}
+.hero .promise{font-size:clamp(1.02rem,2.7vw,1.22rem);color:var(--cream);max-width:540px;margin:30px auto 0;font-weight:300;line-height:1.9}
+.hero .promise b{color:var(--gold-bright);font-weight:500}
+.hero .byline{margin-top:30px;font-family:var(--font-ui);font-size:.86rem;letter-spacing:.08em;color:var(--muted)}
+.hero .byline b{color:var(--cream);font-weight:500}
+.hero-stats{display:flex;gap:0;justify-content:center;margin-top:42px;flex-wrap:wrap}
+.hstat{padding:0 clamp(16px,4vw,30px);border-right:1px solid var(--line)}
+.hstat:last-child{border-right:none}
+.hstat .num{font-family:var(--font-display);font-size:clamp(1.5rem,5vw,2.1rem);color:var(--gold-bright);line-height:1}
+.hstat .lab{font-family:var(--font-ui);font-size:.7rem;letter-spacing:.16em;color:var(--muted);margin-top:8px;text-transform:uppercase}
+
+/* ---------- NAV ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(11,22,27,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:6px;padding:0 16px;height:58px;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav a{font-family:var(--font-ui);font-size:.82rem;letter-spacing:.05em;color:var(--muted);text-decoration:none;padding:8px 13px;border-radius:2px;white-space:nowrap;position:relative;transition:color .2s}
+.nav a::after{content:"";position:absolute;left:13px;right:13px;bottom:4px;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.nav a:hover,.nav a:focus-visible{color:var(--gold-bright)}
+.nav a:hover::after,.nav a:focus-visible::after{transform:scaleX(1)}
+.nav .prog{margin-left:auto;display:flex;align-items:center;gap:9px;font-family:var(--font-ui);font-size:.76rem;color:var(--muted);white-space:nowrap;padding-left:10px}
+.nav .prog b{color:var(--gold-bright);font-size:.92rem}
+.progbar{width:64px;height:5px;border-radius:99px;background:var(--ink-3);overflow:hidden;border:1px solid var(--line)}
+.progbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold-soft),var(--gold-bright));transition:width .5s}
+
+/* ---------- LAYOUT ---------- */
+main{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+.section{padding:clamp(54px,8vw,92px) 0;scroll-margin-top:64px;border-bottom:1px solid var(--line)}
+.section:last-of-type{border-bottom:none}
+.sec-head{margin-bottom:clamp(30px,5vw,48px)}
+.sec-eyebrow{font-family:var(--font-display);letter-spacing:.34em;font-size:.72rem;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.sec-eyebrow::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.sec-title{font-family:var(--font-serif);font-weight:700;font-size:clamp(1.8rem,5vw,2.7rem);margin:0;color:#F4ECD7;letter-spacing:.03em}
+.sec-sub{color:var(--muted);font-weight:300;font-size:1.02rem;margin:14px 0 0;max-width:660px;line-height:1.9}
+.sec-sub b{color:var(--gold-bright);font-weight:500}
+
+/* reveal anim */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- 序章 / 點石成金 ---------- */
+.intro-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:start}
+.intro-lead{font-size:1.12rem;line-height:2.05;font-weight:300}
+.intro-lead .big{display:block;font-family:var(--font-serif);font-weight:700;font-size:clamp(1.4rem,3.4vw,1.9rem);color:var(--gold-bright);line-height:1.4;margin-bottom:18px;letter-spacing:.02em}
+.intro-lead b{color:var(--cream);font-weight:500}
+.story-strip{margin-top:30px;display:grid;gap:14px}
+.story-mini{background:var(--ink-2);border:1px solid var(--line);border-left:3px solid var(--gold);padding:16px 20px;border-radius:0 4px 4px 0}
+.story-mini h4{margin:0 0 6px;font-size:1.02rem;color:var(--gold-bright);font-weight:600;font-family:var(--font-serif)}
+.story-mini p{margin:0;font-size:.94rem;color:var(--muted);font-weight:300;line-height:1.8}
+.story-mini .punch{color:var(--cream);font-weight:500}
+
+/* 六步驟梯 */
+.steps-card{background:linear-gradient(170deg,var(--parchment),var(--parchment-2));color:var(--p-ink);border-radius:6px;padding:30px 28px;box-shadow:var(--shadow);position:relative;border:1px solid rgba(201,162,75,.4)}
+.steps-card::before{content:"";position:absolute;inset:7px;border:1px solid rgba(201,162,75,.35);border-radius:3px;pointer-events:none}
+.steps-card .kicker{font-family:var(--font-display);letter-spacing:.22em;font-size:.7rem;color:var(--gold-soft);text-transform:uppercase;text-align:center}
+.steps-card h3{font-family:var(--font-serif);font-weight:700;text-align:center;margin:6px 0 4px;font-size:1.5rem;color:var(--p-ink);letter-spacing:.03em}
+.steps-card .en-sub{text-align:center;font-family:var(--font-display);font-size:.66rem;letter-spacing:.2em;color:var(--p-ink-soft);margin-bottom:22px}
+.step{display:flex;gap:16px;padding:13px 0;border-top:1px solid rgba(90,76,52,.22)}
+.step:first-of-type{border-top:none}
+.step .sn{flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--gold-soft);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:600;color:var(--gold-soft);font-size:1rem}
+.step .st{font-size:.98rem;line-height:1.7;color:var(--p-ink)}
+.step .st b{color:#7a5e1f;font-weight:700}
+.steps-foot{margin-top:18px;padding-top:16px;border-top:1px solid rgba(90,76,52,.22);font-size:.86rem;color:var(--p-ink-soft);line-height:1.7;text-align:center;font-style:italic}
+
+/* ---------- 法則卡 ---------- */
+.laws{display:grid;gap:30px}
+.law{background:linear-gradient(168deg,var(--parchment),var(--parchment-2));color:var(--p-ink);border-radius:6px;box-shadow:var(--shadow);overflow:hidden;border:1px solid rgba(201,162,75,.35);position:relative}
+.law-head{display:flex;align-items:stretch;gap:0;border-bottom:1px solid rgba(90,76,52,.22)}
+.law-num{flex:none;width:clamp(78px,16vw,104px);background:linear-gradient(160deg,var(--ink-2),var(--ink));color:var(--gold-bright);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 6px;position:relative}
+.law-num::after{content:"";position:absolute;top:14%;bottom:14%;right:0;width:1px;background:linear-gradient(var(--gold-soft),transparent)}
+.law-num .n{font-family:var(--font-display);font-weight:700;font-size:clamp(2.1rem,6vw,2.9rem);line-height:1}
+.law-num .law-lab{font-family:var(--font-display);font-size:.54rem;letter-spacing:.22em;color:var(--gold-soft);margin-top:7px}
+.law-title{flex:1;padding:18px 22px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.law-title h3{margin:0;font-family:var(--font-serif);font-weight:700;font-size:clamp(1.35rem,3.6vw,1.7rem);color:var(--p-ink);letter-spacing:.03em}
+.law-title .en{font-family:var(--font-display);font-weight:600;letter-spacing:.18em;font-size:.7rem;color:var(--gold-soft);text-transform:uppercase;margin-top:5px}
+.law-title .tag{font-size:.9rem;color:var(--p-ink-soft);margin-top:8px;font-weight:400;line-height:1.6}
+.law-done{flex:none;align-self:flex-start;margin:14px 16px 0 0}
+.toggle{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--font-ui);font-size:.74rem;color:var(--p-ink-soft);user-select:none;white-space:nowrap}
+.toggle input{position:absolute;opacity:0;pointer-events:none}
+.toggle .box{width:38px;height:21px;border-radius:99px;background:#cbbd9d;border:1px solid rgba(90,76,52,.4);position:relative;transition:background .25s;flex:none}
+.toggle .box::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#fff;transition:transform .25s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.toggle input:checked + .box{background:var(--jade)}
+.toggle input:checked + .box::after{transform:translateX(17px)}
+.toggle input:focus-visible + .box{outline:2px solid var(--jade-deep);outline-offset:2px}
+.law-body{padding:22px 24px 26px}
+.essence{font-size:1.08rem;line-height:1.8;color:var(--p-ink);font-weight:500;margin:0 0 20px;padding-left:14px;border-left:3px solid var(--gold)}
+/* 金句 */
+.quote{background:var(--ink-2);color:var(--cream);border-radius:5px;padding:18px 22px;margin:0 0 20px;position:relative}
+.quote .mark{font-family:var(--font-display);font-size:2.4rem;color:var(--gold);line-height:0;position:absolute;top:20px;left:14px;opacity:.5}
+.quote .en{font-family:var(--font-display);font-style:italic;font-size:.98rem;letter-spacing:.02em;color:var(--gold-bright);padding-left:26px;line-height:1.7}
+.quote .zh{font-size:1.02rem;padding-left:26px;margin-top:9px;color:var(--cream);font-weight:400;line-height:1.8}
+/* 子標 */
+.subhd{font-family:var(--font-display);letter-spacing:.16em;font-size:.66rem;text-transform:uppercase;color:var(--gold-soft);margin:0 0 12px;display:flex;align-items:center;gap:10px}
+.subhd::after{content:"";flex:1;height:1px;background:rgba(90,76,52,.22)}
+/* 易忘重點 chips */
+.forget-list{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:9px}
+.forget-list li{position:relative;padding:9px 14px 9px 34px;background:rgba(201,162,75,.08);border:1px solid rgba(201,162,75,.22);border-radius:4px;font-size:.95rem;line-height:1.65;color:var(--p-ink)}
+.forget-list li::before{content:"✦";position:absolute;left:12px;top:9px;color:var(--gold-soft);font-size:.85rem}
+.forget-list li b{color:#7a5e1f;font-weight:700}
+/* 故事折疊 */
+details.story{border:1px solid rgba(90,76,52,.25);border-radius:5px;margin:0 0 18px;background:#fbf6e9;overflow:hidden}
+details.story>summary{cursor:pointer;padding:13px 16px;font-family:var(--font-ui);font-weight:500;font-size:.9rem;color:var(--p-ink);list-style:none;display:flex;align-items:center;gap:10px;transition:background .2s}
+details.story>summary::-webkit-details-marker{display:none}
+details.story>summary::before{content:"▸";color:var(--gold-soft);transition:transform .2s;font-size:.8rem}
+details.story[open]>summary::before{transform:rotate(90deg)}
+details.story>summary:hover{background:rgba(201,162,75,.08)}
+details.story .sbody{padding:4px 18px 18px 38px;font-size:.93rem;line-height:1.8;color:var(--p-ink-soft);font-weight:400}
+details.story .sbody b{color:var(--p-ink);font-weight:600}
+/* 反思 */
+.reflect{margin-top:6px}
+.reflect label{font-family:var(--font-ui);font-size:.78rem;color:var(--p-ink-soft);display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.reflect label .dot{width:6px;height:6px;background:var(--jade);border-radius:50%}
+.reflect textarea{width:100%;min-height:78px;background:#fbf6e9;border:1px solid rgba(90,76,52,.3);border-radius:5px;padding:11px 13px;font-family:var(--font-serif);font-size:.96rem;color:var(--p-ink);resize:vertical;line-height:1.7}
+.reflect textarea:focus{outline:2px solid var(--jade);outline-offset:1px;border-color:transparent}
+.reflect textarea::placeholder{color:#a99c7e}
+/* 名人 */
+.modern{margin-top:18px;display:flex;align-items:flex-start;gap:11px;font-size:.86rem;color:var(--p-ink-soft);line-height:1.65;padding-top:16px;border-top:1px solid rgba(90,76,52,.22)}
+.modern .badge{flex:none;font-family:var(--font-ui);font-size:.62rem;letter-spacing:.1em;background:var(--ink-2);color:var(--gold-bright);padding:4px 9px;border-radius:99px;text-transform:uppercase;margin-top:2px}
+.modern b{color:var(--p-ink);font-weight:600}
+
+/* ---------- 複習手冊 ---------- */
+.review-tools{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px}
+.review-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.rcard{background:var(--ink-2);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:6px;padding:22px 22px 20px;display:flex;flex-direction:column}
+.rcard h3{margin:0;font-family:var(--font-serif);font-weight:700;font-size:1.2rem;color:var(--gold-bright);letter-spacing:.02em}
+.rcard .rsub{font-family:var(--font-ui);font-size:.74rem;color:var(--muted);letter-spacing:.04em;margin:6px 0 16px}
+.rcard ol,.rcard ul{margin:0;padding-left:0;list-style:none;counter-reset:ri;display:grid;gap:8px}
+.rcard li{display:flex;gap:11px;font-size:.94rem;line-height:1.65;color:var(--cream);font-weight:300}
+.rcard ol li::before{counter-increment:ri;content:counter(ri);flex:none;width:22px;height:22px;border-radius:50%;border:1px solid var(--gold-soft);color:var(--gold-bright);font-family:var(--font-display);font-size:.74rem;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.rcard ul.dot li::before{content:"◆";color:var(--gold-soft);font-size:.7rem;margin-top:3px;flex:none}
+.rcard li .rt{font-weight:500;color:#F2E9D2}
+.rcard li .rd{color:var(--muted);font-weight:300}
+.rcard.testing .rd{filter:blur(5px);transition:filter .2s;cursor:pointer}
+.rcard.testing .rd:hover,.rcard.testing .rd.shown{filter:none}
+.rcard.dual{grid-column:1/-1}
+.dual-cols{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.dual-cols .col h4{margin:0 0 12px;font-family:var(--font-ui);font-size:.82rem;letter-spacing:.06em}
+.col.pos h4{color:var(--jade)}
+.col.neg h4{color:var(--oxblood)}
+.col.pos li::before{content:"＋";color:var(--jade);font-weight:700}
+.col.neg li::before{content:"－";color:var(--oxblood);font-weight:700}
+
+/* ---------- 實踐：宣言 ---------- */
+.build-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
+.form-card{background:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:26px 24px}
+.form-card .subhd{color:var(--gold-soft)}
+.field{margin-bottom:16px}
+.field label{display:block;font-family:var(--font-ui);font-size:.82rem;color:var(--cream);margin-bottom:7px;font-weight:400}
+.field label span{color:var(--muted);font-size:.74rem;margin-left:6px}
+.field input,.field textarea{width:100%;background:var(--ink);border:1px solid var(--line);border-radius:5px;padding:10px 13px;font-family:var(--font-serif);font-size:.97rem;color:var(--cream);line-height:1.7}
+.field textarea{resize:vertical;min-height:62px}
+.field input:focus,.field textarea:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:transparent}
+.field input::placeholder,.field textarea::placeholder{color:#6c7d76}
+/* 宣言預覽 */
+.decl-card{background:linear-gradient(168deg,var(--parchment),var(--parchment-2));color:var(--p-ink);border-radius:6px;padding:30px 28px;box-shadow:var(--shadow);position:relative;border:1px solid rgba(201,162,75,.4);position:sticky;top:74px}
+.decl-card::before{content:"";position:absolute;inset:8px;border:1px solid rgba(201,162,75,.3);border-radius:3px;pointer-events:none}
+.decl-card .kicker{font-family:var(--font-display);letter-spacing:.24em;font-size:.66rem;color:var(--gold-soft);text-transform:uppercase;text-align:center;margin-bottom:4px}
+.decl-card h3{font-family:var(--font-serif);font-weight:700;text-align:center;margin:0 0 20px;font-size:1.4rem;color:var(--p-ink);letter-spacing:.04em}
+#declText{font-size:1.04rem;line-height:2.1;color:var(--p-ink);font-weight:400}
+#declText .fill{color:#7a5e1f;font-weight:700;border-bottom:1px dotted #b79a4f;padding:0 2px}
+#declText .ph{color:#a99c7e;font-style:italic;font-weight:400}
+.decl-note{margin-top:20px;padding-top:16px;border-top:1px solid rgba(90,76,52,.25);font-size:.84rem;color:var(--p-ink-soft);line-height:1.7;font-style:italic}
+
+/* ---------- 恐懼自我檢測 ---------- */
+.fear-intro{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.fenemy{background:var(--ink-2);border:1px solid var(--line);border-left:3px solid var(--oxblood);border-radius:0 4px 4px 0;padding:13px 16px}
+.fenemy .fn{font-family:var(--font-serif);font-weight:600;color:#E8B5AB;font-size:1rem}
+.fenemy .fd{font-size:.82rem;color:var(--muted);font-weight:300;margin-top:3px;line-height:1.6}
+.fears{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.fbox{background:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:20px 20px 16px}
+.fbox.flagged{border-color:var(--oxblood);box-shadow:0 0 0 1px var(--oxblood) inset}
+.fbox h4{margin:0 0 4px;font-family:var(--font-serif);font-weight:700;font-size:1.08rem;color:#F2E9D2;display:flex;align-items:center;gap:9px}
+.fbox h4 .cnt{font-family:var(--font-ui);font-size:.7rem;background:var(--oxblood);color:#fff;border-radius:99px;padding:2px 9px;opacity:0;transition:opacity .2s}
+.fbox.flagged h4 .cnt{opacity:1}
+.fbox .fen{font-family:var(--font-display);font-size:.6rem;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:13px}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer;font-size:.9rem;line-height:1.55;color:var(--cream);font-weight:300}
+.chk input{position:absolute;opacity:0;pointer-events:none}
+.chk .cb{flex:none;width:18px;height:18px;border-radius:3px;border:1.5px solid var(--line);background:var(--ink);margin-top:2px;position:relative;transition:.2s}
+.chk .cb::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:.78rem;font-weight:700;opacity:0;transition:.15s}
+.chk input:checked + .cb{background:var(--oxblood);border-color:var(--oxblood)}
+.chk input:checked + .cb::after{opacity:1;color:#fff}
+.chk input:focus-visible + .cb{outline:2px solid var(--gold);outline-offset:2px}
+.fear-summary{margin-top:24px;background:var(--ink-3);border:1px solid var(--line);border-radius:6px;padding:20px 22px;font-size:.96rem;line-height:1.8;color:var(--cream)}
+.fear-summary b{color:#E8B5AB}
+.fear-summary .ok{color:var(--jade)}
+
+/* ---------- 結語 / alibi ---------- */
+.alibi{background:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:28px 26px;margin-top:8px}
+.alibi .lead{font-size:1.04rem;line-height:1.9;color:var(--cream);font-weight:300}
+.alibi .lead b{color:var(--gold-bright);font-weight:500}
+.alibi .punch{margin-top:18px;padding:18px 20px;background:var(--ink);border-left:3px solid var(--gold);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.9;color:#F2E9D2;font-style:italic}
+
+/* ---------- 按鈕 ---------- */
+.btn{font-family:var(--font-ui);font-size:.82rem;letter-spacing:.04em;border-radius:99px;padding:9px 18px;cursor:pointer;border:1px solid var(--gold-soft);background:transparent;color:var(--gold-bright);transition:all .2s;display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+.btn:hover{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.btn.solid{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.btn.solid:hover{background:var(--gold-bright);border-color:var(--gold-bright)}
+.btn.ghost{border-color:var(--line);color:var(--muted)}
+.btn.ghost:hover{border-color:var(--oxblood);color:#E8B5AB;background:transparent}
+
+/* ---------- footer ---------- */
+footer{padding:54px 22px 70px;text-align:center;border-top:1px solid var(--line);background:var(--ink-2)}
+footer .fq{font-family:var(--font-serif);font-style:italic;font-size:1.15rem;color:var(--gold-bright);max-width:560px;margin:0 auto 8px;line-height:1.8}
+footer .fq-en{font-family:var(--font-display);font-size:.78rem;letter-spacing:.12em;color:var(--muted);margin-bottom:26px}
+footer .fmeta{font-family:var(--font-ui);font-size:.76rem;color:var(--muted);line-height:1.8}
+footer .fmeta a{color:var(--gold-soft)}
+.foot-tools{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+.saved-flash{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--jade-deep);color:#fff;font-family:var(--font-ui);font-size:.82rem;padding:10px 20px;border-radius:99px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.3s;z-index:99;border:1px solid var(--jade)}
+.saved-flash.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---------- RWD ---------- */
+@media(max-width:860px){
+  .intro-grid,.build-grid{grid-template-columns:1fr}
+  .review-grid,.fears{grid-template-columns:1fr}
+  .fear-intro{grid-template-columns:1fr}
+  .dual-cols{grid-template-columns:1fr;gap:18px}
+  .decl-card{position:static}
+}
+@media(max-width:480px){
+  .hstat{padding:0 14px}
+  .law-head{flex-wrap:wrap}
+  .law-done{margin:0 16px 14px;order:3}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;scroll-behavior:auto!important}
+  .reveal{opacity:1;transform:none;transition:none}
+  .sunburst{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="sunburst"></div>
+  <div class="hero-inner">
+    <p class="eyebrow">Napoleon Hill · 1937</p>
+    <div class="hero-rule"></div>
+    <h1>思考<span class="grad">致富</span></h1>
+    <p class="en">Think and Grow Rich</p>
+    <p class="promise">勇敢做大夢，你就能做大事。<br>財富，始於你腦中的<b>一個想法</b>。</p>
+    <p class="byline">拿破崙·希爾 採訪 <b>500+</b> 位名流 · 耗時 <b>25 年</b> 萃取的 13 條成功白金法則</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="num">13</div><div class="lab">白金法則</div></div>
+      <div class="hstat"><div class="num">6</div><div class="lab">點石成金步驟</div></div>
+      <div class="hstat"><div class="num">6</div><div class="lab">恐懼惡魔</div></div>
+      <div class="hstat"><div class="num">6000<span style="font-size:.5em">萬冊</span></div><div class="lab">全球銷量</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= NAV ================= -->
+<nav class="nav" aria-label="章節導覽">
+  <div class="nav-inner">
+    <a href="#intro">序章</a>
+    <a href="#laws-sec">13 法則</a>
+    <a href="#review">複習手冊</a>
+    <a href="#practice">致富宣言</a>
+    <a href="#fears">六大恐懼</a>
+    <a href="#closing">結語</a>
+    <div class="prog">
+      <span>已內化 <b id="progNum">0</b>/13</span>
+      <span class="progbar"><i id="progBar"></i></span>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ===== 序章 ===== -->
+  <section class="section" id="intro">
+    <div class="sec-head reveal">
+      <div class="sec-eyebrow">序章 · The Secret</div>
+      <h2 class="sec-title">心想事成：思想會成真</h2>
+      <p class="sec-sub">在進入 13 條法則之前，先掌握全書的<b>地基信念</b>——以及那個讓無數人擦身而過財富的致命習慣。</p>
+    </div>
+    <div class="intro-grid">
+      <div class="intro-lead reveal">
+        <span class="big">「動腦思考，就能致富。」</span>
+        希爾的核心主張是：<b>思想是一種具體的東西（Thoughts are things）</b>。每一筆龐大財富，都始於腦中一個被<b>熾烈渴望</b>點燃、再轉化為實際行動的念頭。沒背景、缺資金都不是藉口——只要你擁有明確目標與強烈到足以「破釜沉舟」的渴望，整個宇宙都會協助你達成。
+        <div class="story-strip">
+          <div class="story-mini">
+            <h4>離黃金只差三英尺</h4>
+            <p>達比的叔叔在科羅拉多挖到金礦，礦脈似乎中斷後便放棄、賤賣機器。收破爛的人請工程師勘查，發現金脈只在他們停手處<span class="punch">再往前三英尺。失敗，常在你最接近成功時找上門。</span></p>
+          </div>
+          <div class="story-mini">
+            <h4>佃農之女的 50 美分</h4>
+            <p>一個小女孩來討回母親被欠的工錢，面對叔叔的怒斥仍堅定站立不退。最後叔叔屈服掏錢。<span class="punch">意志力＋堅定的決心，能戰勝看似更強大的對手。</span></p>
+          </div>
+          <div class="story-mini">
+            <h4>巴恩斯與愛迪生</h4>
+            <p>身無分文的巴恩斯渴望成為愛迪生的「事業夥伴」而非員工。他搭貨運火車去找愛迪生，在心中先「看見」自己已是夥伴。最終獨家經銷愛迪生口述機而致富。<span class="punch">先在心中成為那種人。</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="steps-card reveal">
+        <div class="kicker">全書最重要的行動框架</div>
+        <h3>點石成金 六步驟</h3>
+        <div class="en-sub">SIX STEPS · DESIRE INTO GOLD</div>
+        <div class="step"><div class="sn">1</div><div class="st">在心中確定你渴望的 <b>明確金額</b>。光說「我想要很多錢」沒有用。</div></div>
+        <div class="step"><div class="sn">2</div><div class="st">確切決定你願意 <b>付出什麼回報</b>。天下沒有不勞而獲。</div></div>
+        <div class="step"><div class="sn">3</div><div class="st">設定一個 <b>明確的達成日期</b>。</div></div>
+        <div class="step"><div class="sn">4</div><div class="st">擬定 <b>明確的計畫</b>，不論準備好與否，<b>立刻</b>開始行動。</div></div>
+        <div class="step"><div class="sn">5</div><div class="st">把以上四點寫成一份 <b>清楚的書面聲明</b>（金額、期限、回報、計畫）。</div></div>
+        <div class="step"><div class="sn">6</div><div class="st">每天 <b>早晚各一次</b> 大聲朗讀；朗讀時要 <b>看見、感受並相信</b> 自己已經擁有它。</div></div>
+        <div class="steps-foot">下方「致富宣言產生器」會帶你完成這六步驟 →</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 13 法則 ===== -->
+  <section class="section" id="laws-sec">
+    <div class="sec-head reveal">
+      <div class="sec-eyebrow">學習單 · The 13 Principles</div>
+      <h2 class="sec-title">13 條成功白金法則</h2>
+      <p class="sec-sub">每一條法則都附上 <b>一句話精髓、中英金句、關鍵故事、易忘重點與近代名人實證</b>。讀完後在反思欄寫下你的應用，並切換「已內化」追蹤進度。<b>筆記會自動儲存。</b></p>
+    </div>
+    <div class="laws" id="laws"></div>
+  </section>
+
+  <!-- ===== 複習手冊 ===== -->
+  <section class="section" id="review">
+    <div class="sec-head reveal">
+      <div class="sec-eyebrow">複習手冊 · Cheat Sheet</div>
+      <h2 class="sec-title">容易遺忘的重點</h2>
+      <p class="sec-sub">這些<b>清單與公式</b>是全書最常被忘記、卻最該背起來的硬知識。開啟「自我測驗模式」會把解釋模糊化，點一下才顯示——用來考自己。</p>
+    </div>
+    <div class="review-tools reveal">
+      <button class="btn" id="testToggle" aria-pressed="false">▦ 開啟自我測驗模式</button>
+      <span style="font-family:var(--font-ui);font-size:.8rem;color:var(--muted);align-self:center">（模糊處點擊即可揭示答案）</span>
+    </div>
+    <div class="review-grid" id="review-grid"></div>
+  </section>
+
+  <!-- ===== 實踐：致富宣言 ===== -->
+  <section class="section" id="practice">
+    <div class="sec-head reveal">
+      <div class="sec-eyebrow">實踐手冊 · Your Money Creed</div>
+      <h2 class="sec-title">打造你的致富宣言</h2>
+      <p class="sec-sub">依照<b>點石成金六步驟</b>填入下列欄位，右側會即時生成你專屬的致富宣言。完成後，每天<b>早晚各大聲朗讀一次</b>，並想像自己已經擁有它。<b>內容自動儲存。</b></p>
+    </div>
+    <div class="build-grid">
+      <div class="form-card reveal">
+        <div class="subhd">六步驟填寫</div>
+        <div class="field">
+          <label>你的名字 <span>（選填）</span></label>
+          <input type="text" id="d_name" data-decl placeholder="例：成claw">
+        </div>
+        <div class="field">
+          <label>① 明確金額 <span>step 1</span></label>
+          <input type="text" id="d_amount" data-decl placeholder="例：NT$ 1,000,000">
+        </div>
+        <div class="field">
+          <label>③ 達成日期 <span>step 3</span></label>
+          <input type="text" id="d_date" data-decl placeholder="例：2028 年 6 月 1 日">
+        </div>
+        <div class="field">
+          <label>② 我願付出的回報 <span>step 2</span></label>
+          <textarea id="d_service" data-decl placeholder="例：提供最高品質的 AI／資安顧問服務，並持續精進專業"></textarea>
+        </div>
+        <div class="field">
+          <label>④ 我的明確計畫 <span>step 4</span></label>
+          <textarea id="d_plan" data-decl placeholder="例：每週產出兩支教學內容、每月接洽三位潛在客戶……"></textarea>
+        </div>
+      </div>
+      <div class="decl-card reveal">
+        <div class="kicker">Read aloud · morning &amp; night</div>
+        <h3>我的致富宣言</h3>
+        <div id="declText"></div>
+        <p class="decl-note">⚠ 朗讀時光念文字沒有用——希爾強調，必須注入<b style="color:#7a5e1f">情感與信念</b>，讓潛意識「看見並感受」你已擁有它，自我暗示才會生效。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 六大恐懼 ===== -->
+  <section class="section" id="fears">
+    <div class="sec-head reveal">
+      <div class="sec-eyebrow">第十四章 · Six Ghosts of Fear</div>
+      <h2 class="sec-title">智取六大恐懼惡魔</h2>
+      <p class="sec-sub">在套用 13 法則之前，必須先清出大腦空間。恐懼只是一種<b>心智狀態</b>，可以被自己消除。勾選你身上出現的症狀，下方會即時點出你最需要對付的恐懼。<b>勾選結果自動儲存。</b></p>
+    </div>
+    <div class="fear-intro reveal">
+      <div class="fenemy"><div class="fn">猶豫 Indecision</div><div class="fd">三大敵人之首，是懷疑與恐懼的溫床。</div></div>
+      <div class="fenemy"><div class="fn">懷疑 Doubt</div><div class="fd">由猶豫滋生，悄悄侵蝕你的信念。</div></div>
+      <div class="fenemy"><div class="fn">恐懼 Fear</div><div class="fd">兩者混合的結果，會直接癱瘓行動。</div></div>
+    </div>
+    <div class="fears" id="fears-grid"></div>
+    <div class="fear-summary" id="fearSummary">尚未勾選任何症狀。誠實面對自己，是消除恐懼的第一步。</div>
+  </section>
+
+  <!-- ===== 結語 ===== -->
+  <section class="section" id="closing">
+    <div class="sec-head reveal">
+      <div class="sec-eyebrow">第七大惡 · Mr. IF</div>
+      <h2 class="sec-title">別讓「如果」綁架你的人生</h2>
+    </div>
+    <div class="alibi reveal">
+      <p class="lead">比六大恐懼更陰險的，是<b>易受負面影響的性格</b>——因為你往往察覺不到它。希爾在書末諷刺地列出 <b>55 個舉世皆知的藉口遁詞</b>，每一條都以「如果我……」開頭：如果我有錢、如果我有好家世、如果我健康、如果我有時間、如果景氣好、如果我年輕一點、如果別人懂我……</p>
+      <p class="punch">「但最關鍵的一條藉口是——<b style="color:var(--gold-bright)">如果我有勇氣看清真實的自己</b>，我就能找出我哪裡錯了、並改正它。因為我終將發現：我花了太多時間替失敗找藉口，卻沒有時間去把它修正。」</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-tools">
+    <button class="btn solid" id="exportBtn">⬇ 匯出我的筆記（Markdown）</button>
+    <button class="btn ghost" id="resetBtn">清除所有資料</button>
+  </div>
+  <p class="fq">「凡是心靈能夠想像並且相信的，終必能夠實現。」</p>
+  <p class="fq-en">Whatever the mind can conceive and believe, it can achieve.</p>
+  <p class="fmeta">
+    《思考致富》Think and Grow Rich · 拿破崙·希爾 著（遠足文化版）<br>
+    互動學習單 · 你的筆記儲存在此瀏覽器中（localStorage）· 可匯出至 Notion
+  </p>
+</footer>
+
+<div class="saved-flash" id="flash">已儲存 ✓</div>
+
+<script>
+/* ============ 資料：13 法則 ============ */
+const PRINCIPLES=[
+ {n:"01",zh:"渴望",en:"Desire",tag:"畢生成就的出發點",
+  essence:"不是「希望」或「想要」，而是一種不達目的誓不罷休的「熾烈渴望」。",
+  qEn:"Desire backed by faith knows no such word as impossible.",
+  qZh:"以信心為後盾的渴望，字典裡沒有「不可能」三個字。",
+  story:{t:"破釜沉舟（Burn your ships）",b:"古代將領登陸敵境後，下令燒掉自己的船——全軍只剩兩個選項：勝利，或死亡。<b>斷絕退路，渴望才會凝結成決心。</b>當你給自己留後路，你給的其實是放棄的許可。"},
+  forget:["熾烈渴望 ≠ 一般的願望。差別在於你是否願意<b>燒掉退路</b>。",
+          "化渴望為財富，要靠下方的<b>「點石成金六步驟」</b>（最該背的框架）。",
+          "希爾的兒子布萊爾天生無耳道、被判終生聾啞；希爾拒絕接受，持續灌輸信念，最終兒子重獲約 65% 聽力。<b>強烈渴望＋信念能突破生理「不可能」。</b>"],
+  modern:"阿諾·史瓦辛格——從奧地利小鎮到健美冠軍、好萊塢巨星、加州州長，靠的是清晰的渴望與「看見自己成功」的想像。"},
+
+ {n:"02",zh:"信心",en:"Faith",tag:"想像並相信渴望終獲實現",
+  essence:"信心是一種「心智狀態」，可透過自我暗示「培養」出來——不是天生的。",
+  qEn:"Faith is the head chemist of the mind.",
+  qZh:"信心是心智的首席化學家。",
+  story:{t:"價值十億美元的餐後演說",b:"查爾斯·施瓦布（Charles Schwab）的一場餐後演說打動了 J.P. 摩根，促成<b>美國鋼鐵公司（U.S. Steel）</b>的成立——史上第一家市值十億美元的公司。帶著信心的意念，能催生龐大到難以想像的財富。"},
+  forget:["公式：<b>信心 ＝ 渴望 ＋ 反覆的自我暗示</b>。情感化的思想，潛意識才會接收並轉化為實體。",
+          "「你就是你所<b>認為</b>的那種人。」沒有人天生注定是窮光蛋。",
+          "希爾提供一段「<b>自信方程式</b>」（Self-Confidence Formula）——每天朗讀，把自信刻進潛意識。"],
+  modern:"約翰·坦伯頓爵士——投資大師，在二戰最悲觀的 1939 年逆勢買進廉價股而致富，對自己的判斷抱持信心。"},
+
+ {n:"03",zh:"自我暗示",en:"Auto-Suggestion",tag:"影響潛意識心智的媒介",
+  essence:"自我暗示是意識與潛意識之間溝通的橋樑——你給它什麼指令，它就為你實現什麼。",
+  qEn:"I am the master of my fate, I am the captain of my soul.",
+  qZh:"我是自身命運的主宰，我是自我靈魂的統帥。",
+  story:{t:"光「念」是沒用的",b:"純粹複誦文字，潛意識不會理你。必須為文字<b>注入情感與感受</b>（emotionalized），潛意識才會啟動。這就是為什麼多數人念了目標卻沒有效果——他們念得很空洞。"},
+  forget:["激發致富潛意識<b>三步驟</b>：① 在安靜處大聲朗讀渴望聲明，看見並感受擁有它；② 早晚重複，直到能在腦海清楚「看見」金錢；③ 把書面聲明放在每天看得到的地方。",
+          "關鍵字是<b>「看見、感受、相信」</b>——把抽象金額變成可感知的畫面。",
+          "你是自己命運的主宰——但前提是你願意<b>主動下指令</b>，否則潛意識會被恐懼等雜訊佔據。"],
+  modern:"韓國射箭國家代表隊——透過反覆心像訓練（在吵雜、施壓的環境模擬比賽），在腦中預演成功，奪下奧運金牌。"},
+
+ {n:"04",zh:"專業知識",en:"Specialized Knowledge",tag:"懂得活用知識就能創造成功",
+  essence:"「知識就是力量」是迷思——知識只是「潛在」力量，唯有有組織、有目的地運用才成真。",
+  qEn:"Knowledge will not attract money unless it is organized and intelligently directed.",
+  qZh:"知識若未經組織與明智引導，並不會為你帶來財富。",
+  story:{t:"福特的「無知老粗」官司",b:"福特被報紙嘲笑無知，他在法庭上反擊：他桌上有一排按鈕，按下就能召來任何領域的專家，<b>何必把腦袋塞滿這些可以外包的知識？</b>真正的智慧是「知道去哪裡找答案」，並懂得善用智囊團。"},
+  forget:["你需要的是<b>「與目標相關的專業知識」</b>，不是泛泛的通識；通才賺不到大錢。",
+          "你不必親自擁有所有知識——可以透過<b>智囊團借用他人的專業</b>。",
+          "知識可以<b>「規劃性取得」</b>：先確定需要什麼、為何需要、從哪裡取得（經驗、智囊團、學校、圖書館、專業課程）。"],
+  modern:"松下幸之助——小學沒畢業，靠終身學習與善用人才打造松下帝國。成功之道在於「活到老、學到老」。"},
+
+ {n:"05",zh:"想像力",en:"Imagination",tag:"心靈夢工廠",
+  essence:"想像力是把渴望塑造成「計畫」的工坊；所有財富都先誕生於想像。",
+  qEn:"The imagination is the workshop wherein are fashioned all plans created by man.",
+  qZh:"想像力是人類所有計畫成形的工坊。",
+  story:{t:"價值一百萬美元的布道",b:"岡索勒斯牧師渴望籌一百萬美元辦一所重實作的學校。某週六他下定決心「我要在<b>一週內</b>募到一百萬」，並寫好講題《如果我有一百萬，我會怎麼做》。講道後一位富商深受感動，隔天捐出一百萬。<b>明確目標＋明確計畫＋果斷的期限。</b>"},
+  forget:["兩種想像力：<b>整合式</b>（把既有概念重新組合，多數發明屬此）vs <b>創新式</b>（直接連結無窮智慧，接收全新靈感）。",
+          "想像力像肌肉，<b>越用越強</b>。",
+          "可口可樂的「魔法壺」故事：值錢的不是那只裝著祕方的舊壺，而是買主<b>加上的想像力</b>（行銷與通路）。"],
+  modern:"華特·迪士尼——「兜售點子」的最佳典範，把米老鼠與迪士尼樂園的想像變成全球娛樂帝國。"},
+
+ {n:"06",zh:"條理分明做計畫",en:"Organized Planning",tag:"具體化渴望為行動",
+  essence:"把渴望透過明確、可行的計畫落實。計畫失敗只代表計畫有瑕疵——換計畫，別換目標。",
+  qEn:"No man is ever whipped, until he quits — in his own mind.",
+  qZh:"沒有人會被打敗，除非他在自己心裡先放棄。",
+  story:{t:"暫時的失敗 ≠ 永久的失敗",b:"愛迪生失敗一萬次才發明電燈。當計畫不奏效，<b>立刻另擬新計畫重來</b>，這正是有錢人累積財富的方式——他們都從「兜售點子」開始，並在失敗中持續修正。"},
+  forget:["<b>領導的 11 個必備條件</b> 與 <b>領導失敗的 10 大肇因</b>（見複習手冊），用來檢視自己的領導力。",
+          "<b>QQS 公式</b>：服務的品質（Quality）＋數量（Quantity）＋精神（Spirit）＝你能換取的報酬。",
+          "希爾列出<b>失敗的 30 種肇因</b>與「年終自我檢討 28 問」——拿來做年度自我盤點。"],
+  modern:"孫正義——軟銀創辦人，以明確的「人生五十年規劃」按部就班、逐夢踏實。"},
+
+ {n:"07",zh:"決心",en:"Decision",tag:"戰勝拖拖拉拉的毛病",
+  essence:"拖延是致富的頭號敵人。富人快速且果斷地做決定，緩慢地（若有的話）改變決定。",
+  qEn:"The world has the habit of making room for the man whose words and actions show that he knows where he is going.",
+  qZh:"世界總會為一個明確知道自己要去哪裡的人，騰出空間。",
+  story:{t:"《獨立宣言》的誕生",b:"美國開國元勳們做出簽署《獨立宣言》的「決定」——這是一個賭上性命的果斷決定（「我們以生命、財產與神聖的榮譽相互擔保」），改變了歷史。<b>帶著勇氣去實現的決心，價值無可估量。</b>"},
+  forget:["千萬富豪的特質：<b>下決定明快確實、改主意慢條斯理</b>；失敗者剛好相反。",
+          "「<b>先做出成績，再昭告天下</b>」——別被他人意見左右。意見是世上最廉價的商品，人人都有一堆免費的硬塞給你。",
+          "守住你的計畫，<b>自己做決定</b>——尤其要對親友善意但消極的意見緊閉心門。"],
+  modern:"史蒂芬·史匹柏——年輕時果斷地「賴」在環球片廠、自己創造機會，牢牢掌握自身命運。"},
+
+ {n:"08",zh:"毅力",en:"Persistence",tag:"堅持不懈是喚醒信念的必要元素",
+  essence:"毅力是「意志力＋渴望」的持續。多數人一遇挫折就放棄，少數有毅力者勝出。",
+  qEn:"A quitter never wins — and a winner never quits.",
+  qZh:"放棄者永不成功，成功者永不放棄。",
+  story:{t:"毅力可以後天培養",b:"毅力不是天賦，而是一種<b>習慣</b>。希爾指出，貧窮意識會輕易佔據缺乏毅力的心智；唯有刻意培養毅力，才能擁有掌控命運的特權。先檢視自己「毅力不足的症狀」，再對症下藥。"},
+  steps:["一個被<b>熾烈渴望</b>支持的明確目標。","以<b>持續行動</b>表達的明確計畫。","一個對所有<b>負面、洩氣的影響</b>（包括親友）緊閉的心智。","與會<b>鼓勵你</b>堅持計畫的人結成友好聯盟（智囊團）。"],
+  forget:["毅力的 <b>8 個要素</b>：明確目標、渴望、自立自強、明確計畫、精準知識、合作、意志力、習慣（見複習手冊）。",
+          "「毅力不足症狀」清單與<b>害怕批評</b>關係最深——別讓他人的批評奪走你的夢想。"],
+  modern:"雪柔·桑德柏格——Facebook 營運長，勇者無懼、堅持不懈的典範。"},
+
+ {n:"09",zh:"智囊團的力量",en:"The Master Mind",tag:"追逐夢想的動力",
+  essence:"智囊團＝兩人以上，本著完美和諧、為了一個明確目標而協調知識與努力。",
+  qEn:"No two minds ever come together without thereby creating a third, invisible, intangible force.",
+  qZh:"兩顆心智相聚，必然衍生出第三股無形的力量。",
+  story:{t:"卡內基的 50 人智囊團",b:"安德魯·卡內基把自己的財富全歸功於約 <b>50 人組成的智囊團</b>（為了製造與行銷鋼鐵的明確目標）。福特、愛迪生、費爾斯通三位巨頭也以友誼智囊團互相砥礪。"},
+  forget:["智囊團帶來兩種力量：<b>經濟層面</b>（借用他人知識、經驗、影響力）與<b>心靈層面</b>（多顆心智和諧接觸，產生「第三股無形心智」，像電池並聯放大能量）。",
+          "<b>和諧（harmony）是關鍵</b>——成員間若不和諧，智囊團立刻失效。",
+          "三個臭皮匠，勝過一個諸葛亮——團結的力量會放大每個人的思想能量。"],
+  modern:"安娜·溫圖——美國《VOGUE》總編，打造出強大的人脈與專業智囊團。"},
+
+ {n:"10",zh:"性欲轉換的奧祕",en:"Sex Transmutation",tag:"將激情轉化為創造力",
+  essence:"把性能量（最強的人類驅力）從生理表達「昇華」為創造性的思想與行動。不是壓抑，而是導引。",
+  qEn:"Sex desire is the most powerful of human stimuli.",
+  qZh:"性欲是所有人類刺激中最強大的一種。",
+  story:{t:"為何鮮少人在 40 歲前功成名就？",b:"多數人年輕時把性能量「浪費」在純生理發洩上；懂得「轉換」通常要到 40 歲後才學會。因此人類的<b>創新巔峰多落在 40–60 歲</b>。能把性能量轉化的人，極具創造力與個人魅力。"},
+  forget:["<b>十大心靈刺激源</b>：性欲、愛、對名利的渴望、音樂、友誼、智囊團、共同的苦難、自我暗示、恐懼、麻醉品與酒精（前 8 建設性、後 2 破壞性，見複習手冊）。",
+          "「天才」＝ 能透過<b>第六感／創造性想像力</b>接收靈感的人；高度性能量被轉換後即可進入此狀態。",
+          "<b>愛、浪漫與性的黃金三角</b>：性給予衝動，愛使其溫和純化，三者結合最能孕育天才。成功男人背後常有伴侶的愛在推動。"],
+  modern:"貝多芬——把熱烈的愛與激情，轉化為不朽的音樂創作。"},
+
+ {n:"11",zh:"潛意識",en:"The Subconscious Mind",tag:"串聯意念與無窮智慧的媒介",
+  essence:"潛意識日夜運作，會依你「主導的思想與情感」行動——你餵它什麼，它就為你實現什麼。",
+  qEn:"Your subconscious mind works continually, while you are awake, and while you sleep.",
+  qZh:"無論你清醒或沉睡，潛意識都在持續運作。",
+  story:{t:"它不分好壞，只看誰主導",b:"潛意識像一塊沃土，你不種莊稼，它就長雜草。它會實現你餵給它的<b>任何</b>主導思想——所以你必須主動用正面渴望「佔據」它，否則恐懼與焦慮會趁虛而入。"},
+  forget:["要餵養的<b>7 種正面情感</b>：渴望、信心、愛、性、熱忱、浪漫、希望。",
+          "要遠離的<b>7 種負面情感</b>：恐懼、嫉妒、憎恨、報復、貪婪、迷信、憤怒。",
+          "正負情感<b>無法同時佔據心智</b>——你要刻意讓正面成為主導。祈禱時若心存恐懼與懷疑，便不會有結果。"],
+  modern:"康拉德·希爾頓——希爾頓飯店創辦人，以堅定信念與潛意識的力量，從一家小旅館擴張成全球連鎖。"},
+
+ {n:"12",zh:"大腦",en:"The Brain",tag:"思想的廣播與接收站",
+  essence:"大腦既是思想振動的「廣播站」（發射），也是「接收站」（接收他人與無窮智慧的思想）。",
+  qEn:"Every human brain is both a broadcasting and a receiving station for the vibration of thought.",
+  qZh:"每一個人腦，都既是思想振動的廣播站，也是接收站。",
+  story:{t:"和諧的大腦會互相「調頻」",b:"心靈感應是真實存在的——這解釋了智囊團「第三心智」的運作：多顆大腦在<b>完美和諧</b>中調到同一頻率，會放大彼此的思想能量。卡內基、福特等人定期開「圓桌會議」激盪，正是這個原理。"},
+  forget:["三者協同運作：<b>創造性想像力＝接收站</b>、<b>自我暗示＝啟動廣播的機制</b>、<b>潛意識＝發送站</b>。",
+          "最偉大的力量，往往是<b>「無形」</b>的力量（思想、情感、信念）。",
+          "腦力激盪會議＝智囊團原則的<b>實際應用</b>。"],
+  modern:"李小龍——以驚人的專注力與心智的無形力量，成就一代武打傳奇。"},
+
+ {n:"13",zh:"第六感",en:"The Sixth Sense",tag:"進入智慧殿堂的大門",
+  essence:"第六感＝潛意識中的「創造性想像力」之門，是無窮智慧主動與你溝通的管道（靈感、預感、「就是知道」）。",
+  qEn:"Through the sixth sense, you will be warned of impending dangers and given opportunities.",
+  qZh:"透過第六感，你會被預警危險，也會被賦予機會。",
+  story:{t:"隱形顧問（Invisible Counselors）",b:"希爾每晚在想像中召開一場「想像內閣」會議，成員是他景仰的歷史偉人（愛默生、林肯、愛迪生、達爾文、福特、卡內基……），向他們請教、模仿其性格。久而久之，這些「顧問」竟在直覺中真的給他建議。<b>透過自我暗示，刻意形塑你想要的性格。</b>"},
+  forget:["第六感是 13 法則的<b>頂點</b>——必須先掌握前 12 項，才能體會它。",
+          "強烈的情感往往能<b>啟動第六感</b>的運作。",
+          "「<b>時時複習成功法則，你將攀上人生的高峰。</b>」——反覆，是內化的唯一捷徑。"],
+  modern:"拿破崙·希爾本人——他用一生證明：相信自己，你將獲得成功。"}
+];
+
+/* ============ 資料：複習手冊（容易遺忘的清單） ============ */
+const REVIEW=[
+ {title:"點石成金 六步驟",sub:"DESIRE INTO GOLD · 全書最該背的框架",ord:true,
+  items:[["明確金額","在心中確定你渴望的確切數字"],["明確回報","決定你願意付出什麼來交換"],["明確日期","設定何時要擁有這筆財富"],["明確計畫","擬好計畫，並立刻行動"],["書面聲明","把以上四點寫成清楚的文字"],["早晚朗讀","每天兩次大聲念，並看見、感受、相信"]]},
+ {title:"培養毅力 四步驟",sub:"HOW TO DEVELOP PERSISTENCE",ord:true,
+  items:[["熾烈渴望支持的明確目標",""],["以持續行動表達的明確計畫",""],["對負面影響緊閉的心智","包括親友善意的消極意見"],["鼓勵你的人組成的友好聯盟","即智囊團"]]},
+ {title:"毅力的 8 個要素",sub:"8 FACTORS OF PERSISTENCE",ord:false,dot:true,
+  items:[["明確目標",""],["渴望",""],["自立自強",""],["明確計畫",""],["精準的知識",""],["合作",""],["意志力",""],["習慣",""]]},
+ {title:"領導的 11 個必備條件",sub:"ATTRIBUTES OF LEADERSHIP",ord:true,
+  items:[["不動搖的勇氣",""],["自我控制",""],["敏銳的正義感",""],["決定的明確性",""],["計畫的明確性",""],["多付出的習慣","做得比領薪水該做的更多"],["討喜的個性",""],["同情與理解",""],["掌握細節",""],["願意承擔全部責任",""],["合作",""]]},
+ {title:"領導失敗的 10 大肇因",sub:"CAUSES OF FAILURE IN LEADERSHIP",ord:true,
+  items:[["無法組織細節",""],["不願做微小的服務",""],["期待「知道什麼」而非「做什麼」的報酬",""],["害怕部屬競爭",""],["缺乏想像力",""],["自私（搶部屬的功勞）",""],["縱慾無度",""],["不忠誠",""],["強調領導的「權威」","靠恐懼領導"],["過度強調頭銜",""]]},
+ {title:"十大心靈刺激源",sub:"10 MIND STIMULI · 前8建設性、後2破壞性",ord:true,
+  items:[["性欲","最強的刺激源"],["愛",""],["對名利、財富、權力的渴望",""],["音樂",""],["同性或異性間的友誼",""],["智囊團聯盟",""],["共同的苦難",""],["自我暗示",""],["恐懼","⚠ 破壞性"],["麻醉品與酒精","⚠ 破壞性"]]},
+ {title:"QQS 服務公式",sub:"你能換取多少報酬，取決於這三件事",ord:false,dot:true,
+  items:[["Quality 品質","你提供服務的細緻與用心程度"],["Quantity 數量","你願意持續提供服務的多寡"],["Spirit 精神","你與人合作、討喜的態度"]]},
+ {title:"兩種想像力",sub:"TWO FORMS OF IMAGINATION",ord:false,dot:true,
+  items:[["整合式 Synthetic","把既有的概念重新組合成新組合，多數發明屬此"],["創新式 Creative","直接連結無窮智慧，接收全新的靈感與預感"]]},
+ {title:"潛意識：七正情感",sub:"要刻意培養並餵給潛意識",pos:true,
+  items:["渴望","信心","愛","性","熱忱","浪漫","希望"]},
+ {title:"潛意識：七負情感",sub:"要主動阻絕、避免佔據心智",neg:true,
+  items:["恐懼","嫉妒","憎恨","報復","貪婪","迷信","憤怒"]},
+ {title:"激發潛意識 三步驟",sub:"自我暗示的實作流程",ord:true,
+  items:[["安靜處朗讀渴望聲明","同時看見並感受擁有它"],["早晚重複","直到能在腦海清楚看見金錢"],["把聲明放在每天看得到的地方",""]]},
+ {title:"55 個藉口的精髓",sub:"FIFTY-FIVE FAMOUS ALIBIS · Mr. IF",ord:false,dot:true,
+  items:[["「如果我有錢／有家世／健康／時間…」","人們用來合理化失敗的 55 種藉口開頭"],["最關鍵的最後一條","「如果我有勇氣看清真實的自己」"],["希爾的結論","你花太多時間替失敗找藉口，卻沒時間去修正它"]]}
+];
+
+/* ============ 資料：六大恐懼 ============ */
+const FEARS=[
+ {key:"poverty",zh:"恐懼貧窮",en:"Fear of Poverty",sym:["漠不關心、冷漠","猶豫不決","事事懷疑","長期憂慮","過度謹慎","拖延"]},
+ {key:"criticism",zh:"恐懼批評",en:"Fear of Criticism",sym:["害羞、自我意識過剩","缺乏自信","缺乏果斷力","用浮誇言行掩飾自卑","打腫臉充胖子、愛慕奢華","缺乏進取心與野心"]},
+ {key:"illness",zh:"恐懼病痛",en:"Fear of Ill Health",sym:["疑神疑鬼、自我暗示生病","慮病症","運動不足、缺乏鍛鍊","身體易感、抵抗力差","自我放縱、缺乏節制","容易聽信偏方與江湖術士"]},
+ {key:"love",zh:"恐懼失戀",en:"Fear of Loss of Love",sym:["嫉妒、無端猜疑","對伴侶吹毛求疵","賭博或亂花錢，試圖用金錢留住愛"]},
+ {key:"oldage",zh:"恐懼衰老",en:"Fear of Old Age",sym:["四十歲左右就自認在走下坡","用「太老了」當藉口扼殺進取心","扼殺自己的想像力與自立","刻意裝年輕、行為失當"]},
+ {key:"death",zh:"恐懼死亡",en:"Fear of Death",sym:["終日想著死亡，而非好好活著","缺乏明確的人生目標","因恐懼而無法投入當下","（常與恐懼貧窮、病痛相連）"]}
+];
+
+/* ============ 狀態 / 儲存 ============ */
+const KEY="tgr_v1";
+let S=load();
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||blank()}catch(e){return blank()}}
+function blank(){return{notes:{},done:{},decl:{},fears:{}}}
+let saveTimer;
+function save(flash){
+  try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
+  if(flash){const f=document.getElementById("flash");f.classList.add("show");clearTimeout(saveTimer);saveTimer=setTimeout(()=>f.classList.remove("show"),1100);}
+}
+const esc=s=>(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+/* ============ 渲染：13 法則 ============ */
+function renderLaws(){
+  const wrap=document.getElementById("laws");
+  wrap.innerHTML=PRINCIPLES.map(p=>{
+    const note=esc(S.notes[p.n]||"");
+    const checked=S.done[p.n]?"checked":"";
+    const steps=p.steps?`<div class="subhd">培養毅力的四步驟</div><ul class="forget-list" style="counter-reset:none">${p.steps.map((s,i)=>`<li style="padding-left:34px"><b>${i+1}.</b> ${s}</li>`).join("")}</ul>`:"";
+    const forget=p.forget.map(f=>`<li>${f}</li>`).join("");
+    return `<article class="law reveal" id="law-${p.n}">
+      <div class="law-head">
+        <div class="law-num"><span class="n">${p.n}</span><span class="law-lab">LAW</span></div>
+        <div class="law-title">
+          <h3>${p.zh}</h3>
+          <div class="en">${p.en}</div>
+          <div class="tag">${p.tag}</div>
+        </div>
+        <div class="law-done">
+          <label class="toggle"><input type="checkbox" data-done="${p.n}" ${checked}><span class="box"></span>已內化</label>
+        </div>
+      </div>
+      <div class="law-body">
+        <p class="essence">${p.essence}</p>
+        <div class="quote"><span class="mark">&ldquo;</span><div class="en">${p.qEn}</div><div class="zh">${p.qZh}</div></div>
+        <details class="story"><summary>📖 ${p.story.t}</summary><div class="sbody">${p.story.b}</div></details>
+        ${steps}
+        <div class="subhd">易忘重點 · Key takeaways</div>
+        <ul class="forget-list">${forget}</ul>
+        <div class="reflect">
+          <label><span class="dot"></span>我的反思：這條法則，我打算怎麼用在自己身上？</label>
+          <textarea data-note="${p.n}" placeholder="寫下你的應用、聯想或行動……（自動儲存）">${note}</textarea>
+        </div>
+        <div class="modern"><span class="badge">近代名人</span><div><b>${p.modern.split("——")[0]}</b>——${p.modern.split("——")[1]||""}</div></div>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+/* ============ 渲染：複習手冊 ============ */
+function renderReview(){
+  const wrap=document.getElementById("review-grid");
+  wrap.innerHTML=REVIEW.map(c=>{
+    // 正/負情感雙欄合併卡
+    if(c.pos||c.neg){return "";}
+    let body;
+    if(typeof c.items[0]==="string"){
+      body=`<ul class="${c.dot?'dot':''}">${c.items.map(t=>`<li><span class="rt">${t}</span></li>`).join("")}</ul>`;
+    }else{
+      const tag=c.ord?"ol":"ul";
+      body=`<${tag} class="${c.dot?'dot':''}">${c.items.map(it=>{
+        const d=it[1]?` <span class="rd">— ${it[1]}</span>`:"";
+        return `<li><span><span class="rt">${it[0]}</span>${d}</span></li>`;
+      }).join("")}</${tag}>`;
+    }
+    return `<div class="rcard reveal"><h3>${c.title}</h3><div class="rsub">${c.sub}</div>${body}</div>`;
+  }).join("");
+  // 七正七負情感合併成一張雙欄卡
+  const pos=REVIEW.find(c=>c.pos),neg=REVIEW.find(c=>c.neg);
+  const dual=`<div class="rcard dual reveal"><h3>潛意識的情感管理</h3><div class="rsub">EMOTIONS · 主動培養正面，阻絕負面（兩者無法並存）</div>
+    <div class="dual-cols">
+      <div class="col pos"><h4>${pos.title.split("：")[1]} · 要餵養</h4><ul>${pos.items.map(t=>`<li><span class="rt">${t}</span></li>`).join("")}</ul></div>
+      <div class="col neg"><h4>${neg.title.split("：")[1]} · 要阻絕</h4><ul>${neg.items.map(t=>`<li><span class="rt">${t}</span></li>`).join("")}</ul></div>
+    </div></div>`;
+  wrap.insertAdjacentHTML("beforeend",dual);
+  bindReveal();
+}
+
+/* ============ 渲染：六大恐懼 ============ */
+function renderFears(){
+  const wrap=document.getElementById("fears-grid");
+  wrap.innerHTML=FEARS.map(f=>{
+    const fs=S.fears[f.key]||{};
+    const items=f.sym.map((s,i)=>{
+      const ck=fs[i]?"checked":"";
+      return `<label class="chk"><input type="checkbox" data-fear="${f.key}" data-i="${i}" ${ck}><span class="cb"></span><span>${s}</span></label>`;
+    }).join("");
+    return `<div class="fbox" id="fbox-${f.key}"><h4>${f.zh}<span class="cnt" id="cnt-${f.key}">0</span></h4><div class="fen">${f.en}</div>${items}</div>`;
+  }).join("");
+  FEARS.forEach(f=>updateFearBox(f.key));
+  updateFearSummary();
+}
+function updateFearBox(key){
+  const fs=S.fears[key]||{};
+  const c=Object.values(fs).filter(Boolean).length;
+  const box=document.getElementById("fbox-"+key);
+  const cnt=document.getElementById("cnt-"+key);
+  if(!box)return;
+  cnt.textContent=c;
+  box.classList.toggle("flagged",c>0);
+}
+function updateFearSummary(){
+  const res=FEARS.map(f=>{const fs=S.fears[f.key]||{};return{zh:f.zh,c:Object.values(fs).filter(Boolean).length}}).filter(r=>r.c>0).sort((a,b)=>b.c-a.c);
+  const el=document.getElementById("fearSummary");
+  if(!res.length){el.innerHTML="尚未勾選任何症狀。誠實面對自己，是消除恐懼的第一步。";return;}
+  const top=res[0];
+  const list=res.map(r=>`<b>${r.zh}</b>（${r.c}）`).join("、");
+  el.innerHTML=`你目前在 ${list} 上出現症狀。其中 <b>${top.zh}</b> 最需要優先對付——回到對應法則（信心、自我暗示、決心、毅力），用<span class="ok"> 正面渴望</span>把這個恐懼從你的心智中擠出去。`;
+}
+
+/* ============ 致富宣言 ============ */
+const DF=["name","amount","date","service","plan"];
+function renderDecl(){
+  const v={};DF.forEach(k=>v[k]=S.decl[k]||"");
+  const name=v.name?`我，<span class="fill">${esc(v.name)}</span>，`:`我`;
+  const amt=v.amount?`<span class="fill">${esc(v.amount)}</span>`:`<span class="ph">（你的明確金額）</span>`;
+  const date=v.date?`<span class="fill">${esc(v.date)}</span>`:`<span class="ph">（你的達成日期）</span>`;
+  const svc=v.service?`<span class="fill">${esc(v.service)}</span>`:`<span class="ph">（你願意付出的回報）</span>`;
+  const plan=v.plan?`我的計畫是：<span class="fill">${esc(v.plan)}</span>。`:`<span class="ph">（你的明確計畫）</span>`;
+  document.getElementById("declText").innerHTML=
+    `${name}將在 ${date} 之前，擁有 ${amt}。<br><br>
+     為了換取這筆財富，我將提供最高品質與最大數量的 ${svc}。${plan}<br><br>
+     我相信我終將擁有這筆財富。我的信念如此強烈，此刻彷彿已能親眼看見、親手觸摸它。我每天早晚將大聲朗讀這份宣言，並懷著感恩與信心，想像它已經屬於我。`;
+}
+
+/* ============ 自我測驗模式 ============ */
+function bindTest(){
+  const btn=document.getElementById("testToggle");
+  btn.addEventListener("click",()=>{
+    const on=document.querySelectorAll(".rcard.testing").length===0;
+    document.querySelectorAll(".rcard").forEach(c=>{if(!c.classList.contains("dual"))c.classList.toggle("testing",on)});
+    btn.textContent=on?"▦ 關閉自我測驗模式":"▦ 開啟自我測驗模式";
+    btn.setAttribute("aria-pressed",on);
+  });
+  document.getElementById("review-grid").addEventListener("click",e=>{
+    if(e.target.classList.contains("rd"))e.target.classList.toggle("shown");
+  });
+}
+
+/* ============ 進度 ============ */
+function updateProgress(){
+  const c=Object.values(S.done).filter(Boolean).length;
+  document.getElementById("progNum").textContent=c;
+  document.getElementById("progBar").style.width=(c/13*100)+"%";
+}
+
+/* ============ 揭示動畫 ============ */
+let io;
+function bindReveal(){
+  if(!("IntersectionObserver" in window)||window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+    document.querySelectorAll(".reveal").forEach(e=>e.classList.add("in"));return;
+  }
+  if(!io)io=new IntersectionObserver((es)=>{es.forEach(en=>{if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target);}})},{threshold:.12});
+  document.querySelectorAll(".reveal:not(.in)").forEach(e=>io.observe(e));
+}
+
+/* ============ 匯出 Markdown ============ */
+function exportMd(){
+  let m="# 思考致富 · 我的學習筆記\n\n> 匯出時間："+new Date().toLocaleString("zh-TW")+"\n\n";
+  const done=Object.values(S.done).filter(Boolean).length;
+  m+="**已內化進度："+done+" / 13**\n\n---\n\n## 我的致富宣言\n\n";
+  m+="- 金額："+(S.decl.amount||"（未填）")+"\n- 日期："+(S.decl.date||"（未填）")+"\n- 回報："+(S.decl.service||"（未填）")+"\n- 計畫："+(S.decl.plan||"（未填）")+"\n\n---\n\n## 13 法則反思\n\n";
+  PRINCIPLES.forEach(p=>{
+    const note=S.notes[p.n];const d=S.done[p.n]?"✅":"⬜";
+    m+="### "+d+" 法則 "+p.n+"　"+p.zh+"（"+p.en+"）\n";
+    m+="_"+p.essence+"_\n\n";
+    if(note&&note.trim())m+="> "+note.replace(/\n/g,"\n> ")+"\n\n";else m+="> （尚未填寫反思）\n\n";
+  });
+  m+="---\n\n## 六大恐懼自我檢測\n\n";
+  let any=false;
+  FEARS.forEach(f=>{const fs=S.fears[f.key]||{};const hit=f.sym.filter((s,i)=>fs[i]);if(hit.length){any=true;m+="**"+f.zh+"**（"+hit.length+" 項）\n";hit.forEach(h=>m+="- "+h+"\n");m+="\n";}});
+  if(!any)m+="（未勾選任何症狀）\n\n";
+  m+="---\n\n> 「凡是心靈能夠想像並且相信的，終必能夠實現。」— 拿破崙·希爾\n";
+  const blob=new Blob([m],{type:"text/markdown;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);a.download="思考致富_我的筆記.md";
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+}
+
+/* ============ 事件綁定 ============ */
+function bindEvents(){
+  // 反思 + 已內化（事件委派）
+  document.getElementById("laws").addEventListener("input",e=>{
+    const n=e.target.getAttribute("data-note");
+    if(n){S.notes[n]=e.target.value;clearTimeout(saveTimer);saveTimer=setTimeout(()=>save(true),500);}
+  });
+  document.getElementById("laws").addEventListener("change",e=>{
+    const d=e.target.getAttribute("data-done");
+    if(d){S.done[d]=e.target.checked;updateProgress();save(true);}
+  });
+  // 宣言
+  document.querySelectorAll("[data-decl]").forEach(inp=>{
+    inp.addEventListener("input",()=>{
+      const id=inp.id.replace("d_","");S.decl[id]=inp.value;renderDecl();
+      clearTimeout(saveTimer);saveTimer=setTimeout(()=>save(true),500);
+    });
+  });
+  // 恐懼
+  document.getElementById("fears-grid").addEventListener("change",e=>{
+    const key=e.target.getAttribute("data-fear");
+    if(key){const i=e.target.getAttribute("data-i");S.fears[key]=S.fears[key]||{};S.fears[key][i]=e.target.checked;updateFearBox(key);updateFearSummary();save(true);}
+  });
+  // 匯出 / 清除
+  document.getElementById("exportBtn").addEventListener("click",exportMd);
+  document.getElementById("resetBtn").addEventListener("click",()=>{
+    if(confirm("確定要清除所有筆記、宣言與勾選紀錄嗎？此動作無法復原。")){
+      localStorage.removeItem(KEY);S=blank();
+      renderLaws();renderFears();renderDecl();updateProgress();bindReveal();
+      const f=document.getElementById("flash");f.textContent="已清除";f.classList.add("show");setTimeout(()=>{f.classList.remove("show");f.textContent="已儲存 ✓"},1100);
+    }
+  });
+}
+
+/* ============ 預填宣言欄位（從儲存） ============ */
+function fillDeclInputs(){DF.forEach(k=>{const el=document.getElementById("d_"+k);if(el&&S.decl[k])el.value=S.decl[k];});}
+
+/* ============ 啟動 ============ */
+renderLaws();
+renderReview();
+renderFears();
+fillDeclInputs();
+renderDecl();
+updateProgress();
+bindEvents();
+bindTest();
+bindReveal();
+</script>
+</body>
+</html>
