@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>精實管理 · 學習單 × 重點複習手冊</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EDEDE5;
+  --paper-card:#FBFAF4;
+  --paper-2:#E4E3D9;
+  --ink:#1C1B17;
+  --ink-soft:#54524A;
+  --ink-faint:#86847A;
+  --line:#D5D3C6;
+  --line-strong:#B6B3A5;
+  --signal:#D8392B;
+  --signal-deep:#AE2A1F;
+  --signal-wash:#F7E4E1;
+  --indigo:#1F3A4D;
+  --indigo-soft:#345A72;
+  --indigo-wash:#E2EAEC;
+  --kaizen:#2F7355;
+  --kaizen-wash:#E2EEE7;
+  --shadow:0 1px 0 var(--line-strong), 0 10px 24px -18px rgba(28,27,23,.5);
+  --r:3px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Noto Sans TC",system-ui,sans-serif;
+  font-weight:400;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+.mono{font-family:"Space Mono",ui-monospace,monospace}
+.serif{font-family:"Noto Serif TC",serif}
+
+/* ---------- layout shell ---------- */
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+section{padding:64px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:none}
+
+/* ---------- eyebrow / section heads ---------- */
+.eyebrow{
+  font-family:"Space Mono",monospace;
+  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--signal);font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:14px;
+}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--signal);display:inline-block}
+.sec-no{font-family:"Space Mono",monospace;color:var(--ink-faint)}
+h2.sec-title{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(1.7rem,3.6vw,2.5rem);line-height:1.15;letter-spacing:.01em;margin-bottom:10px}
+.sec-lede{color:var(--ink-soft);max-width:60ch;font-size:1.02rem;margin-bottom:36px}
+
+/* ---------- HERO ---------- */
+header.hero{padding:0;border:none;position:relative}
+.hero-inner{padding:72px 0 56px}
+.brandline{display:flex;align-items:center;gap:14px;margin-bottom:30px;flex-wrap:wrap}
+.brandline .tag{font-family:"Space Mono",monospace;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);border:1px solid var(--line-strong);padding:5px 9px;border-radius:99px}
+.brandline .tag.red{color:var(--signal);border-color:var(--signal)}
+.hero h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(2.6rem,7vw,4.6rem);line-height:1.02;letter-spacing:-.01em}
+.hero h1 .sub{display:block;font-size:.34em;font-weight:700;letter-spacing:.04em;color:var(--ink-soft);margin-top:18px;font-family:"Noto Sans TC",sans-serif}
+.hero .thesis{margin-top:26px;font-size:clamp(1.05rem,2.2vw,1.3rem);max-width:48ch;color:var(--ink);line-height:1.6}
+.hero .thesis b{color:var(--signal);font-weight:700}
+.hero .meta{margin-top:22px;font-family:"Space Mono",monospace;font-size:.78rem;color:var(--ink-faint);letter-spacing:.04em}
+
+/* progress ring in hero */
+.hero-top{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:start}
+.pg-card{background:var(--paper-card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;min-width:190px;box-shadow:var(--shadow)}
+.pg-card .lbl{font-family:"Space Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint)}
+.ring-row{display:flex;align-items:center;gap:14px;margin-top:8px}
+.ring{position:relative;width:70px;height:70px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-weight:700;font-size:1.05rem}
+.ring-row .desc{font-size:.82rem;color:var(--ink-soft);line-height:1.4}
+.ring-row .desc b{font-family:"Space Mono",monospace;color:var(--ink)}
+@media(max-width:720px){.hero-top{grid-template-columns:1fr}.pg-card{min-width:0}}
+
+/* ---------- TPS HOUSE ---------- */
+.house-block{margin-top:48px;display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:stretch}
+@media(max-width:860px){.house-block{grid-template-columns:1fr}}
+.house{
+  --b:var(--ink);
+  background:var(--paper-card);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;
+}
+.house .roof{
+  background:var(--indigo);color:#fff;text-align:center;padding:16px 12px 14px;border-radius:var(--r);
+  clip-path:polygon(50% 0,100% 100%,0 100%);
+  margin:0 auto 4px;width:86%;cursor:pointer;transition:transform .15s,filter .15s;
+}
+.house .roof:hover{filter:brightness(1.12)}
+.house .roof .rt{font-weight:900;font-size:.92rem;margin-top:14px}
+.house .roof .rs{font-size:.68rem;opacity:.85;font-family:"Space Mono",monospace;letter-spacing:.06em}
+.pillars{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:stretch}
+.pillar{background:var(--paper-2);border:1px solid var(--line-strong);border-radius:var(--r);padding:14px 10px;text-align:center;cursor:pointer;transition:.15s;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.pillar:hover{background:var(--indigo-wash);border-color:var(--indigo-soft)}
+.pillar .jp{font-family:"Space Mono",monospace;font-size:.64rem;color:var(--signal);letter-spacing:.1em}
+.pillar .nm{font-weight:900;font-size:1rem;line-height:1.2}
+.pillar .en{font-size:.66rem;color:var(--ink-faint);font-family:"Space Mono",monospace}
+.core{align-self:center;writing-mode:vertical-rl;background:var(--signal);color:#fff;border-radius:99px;padding:14px 7px;font-weight:700;font-size:.78rem;letter-spacing:.16em;cursor:pointer;transition:.15s}
+.core:hover{background:var(--signal-deep)}
+.foundation{display:flex;flex-direction:column;gap:6px;margin-top:2px}
+.brick{background:var(--paper-2);border:1px solid var(--line-strong);border-radius:var(--r);padding:9px 12px;font-size:.82rem;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.15s}
+.brick:hover{background:var(--kaizen-wash);border-color:var(--kaizen)}
+.brick .en{font-family:"Space Mono",monospace;font-size:.64rem;color:var(--ink-faint)}
+.house.active-roof .roof,.pillar.on,.brick.on,.core.on{outline:2px solid var(--signal);outline-offset:2px}
+
+.house-info{background:var(--paper-card);border:1px solid var(--line);border-left:3px solid var(--indigo);border-radius:var(--r);padding:24px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.house-info .hi-k{font-family:"Space Mono",monospace;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--indigo-soft);margin-bottom:6px}
+.house-info h3{font-family:"Noto Serif TC",serif;font-weight:900;font-size:1.5rem;margin-bottom:4px}
+.house-info .hi-en{font-family:"Space Mono",monospace;font-size:.8rem;color:var(--ink-faint);margin-bottom:14px}
+.house-info p{color:var(--ink-soft);font-size:.95rem;margin-bottom:12px}
+.house-info .hint{margin-top:auto;font-size:.78rem;color:var(--ink-faint);border-top:1px dashed var(--line-strong);padding-top:12px}
+
+/* ---------- value-stream nav ---------- */
+.vsnav{position:sticky;top:0;z-index:40;background:rgba(237,237,229,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 0}
+.vsnav .track{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;align-items:center}
+.vsnav .track::-webkit-scrollbar{display:none}
+.vsnav a{flex:none;font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.04em;color:var(--ink-soft);text-decoration:none;padding:6px 11px;border-radius:99px;border:1px solid transparent;white-space:nowrap;transition:.12s;display:flex;align-items:center;gap:7px}
+.vsnav a .dot{width:7px;height:7px;border-radius:50%;background:var(--line-strong);transition:.2s}
+.vsnav a:hover{color:var(--ink);background:var(--paper-card);border-color:var(--line)}
+.vsnav a.done .dot{background:var(--kaizen)}
+.vsnav a.active{color:#fff;background:var(--ink);border-color:var(--ink)}
+.vsnav a.active .dot{background:var(--signal)}
+.vsnav .flow{color:var(--line-strong);flex:none;font-family:monospace}
+
+/* ---------- generic cards ---------- */
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:820px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.card{background:var(--paper-card);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow)}
+
+/* origin timeline */
+.tl{position:relative;padding-left:30px;margin-top:6px}
+.tl::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line-strong)}
+.tl .ev{position:relative;padding:0 0 26px}
+.tl .ev::before{content:"";position:absolute;left:-27px;top:5px;width:11px;height:11px;border-radius:50%;background:var(--paper);border:2px solid var(--indigo)}
+.tl .ev.red::before{border-color:var(--signal);background:var(--signal)}
+.tl .yr{font-family:"Space Mono",monospace;font-weight:700;color:var(--signal);font-size:.9rem}
+.tl .ev h4{font-weight:700;font-size:1.05rem;margin:2px 0 3px}
+.tl .ev p{color:var(--ink-soft);font-size:.92rem}
+.two-col{display:grid;grid-template-columns:1.15fr .85fr;gap:34px}
+@media(max-width:820px){.two-col{grid-template-columns:1fr;gap:24px}}
+.who .person{display:flex;gap:12px;padding:13px 0;border-bottom:1px dashed var(--line-strong)}
+.who .person:last-child{border-bottom:none}
+.who .badge{font-family:"Space Mono",monospace;font-weight:700;background:var(--indigo);color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;font-size:.82rem}
+.who .person b{display:block;font-size:.98rem}
+.who .person span{font-size:.86rem;color:var(--ink-soft)}
+
+/* ---------- 5 principles stepper ---------- */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:24px}
+@media(max-width:780px){.steps{grid-template-columns:1fr 1fr}}
+.step{background:var(--paper-card);border:1px solid var(--line);border-radius:var(--r);padding:14px 12px;cursor:pointer;transition:.15s;position:relative;overflow:hidden}
+.step:hover{border-color:var(--indigo-soft)}
+.step.on{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.step .n{font-family:"Space Mono",monospace;font-size:1.4rem;font-weight:700;color:var(--signal);line-height:1}
+.step.on .n{color:#fff}
+.step .t{font-weight:700;margin-top:8px;font-size:.95rem}
+.step .e{font-family:"Space Mono",monospace;font-size:.6rem;color:var(--ink-faint);letter-spacing:.04em}
+.step.on .e{color:rgba(255,255,255,.7)}
+.step-detail{background:var(--paper-card);border:1px solid var(--line);border-left:3px solid var(--signal);border-radius:var(--r);padding:24px 26px;box-shadow:var(--shadow);min-height:150px}
+.step-detail .sd-no{font-family:"Space Mono",monospace;color:var(--signal);font-weight:700;letter-spacing:.1em;font-size:.8rem}
+.step-detail h3{font-family:"Noto Serif TC",serif;font-weight:900;font-size:1.6rem;margin:2px 0 12px}
+.step-detail p{color:var(--ink-soft);margin-bottom:10px}
+.step-detail .key{display:inline-block;background:var(--signal-wash);color:var(--signal-deep);font-weight:700;font-size:.84rem;padding:3px 9px;border-radius:var(--r);margin:2px 4px 2px 0}
+.flowbar{display:flex;align-items:center;gap:0;margin-top:18px;flex-wrap:wrap;font-family:"Space Mono",monospace;font-size:.74rem;color:var(--ink-soft)}
+.flowbar .fp{padding:5px 9px;background:var(--paper-2);border-radius:var(--r)}
+.flowbar .fa{color:var(--signal);padding:0 7px;font-weight:700}
+
+/* ---------- 8 wastes ---------- */
+.downtime{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:26px;font-family:"Space Mono",monospace}
+.downtime .dl{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--paper);font-weight:700;font-size:1.3rem;border-radius:var(--r)}
+.waste-card{background:var(--paper-card);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 16px 18px;border-left:3px solid var(--ink-faint);position:relative;transition:.15s}
+.waste-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.waste-card.eighth{border-left-color:var(--signal)}
+.waste-card .wl{font-family:"Space Mono",monospace;font-weight:700;font-size:1.5rem;color:var(--ink-faint);float:right;line-height:1}
+.waste-card.eighth .wl{color:var(--signal)}
+.waste-card h4{font-weight:700;font-size:1.08rem}
+.waste-card .en{font-family:"Space Mono",monospace;font-size:.66rem;color:var(--ink-faint);margin-bottom:7px;letter-spacing:.03em}
+.waste-card p{font-size:.86rem;color:var(--ink-soft)}
+.waste-card .ex{font-size:.8rem;color:var(--ink);margin-top:7px;padding-top:7px;border-top:1px dashed var(--line-strong)}
+.waste-card .ex b{color:var(--signal-deep)}
+.badge8{display:inline-block;background:var(--signal);color:#fff;font-size:.6rem;font-family:"Space Mono",monospace;padding:2px 6px;border-radius:99px;letter-spacing:.06em;vertical-align:middle;margin-left:6px}
+
+/* mini game */
+.game{background:var(--ink);color:var(--paper);border-radius:var(--r);padding:26px;margin-top:30px}
+.game .gt{font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);font-weight:700}
+.game h3{font-family:"Noto Serif TC",serif;font-weight:900;font-size:1.4rem;margin:6px 0 4px;color:#fff}
+.game .scn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:var(--r);padding:18px;margin:16px 0;font-size:1.04rem;min-height:60px;display:flex;align-items:center}
+.game .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:760px){.game .opts{grid-template-columns:repeat(2,1fr)}}
+.game .opt{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:var(--paper);padding:11px 8px;border-radius:var(--r);cursor:pointer;font-size:.84rem;font-weight:500;font-family:inherit;transition:.12s;text-align:center}
+.game .opt:hover:not(:disabled){background:rgba(255,255,255,.16)}
+.game .opt:disabled{cursor:default;opacity:.85}
+.game .opt.right{background:var(--kaizen);border-color:var(--kaizen);color:#fff;opacity:1}
+.game .opt.wrong{background:var(--signal);border-color:var(--signal);color:#fff;opacity:1}
+.game .gfoot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-family:"Space Mono",monospace;font-size:.82rem;color:rgba(255,255,255,.8);flex-wrap:wrap;gap:10px}
+.game .fb{min-height:1.4em;font-size:.88rem}
+.game .fb.ok{color:#8fe0b8}.game .fb.no{color:#ffb3aa}
+.gbtn{font-family:"Space Mono",monospace;background:var(--signal);color:#fff;border:none;padding:9px 16px;border-radius:var(--r);cursor:pointer;font-weight:700;font-size:.8rem;letter-spacing:.04em;transition:.12s}
+.gbtn:hover{background:var(--signal-deep)}
+.gbtn.ghost{background:transparent;border:1px solid rgba(255,255,255,.3);color:var(--paper)}
+.gbtn.ghost:hover{background:rgba(255,255,255,.1)}
+
+/* ---------- 3M ---------- */
+.m3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:760px){.m3{grid-template-columns:1fr}}
+.mcard{background:var(--paper-card);border:1px solid var(--line);border-radius:var(--r);padding:22px;text-align:center;box-shadow:var(--shadow)}
+.mcard .jp{font-family:"Noto Serif TC",serif;font-size:2.6rem;font-weight:900;color:var(--indigo);line-height:1}
+.mcard .rj{font-family:"Space Mono",monospace;color:var(--signal);font-size:.8rem;letter-spacing:.1em;margin:6px 0 2px}
+.mcard h4{font-weight:700;font-size:1.15rem;margin-bottom:8px}
+.mcard p{font-size:.88rem;color:var(--ink-soft)}
+.m3-rel{margin-top:18px;background:var(--signal-wash);border:1px solid var(--signal);border-radius:var(--r);padding:16px 20px;text-align:center;font-size:.96rem}
+.m3-rel b{color:var(--signal-deep)}
+.m3-rel .eq{font-family:"Space Mono",monospace;font-weight:700;color:var(--signal-deep);font-size:1.05rem;display:inline-block;margin:6px 0}
+
+/* ---------- flashcards ---------- */
+.fc-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:12px}
+.fc-bar .stat{font-family:"Space Mono",monospace;font-size:.82rem;color:var(--ink-soft)}
+.fc-bar .stat b{color:var(--signal)}
+.flip{perspective:1200px;height:172px;cursor:pointer}
+.flip-in{position:relative;width:100%;height:100%;transition:transform .5s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.flip.flipped .flip-in{transform:rotateY(180deg)}
+.flip-f,.flip-b{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);padding:18px;display:flex;flex-direction:column;border:1px solid var(--line);box-shadow:var(--shadow)}
+.flip-f{background:var(--paper-card);justify-content:center;align-items:center;text-align:center}
+.flip-f .term{font-family:"Noto Serif TC",serif;font-weight:900;font-size:1.4rem;line-height:1.2}
+.flip-f .ten{font-family:"Space Mono",monospace;font-size:.72rem;color:var(--ink-faint);margin-top:6px;letter-spacing:.04em}
+.flip-f .tap{position:absolute;bottom:10px;font-family:"Space Mono",monospace;font-size:.6rem;color:var(--ink-faint);letter-spacing:.1em}
+.flip-b{background:var(--indigo);color:#fff;transform:rotateY(180deg);justify-content:center}
+.flip-b .term{font-weight:700;font-size:.92rem;color:#fff;opacity:.7;margin-bottom:6px;font-family:"Space Mono",monospace;letter-spacing:.05em}
+.flip-b p{font-size:.88rem;line-height:1.5}
+.fc-cell{position:relative}
+.master-btn{position:absolute;top:8px;right:8px;z-index:5;width:26px;height:26px;border-radius:50%;border:1px solid var(--line-strong);background:var(--paper);color:var(--ink-faint);cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;transition:.15s;line-height:1}
+.master-btn:hover{border-color:var(--kaizen);color:var(--kaizen)}
+.fc-cell.mastered .master-btn{background:var(--kaizen);border-color:var(--kaizen);color:#fff}
+.fc-cell.mastered .flip-f{border-color:var(--kaizen);border-left:3px solid var(--kaizen)}
+
+/* ---------- quiz ---------- */
+.quiz{background:var(--paper-card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.quiz-head{background:var(--ink);color:var(--paper);padding:20px 26px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.quiz-head .qh-l .lbl{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.16em;color:var(--signal);text-transform:uppercase}
+.quiz-head .qh-l h3{font-family:"Noto Serif TC",serif;font-size:1.3rem;color:#fff;font-weight:900}
+.quiz-head .score{font-family:"Space Mono",monospace;text-align:right}
+.quiz-head .score .big{font-size:1.6rem;font-weight:700;color:#fff}
+.quiz-head .score .lbl{font-size:.66rem;color:rgba(255,255,255,.6);letter-spacing:.1em}
+.qbody{padding:14px 26px 26px}
+.q{padding:20px 0;border-bottom:1px solid var(--line)}
+.q:last-child{border-bottom:none}
+.q .qn{font-family:"Space Mono",monospace;color:var(--signal);font-weight:700;font-size:.78rem}
+.q .qtext{font-weight:700;font-size:1.05rem;margin:4px 0 14px}
+.q .qopts{display:flex;flex-direction:column;gap:8px}
+.q .qo{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border:1px solid var(--line-strong);border-radius:var(--r);cursor:pointer;transition:.12s;background:var(--paper);font-size:.95rem}
+.q .qo:hover{border-color:var(--indigo-soft);background:var(--indigo-wash)}
+.q .qo .mk{font-family:"Space Mono",monospace;font-weight:700;color:var(--ink-faint);flex:none}
+.q.answered .qo{cursor:default;pointer-events:none}
+.q .qo.correct{background:var(--kaizen-wash);border-color:var(--kaizen)}
+.q .qo.correct .mk{color:var(--kaizen)}
+.q .qo.chosen-wrong{background:var(--signal-wash);border-color:var(--signal)}
+.q .qo.chosen-wrong .mk{color:var(--signal)}
+.q .exp{margin-top:12px;font-size:.88rem;color:var(--ink-soft);background:var(--paper-2);border-left:3px solid var(--indigo);padding:11px 14px;border-radius:var(--r);display:none}
+.q.answered .exp{display:block}
+.q .exp b{color:var(--indigo)}
+.quiz-foot{padding:18px 26px;background:var(--paper-2);border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.quiz-foot .msg{font-size:.9rem;color:var(--ink-soft)}
+.quiz-foot .msg b{color:var(--signal)}
+.resetq{font-family:"Space Mono",monospace;background:transparent;border:1px solid var(--line-strong);color:var(--ink-soft);padding:8px 14px;border-radius:var(--r);cursor:pointer;font-size:.76rem;transition:.12s}
+.resetq:hover{border-color:var(--signal);color:var(--signal)}
+
+/* ---------- confusion table ---------- */
+.cmp{display:grid;gap:12px}
+.cmp-row{background:var(--paper-card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow);border-left:3px solid var(--signal)}
+.cmp-row .ct{font-weight:700;font-size:1rem;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.cmp-row .ct .sig{font-family:"Space Mono",monospace;font-size:.6rem;background:var(--signal);color:#fff;padding:2px 7px;border-radius:99px;letter-spacing:.08em}
+.cmp-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.cmp-grid{grid-template-columns:1fr}}
+.cmp-grid .side{background:var(--paper-2);border-radius:var(--r);padding:12px 14px}
+.cmp-grid .side .h{font-weight:700;color:var(--indigo);font-size:.94rem;margin-bottom:3px}
+.cmp-grid .side .h .en{font-family:"Space Mono",monospace;font-size:.62rem;color:var(--ink-faint);font-weight:400;display:block}
+.cmp-grid .side p{font-size:.85rem;color:var(--ink-soft)}
+
+/* ---------- checklist ---------- */
+.ckl-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+.bar{height:10px;background:var(--paper-2);border:1px solid var(--line-strong);border-radius:99px;overflow:hidden;flex:1;min-width:200px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--kaizen),var(--indigo));width:0;transition:width .4s ease}
+.ckl-pct{font-family:"Space Mono",monospace;font-weight:700;font-size:1.5rem}
+.ckl-grp{margin-bottom:22px}
+.ckl-grp h4{font-family:"Space Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ckl-grp h4::before{content:"";width:18px;height:2px;background:var(--signal)}
+.ck{display:flex;align-items:flex-start;gap:11px;padding:9px 12px;border:1px solid var(--line);border-radius:var(--r);margin-bottom:7px;cursor:pointer;background:var(--paper-card);transition:.12s}
+.ck:hover{border-color:var(--indigo-soft)}
+.ck .box{width:20px;height:20px;border:1.5px solid var(--line-strong);border-radius:4px;flex:none;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:.12s;font-size:.8rem;color:#fff}
+.ck.on .box{background:var(--kaizen);border-color:var(--kaizen)}
+.ck .ctxt{font-size:.92rem}
+.ck.on .ctxt{color:var(--ink-faint);text-decoration:line-through}
+.ck .ctxt b{font-weight:700}
+
+/* utility callout */
+.andon{background:var(--signal-wash);border:1px solid var(--signal);border-left:4px solid var(--signal);border-radius:var(--r);padding:16px 20px;margin-top:22px;display:flex;gap:14px}
+.andon .ic{font-family:"Space Mono",monospace;font-weight:700;color:var(--signal);font-size:.7rem;letter-spacing:.08em;flex:none;border:1px solid var(--signal);border-radius:99px;padding:4px 9px;height:fit-content;white-space:nowrap}
+.andon p{font-size:.92rem;color:var(--ink)}
+.andon p b{color:var(--signal-deep)}
+
+/* footer */
+footer{border-top:2px solid var(--ink);padding:46px 0 70px;margin-top:20px}
+footer .ft-grid{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+footer .ft-q{font-family:"Noto Serif TC",serif;font-style:italic;font-size:1.2rem;max-width:30ch;line-height:1.5}
+footer .ft-q b{color:var(--signal);font-style:normal}
+footer .ft-meta{font-family:"Space Mono",monospace;font-size:.74rem;color:var(--ink-faint);text-align:right;line-height:1.8}
+.resetall{font-family:"Space Mono",monospace;background:transparent;border:1px solid var(--line-strong);color:var(--ink-faint);padding:7px 13px;border-radius:var(--r);cursor:pointer;font-size:.7rem;margin-top:8px;transition:.12s}
+.resetall:hover{border-color:var(--signal);color:var(--signal)}
+
+.fade{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}
+.fade.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="brandline">
+      <span class="tag red">學習單 × 複習手冊</span>
+      <span class="tag">精實管理 Lean Management</span>
+      <span class="tag">豐田生產系統 TPS</span>
+    </div>
+    <div class="hero-top">
+      <div>
+        <h1>精實管理<span class="sub">消除浪費 · 持續改善 · 用最少資源創造最大價值</span></h1>
+        <p class="thesis">把組織訓練成<b>沒有贅肉（零浪費）</b>、又能<b>規律運動（持續改善）</b>的一套管理方法。</p>
+        <p class="meta">核心架構 · 9 個單元 · 互動翻卡 · 自我測驗 · 進度自動保存</p>
+      </div>
+      <div class="pg-card">
+        <span class="lbl">學習進度 / Mastery</span>
+        <div class="ring-row">
+          <div class="ring">
+            <svg width="70" height="70" viewBox="0 0 70 70">
+              <circle cx="35" cy="35" r="30" fill="none" stroke="var(--paper-2)" stroke-width="7"/>
+              <circle id="ringFg" cx="35" cy="35" r="30" fill="none" stroke="var(--signal)" stroke-width="7" stroke-linecap="round" stroke-dasharray="188.5" stroke-dashoffset="188.5"/>
+            </svg>
+            <span class="pct" id="ringPct">0%</span>
+          </div>
+          <div class="desc">已熟記 <b id="masterN">0</b> 張卡<br>已勾選 <b id="ckN">0</b> 項重點</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TPS HOUSE signature -->
+    <div class="house-block">
+      <div class="house" id="house">
+        <div class="roof" data-key="roof">
+          <div class="rt">屋頂｜經營目標</div>
+          <div class="rs">QUALITY · COST · LEAD TIME · SAFETY</div>
+        </div>
+        <div class="pillars">
+          <div class="pillar" data-key="jit">
+            <div class="jp">ジャストインタイム</div>
+            <div class="nm">及時生產</div>
+            <div class="en">Just-In-Time</div>
+          </div>
+          <div class="core" data-key="core">人 · 持續改善</div>
+          <div class="pillar" data-key="jidoka">
+            <div class="jp">自働化</div>
+            <div class="nm">自働化</div>
+            <div class="en">Jidoka</div>
+          </div>
+        </div>
+        <div class="foundation">
+          <div class="brick" data-key="heijunka"><span>平準化（生產均衡）</span><span class="en">Heijunka</span></div>
+          <div class="brick" data-key="std"><span>標準化作業 · 目視管理</span><span class="en">Standardized Work</span></div>
+          <div class="brick" data-key="genba"><span>現場 · 現地現物 · Kaizen</span><span class="en">Genba · Kaizen</span></div>
+        </div>
+      </div>
+      <div class="house-info" id="houseInfo">
+        <span class="hi-k">TPS 之屋 · 點擊任一結構</span>
+        <h3>豐田生產系統之屋</h3>
+        <div class="hi-en">The TPS House</div>
+        <p>整套精實管理可以濃縮成「一棟房子」：<b>屋頂</b>是要達成的經營目標，靠<b>兩根支柱</b>撐起——左柱「及時生產」管<b>數量與時機</b>，右柱「自働化」管<b>品質</b>；下方<b>地基</b>則是讓兩柱站穩的基礎工法。</p>
+        <p style="color:var(--ink)">先記住這個結構，其他工具都能掛回它的某個位置。</p>
+        <div class="hint">▸ 點房子的每一塊，右側會說明它在精實系統裡的角色。</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ value-stream nav ============ -->
+<nav class="vsnav">
+  <div class="wrap">
+    <div class="track" id="vsTrack">
+      <a href="#s1"><span class="dot"></span>01 起源</a><span class="flow">→</span>
+      <a href="#s2"><span class="dot"></span>02 五大原則</a><span class="flow">→</span>
+      <a href="#s3"><span class="dot"></span>03 八大浪費</a><span class="flow">→</span>
+      <a href="#s4"><span class="dot"></span>04 3M</a><span class="flow">→</span>
+      <a href="#s5"><span class="dot"></span>05 TPS之屋</a><span class="flow">→</span>
+      <a href="#s6"><span class="dot"></span>06 工具箱</a><span class="flow">→</span>
+      <a href="#s7"><span class="dot"></span>07 自我測驗</a><span class="flow">→</span>
+      <a href="#s8"><span class="dot"></span>08 易混淆</a><span class="flow">→</span>
+      <a href="#s9"><span class="dot"></span>09 複習檢核</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ 01 起源 ============ -->
+<section id="s1"><div class="wrap fade">
+  <div class="eyebrow"><span class="sec-no">01</span> 本質與起源 · WHY</div>
+  <h2 class="sec-title">兩個關鍵字：價值與浪費</h2>
+  <p class="sec-lede">精實（Lean）原意是「精瘦、沒有多餘脂肪」。整套思想只圍繞兩件事——什麼是顧客眼中的<strong>價值</strong>，什麼是消耗資源卻不創造價值的<strong>浪費</strong>。</p>
+
+  <div class="two-col">
+    <div>
+      <div class="tl">
+        <div class="ev red">
+          <div class="yr">起點 · 大野耐一</div>
+          <h4>豐田生產方式（TPS）</h4>
+          <p>豐田副社長大野耐一在戰後資源匱乏下，發展出「只在需要時做需要的量」的生產哲學，並提出最早的<b>七大浪費</b>。他被稱為「人類史上最痛恨浪費的人」。</p>
+        </div>
+        <div class="ev">
+          <div class="yr">1988</div>
+          <h4>「Lean」一詞誕生</h4>
+          <p>MIT 史隆學院的 John Krafcik 首次以「Lean Production（精實生產）」描述豐田模式。</p>
+        </div>
+        <div class="ev">
+          <div class="yr">1990</div>
+          <h4>《改變世界的機器》</h4>
+          <p>Womack、Jones、Roos 以 MIT 國際汽車計畫（IMVP）的研究，把 Lean 正式引入企業經營，預言豐田將改變世界的生產方式。</p>
+        </div>
+        <div class="ev red">
+          <div class="yr">1996</div>
+          <h4>《精實思想》Lean Thinking</h4>
+          <p>Womack 與 Jones 系統化提出貫穿至今的<b>五大原則</b>，讓精實從工廠工具升級為一套完整管理思維。</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="eyebrow" style="margin-bottom:10px"><span class="sec-no" style="color:var(--ink-faint)">人物</span> 必記的四個名字</div>
+        <div class="who">
+          <div class="person"><div class="badge">大</div><div><b>大野耐一 Taiichi Ohno</b><span>TPS 之父、七大浪費提出者</span></div></div>
+          <div class="person"><div class="badge">W</div><div><b>James Womack</b><span>《精實思想》作者、五大原則、加入第 8 種浪費</span></div></div>
+          <div class="person"><div class="badge">J</div><div><b>Daniel Jones</b><span>《精實思想》共同作者</span></div></div>
+          <div class="person"><div class="badge">K</div><div><b>John Krafcik</b><span>1988 首創「Lean」一詞</span></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="eyebrow" style="margin-bottom:10px"><span class="sec-no" style="color:var(--ink-faint)">脈絡</span> 生產史三階段</div>
+        <div class="flowbar">
+          <span class="fp">手工藝生產</span><span class="fa">→</span>
+          <span class="fp">大量生產（福特）</span><span class="fa">→</span>
+          <span class="fp" style="background:var(--signal-wash);color:var(--signal-deep);font-weight:700">精實生產</span>
+        </div>
+        <p style="font-size:.9rem;color:var(--ink-soft);margin-top:12px">精實＝同時拿到「精工細作的彈性與品質」＋「大量生產的低成本」，魚與熊掌兼得。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="andon">
+    <span class="ic">易忘</span>
+    <p><b>價值由「顧客」定義，不是由你定義。</b>只有顧客願意付錢的活動才算價值；不能增加顧客價值的活動，全都是浪費。先看懂價值，才分得出浪費。</p>
+  </div>
+</div></section>
+
+<!-- ============ 02 五大原則 ============ -->
+<section id="s2"><div class="wrap fade">
+  <div class="eyebrow"><span class="sec-no">02</span> 五大原則 · LEAN THINKING</div>
+  <h2 class="sec-title">改善的五個步驟（順序不能跳）</h2>
+  <p class="sec-lede">這是《精實思想》的骨架，也是最常被考順序的地方。它是一個循環：做到第五步，又回頭重跑第一步。點下方任一步驟看細節。</p>
+
+  <div class="steps" id="steps">
+    <div class="step on" data-i="0"><div class="n">1</div><div class="t">界定價值</div><div class="e">Specify Value</div></div>
+    <div class="step" data-i="1"><div class="n">2</div><div class="t">辨識價值流</div><div class="e">Value Stream</div></div>
+    <div class="step" data-i="2"><div class="n">3</div><div class="t">暢流</div><div class="e">Flow</div></div>
+    <div class="step" data-i="3"><div class="n">4</div><div class="t">後拉</div><div class="e">Pull</div></div>
+    <div class="step" data-i="4"><div class="n">5</div><div class="t">盡善盡美</div><div class="e">Perfection</div></div>
+  </div>
+
+  <div class="step-detail" id="stepDetail"></div>
+
+  <div class="flowbar" style="justify-content:center;margin-top:22px">
+    <span class="fp">價值</span><span class="fa">→</span>
+    <span class="fp">價值流</span><span class="fa">→</span>
+    <span class="fp">暢流</span><span class="fa">→</span>
+    <span class="fp">後拉</span><span class="fa">↺</span>
+    <span class="fp">盡善盡美</span>
+  </div>
+</div></section>
+
+<!-- ============ 03 八大浪費 ============ -->
+<section id="s3"><div class="wrap fade">
+  <div class="eyebrow"><span class="sec-no">03</span> 八大浪費 · 8 WASTES</div>
+  <h2 class="sec-title">用 DOWNTIME 記住八種浪費</h2>
+  <p class="sec-lede">浪費（無駄 Muda）＝消耗資源卻不創造價值。前七種由大野耐一提出，<strong>第 8 種「未善用人才」由 Womack（2003）加入</strong>。英文首字母正好拼成 DOWNTIME。</p>
+
+  <div class="downtime">
+    <span class="dl">D</span><span class="dl">O</span><span class="dl">W</span><span class="dl">N</span><span class="dl">T</span><span class="dl">I</span><span class="dl">M</span><span class="dl">E</span>
+  </div>
+
+  <div class="grid g4" id="wasteGrid"></div>
+
+  <!-- mini game -->
+  <div class="game">
+    <div class="gt">⚲ 抓浪費小測驗 · Spot the Muda</div>
+    <h3>這個情境是哪一種浪費？</h3>
+    <div class="scn" id="gScn">點「開始」隨機出題 →</div>
+    <div class="opts" id="gOpts"></div>
+    <div class="fb" id="gFb"></div>
+    <div class="gfoot">
+      <span>得分 <b id="gScore">0</b> / 作答 <b id="gTotal">0</b></span>
+      <div style="display:flex;gap:8px">
+        <button class="gbtn ghost" id="gStart">開始 / 下一題</button>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 04 3M ============ -->
+<section id="s4"><div class="wrap fade">
+  <div class="eyebrow"><span class="sec-no">04</span> 浪費的根源 · 3M</div>
+  <h2 class="sec-title">無駄 · 無理 · 無均：最容易搞混的三兄弟</h2>
+  <p class="sec-lede">很多人只記得「Muda 浪費」，卻忘了它常常是另外兩個 M 造成的。考試最愛考三者的區分與因果關係。</p>
+
+  <div class="m3">
+    <div class="mcard">
+      <div class="jp">無駄</div>
+      <div class="rj">MUDA</div>
+      <h4>浪費</h4>
+      <p>消耗資源、卻不創造價值的活動。也就是前面的<b>八大浪費</b>。是「結果」。</p>
+    </div>
+    <div class="mcard">
+      <div class="jp">無理</div>
+      <div class="rj">MURI</div>
+      <h4>超負荷 / 勉強</h4>
+      <p>對人或設備施加超過自然承受力的<b>不合理負擔</b>——過勞、設備過載、趕工硬上。</p>
+    </div>
+    <div class="mcard">
+      <div class="jp">斑</div>
+      <div class="rj">MURA</div>
+      <h4>不均衡 / 波動</h4>
+      <p>作業量、速度、品質<b>忽高忽低</b>的不平準。時而閒置、時而爆量。</p>
+    </div>
+  </div>
+
+  <div class="m3-rel">
+    <b>因果關係：</b>Muri 與 Mura 往往是 Muda 的<b>根源</b>。<br>
+    <span class="eq">無理（Muri） + 無均（Mura） ⇒ 無駄（Muda）</span><br>
+    <span style="font-size:.9rem;color:var(--ink-soft)">所以根治浪費要從「計畫設計（避免 Muri）」與「平準化排程（消除 Mura）」下手，光砍 Muda 治標不治本。對付 Mura 的核心工具就是<b>平準化 Heijunka</b>。</span>
+  </div>
+</div></section>
+
+<!-- ============ 05 TPS之屋 ============ -->
+<section id="s5"><div class="wrap fade">
+  <div class="eyebrow"><span class="sec-no">05</span> 系統結構 · TPS HOUSE</div>
+  <h2 class="sec-title">兩根支柱：JIT 管「量」，自働化 管「質」</h2>
+  <p class="sec-lede">回到最上方那棟房子。這裡把兩根支柱講清楚——它們是精實系統最核心、也最常被混為一談的一對。</p>
+
+  <div class="grid g2">
+    <div class="card" style="border-left:3px solid var(--indigo)">
+      <div style="font-family:'Space Mono',monospace;color:var(--signal);font-size:.7rem;letter-spacing:.1em">左柱 · PILLAR 1</div>
+      <h3 class="serif" style="font-weight:900;font-size:1.5rem;margin:4px 0">及時生產 JIT</h3>
+      <p style="color:var(--ink-soft);font-size:.95rem">在<b>需要的時間</b>、生產<b>需要的量</b>、需要的東西。管的是「數量與時機」，目標是把庫存降到最低、讓價值連續流動。</p>
+      <p style="font-size:.86rem;margin-top:10px;color:var(--ink)">配套工具：拉式看板（Kanban）、節拍時間（Takt Time）、連續流 / 單件流。</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--signal)">
+      <div style="font-family:'Space Mono',monospace;color:var(--signal);font-size:.7rem;letter-spacing:.1em">右柱 · PILLAR 2</div>
+      <h3 class="serif" style="font-weight:900;font-size:1.5rem;margin:4px 0">自働化 Jidoka</h3>
+      <p style="color:var(--ink-soft);font-size:.95rem">注意是「人」字旁的<b>働</b>——「具人類智慧的自動化」。機器一發現異常就<b>自動停止</b>，不把不良品往下流，讓一個人能同時顧多台機器。管的是「品質」。</p>
+      <p style="font-size:.86rem;margin-top:10px;color:var(--ink)">配套工具：安燈（Andon）、防錯（Poka-yoke）、授權第一線「停線」。</p>
+    </div>
+  </div>
+
+  <div class="andon">
+    <span class="ic">易混淆</span>
+    <p><b>自動化 ≠ 自働化。</b>「自動化」只是機器會自己動；「自働化」（人字旁）是機器<b>會判斷異常並主動停下來</b>——把品質做進製程，而不是事後檢驗。</p>
+  </div>
+</div></section>
+
+<!-- ============ 06 工具箱 ============ -->
+<section id="s6"><div class="wrap fade">
+  <div class="eyebrow"><span class="sec-no">06</span> 核心工具箱 · TOOLBOX</div>
+  <h2 class="sec-title">術語翻卡：看到名詞，先想定義</h2>
+  <p class="sec-lede">這是「容易遺忘」的重災區。點卡片翻面看定義；記熟了就按右上角 ✓ 標記，進度會記進上方的學習環。</p>
+
+  <div class="fc-bar">
+    <div class="stat">已熟記 <b id="fcMastered">0</b> / <span id="fcTotal">0</span> 張</div>
+    <div style="display:flex;gap:8px">
+      <button class="resetq" id="fcShuffle">⇄ 隨機洗牌</button>
+      <button class="resetq" id="fcReset">重設標記</button>
+    </div>
+  </div>
+
+  <div class="grid g3" id="fcGrid"></div>
+</div></section>
+
+<!-- ============ 07 測驗 ============ -->
+<section id="s7"><div class="wrap fade">
+  <div class="eyebrow"><span class="sec-no">07</span> 主動回想 · SELF-TEST</div>
+  <h2 class="sec-title">自我測驗：專攻最容易忘的點</h2>
+  <p class="sec-lede">12 題單選，作答後立即顯示解析。最佳成績會自動保存，下次回來挑戰高分。</p>
+
+  <div class="quiz">
+    <div class="quiz-head">
+      <div class="qh-l"><div class="lbl">Lean Management · Quiz</div><h3>精實管理觀念檢測</h3></div>
+      <div class="score"><div class="big"><span id="qNow">0</span>/<span id="qMax">12</span></div><div class="lbl">本次得分 · 最佳 <span id="qBest">0</span></div></div>
+    </div>
+    <div class="qbody" id="quizBody"></div>
+    <div class="quiz-foot">
+      <div class="msg" id="quizMsg">作答進度 0 / 12</div>
+      <button class="resetq" id="quizReset">↻ 重新測驗</button>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 08 易混淆 ============ -->
+<section id="s8"><div class="wrap fade">
+  <div class="eyebrow"><span class="sec-no">08</span> 對照速查 · DON'T CONFUSE</div>
+  <h2 class="sec-title">考前最後一眼：八組易混淆</h2>
+  <p class="sec-lede">把最常被搞反的成對概念並排，紅色標記＝高頻易錯點。</p>
+
+  <div class="cmp" id="cmpList"></div>
+</div></section>
+
+<!-- ============ 09 檢核 ============ -->
+<section id="s9"><div class="wrap fade">
+  <div class="eyebrow"><span class="sec-no">09</span> 複習檢核 · CHECKLIST</div>
+  <h2 class="sec-title">複習完成度</h2>
+  <p class="sec-lede">把每一個你已經真正記住的重點打勾。勾選狀態會保存，下次打開接續複習。</p>
+
+  <div class="ckl-head">
+    <div class="bar"><i id="cklBar"></i></div>
+    <div class="ckl-pct"><span id="cklPct">0</span>%</div>
+  </div>
+  <div id="cklWrap"></div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="ft-grid">
+    <div class="ft-q">「沒有<b>標準</b>，就沒有<b>改善</b>。」<br><span style="font-size:.8rem;font-style:normal;color:var(--ink-faint);font-family:'Space Mono',monospace">— 精實管理核心信念</span></div>
+    <div class="ft-meta">
+      LEAN MANAGEMENT<br>學習單 × 重點複習手冊<br>進度儲存於本機瀏覽器<br>
+      <button class="resetall" id="resetAll">⚠ 清除所有進度</button>
+    </div>
+  </div>
+</div></footer>
+
+<script>
+"use strict";
+const STORE="lean-mgmt-worksheet-v1";
+const load=()=>{try{return JSON.parse(localStorage.getItem(STORE))||{}}catch(e){return{}}};
+const save=s=>{try{localStorage.setItem(STORE,JSON.stringify(s))}catch(e){}};
+let S=Object.assign({mastered:{},checklist:{},quiz:{},quizBest:0},load());
+S.mastered=S.mastered||{};S.checklist=S.checklist||{};S.quiz=S.quiz||{};
+
+/* ---------- DATA ---------- */
+const houseData={
+  roof:{k:"屋頂 · 經營目標",t:"四大經營目標",en:"The Goal",p:["整棟房子要追求的成果：<b>最高品質、最低成本、最短前置期（Lead Time）</b>，再加上高安全與高士氣。","所有支柱與地基，都是為了撐起這個屋頂而存在。"]},
+  jit:{k:"左柱 · Pillar 1",t:"及時生產 JIT",en:"Just-In-Time",p:["管的是<b>數量與時機</b>：在需要的時間、做需要的量。","靠拉式看板、節拍時間、連續流，把庫存與等待壓到最低。"]},
+  jidoka:{k:"右柱 · Pillar 2",t:"自働化 Jidoka",en:"Autonomation",p:["管的是<b>品質</b>：機器一發現異常就自動停止，不讓不良品往下流。","注意是「人」字旁的働——具人類智慧的自動化。配套：安燈、防錯。"]},
+  core:{k:"核心 · Heart",t:"人 與 持續改善",en:"People & Kaizen",p:["兩柱之間的核心是<b>人</b>與<b>持續改善（Kaizen）</b>。","再好的工具，沒有會思考、肯改善的人也撐不起來。"]},
+  heijunka:{k:"地基 · Foundation",t:"平準化 Heijunka",en:"Heijunka",p:["把生產的<b>量與品項攤平、均衡排程</b>，避免忽快忽慢。","這是對付「無均 Mura」的核心工具，讓上面兩柱能穩定運作。"]},
+  std:{k:"地基 · Foundation",t:"標準化作業 · 目視管理",en:"Standardized Work",p:["把當前最佳做法<b>標準化</b>，並用目視管理讓異常一眼看見。","標準是改善的基準線——<b>沒有標準，就沒有改善</b>。"]},
+  genba:{k:"地基 · Foundation",t:"現場 · 現地現物 · Kaizen",en:"Genba · Genchi Genbutsu",p:["親赴<b>現場（Genba）</b>、看<b>實物（現地現物）</b>、掌握事實，不憑空臆測。","在現場持續做小步改善（Kaizen），是整棟房子的地基。"]}
+};
+
+const principles=[
+  {t:"界定價值",en:"Specify Value",p:["從<b>顧客角度</b>定義什麼是價值——只有顧客願意付錢的，才算價值。","這一步定錯，後面全都白做。"],keys:["顧客視角","願付價格"]},
+  {t:"辨識價值流",en:"Identify the Value Stream",p:["畫出<b>價值流圖（VSM）</b>，把每個步驟分成三類：創造價值 / 無價值但必要 / 純浪費。","目標是讓「純浪費」現形。"],keys:["價值流圖 VSM","三類步驟"]},
+  {t:"暢流",en:"Create Flow",p:["讓有價值的步驟<b>連續流動</b>，消除批量、停滯與等待。","理想狀態是<b>單件流（one-piece flow）</b>。"],keys:["連續流","單件流"]},
+  {t:"後拉",en:"Establish Pull",p:["由<b>下游顧客的需求拉動</b>上游生產（拉式），而不是憑預測先做一堆（推式）。","只在需要時、做需要的量；<b>看板 Kanban</b> 就是拉式的工具。"],keys:["拉式 Pull","看板 Kanban"]},
+  {t:"盡善盡美",en:"Seek Perfection",p:["透過<b>持續改善（Kaizen）</b>反覆循環，逼近零浪費。","做到第五步又回到第一步，永無止境。"],keys:["持續改善 Kaizen","循環"]}
+];
+
+const wastes=[
+  {l:"D",t:"不良 / 缺陷",en:"Defects",p:"需要重做、糾正的錯誤與瑕疵品。",ex:"組裝錯誤導致<b>整批退貨重工</b>"},
+  {l:"O",t:"過量生產",en:"Overproduction",p:"做太多或做太早，超過下游當下所需。",ex:"被視為<b>萬惡之源</b>，會引發庫存、搬運等其他浪費"},
+  {l:"W",t:"等待",en:"Waiting",p:"等料、等機器、等上一站，人或設備閒置。",ex:"作業員<b>站著等</b>自動機器跑完"},
+  {l:"N",t:"未善用人才",en:"Non-utilized Talent",p:"沒有發揮員工的智慧、技能與創意。",ex:"<b>第 8 種浪費</b>，Womack 2003 年加入",eighth:true},
+  {l:"T",t:"運輸 / 搬運",en:"Transportation",p:"物料或成品不必要的搬運與移動。",ex:"半成品在廠內<b>來回搬運</b>進出倉庫"},
+  {l:"I",t:"庫存",en:"Inventory",p:"過多的原料、在製品（WIP）、成品。",ex:"庫存<b>藏住問題</b>、占用資金與空間"},
+  {l:"M",t:"動作",en:"Motion",p:"人員不必要的移動、伸手、走動（動線問題）。",ex:"工具擺太遠，每次都要<b>多走幾步</b>"},
+  {l:"E",t:"過度加工",en:"Extra-processing",p:"多餘、不增加顧客價值的加工步驟。",ex:"做了顧客<b>根本不在意</b>的額外拋光"}
+];
+
+const gameScenarios=[
+  {s:"零件做好後，要先搬到隔壁棟倉庫存放，下午再搬回來組裝。",a:"運輸 / 搬運"},
+  {s:"預估這個月會大賣，先做了 5000 台堆在倉庫，結果只賣出 2000 台。",a:"過量生產"},
+  {s:"作業員按下啟動鍵後，就站在旁邊看機器自己跑完 90 秒。",a:"等待"},
+  {s:"一位資深技師整天只負責蓋章，從沒人問過他改善產線的想法。",a:"未善用人才"},
+  {s:"產品表面被多拋光了一道，但客戶其實看不到也不在乎那一面。",a:"過度加工"},
+  {s:"螺絲盒放在工作台兩公尺外，每鎖一顆都要起身走過去拿。",a:"動作"},
+  {s:"檢驗發現這批焊接不良，必須全部拆開重焊一次。",a:"不良 / 缺陷"},
+  {s:"原料倉堆滿三個月用量的鋼板，資金全卡在那裡、還占滿空間。",a:"庫存"}
+];
+const wasteNames=wastes.map(w=>w.t);
+
+const flashcards=[
+  {t:"5S",en:"Workplace Org",d:"整理(去除不要的)、整頓(定位)、清掃、清潔(維持)、素養(習慣化)。職場管理的基礎。"},
+  {t:"看板 Kanban",en:"Signboard",d:"日文「信號板」。拉式生產的可視化信號，控制在製品數量——不需要就不生產。"},
+  {t:"JIT 及時生產",en:"Just-In-Time",d:"在需要的時間、生產需要的量、需要的東西。TPS 左柱，管數量與時機。"},
+  {t:"自働化 Jidoka",en:"Autonomation",d:"人字旁的自動化。異常自動停機，把品質做進製程。TPS 右柱，管品質。"},
+  {t:"防錯 Poka-yoke",en:"Mistake-proofing",d:"用設計讓錯誤不可能發生、或一發生就立刻被發現。例：插槽做成只有一個方向插得進去。"},
+  {t:"SMED 快速換模",en:"Single-Min Exchange",d:"把換線/換模時間縮短到個位數分鐘(10 分鐘內)，支援小批量、多樣化生產。"},
+  {t:"Kaizen 持續改善",en:"Continuous Improvement",d:"由下而上、全員參與、永不停止的小步改善。精實的靈魂。"},
+  {t:"PDCA 循環",en:"Deming Cycle",d:"Plan-Do-Check-Act。改善的標準四步驟循環，又稱戴明循環。"},
+  {t:"價值流圖 VSM",en:"Value Stream Mapping",d:"畫出物流與資訊流，標出每步驟是否創造價值，用來找瓶頸與浪費。"},
+  {t:"平準化 Heijunka",en:"Leveling",d:"把生產量與品項攤平、均衡排程。對付「無均 Mura」的核心工具。"},
+  {t:"安燈 Andon",en:"Andon",d:"異常即時可視化的信號燈/拉繩，授權第一線作業員「停線」呼叫支援。"},
+  {t:"5 Whys 五個為什麼",en:"5 Whys",d:"對問題連續追問五次「為什麼」，一路挖到真正的根本原因。"},
+  {t:"現地現物 Genchi Genbutsu",en:"Go and See",d:"親赴現場、看實物、掌握第一手事實，不靠報告或臆測下判斷。"},
+  {t:"標準化作業",en:"Standardized Work",d:"當前最佳、可重複的作業方法，是改善的基準。沒有標準就沒有改善。"},
+  {t:"節拍時間 Takt Time",en:"Takt Time",d:"可用工時 ÷ 顧客需求量。生產應該跟上的「心跳節奏」。"},
+  {t:"七 / 八大浪費",en:"7+1 Wastes",d:"DOWNTIME：缺陷、過量生產、等待、未善用人才、運輸、庫存、動作、過度加工。"}
+];
+
+const quizData=[
+  {q:"精實管理整套思想圍繞的兩個關鍵字是？",o:["速度與規模","價值與浪費","成本與利潤","品質與數量"],a:1,e:"<b>價值（顧客願付）</b>與<b>浪費（Muda）</b>是 Lean 的兩大核心，先懂價值才分得出浪費。"},
+  {q:"《精實思想》五大原則的正確順序是？",o:["價值流→價值→暢流→後拉→盡善盡美","價值→暢流→價值流→後拉→盡善盡美","價值→價值流→暢流→後拉→盡善盡美","價值→價值流→後拉→暢流→盡善盡美"],a:2,e:"順序是 <b>界定價值 → 辨識價值流 → 暢流 → 後拉 → 盡善盡美</b>，且會回到第一步循環。"},
+  {q:"八大浪費的第 8 種「未善用人才」是誰加入的？",o:["大野耐一","亨利·福特","John Krafcik","James Womack"],a:3,e:"原始七大浪費由<b>大野耐一</b>提出；第 8 種未善用人才由 <b>Womack（2003）</b>加入。"},
+  {q:"關於 Muda、Muri、Mura，下列何者正確？",o:["三者都是指浪費的同義詞","Muri 與 Mura 常是 Muda 的根源","Mura 指超負荷、Muri 指不均衡","Muda 是 Muri 的根源"],a:1,e:"無理（超負荷）＋無均（不均衡）⇒ 無駄（浪費）。要從前兩者下手才能根治浪費。"},
+  {q:"TPS 之屋的兩根支柱分別主管什麼？",o:["JIT 管品質、Jidoka 管數量","JIT 管數量與時機、Jidoka 管品質","兩柱都管成本","JIT 管成本、Jidoka 管交期"],a:1,e:"<b>JIT</b> 管「數量與時機」（只做需要的）；<b>Jidoka 自働化</b> 管「品質」（異常即停）。"},
+  {q:"「看板（Kanban）」在精實系統中的角色是？",o:["事後品質檢驗表","推式生產的排程表","拉式生產的可視化信號","員工出勤記錄板"],a:2,e:"Kanban 是日文「信號板」，作為<b>拉式</b>生產的可視化信號，控制在製品數量。"},
+  {q:"被稱為「萬惡之源」、會引發其他多種浪費的是？",o:["等待","過量生產","動作","庫存"],a:1,e:"<b>過量生產（Overproduction）</b>會連帶造成庫存、搬運、等待等浪費，被視為萬惡之源。"},
+  {q:"「自働化（Jidoka）」與一般「自動化」的關鍵差別是？",o:["自働化速度更快","自働化會判斷異常並自動停止","自働化不需要用電","兩者完全相同"],a:1,e:"人字旁的「働」＝具人類智慧——機器<b>發現異常會主動停下</b>，避免製造不良品。"},
+  {q:"SMED 這個工具的目的是？",o:["縮短換模/換線時間到個位數分鐘","延長設備壽命","增加單批生產數量","自動排班"],a:0,e:"SMED（快速換模）把切換時間壓到 10 分鐘內，讓小批量、多樣化生產變得划算。"},
+  {q:"「沒有○○，就沒有改善」——空格應填入？",o:["庫存","標準","利潤","自動化"],a:1,e:"<b>標準化作業</b>是改善的基準線；沒有標準，就無從衡量改善有沒有發生。"},
+  {q:"5S 不包含下列哪一項？",o:["整理 Seiri","整頓 Seiton","創新 Souzou","素養 Shitsuke"],a:2,e:"5S＝整理、整頓、清掃、清潔、素養。「創新」不在其中。"},
+  {q:"第一次以「Lean Production」描述豐田模式的人是？",o:["大野耐一","John Krafcik","Daniel Jones","Henry Ford"],a:1,e:"<b>John Krafcik</b> 於 1988 年在 MIT 史隆學院首次提出「Lean」一詞。"}
+];
+
+const compares=[
+  {t:"JIT vs 自働化 Jidoka",hot:true,l:{h:"JIT 及時生產",en:"Just-In-Time",p:"管「量與時機」：只做需要的量。"},r:{h:"自働化 Jidoka",en:"Autonomation",p:"管「品質」：異常即停、不流出不良。"}},
+  {t:"Muda vs Muri vs Mura",hot:true,l:{h:"Muda 無駄",en:"Waste",p:"浪費（結果）= 八大浪費。"},r:{h:"Muri 無理 / Mura 斑",en:"Overburden / Unevenness",p:"超負荷與不均衡（根源）→ 造成 Muda。"}},
+  {t:"推式 Push vs 拉式 Pull",hot:false,l:{h:"Push 推式",en:"Forecast-driven",p:"憑預測先做一堆、往下游推。"},r:{h:"Pull 拉式",en:"Demand-driven",p:"由下游需求拉動、用看板控制。"}},
+  {t:"自動化 vs 自働化",hot:true,l:{h:"自動化",en:"Automation",p:"機器只是自己會動。"},r:{h:"自働化(人字旁)",en:"Autonomation",p:"機器會判斷異常並主動停止。"}},
+  {t:"Kaizen vs Kaikaku",hot:false,l:{h:"Kaizen 改善",en:"Incremental",p:"小步、漸進、全員的持續改善。"},r:{h:"Kaikaku 改革",en:"Radical",p:"大破大立、躍進式的根本改革。"}},
+  {t:"Lean vs Six Sigma",hot:true,l:{h:"Lean 精實",en:"Lean",p:"重點：消除浪費、加快流動。"},r:{h:"Six Sigma 六標準差",en:"Six Sigma",p:"重點：降低變異、穩定品質。"}},
+  {t:"七大浪費 vs 八大浪費",hot:false,l:{h:"七大浪費",en:"Ohno's 7",p:"大野耐一的原始版本。"},r:{h:"八大浪費",en:"+1 by Womack",p:"多了第 8 種「未善用人才」。"}},
+  {t:"標準化 vs 持續改善",hot:false,l:{h:"標準化作業",en:"Standard",p:"先定出當前最佳做法當基準。"},r:{h:"Kaizen",en:"Improve",p:"再從基準上持續往上改善。"}}
+];
+
+const checklistGroups=[
+  {g:"起源與本質",items:["精實 = 精瘦、無贅肉，源自豐田生產方式 TPS","兩大關鍵字：價值（顧客定義）與浪費（Muda）","大野耐一＝TPS 之父＋七大浪費","Womack & Jones＝《精實思想》＋五大原則＋第 8 浪費","生產史三階段：手工藝→大量生產→精實"]},
+  {g:"五大原則",items:["順序：界定價值→辨識價值流→暢流→後拉→盡善盡美","這是會回到第一步的循環","暢流的理想＝單件流","後拉＝由需求拉動，看板是其工具"]},
+  {g:"八大浪費 DOWNTIME",items:["能背出 DOWNTIME 八個字母對應的浪費","過量生產＝萬惡之源","第 8 種＝未善用人才（Womack 加入）"]},
+  {g:"3M 與系統",items:["分得清 Muda / Muri / Mura","記得 Muri+Mura ⇒ Muda 的因果","TPS 之屋：JIT 管量、自働化 管質","自動化 ≠ 自働化（人字旁會判斷停止）"]},
+  {g:"工具箱",items:["5S 五項說得出來","看板＝拉式信號板","防錯 Poka-yoke 的概念","SMED＝換模縮到個位數分鐘","現地現物＝親赴現場看實物","「沒有標準就沒有改善」"]}
+];
+
+/* ---------- RENDER: TPS house ---------- */
+const houseEl=document.getElementById("house"),houseInfo=document.getElementById("houseInfo");
+function showHouse(key){
+  const d=houseData[key];if(!d)return;
+  houseEl.querySelectorAll("[data-key]").forEach(x=>x.classList.toggle("on",x.dataset.key===key));
+  houseInfo.innerHTML=`<span class="hi-k">${d.k}</span><h3>${d.t}</h3><div class="hi-en">${d.en}</div>${d.p.map(x=>`<p>${x}</p>`).join("")}<div class="hint">▸ 繼續點房子的其他結構，把整棟拼起來。</div>`;
+}
+houseEl.querySelectorAll("[data-key]").forEach(el=>el.addEventListener("click",()=>showHouse(el.dataset.key)));
+
+/* ---------- RENDER: principles ---------- */
+const stepDetail=document.getElementById("stepDetail"),stepsEl=document.getElementById("steps");
+function showStep(i){
+  const p=principles[i];
+  stepsEl.querySelectorAll(".step").forEach(s=>s.classList.toggle("on",+s.dataset.i===i));
+  stepDetail.innerHTML=`<div class="sd-no">PRINCIPLE 0${i+1} · ${p.en}</div><h3>${p.t}</h3>${p.p.map(x=>`<p>${x}</p>`).join("")}<div>${p.keys.map(k=>`<span class="key">${k}</span>`).join("")}</div>`;
+}
+stepsEl.querySelectorAll(".step").forEach(s=>s.addEventListener("click",()=>showStep(+s.dataset.i)));
+showStep(0);
+
+/* ---------- RENDER: wastes ---------- */
+document.getElementById("wasteGrid").innerHTML=wastes.map(w=>
+  `<div class="waste-card${w.eighth?" eighth":""}"><span class="wl">${w.l}</span><h4>${w.t}${w.eighth?'<span class="badge8">第8種</span>':""}</h4><div class="en">${w.en}</div><p>${w.p}</p><div class="ex">${w.ex}</div></div>`
+).join("");
+
+/* ---------- mini game ---------- */
+let gCur=null;
+const gScn=document.getElementById("gScn"),gOpts=document.getElementById("gOpts"),gFb=document.getElementById("gFb"),
+gScoreEl=document.getElementById("gScore"),gTotalEl=document.getElementById("gTotal"),gStart=document.getElementById("gStart");
+let gScore=0,gTotal=0;
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function newQ(){
+  gCur=gameScenarios[Math.floor(Math.random()*gameScenarios.length)];
+  gFb.textContent="";gFb.className="fb";
+  gScn.textContent=gCur.s;
+  let opts=[gCur.a];const pool=shuffle(wasteNames.filter(n=>n!==gCur.a)).slice(0,3);
+  opts=shuffle(opts.concat(pool));
+  gOpts.innerHTML=opts.map(o=>`<button class="opt">${o}</button>`).join("");
+  gOpts.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>answerG(b)));
+  gStart.textContent="下一題 →";
+}
+function answerG(btn){
+  const chosen=btn.textContent;gTotal++;
+  gOpts.querySelectorAll(".opt").forEach(b=>{b.disabled=true;if(b.textContent===gCur.a)b.classList.add("right")});
+  if(chosen===gCur.a){gScore++;gFb.textContent="✓ 正確！";gFb.className="fb ok";}
+  else{btn.classList.add("wrong");gFb.textContent="✗ 正解是「"+gCur.a+"」";gFb.className="fb no";}
+  gScoreEl.textContent=gScore;gTotalEl.textContent=gTotal;
+}
+gStart.addEventListener("click",newQ);
+
+/* ---------- flashcards ---------- */
+const fcGrid=document.getElementById("fcGrid");
+let fcOrder=flashcards.map((_,i)=>i);
+function renderFC(){
+  fcGrid.innerHTML=fcOrder.map(i=>{
+    const c=flashcards[i],id="fc"+i,m=S.mastered[id];
+    return `<div class="fc-cell${m?" mastered":""}" data-id="${id}">
+      <button class="master-btn" title="標記為已熟記">${m?"✓":"○"}</button>
+      <div class="flip">
+        <div class="flip-in">
+          <div class="flip-f"><div class="term">${c.t}</div><div class="ten">${c.en}</div><div class="tap">點擊翻面</div></div>
+          <div class="flip-b"><div class="term">${c.t}</div><p>${c.d}</p></div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+  fcGrid.querySelectorAll(".fc-cell").forEach(cell=>{
+    const flip=cell.querySelector(".flip");
+    flip.addEventListener("click",()=>flip.classList.toggle("flipped"));
+    cell.querySelector(".master-btn").addEventListener("click",e=>{
+      e.stopPropagation();const id=cell.dataset.id;
+      S.mastered[id]=!S.mastered[id];save(S);renderFC();updateProgress();
+    });
+  });
+  document.getElementById("fcTotal").textContent=flashcards.length;
+  document.getElementById("fcMastered").textContent=Object.values(S.mastered).filter(Boolean).length;
+}
+document.getElementById("fcShuffle").addEventListener("click",()=>{fcOrder=shuffle(fcOrder);renderFC()});
+document.getElementById("fcReset").addEventListener("click",()=>{
+  flashcards.forEach((_,i)=>delete S.mastered["fc"+i]);save(S);renderFC();updateProgress();
+});
+
+/* ---------- quiz ---------- */
+const quizBody=document.getElementById("quizBody");
+document.getElementById("qMax").textContent=quizData.length;
+let quizState=S.quiz||{};
+function renderQuiz(){
+  quizBody.innerHTML=quizData.map((q,i)=>{
+    const ans=quizState[i];const answered=ans!==undefined;
+    return `<div class="q${answered?" answered":""}" data-i="${i}">
+      <div class="qn">Q${String(i+1).padStart(2,"0")}</div>
+      <div class="qtext">${q.q}</div>
+      <div class="qopts">${q.o.map((o,j)=>{
+        let cls="";if(answered){if(j===q.a)cls=" correct";else if(j===ans)cls=" chosen-wrong";}
+        return `<div class="qo${cls}" data-j="${j}"><span class="mk">${String.fromCharCode(65+j)}</span><span>${o}</span></div>`;
+      }).join("")}</div>
+      <div class="exp"><b>解析：</b>${q.e}</div>
+    </div>`;
+  }).join("");
+  quizBody.querySelectorAll(".q").forEach(qel=>{
+    const i=+qel.dataset.i;
+    qel.querySelectorAll(".qo").forEach(o=>o.addEventListener("click",()=>{
+      if(quizState[i]!==undefined)return;
+      quizState[i]=+o.dataset.j;S.quiz=quizState;save(S);renderQuiz();updateQuizScore();
+    }));
+  });
+  updateQuizScore();
+}
+function updateQuizScore(){
+  let correct=0,done=0;
+  quizData.forEach((q,i)=>{if(quizState[i]!==undefined){done++;if(quizState[i]===q.a)correct++;}});
+  document.getElementById("qNow").textContent=correct;
+  if(done===quizData.length&&correct>(S.quizBest||0)){S.quizBest=correct;save(S);}
+  document.getElementById("qBest").textContent=S.quizBest||0;
+  const msg=document.getElementById("quizMsg");
+  if(done<quizData.length)msg.innerHTML=`作答進度 ${done} / ${quizData.length}`;
+  else{
+    const pct=Math.round(correct/quizData.length*100);
+    let tag=pct>=90?"精實大師 🏯":pct>=70?"上手了，再衝高分":pct>=50?"基礎已穩，回去複習易混淆":"建議重看 01–05 單元";
+    msg.innerHTML=`完成！答對 <b>${correct}/${quizData.length}</b>（${pct}%）· ${tag}`;
+  }
+}
+document.getElementById("quizReset").addEventListener("click",()=>{quizState={};S.quiz={};save(S);renderQuiz();});
+
+/* ---------- compares ---------- */
+document.getElementById("cmpList").innerHTML=compares.map(c=>
+  `<div class="cmp-row"><div class="ct">${c.t}${c.hot?'<span class="sig">高頻易錯</span>':""}</div>
+   <div class="cmp-grid">
+     <div class="side"><div class="h">${c.l.h}<span class="en">${c.l.en}</span></div><p>${c.l.p}</p></div>
+     <div class="side"><div class="h">${c.r.h}<span class="en">${c.r.en}</span></div><p>${c.r.p}</p></div>
+   </div></div>`
+).join("");
+
+/* ---------- checklist ---------- */
+const cklWrap=document.getElementById("cklWrap");
+let cklTotal=0;
+function renderCkl(){
+  let idx=0;cklTotal=0;
+  cklWrap.innerHTML=checklistGroups.map(grp=>{
+    const items=grp.items.map(it=>{
+      const id="ck"+(idx++);cklTotal++;const on=S.checklist[id];
+      return `<div class="ck${on?" on":""}" data-id="${id}"><div class="box">${on?"✓":""}</div><div class="ctxt">${it}</div></div>`;
+    }).join("");
+    return `<div class="ckl-grp"><h4>${grp.g}</h4>${items}</div>`;
+  }).join("");
+  cklWrap.querySelectorAll(".ck").forEach(ck=>ck.addEventListener("click",()=>{
+    const id=ck.dataset.id;S.checklist[id]=!S.checklist[id];save(S);renderCkl();updateProgress();
+  }));
+  updateCklBar();
+}
+function updateCklBar(){
+  const done=Object.values(S.checklist).filter(Boolean).length;
+  const pct=cklTotal?Math.round(done/cklTotal*100):0;
+  document.getElementById("cklBar").style.width=pct+"%";
+  document.getElementById("cklPct").textContent=pct;
+  document.getElementById("ckN").textContent=done;
+}
+
+/* ---------- overall progress ring ---------- */
+function updateProgress(){
+  updateCklBar();
+  const m=Object.values(S.mastered).filter(Boolean).length;
+  const ck=Object.values(S.checklist).filter(Boolean).length;
+  document.getElementById("masterN").textContent=m;
+  document.getElementById("fcMastered").textContent=m;
+  const total=flashcards.length+cklTotal;
+  const pct=total?Math.round((m+ck)/total*100):0;
+  const C=188.5;
+  document.getElementById("ringFg").style.strokeDashoffset=C-(C*pct/100);
+  document.getElementById("ringPct").textContent=pct+"%";
+}
+
+/* ---------- reset all ---------- */
+document.getElementById("resetAll").addEventListener("click",()=>{
+  if(confirm("確定要清除所有進度（翻卡標記、測驗、檢核）嗎？此動作無法復原。")){
+    S={mastered:{},checklist:{},quiz:{},quizBest:0};save(S);
+    quizState={};fcOrder=flashcards.map((_,i)=>i);
+    renderFC();renderQuiz();renderCkl();updateProgress();
+    document.getElementById("qBest").textContent=0;
+  }
+});
+
+/* ---------- scroll nav + reveal ---------- */
+const navLinks=[...document.querySelectorAll(".vsnav a")];
+const secs=navLinks.map(a=>document.querySelector(a.getAttribute("href")));
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelector(".fade")?.classList.add("in");
+      const idx=secs.indexOf(e.target);
+      if(idx>=0){
+        navLinks.forEach((l,k)=>{l.classList.toggle("active",k===idx);if(k<idx)l.classList.add("done");});
+      }
+    }
+  });
+},{threshold:.18,rootMargin:"-10% 0px -55% 0px"});
+secs.forEach(s=>s&&io.observe(s));
+
+/* ---------- init ---------- */
+renderFC();renderQuiz();renderCkl();updateProgress();
+</script>
+</body>
+</html>
