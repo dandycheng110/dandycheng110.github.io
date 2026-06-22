@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="WANDER 漫旅 — 世界著名景點的沉浸式一日行程，深色電影感、隨滾動展開的動態時間軸。">
+<title>WANDER 漫旅 · 世界著名景點沉浸式行程</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   WANDER 漫旅 — 沉浸式世界景點行程
+   單一 HTML 檔｜GSAP + ScrollTrigger 驅動
+   ============================================================ */
+
+:root{
+  --bg:#07080d;
+  --bg-soft:#0b0d15;
+  --ink:#ece8df;
+  --ink-soft:rgba(236,232,223,.62);
+  --ink-faint:rgba(236,232,223,.40);
+  --line:rgba(255,255,255,.10);
+  --line-soft:rgba(255,255,255,.06);
+  --glass:rgba(255,255,255,.045);
+  --glass-2:rgba(255,255,255,.08);
+  --accent:#e8c878;             /* 內頁會依各趟覆寫 */
+  --au-a:rgba(70,150,160,.55);  /* 首頁極光(冷色) */
+  --au-b:rgba(60,70,150,.45);
+  --au-c:rgba(120,60,130,.40);
+  --r:18px;
+  --maxw:1240px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:auto}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Noto Sans TC",system-ui,sans-serif;
+  font-weight:300;
+  line-height:1.72;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+button{font-family:inherit;color:inherit;background:none;border:none;cursor:pointer}
+::selection{background:rgba(232,200,120,.28)}
+
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(20px,5vw,56px)}
+.eyebrow{
+  display:inline-block;font-size:12px;font-weight:500;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--ink-faint);
+}
+
+/* ---------- 背景氛圍：極光 + 噪點 + 暗角 ---------- */
+.atmos{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.atmos__vignette{
+  position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 50% -10%,transparent 40%,rgba(0,0,0,.55) 100%);
+}
+.atmos__grain{
+  position:absolute;inset:-50%;opacity:.05;mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.aura{position:absolute;inset:0;filter:blur(90px);opacity:.85}
+.aura b{position:absolute;border-radius:50%;mix-blend-mode:screen;display:block}
+.aura .b1{width:46vw;height:46vw;left:-8vw;top:-6vw;background:var(--au-a)}
+.aura .b2{width:40vw;height:40vw;right:-6vw;top:14vh;background:var(--au-b)}
+.aura .b3{width:50vw;height:50vw;left:18vw;bottom:-22vw;background:var(--au-c)}
+@media (prefers-reduced-motion:no-preference){
+  .aura .b1{animation:drift1 26s var(--ease) infinite alternate}
+  .aura .b2{animation:drift2 32s var(--ease) infinite alternate}
+  .aura .b3{animation:drift3 38s var(--ease) infinite alternate}
+}
+@keyframes drift1{to{transform:translate(8vw,6vh) scale(1.15)}}
+@keyframes drift2{to{transform:translate(-7vw,4vh) scale(1.1)}}
+@keyframes drift3{to{transform:translate(5vw,-6vh) scale(1.2)}}
+
+/* ============================================================
+   首頁 GALLERY
+   ============================================================ */
+#gallery{position:relative;z-index:1}
+
+.site{position:relative;z-index:3}
+.site__bar{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:26px;flex-wrap:wrap}
+.site__brand{display:flex;align-items:baseline;gap:14px}
+.site__mark{font-family:"Bebas Neue",sans-serif;font-size:30px;letter-spacing:.14em}
+.site__tag{font-size:13px;color:var(--ink-soft);letter-spacing:.06em}
+.site__hint{font-size:13px;color:var(--ink-faint)}
+
+.intro{padding-block:clamp(40px,7vw,92px) clamp(30px,5vw,56px)}
+.intro__grid{display:grid;gap:clamp(20px,3.2vw,52px)}
+@media(min-width:900px){ .intro__grid{grid-template-columns:1.35fr .85fr;align-items:end} }
+.intro__eyebrow{margin-bottom:clamp(18px,2.4vw,26px)}
+.intro__title{
+  font-family:"Noto Serif TC",serif;font-weight:600;
+  font-size:clamp(36px,6.6vw,74px);line-height:1.12;letter-spacing:.005em;
+  max-width:16ch;text-wrap:balance;
+}
+.intro__title em{font-style:normal;
+  color:transparent;-webkit-background-clip:text;background-clip:text;
+  background-image:linear-gradient(100deg,var(--ink) 18%,var(--accent) 128%)}
+.intro__lead{
+  max-width:46ch;font-size:clamp(15px,1.7vw,17.5px);
+  color:var(--ink-soft);line-height:1.9;
+}
+.intro__lead::before{content:"";display:block;width:42px;height:2px;
+  background:linear-gradient(90deg,var(--accent),transparent);margin-bottom:18px;opacity:.9}
+
+/* ---- section rule / 區段標題 ---- */
+.section-rule{display:flex;align-items:center;gap:18px;
+  padding-block:clamp(22px,3.4vw,38px) clamp(16px,2.4vw,26px)}
+.section-rule__label{font-size:12px;font-weight:500;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--ink-soft);white-space:nowrap}
+.section-rule__line{flex:1;height:1px;background:var(--line-soft)}
+.section-rule__n{font-family:"Bebas Neue",sans-serif;font-size:17px;
+  letter-spacing:.08em;color:var(--ink-faint)}
+
+/* ============================================================
+   FEATURED 精選大卡
+   ============================================================ */
+.feature{
+  position:relative;display:grid;text-align:left;width:100%;
+  aspect-ratio:16/10;min-height:360px;border-radius:var(--r);overflow:hidden;
+  background:var(--bg-soft);border:1px solid var(--line-soft);
+  transition:transform .6s var(--ease),box-shadow .6s var(--ease),border-color .6s var(--ease);
+}
+@media(min-width:680px){ .feature{aspect-ratio:21/9} }
+@media(min-width:1040px){ .feature{aspect-ratio:5/2;min-height:420px} }
+.feature .card__media{position:absolute;inset:0}
+.feature .card__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:saturate(1.05);transition:transform 1.2s var(--ease)}
+.feature__shade{position:absolute;inset:0;
+  background:linear-gradient(102deg,rgba(4,5,9,.94) 0%,rgba(4,5,9,.6) 36%,rgba(4,5,9,.14) 68%,rgba(4,5,9,0) 100%),
+             linear-gradient(to top,rgba(4,5,9,.72),transparent 52%)}
+.feature__body{position:relative;z-index:2;align-self:end;max-width:660px;
+  padding:clamp(22px,3.6vw,48px);display:flex;flex-direction:column;gap:clamp(8px,1vw,12px)}
+.feature__kicker{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.feature__flag{font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent);padding:5px 11px;border-radius:999px;
+  border:1px solid color-mix(in srgb,var(--accent) 38%,transparent);
+  background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.feature__over{font-family:"Bebas Neue",sans-serif;font-size:clamp(19px,2.8vw,30px);
+  letter-spacing:.18em;color:var(--ink-soft);line-height:1}
+.feature__title{font-family:"Noto Serif TC",serif;font-weight:600;
+  font-size:clamp(30px,5.2vw,58px);line-height:1.05;letter-spacing:.01em}
+.feature__sub{max-width:48ch;color:var(--ink-soft);font-weight:300;
+  font-size:clamp(14px,1.5vw,16px);line-height:1.82}
+.feature__meta{margin-top:8px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  font-size:12.5px;letter-spacing:.05em;color:var(--ink-faint)}
+.feature__go{display:inline-flex;align-items:center;gap:8px;color:var(--accent);
+  letter-spacing:.08em;transition:gap .4s var(--ease)}
+.feature::after{content:"";position:absolute;inset:0;border-radius:var(--r);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0);transition:box-shadow .5s var(--ease);pointer-events:none}
+@media(hover:hover){
+  .feature:hover{transform:translateY(-4px);box-shadow:0 30px 64px -30px rgba(0,0,0,.85)}
+  .feature:hover .card__img{transform:scale(1.045)}
+  .feature:hover::after{box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+  .feature:hover .feature__go{gap:13px}
+}
+.feature:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+/* ---- 卡片網格：手機2 / 平板3 / 桌機4 ---- */
+.grid{
+  display:grid;gap:clamp(12px,1.6vw,20px);
+  grid-template-columns:repeat(2,1fr);
+  padding-bottom:clamp(40px,7vw,80px);
+}
+@media (min-width:680px){ .grid{grid-template-columns:repeat(3,1fr)} }
+@media (min-width:1040px){ .grid{grid-template-columns:repeat(4,1fr)} }
+
+.card{
+  position:relative;display:block;text-align:left;
+  aspect-ratio:3/4;border-radius:var(--r);overflow:hidden;
+  background:var(--bg-soft);border:1px solid var(--line-soft);
+  transition:transform .55s var(--ease),box-shadow .55s var(--ease),border-color .55s var(--ease);
+  will-change:transform;
+}
+.card__media{position:absolute;inset:0}
+.card__ph{position:absolute;inset:0}
+.card__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:transform 1s var(--ease),filter .6s var(--ease);filter:saturate(1.04)}
+.card__shade{position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(4,5,9,.92) 4%,rgba(4,5,9,.30) 46%,rgba(4,5,9,.10) 70%,rgba(4,5,9,.36) 100%)}
+.card__region{
+  position:absolute;top:12px;left:12px;z-index:2;
+  font-size:11px;letter-spacing:.05em;padding:6px 11px;border-radius:999px;
+  background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--line);color:var(--ink)
+}
+.card__body{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:16px 16px 18px;display:flex;flex-direction:column;gap:3px}
+.card__over{font-family:"Bebas Neue",sans-serif;font-size:clamp(15px,2vw,19px);letter-spacing:.16em;color:var(--ink-soft);line-height:1}
+.card__title{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(19px,2.5vw,27px);line-height:1.2}
+.card__meta{margin-top:6px;font-size:12px;color:var(--ink-faint);letter-spacing:.02em}
+.card__no{position:absolute;top:13px;right:15px;z-index:2;font-family:"Bebas Neue",sans-serif;
+  font-size:15px;letter-spacing:.12em;color:var(--ink-soft);mix-blend-mode:screen;opacity:.8}
+.card__media::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(120% 80% at 50% -10%,rgba(255,255,255,.07),transparent 46%)}
+.card::after{content:"";position:absolute;inset:0;border-radius:var(--r);box-shadow:inset 0 0 0 1px rgba(255,255,255,0);transition:box-shadow .5s var(--ease);pointer-events:none}
+@media (hover:hover){
+  .card:hover{transform:translateY(-7px);border-color:transparent;box-shadow:0 24px 50px -22px rgba(0,0,0,.85)}
+  .card:hover .card__img{transform:scale(1.07)}
+  .card:hover::after{box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
+}
+.card:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+.foot{padding-block:clamp(28px,5vw,48px) clamp(48px,8vw,90px);border-top:1px solid var(--line-soft);color:var(--ink-faint);font-size:13px;line-height:1.9}
+.foot__brand{margin-top:8px;letter-spacing:.04em}
+
+/* ============================================================
+   內頁 DETAIL
+   ============================================================ */
+.detail{display:none;position:relative;z-index:2}
+.d-aura{position:fixed;inset:0;z-index:0;pointer-events:none;filter:blur(110px);opacity:.7}
+.d-aura::before,.d-aura::after{content:"";position:absolute;border-radius:50%;mix-blend-mode:screen}
+.d-aura::before{width:52vw;height:52vw;left:-10vw;top:-8vw;background:var(--au-a)}
+.d-aura::after{width:46vw;height:46vw;right:-8vw;bottom:-10vw;background:var(--au-b)}
+
+.back{
+  position:fixed;top:20px;left:max(18px,env(safe-area-inset-left));z-index:40;
+  font-size:13px;letter-spacing:.04em;padding:10px 16px;border-radius:999px;
+  background:var(--glass-2);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--line);color:var(--ink);
+  transition:background .3s,transform .3s var(--ease)
+}
+.back:hover{background:rgba(255,255,255,.14);transform:translateX(-2px)}
+.back:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+/* ---- HERO ---- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;z-index:1}
+.hero__media{position:absolute;inset:-2% 0 -16% 0;height:118%;will-change:transform}
+.hero__ph{position:absolute;inset:0}
+.hero__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero__shade{position:absolute;inset:0;
+  background:linear-gradient(to top,var(--bg) 1%,rgba(7,8,13,.72) 26%,rgba(7,8,13,.30) 56%,rgba(7,8,13,.50) 100%)}
+.hero__inner{position:relative;z-index:2;width:100%;max-width:var(--maxw);margin-inline:auto;padding:0 clamp(20px,5vw,56px) clamp(46px,9vh,96px)}
+.hero__eyebrow{display:inline-block;font-size:13px;font-weight:500;letter-spacing:.24em;color:var(--ink-soft);margin-bottom:18px}
+.hero__title{display:flex;flex-direction:column;line-height:.92}
+.ttl-lat{font-family:"Bebas Neue",sans-serif;font-size:clamp(64px,14vw,190px);letter-spacing:.02em;color:var(--ink)}
+.ttl-cjk{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(26px,5.4vw,58px);letter-spacing:.06em;margin-top:.12em;
+  color:transparent;-webkit-background-clip:text;background-clip:text;
+  background-image:linear-gradient(100deg,var(--ink) 30%,var(--accent) 130%)}
+.hero__sub{margin-top:26px;max-width:42ch;font-size:clamp(15px,1.9vw,18px);color:var(--ink-soft);line-height:1.85}
+.hero__meta{margin-top:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.hero__meta .dot{width:4px;height:4px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 10px 1px var(--accent);flex:none}
+.hero__hint{margin-top:34px;display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.18em;color:var(--ink-faint)}
+.chev{width:16px;height:16px;border-right:1.5px solid var(--ink-faint);border-bottom:1.5px solid var(--ink-faint);transform:rotate(45deg)}
+@media (prefers-reduced-motion:no-preference){ .chev{animation:bob 1.8s ease-in-out infinite} }
+@keyframes bob{0%,100%{transform:rotate(45deg) translate(0,0)}50%{transform:rotate(45deg) translate(4px,4px)}}
+
+/* ---- 行程區 + 時間軸 ---- */
+.trip{position:relative;z-index:1;padding-block:clamp(48px,9vw,104px) clamp(40px,8vw,80px)}
+.trip__head{display:flex;align-items:baseline;justify-content:space-between;gap:18px;padding-bottom:clamp(28px,5vw,52px);border-bottom:1px solid var(--line-soft);flex-wrap:wrap}
+.trip__hours{font-size:13px;color:var(--ink-faint);letter-spacing:.04em}
+
+.timeline{position:relative;padding-top:clamp(28px,5vw,48px)}
+.tl-line{position:absolute;top:0;bottom:0;left:19px;width:2px;background:var(--line-soft);overflow:hidden}
+.tl-fill{position:absolute;inset:0;transform-origin:top;transform:scaleY(1);
+  background:linear-gradient(to bottom,var(--accent),rgba(232,200,120,.15))}
+@media (min-width:900px){ .tl-line{left:50%;transform:translateX(-50%)} }
+
+.station{position:relative;display:grid;grid-template-columns:40px 1fr;gap:0 22px;padding-bottom:clamp(26px,4vw,46px)}
+@media (min-width:900px){
+  .station{grid-template-columns:1fr 40px 1fr;gap:0}
+  .st--left .st-card{grid-column:1;margin-right:14px}
+  .st--left .st-node{grid-column:2}
+  .st--right .st-card{grid-column:3;margin-left:14px}
+  .st--right .st-node{grid-column:2}
+}
+
+.st-node{position:relative;display:flex;justify-content:center;padding-top:26px}
+.st-node span{width:15px;height:15px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 4px rgba(7,8,13,.9),0 0 22px 2px var(--accent);position:relative;z-index:2}
+@media (prefers-reduced-motion:no-preference){ .st-node span{animation:pulse 2.6s ease-in-out infinite} }
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(7,8,13,.9),0 0 18px 1px var(--accent)}50%{box-shadow:0 0 0 4px rgba(7,8,13,.9),0 0 30px 5px var(--accent)}}
+
+.st-card{
+  position:relative;border-radius:var(--r);overflow:hidden;
+  background:var(--glass);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);
+  border:1px solid var(--line);will-change:transform,opacity;
+  box-shadow:0 20px 44px -28px rgba(0,0,0,.8)
+}
+.st-media{position:relative;aspect-ratio:16/10;overflow:hidden}
+.st-ph{position:absolute;inset:0}
+.st-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.st-media::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(7,8,13,.78),transparent 52%)}
+.st-time{position:absolute;left:14px;bottom:12px;z-index:2;font-family:"Bebas Neue",sans-serif;font-size:26px;letter-spacing:.08em;color:var(--ink);text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.st-body{padding:16px 18px 20px}
+.st-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.st-title{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(18px,2.3vw,23px);line-height:1.3}
+.st-dur{flex:none;font-size:11px;letter-spacing:.04em;color:var(--accent);padding:4px 10px;border-radius:999px;border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);background:color-mix(in srgb,var(--accent) 9%,transparent)}
+.st-hook{margin-top:7px;font-size:14.5px;color:var(--ink);opacity:.92;font-weight:400}
+.st-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.tag{font-size:11px;letter-spacing:.02em;color:var(--ink-soft);padding:4px 10px;border-radius:999px;background:var(--glass-2);border:1px solid var(--line-soft)}
+.st-desc{margin-top:13px;font-size:14px;color:var(--ink-soft);line-height:1.82}
+
+/* ---- CTA ---- */
+.cta{margin-top:clamp(40px,7vw,72px);text-align:center;padding:clamp(36px,6vw,60px) 22px;border-top:1px solid var(--line-soft)}
+.cta__lead{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(26px,4vw,40px);
+  color:transparent;-webkit-background-clip:text;background-clip:text;background-image:linear-gradient(100deg,var(--ink),var(--accent))}
+.cta__sub{margin-top:12px;font-size:14.5px;color:var(--ink-soft)}
+.cta__btns{margin-top:26px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{font-size:14px;letter-spacing:.04em;padding:13px 26px;border-radius:999px;transition:transform .3s var(--ease),background .3s,box-shadow .3s}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.btn--solid{background:var(--accent);color:#15110a;font-weight:500;box-shadow:0 14px 30px -14px var(--accent)}
+.btn--solid:hover{transform:translateY(-2px);box-shadow:0 18px 38px -14px var(--accent)}
+.btn--ghost{background:var(--glass-2);border:1px solid var(--line);color:var(--ink)}
+.btn--ghost:hover{transform:translateY(-2px);background:rgba(255,255,255,.13)}
+
+.d-foot{margin-top:clamp(36px,6vw,60px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px}
+.totop{font-size:13px;letter-spacing:.06em;color:var(--ink-soft);padding:9px 18px;border-radius:999px;border:1px solid var(--line-soft)}
+.totop:hover{color:var(--ink);border-color:var(--line)}
+.d-foot__note{max-width:50ch;font-size:12px;color:var(--ink-faint);line-height:1.8}
+
+/* ---- Toast ---- */
+.toast{
+  position:fixed;left:50%;bottom:30px;transform:translate(-50%,28px);z-index:80;
+  padding:13px 22px;border-radius:999px;font-size:14px;letter-spacing:.02em;
+  background:rgba(20,22,30,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--line);color:var(--ink);
+  opacity:0;pointer-events:none;transition:opacity .35s,transform .45s var(--ease);
+  box-shadow:0 20px 50px -20px rgba(0,0,0,.7)
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto !important}
+  .card,.card__img,.btn,.back{transition:none}
+}
+</style>
+</head>
+<body>
+
+<!-- 背景氛圍 -->
+<div class="atmos" aria-hidden="true">
+  <div class="aura"><b class="b1"></b><b class="b2"></b><b class="b3"></b></div>
+  <div class="atmos__grain"></div>
+  <div class="atmos__vignette"></div>
+</div>
+
+<!-- 首頁 -->
+<div id="gallery">
+  <header class="site">
+    <div class="wrap site__bar">
+      <div class="site__brand">
+        <span class="site__mark">WANDER</span>
+        <span class="site__tag">漫旅 · 世界行程誌</span>
+      </div>
+      <span class="site__hint">點任一張卡片，走進那座城市</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro wrap">
+      <span class="eyebrow intro__eyebrow">Field Notes · 世界行程誌</span>
+      <div class="intro__grid">
+        <h1 class="intro__title">挑一座城市，<br>讓自己<em>先抵達</em>那裡。</h1>
+        <p class="intro__lead">十二段世界著名景點的一日行程。深色、沉浸，隨著你的滾動慢慢展開——願你在螢幕前，就已經聞到當地的空氣。</p>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div id="galleryFeature"></div>
+      <div class="section-rule">
+        <span class="section-rule__label">更多目的地 · More Destinations</span>
+        <span class="section-rule__line"></span>
+        <span class="section-rule__n" id="routeCount"></span>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <footer class="foot wrap">
+      <p>圖片來源：Wikimedia Commons，採 CC 授權。正式公開前，建議替換成自有或自行授權的照片。</p>
+      <p class="foot__brand">WANDER · 由龍蝦 AI 旅遊誌打造 · 以 GSAP 驅動的單檔網頁</p>
+    </footer>
+  </main>
+</div>
+
+<!-- 內頁(動態生成) -->
+<div class="detail" id="detail" aria-live="polite"></div>
+
+<!-- 提示 -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+// APP_START
+/* ===========================================================
+   單一事實來源：所有卡片與內頁都由 trips 自動生成
+   想新增/編輯行程，只要改這個陣列即可。
+   =========================================================== */
+const trips = [
+  {
+    region:'世界七大奇景', theme:'環球 · 奇蹟', hours:'一生一次',
+    titleLines:['7 WONDERS','世界七大奇景'],
+    sub:'七座橫跨各大洲的人類奇蹟，從中國的長城到印度的泰姬瑪哈陵——這是一份寫給一生的夢想清單。',
+    q:'Taj Mahal Agra', dir:'',
+    cover:'Taj_Mahal,_Agra,_India.jpg', hero:'Taj_Mahal,_Agra,_India.jpg',
+    c1:'#1a1730', c2:'#7a5230', c3:'#e8c071',
+    glow:'rgba(255,220,150,.45)', accent:'#f0c14b',
+    plan:[
+      {t:'中國', d:'秦漢起建', title:'萬里長城', hook:'沿著山脊起伏的千年城牆', tag:'世界遺產 · 城牆', img:'The_Great_Wall_of_China_at_Jinshanling-edit.jpg', desc:'金山嶺一段是長城最上鏡的剪影，磚砌的牆身順著稜線一路爬向天邊。站上烽火台往兩側望去，才真正體會「萬里」這兩個字的重量。'},
+      {t:'約旦', d:'納巴泰', title:'佩特拉 · 卡茲尼神殿', hook:'從岩縫盡頭乍現的玫瑰色神殿', tag:'古城 · 岩雕', img:'Al-Khazneh_(The_Treasury),_Petra,_Jordan.jpg', desc:'穿過一線天般的狹長峽谷 Siq，盡頭忽然透出一抹玫瑰色——直接鑿進砂岩崖壁的卡茲尼神殿。光線在不同時辰替石頭換上深淺不一的紅。'},
+      {t:'巴西', d:'1931', title:'里約 · 救世基督像', hook:'在山頂張開雙臂擁抱整座里約', tag:'地標 · 山景', img:'Christ_the_Redeemer_statue_at_Corcovado.JPG', desc:'高 30 公尺的基督像張開雙臂，站在 700 公尺高的山巔俯瞰整座里約。腳下是海灣、沙灘與層疊的山稜，雲一散開，城市就全攤在眼前。'},
+      {t:'秘魯', d:'印加', title:'馬丘比丘', hook:'雲霧裡浮現的失落天空之城', tag:'世界遺產 · 遺跡', img:'Machu_Picchu,_Peru.jpg', desc:'清晨的雲海還沒散，石砌的城郭就先一步從霧中浮現。這座藏在安地斯高處的印加古城，把梯田、神殿與群峰疊成一幅令人屏息的畫。'},
+      {t:'墨西哥', d:'馬雅', title:'奇琴伊察 · 羽蛇神金字塔', hook:'用陰影演出春分的羽蛇傳說', tag:'世界遺產 · 金字塔', img:'The_El_Castillo_Pyramid_at_Chichen_Itza,_Mexico.jpg', desc:'四面各 91 階、加頂台恰好 365 階，這座馬雅金字塔本身就是一部石造曆法。每逢春分，階梯邊緣的陰影會連成一條蜿蜒而下的羽蛇。'},
+      {t:'義大利', d:'西元 80', title:'羅馬競技場', hook:'兩千年前的萬人歡呼仍在迴盪', tag:'世界遺產 · 古蹟', img:'Colosseum_in_Rome,_Italy_-_April_2007.jpg', desc:'能容納五萬人的橢圓形競技場，是古羅馬工程與娛樂的極致展示。走進殘存的拱廊與看台，彷彿還能聽見當年觀眾席上的喧騰。'},
+      {t:'印度', d:'1653', title:'泰姬瑪哈陵', hook:'為摯愛而生的白色大理石詩篇', tag:'世界遺產 · 陵寢', img:'Taj_Mahal,_Agra,_India.jpg', desc:'蒙兀兒皇帝為愛妃而建的白色大理石陵寢，左右完美對稱，倒映在長長的水池裡。晨昏不同的光線下，大理石會泛出淡淡的金、粉與藍。'}
+    ]
+  },
+{
+    region:'法國・巴黎', theme:'藝術 · 河岸', hours:'9 小時',
+    titleLines:['PARIS','漫遊塞納河'],
+    sub:'從博物館到河岸，從清晨咖啡到夜裡的鐵塔閃燈，巴黎值得你慢慢走。',
+    q:'Eiffel Tower Paris', dir:'',
+    cover:'Tour_Eiffel_Wikimedia_Commons.jpg', hero:'',
+    c1:'#161f3a', c2:'#4a3f7a', c3:'#d8b67a',
+    glow:'rgba(255,220,180,.42)', accent:'#e8c878',
+    plan:[
+      {t:'09:00', d:'150 min', title:'羅浮宮', hook:'在玻璃金字塔下與名作對望', tag:'博物館 · 藝術', img:'Louvre_Museum_Wikimedia_Commons.jpg', desc:'早鳥票先進場，直奔德農館看鎮館之寶。逛累了，就到中庭金字塔旁坐一會，看光線怎麼穿過玻璃灑下來。'},
+      {t:'12:30', d:'60 min', title:'蒙馬特高地', hook:'爬上山丘，看畫家在廣場寫生', tag:'山丘 · 老城', img:'Sacré-Cœur_Montmartre_Paris_France.JPG', desc:'聖心堂前的階梯永遠坐滿人。轉進小巷，畫家在小丘廣場替遊客畫像，巷口飄來可麗餅的香氣。'},
+      {t:'15:30', d:'90 min', title:'塞納河畔', hook:'沿著舊書攤一路走到夕陽', tag:'河岸 · 散步', img:'Paris_-_Bookstall_by_the_Seine_-_3568.jpg', desc:'綠色的舊書攤沿著河堤排開，翻翻舊明信片。走過一座座橋，看船緩緩駛過，時間也跟著慢下來。'},
+      {t:'19:00', d:'120 min', title:'艾菲爾鐵塔', hook:'等整點一到，鐵塔開始閃爍', tag:'地標 · 夜景', img:'Tour_Eiffel_Wikimedia_Commons.jpg', desc:'在戰神廣場的草地上鋪一塊布，等天色轉藍。每到整點，鐵塔會亮起五分鐘的金色閃燈，全場都會輕輕驚呼。'}
+    ]
+  },
+{
+    region:'義大利・羅馬', theme:'古蹟 · 巷弄', hours:'8 小時',
+    titleLines:['ROMA','永恆之城'],
+    sub:'兩千年的石頭都還站在原地，你只要帶著好奇心，慢慢穿過時間。',
+    q:'Colosseum Rome', dir:'',
+    cover:'Colosseum_in_Rome,_Italy_-_April_2007.jpg', hero:'',
+    c1:'#241410', c2:'#7a4326', c3:'#d99a5c',
+    glow:'rgba(255,196,150,.42)', accent:'#e0a868',
+    plan:[
+      {t:'09:00', d:'120 min', title:'羅馬競技場', hook:'站在兩千年前的觀眾席往下看', tag:'世界遺產 · 古蹟', img:'Colosseum_in_Rome,_Italy_-_April_2007.jpg', desc:'清晨第一批進場，避開人潮與烈日。想像當年五萬人座無虛席的喧囂，再走到旁邊的古羅馬廣場接著看。'},
+      {t:'12:00', d:'45 min', title:'萬神殿', hook:'抬頭看穹頂中央那束天光', tag:'神殿 · 建築', img:'Pantheon-Exterior-Front-Rome.jpg', desc:'保存得最完整的羅馬建築。站在圓頂正中央往上看，那個開了兩千年的圓洞，正把一束陽光灑進殿內。'},
+      {t:'14:30', d:'45 min', title:'特雷維噴泉', hook:'背對噴泉，丟一枚硬幣許願', tag:'噴泉 · 許願', img:'Trevi_Fountain,_Rome,_Italy_2_-_May_2007.jpg', desc:'巴洛克的海神駕著馬車從牆裡奔出。傳說背對噴泉丟一枚硬幣，你就會再回到羅馬——試試看吧。'},
+      {t:'17:00', d:'120 min', title:'特拉斯提弗列', hook:'在石板巷裡找一家在地小館', tag:'老街 · 晚餐', img:'Santa_Maria_in_Trastevere,_Rome_(15234104942).jpg', desc:'台伯河對岸的老城區，常春藤爬滿牆面，入夜後整條巷子都是燭光與笑聲。點一盤起司黑胡椒麵，配一杯紅酒。'}
+    ]
+  },
+{
+    region:'冰島', theme:'極境 · 追光', hours:'12 小時',
+    titleLines:['ICELAND','冰與火之地'],
+    sub:'瀑布、黑沙、藍湖與極光，在這座島上，自然把場面做到最大。',
+    q:'Kirkjufell Iceland', dir:'',
+    cover:'Aurora_Borealis_activity_on_top_of_the_Kirkjufell_mountain_in_September_2018.jpg', hero:'',
+    c1:'#0a1622', c2:'#1c4a56', c3:'#46c0a0',
+    glow:'rgba(120,255,210,.42)', accent:'#56d0b0',
+    plan:[
+      {t:'09:00', d:'120 min', title:'黃金圈', hook:'看間歇泉一柱衝天', tag:'地熱 · 瀑布', img:'Gullfoss,_an_iconic_waterfall_of_Iceland.jpg', desc:'辛格維利爾的板塊裂縫、史托克間歇泉的噴發、古佛斯瀑布的水霧——一個上午就把冰島的招牌一次收齊。'},
+      {t:'13:00', d:'90 min', title:'雷尼斯黑沙灘', hook:'踩在火山岩磨成的黑沙上', tag:'海岸 · 玄武岩', img:'Black_Sand_Beach_Iceland,_Reynisfjara_Beach.jpg', desc:'整片沙灘黑得發亮，海邊立著一排六角形的玄武岩柱。浪很大，請站遠一點，靜靜看就好。'},
+      {t:'16:30', d:'150 min', title:'藍湖溫泉', hook:'泡在乳藍色的地熱水裡看雪', tag:'溫泉 · 放鬆', img:'The_Blue_Lagoon,_Iceland_(22111273209).jpg', desc:'四周是黑色熔岩原，水卻是不真實的乳藍色。敷上矽泥面膜，讓一整天的寒氣與疲憊都化在熱水裡。'},
+      {t:'22:00', d:'120 min', title:'追逐極光', hook:'在曠野裡等綠光劃過夜空', tag:'極光 · 夜', img:'Aurora_Borealis_activity_on_top_of_the_Kirkjufell_mountain_in_September_2018.jpg', desc:'離開城市的燈，往最暗的地方去。運氣好的話，整片天會突然舞起綠色的光幕——那一刻，所有等待都值得。'}
+    ]
+  },
+{
+    region:'希臘・聖托里尼', theme:'藍白 · 夕陽', hours:'8 小時',
+    titleLines:['SANTORINI','藍頂與夕陽'],
+    sub:'白牆、藍頂、愛琴海的風，還有那場全世界都在等的夕陽。',
+    q:'Oia Santorini', dir:'',
+    cover:'Santorini,_Oia_32.jpg', hero:'',
+    c1:'#0a2444', c2:'#1a6a9a', c3:'#e8e0d0',
+    glow:'rgba(180,222,255,.45)', accent:'#3aa0e0',
+    plan:[
+      {t:'10:00', d:'90 min', title:'費拉', hook:'沿著懸崖步道俯瞰整片火山口', tag:'小鎮 · 海景', img:'Panorama_Fira_Santorini_06_2017_3578.jpg', desc:'島上最熱鬧的主鎮，白色房子一路掛在懸崖上。沿著步道走，腳下就是深藍色的火山口海灣。'},
+      {t:'13:00', d:'120 min', title:'紅沙灘', hook:'在赭紅色的火山崖下踩浪', tag:'海灘 · 火山', img:'Red_Beach_near_Akrotiti,Santorini.jpg', desc:'被赭紅色火山岩壁環抱的小海灣，與一路上的藍白形成強烈對比。下水前，先在岩石上曬曬太陽。'},
+      {t:'17:00', d:'60 min', title:'伊亞藍頂教堂', hook:'在最經典的明信片角度按下快門', tag:'教堂 · 地標', img:'Blue-dome-Santorini.JPG', desc:'伊亞最有名的藍頂教堂，白牆配上愛琴海的藍，就是你在每張明信片上看過的那個畫面。'},
+      {t:'19:30', d:'90 min', title:'伊亞夕陽', hook:'和整座小鎮一起屏息看日落', tag:'夕陽 · 黃昏', img:'Santorini,_Oia_port,_sunset_(6247349000).jpg', desc:'傍晚整個伊亞的人都湧向城堡遺跡。當太陽沉入海平面的那一刻，全場會自動安靜下來，然後響起掌聲。'}
+    ]
+  },
+{
+    region:'秘魯・馬丘比丘', theme:'古道 · 雲端', hours:'10 小時',
+    titleLines:['MACHU PICCHU','雲端石城'],
+    sub:'走一段印加古道，在雲霧散開的瞬間，與安地斯山頂的石城相遇。',
+    q:'Machu Picchu Peru', dir:'',
+    cover:'Machu_Picchu,_Peru.jpg', hero:'',
+    c1:'#16241a', c2:'#3a5a3a', c3:'#9ab070',
+    glow:'rgba(200,255,180,.40)', accent:'#a0c060',
+    plan:[
+      {t:'06:00', d:'120 min', title:'印加古道', hook:'踩著六百年前的石階上山', tag:'健行 · 古道', img:'Stone_steps_and_mountains_on_the_Inca_Trail.jpg', desc:'從太陽門段走進遺址，腳下是印加人鋪了六百年的石板路。清晨的山氣很涼，每一步都把雲霧踩在腳下。'},
+      {t:'08:30', d:'90 min', title:'馬丘比丘全景', hook:'在雲散開的瞬間看見整座石城', tag:'遺址 · 全景', img:'Machu_Picchu,_Peru.jpg', desc:'走到經典的觀景平台，等山嵐慢慢退去。當失落之城在瓦納比丘峰下完整現身，你會懂為什麼它被稱為世界奇蹟。'},
+      {t:'10:30', d:'60 min', title:'太陽神殿', hook:'看印加石匠把石頭嚴絲合縫', tag:'神殿 · 石造', img:'Temple_of_the_Sun_at_Machu_Picchu.jpg', desc:'半圓形的太陽神殿，石塊之間連一張紙都插不進去。冬至那天的第一道陽光，會剛好穿過窗口照進殿內。'},
+      {t:'12:00', d:'150 min', title:'瓦納比丘', hook:'爬上背景裡那座尖峰', tag:'攀登 · 挑戰', img:'Peru_Machu_Picchu_Sunrise.jpg', desc:'明信片裡石城背後那座尖尖的山，就是瓦納比丘。階梯又陡又窄，但爬到頂往下看，整座馬丘比丘小得像模型。'}
+    ]
+  },
+{
+    region:'土耳其・卡帕多奇亞', theme:'熱氣球 · 奇岩', hours:'9 小時',
+    titleLines:['CAPPADOCIA','熱氣球的清晨'],
+    sub:'天還沒亮就起床，只為了看上百顆熱氣球，一起在奇岩上空升起。',
+    q:'Goreme Cappadocia', dir:'',
+    cover:'Hot_air_balloon_ride_at_sunrise_in_Cappadocia_2.JPG', hero:'',
+    c1:'#241626', c2:'#7a3a4a', c3:'#e09060',
+    glow:'rgba(255,180,160,.45)', accent:'#e87858',
+    plan:[
+      {t:'05:00', d:'90 min', title:'熱氣球升空', hook:'在日出時和上百顆氣球一起浮起', tag:'熱氣球 · 日出', img:'Hot_air_balloon_ride_at_sunrise_in_Cappadocia_2.JPG', desc:'凌晨摸黑出發，當第一道光打在奇岩上，上百顆熱氣球同時離地。你也跟著緩緩升空，整片月世界在腳下展開。'},
+      {t:'09:00', d:'90 min', title:'格雷梅露天博物館', hook:'走進岩壁裡的千年洞穴教堂', tag:'世界遺產 · 洞穴', img:'Landscape_in_Open-Air_Museum_-_Goreme_-_Cappadocia_-_Turkey_(5761523436).jpg', desc:'整片山谷鑿滿了洞穴修道院，岩壁裡還留著千年前的濕壁畫。低頭鑽進一個個小教堂，像走進時間的縫隙。'},
+      {t:'12:00', d:'120 min', title:'地下城', hook:'往地底鑽進深達八層的古城', tag:'地下 · 探險', img:'Derinkuyu_Underground_City.JPG', desc:'為了躲避戰亂，古人在地底挖出能住上千人的城市——廚房、酒窖、通風井一應俱全。順著窄道往下，涼意越來越深。'},
+      {t:'16:00', d:'120 min', title:'玫瑰谷', hook:'在夕陽把岩壁染成玫瑰色時健行', tag:'山谷 · 健行', img:'Rose_Valley_-_26147383581.jpg', desc:'傍晚的斜陽會把整片砂岩染成柔和的玫瑰色。沿著谷底小徑慢慢走，看奇形怪狀的「仙人煙囪」一根根立在天邊。'}
+    ]
+  },
+  {
+    region:'哥倫比亞', theme:'加勒比 · 繽紛', hours:'9 小時',
+    titleLines:['COLOMBIA','繽紛國度'],
+    sub:'從加勒比海邊的彩色老城，到安地斯山谷裡高聳的蠟棕櫚，哥倫比亞把熱情寫滿每一條街。',
+    q:'Cartagena Colombia', dir:'',
+    cover:'Cartagena_Old_City.JPG', hero:'Cartagena_Old_City.JPG',
+    c1:'#10243a', c2:'#c0632e', c3:'#f2c14e',
+    glow:'rgba(255,205,130,.42)', accent:'#f4b63c',
+    plan:[
+      {t:'08:30', d:'120 min', title:'卡塔赫納古城', hook:'在彩色殖民老城裡迷路也甘願', tag:'世界遺產 · 老城', img:'Cartagena_Old_City.JPG', desc:'被厚實城牆圍起來的老城，每一棟房子都漆上鮮明的色彩，木窗上垂著三角梅。不必看地圖，就讓鵝卵石街道帶你穿過一座座小廣場。'},
+      {t:'11:30', d:'90 min', title:'瓜塔佩巨岩', hook:'爬上 740 階看湖光全景', tag:'自然 · 巨石', img:'Embalse_Peñol-Guatape.jpg', desc:'一塊高 220 公尺的花崗岩巨石平地拔起，沿著鑿在石縫裡的 740 級階梯登頂，腳下是被湖水切割成無數半島的夢幻地景。'},
+      {t:'14:30', d:'120 min', title:'可可拉山谷', hook:'走進世界最高棕櫚的綠色國度', tag:'國家公園 · 棕櫚', img:'Valle_del_Cocora.JPG', desc:'哥倫比亞的國樹蠟棕櫚能長到 60 公尺高，像一根根細長的綠柱插在雲霧繚繞的山谷裡。雲一低垂，棕櫚就半隱半現，美得不太真實。'},
+      {t:'17:30', d:'90 min', title:'波哥大 · 蒙塞拉特山', hook:'在 3000 公尺高空俯瞰首都燈海', tag:'城市 · 觀景', img:'Bogota_view_Monserrate.JPG', desc:'搭纜車登上蒙塞拉特山，海拔超過 3000 公尺的觀景台把整座波哥大攤在腳下。入夜後，安地斯山谷裡的城市燈火一盞盞亮起。'}
+    ]
+  },
+  {
+    region:'北韓・平壤', theme:'神秘 · 紀念碑', hours:'8 小時',
+    titleLines:['PYONGYANG','神秘平壤'],
+    sub:'一座外界難得一見的城市，巨大的紀念碑、空曠的廣場與華麗的地下鐵，構成它獨有的紀念碑式風景。',
+    q:'Pyongyang North Korea', dir:'',
+    cover:'Ryugyong_Hotel_Pyongyang_02.JPG', hero:'Ryugyong_Hotel_Pyongyang_02.JPG',
+    c1:'#12181f', c2:'#42566b', c3:'#cf9a72',
+    glow:'rgba(225,185,150,.38)', accent:'#d79e72',
+    plan:[
+      {t:'09:00', d:'60 min', title:'主體思想塔', hook:'登上塔頂俯瞰大同江兩岸', tag:'地標 · 觀景', img:'Juche_Tower,_Pyongyang,_North_Korea_(25_September_2008).jpg', desc:'矗立在大同江畔的石塔高 170 公尺，是平壤天際線最醒目的座標。搭電梯登上塔頂，整座城市與蜿蜒的江面就在腳下一覽無遺。'},
+      {t:'10:30', d:'45 min', title:'柳京飯店', hook:'仰望平壤天際線上的金字塔', tag:'建築 · 摩天樓', img:'Ryugyong_Hotel_Pyongyang_02.JPG', desc:'高 330 公尺、105 層的金字塔形摩天樓，是全城最高、也最神秘的建築。它獨自刺向天際的銳利剪影，幾乎成了平壤的代名詞。'},
+      {t:'13:00', d:'60 min', title:'平壤地鐵', hook:'走進深埋地底的華麗宮殿', tag:'文化 · 地鐵', img:'Pyongyang_Metro.JPG', desc:'深達地下百公尺的車站宛如地下宮殿，水晶吊燈、大理石柱與整面牆的馬賽克壁畫一字排開。月台本身，就是這趟行程最意外的展覽。'},
+      {t:'15:30', d:'45 min', title:'凱旋門', hook:'比巴黎更高的花崗岩拱門', tag:'地標 · 紀念碑', img:'Arch_of_Triumph,_Pyongyang,_North_Korea.jpg', desc:'平壤的凱旋門以花崗岩砌成，高度比巴黎那座還要高出一截。寬闊的林蔭大道在門下延伸，是這座城市最具儀式感的一道風景線。'}
+    ]
+  },
+{
+    region:'日本・京都', theme:'古寺 · 慢行', hours:'8 小時',
+    titleLines:['KYOTO','古都慢行'],
+    sub:'在千年古都的巷弄與寺院之間，把腳步、把呼吸，一起放慢下來。',
+    q:'Kiyomizu-dera Kyoto', dir:'',
+    cover:'Kiyomizu-dera,_Kyoto,_November_2016_-02.jpg', hero:'',
+    c1:'#141d33', c2:'#7d4a2e', c3:'#e0a85c',
+    glow:'rgba(255,214,150,.45)', accent:'#efb24c',
+    plan:[
+      {t:'08:30', d:'90 min', title:'清水寺', hook:'從木造舞台俯瞰整片古都晨色', tag:'世界遺產 · 寺院', img:'Kiyomizu-dera,_Kyoto,_November_2016_-07.jpg', desc:'沿著二年坂、三年坂的石板路緩緩上行，盡頭就是懸在斷崖上的清水舞台。趁早來，人少、光斜，整座京都在腳下慢慢醒來。'},
+      {t:'10:30', d:'60 min', title:'伏見稻荷大社', hook:'走進彷彿沒有盡頭的千本鳥居', tag:'神社 · 鳥居', img:'Fushimi-Inari-taisha_sembon-torii_in_Kyoto,_Japan_(2019)_-_079.jpg', desc:'一座接著一座的朱紅鳥居，把山徑染成一條會呼吸的紅色隧道。越往上人越少，留給你一段安靜的獨處。'},
+      {t:'13:00', d:'60 min', title:'嵐山竹林', hook:'被高過頭頂的竹葉聲包圍', tag:'自然 · 散步', img:'2021_Sagano_Bamboo_forest_in_Arashiyama,_Kyoto,_Japan.jpg', desc:'風吹過竹梢的沙沙聲，是這條小徑唯一的配樂。穿出竹林，再到渡月橋邊看看保津川的水色。'},
+      {t:'16:00', d:'120 min', title:'祇園 · 花見小路', hook:'在石板路上等一盞燈籠亮起', tag:'老街 · 黃昏', img:'150124_Gion_Kyoto_Japan01s3.jpg', desc:'白天安靜的茶屋街，到了傍晚一盞盞燈籠亮起，偶爾有藝伎的身影快步走過。找間小店坐下，替今天收尾。'}
+    ]
+  },
+{
+    region:'美國・紐約', theme:'都市 · 節奏', hours:'10 小時',
+    titleLines:['NEW YORK','不夜城'],
+    sub:'從公園的綠意到午夜的霓虹，這座城市永遠醒著，也永遠有新事發生。',
+    q:'Brooklyn Bridge New York', dir:'',
+    cover:'Above_Gotham.jpg', hero:'',
+    c1:'#0d1220', c2:'#22365c', c3:'#e0a040',
+    glow:'rgba(160,190,255,.38)', accent:'#f0c24a',
+    plan:[
+      {t:'09:00', d:'90 min', title:'中央公園', hook:'在摩天樓環抱的草地上發呆', tag:'公園 · 散步', img:'Drone_photo_of_Central_Park_20170506-001-2_(33679392984).jpg', desc:'從西南角進場，繞過綿羊草原與貝塞斯達噴泉。被一圈摩天大樓包圍著的這片綠，是紐約客的後院。'},
+      {t:'11:30', d:'120 min', title:'大都會博物館', hook:'一個上午穿過五千年文明', tag:'博物館 · 藝術', img:'Metropolitan_Museum_of_Art_entrance_NYC.JPG', desc:'從埃及神廟到印象派，大都會大到一天也看不完。挑兩三個展廳深入就好，最後別忘了上頂樓花園看天際線。'},
+      {t:'15:00', d:'60 min', title:'布魯克林大橋', hook:'走在木棧道上看曼哈頓天際線', tag:'地標 · 步行', img:'2024-06-15_09_55_03_View_from_the_pedestrian_walkway_of_the_Brooklyn_Bridge_northwestward_towards_the_Manhattan_tower_in_Manhattan,_New_York_City,_New_York.jpg', desc:'從曼哈頓往布魯克林走，鋼索像豎琴一樣切過天空。走到一半回頭，整座下城天際線就在你背後。'},
+      {t:'20:00', d:'90 min', title:'時代廣場', hook:'被三百六十度的霓虹光淹沒', tag:'夜景 · 霓虹', img:'New_york_times_square-terabass.jpg', desc:'入夜後巨型螢幕把整個路口照得像白天。站在紅色階梯上往下看，這就是那個你在電影裡看過無數次的紐約。'}
+    ]
+  }
+];
+
+/* ===========================================================
+   小工具
+   =========================================================== */
+const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = (s,el=document)=>el.querySelector(s);
+
+function imgURL(name,w){
+  return 'https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(name)+'?width='+(w||1600);
+}
+function grad(t){ return `linear-gradient(150deg, ${t.c1} 0%, ${t.c2} 52%, ${t.c3} 100%)`; }
+function hexA(h,a){
+  h=h.replace('#','');
+  if(h.length===3) h=h.split('').map(c=>c+c).join('');
+  const n=parseInt(h,16);
+  return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
+}
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* ===========================================================
+   首頁卡片
+   =========================================================== */
+function cardHTML(t,i){
+  const cover = t.cover
+    ? `<img class="card__img" src="${imgURL(t.cover,800)}" loading="lazy" alt="" onerror="this.remove()">`
+    : '';
+  const no = String(i+1).padStart(2,'0');
+  return `
+    <button class="card" style="--cg:${grad(t)}" onclick="openTrip(${i})" aria-label="${esc(t.region)}：${esc(t.titleLines.join(' '))}">
+      <div class="card__media">
+        <div class="card__ph" style="background:var(--cg)"></div>
+        ${cover}
+        <div class="card__shade"></div>
+      </div>
+      <span class="card__region">${esc(t.region)}</span>
+      <span class="card__no">${no}</span>
+      <div class="card__body">
+        <span class="card__over">${esc(t.titleLines[0])}</span>
+        <span class="card__title">${esc(t.titleLines[1]||t.titleLines[0])}</span>
+        <span class="card__meta">${esc(t.theme)} · ${t.plan.length} 站 · ${esc(t.hours)}</span>
+      </div>
+    </button>`;
+}
+
+function featureHTML(t,i){
+  const cover = t.cover
+    ? `<img class="card__img" src="${imgURL(t.cover,2000)}" loading="eager" alt="" onerror="this.remove()">`
+    : '';
+  return `
+    <button class="feature" style="--cg:${grad(t)};--accent:${t.accent}" onclick="openTrip(${i})" aria-label="${esc(t.region)}：${esc(t.titleLines.join(' '))}">
+      <div class="card__media">
+        <div class="card__ph" style="position:absolute;inset:0;background:var(--cg)"></div>
+        ${cover}
+      </div>
+      <div class="feature__shade"></div>
+      <div class="feature__body">
+        <div class="feature__kicker">
+          <span class="card__region" style="position:static;white-space:nowrap">${esc(t.region)}</span>
+          <span class="feature__flag">精選 · Featured</span>
+        </div>
+        <span class="feature__over">${esc(t.titleLines[0])}</span>
+        <h2 class="feature__title">${esc(t.titleLines[1]||t.titleLines[0])}</h2>
+        <p class="feature__sub">${esc(t.sub)}</p>
+        <span class="feature__meta">
+          <span>${esc(t.theme)} · ${t.plan.length} 站 · 約 ${esc(t.hours)}</span>
+          <span class="feature__go">查看行程 →</span>
+        </span>
+      </div>
+    </button>`;
+}
+
+function renderGallery(){
+  $('#galleryFeature').innerHTML = featureHTML(trips[0],0);
+  $('#grid').innerHTML = trips.slice(1).map((t,k)=>cardHTML(t,k+1)).join('');
+  const rc = $('#routeCount'); if(rc) rc.textContent = String(trips.length).padStart(2,'0');
+}
+
+/* ===========================================================
+   內頁 HTML
+   =========================================================== */
+function stationHTML(p,k,t){
+  const side = k%2 ? 'st--right' : 'st--left';
+  const img = p.img
+    ? `<img class="st-img" src="${imgURL(p.img,900)}" loading="lazy" alt="" onerror="this.remove()">`
+    : '';
+  const tags = p.tag.split('·').map(s=>`<span class="tag">${esc(s.trim())}</span>`).join('');
+  return `
+    <div class="station ${side}">
+      <div class="st-node"><span></span></div>
+      <article class="st-card">
+        <div class="st-media">
+          <div class="st-ph" style="background:${grad(t)}"></div>
+          ${img}
+          <span class="st-time">${esc(p.t)}</span>
+        </div>
+        <div class="st-body">
+          <div class="st-row"><h3 class="st-title">${esc(p.title)}</h3><span class="st-dur">${esc(p.d)}</span></div>
+          <p class="st-hook">${esc(p.hook)}</p>
+          <div class="st-tags">${tags}</div>
+          <p class="st-desc">${esc(p.desc)}</p>
+        </div>
+      </article>
+    </div>`;
+}
+
+function detailHTML(i){
+  const t = trips[i];
+  const hide = RM ? '' : ' style="opacity:0"';
+  const heroName = t.hero || t.cover;
+  const heroImg = heroName
+    ? `<img class="hero__img" src="${imgURL(heroName,1800)}" alt="" onerror="this.remove()">`
+    : '';
+  const cjk = t.titleLines[1]
+    ? `<span class="ttl-cjk anim"${hide}>${esc(t.titleLines[1])}</span>` : '';
+  return `
+    <button class="back" onclick="goBack()">← 回行程列表</button>
+    <div class="d-aura" style="--au-a:${t.glow};--au-b:${hexA(t.accent,.5)}"></div>
+
+    <header class="hero">
+      <div class="hero__media">
+        <div class="hero__ph" style="background:${grad(t)}"></div>
+        ${heroImg}
+        <div class="hero__shade"></div>
+      </div>
+      <div class="hero__inner">
+        <span class="hero__eyebrow anim"${hide}>${esc(t.region)}</span>
+        <h1 class="hero__title">
+          <span class="ttl-lat anim"${hide}>${esc(t.titleLines[0])}</span>
+          ${cjk}
+        </h1>
+        <p class="hero__sub anim"${hide}>${esc(t.sub)}</p>
+        <div class="hero__meta anim"${hide}>
+          <span>${esc(t.theme)}</span><i class="dot"></i>
+          <span>${t.plan.length} 站</span><i class="dot"></i>
+          <span>約 ${esc(t.hours)}</span>
+        </div>
+        <div class="hero__hint anim"${hide}><span>向下滾動 · 展開行程</span><i class="chev"></i></div>
+      </div>
+    </header>
+
+    <section class="trip">
+      <div class="wrap">
+        <div class="trip__head">
+          <span class="eyebrow">行程 · ITINERARY</span>
+          <span class="trip__hours">${t.plan.length} 站 · 約 ${esc(t.hours)}</span>
+        </div>
+
+        <div class="timeline">
+          <div class="tl-line"><div class="tl-fill"></div></div>
+          ${t.plan.map((p,k)=>stationHTML(p,k,t)).join('')}
+        </div>
+
+        <div class="cta">
+          <span class="cta__lead">把這趟帶著走</span>
+          <p class="cta__sub">複製整份行程，或在地圖上看看這些地方。</p>
+          <div class="cta__btns">
+            <button class="btn btn--solid" onclick="importTrip(${i})">匯入行程</button>
+            <button class="btn btn--ghost" onclick="openMap(${i})">在地圖上開啟</button>
+          </div>
+        </div>
+
+        <footer class="d-foot">
+          <button class="totop" onclick="scrollTop()">回到頂部 ↑</button>
+          <p class="d-foot__note">圖片來源：Wikimedia Commons（CC 授權）。正式公開前，建議替換成自有或自行授權的照片。</p>
+        </footer>
+      </div>
+    </section>`;
+}
+
+/* ===========================================================
+   GSAP 動畫
+   =========================================================== */
+if(window.gsap && window.ScrollTrigger){ gsap.registerPlugin(ScrollTrigger); }
+
+function setupDetailAnims(){
+  const d = $('#detail');
+  // 內頁主色
+  d.style.setProperty('--accent', trips[CURRENT].accent);
+
+  if(RM) return; // 尊重減少動效
+
+  // Hero 文字依序揭開
+  gsap.fromTo(d.querySelectorAll('.anim'),
+    {opacity:0, y:34},
+    {opacity:1, y:0, duration:.95, stagger:.12, ease:'power3.out', delay:.08});
+
+  // Hero 視差
+  gsap.to(d.querySelector('.hero__media'),{
+    yPercent:16, ease:'none',
+    scrollTrigger:{trigger:d.querySelector('.hero'),start:'top top',end:'bottom top',scrub:true}
+  });
+
+  // 時間軸進度線：隨滾動填滿
+  gsap.fromTo(d.querySelector('.tl-fill'),
+    {scaleY:0},
+    {scaleY:1, ease:'none', transformOrigin:'top',
+     scrollTrigger:{trigger:d.querySelector('.timeline'),start:'top 62%',end:'bottom 72%',scrub:true}}
+  );
+
+  // 各站進場
+  const wide = window.innerWidth > 900;
+  d.querySelectorAll('.station').forEach(st=>{
+    const card = st.querySelector('.st-card');
+    const fromX = wide ? (st.classList.contains('st--right') ? 46 : -46) : 0;
+    gsap.from(card,{opacity:0,y:54,x:fromX,duration:.85,ease:'power3.out',
+      scrollTrigger:{trigger:st,start:'top 84%'}});
+    gsap.from(st.querySelector('.st-node span'),{scale:0,duration:.5,ease:'back.out(2)',
+      scrollTrigger:{trigger:st,start:'top 84%'}});
+  });
+}
+
+/* ===========================================================
+   單頁切換(SPA)＋ 還原捲動位置 ＋ 瀏覽器返回鍵
+   =========================================================== */
+if('scrollRestoration' in history) history.scrollRestoration='manual';
+
+let CURRENT = -1, detailOpen=false, galleryScroll=0;
+const galleryEl = $('#gallery'), detailEl = $('#detail');
+
+function doOpen(i){
+  CURRENT = i;
+  galleryScroll = window.scrollY;
+  detailEl.innerHTML = detailHTML(i);
+  galleryEl.style.display='none';
+  detailEl.style.display='block';
+  window.scrollTo(0,0);
+  detailOpen=true;
+  requestAnimationFrame(()=>{
+    setupDetailAnims();
+    if(window.ScrollTrigger) ScrollTrigger.refresh();
+  });
+}
+function doClose(){
+  if(window.ScrollTrigger) ScrollTrigger.getAll().forEach(s=>s.kill());
+  detailEl.style.display='none';
+  detailEl.innerHTML='';
+  galleryEl.style.display='block';
+  detailOpen=false; CURRENT=-1;
+  window.scrollTo(0,galleryScroll);
+}
+function openTrip(i){
+  history.pushState({d:1,i},'', '#trip-'+(i+1));
+  doOpen(i);
+}
+function goBack(){ history.back(); }
+
+window.addEventListener('popstate',e=>{
+  const st = e.state;
+  if(st && st.d){
+    if(!detailOpen){ doOpen(st.i); }
+    else if(st.i!==CURRENT){ doClose(); doOpen(st.i); }
+  }else{
+    if(detailOpen) doClose();
+  }
+});
+
+/* ===========================================================
+   CTA：匯入行程 / 開地圖 / Toast
+   =========================================================== */
+let toastTimer;
+function toast(msg){
+  const el = $('#toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>el.classList.remove('show'),2600);
+}
+function importTrip(i){
+  const t = trips[i];
+  let txt = `【${t.region}】${t.titleLines.join(' ')}\n${t.sub}\n` + '—'.repeat(16) + '\n';
+  t.plan.forEach(p=>{
+    txt += `\n${p.t}　${p.title}（${p.d}）\n· ${p.hook}\n  ${p.desc}\n`;
+  });
+  txt += '\n' + '—'.repeat(16) + `\n預估時長：約 ${t.hours}　·　由 WANDER 漫旅整理`;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(
+      ()=>toast('已複製整份行程到剪貼簿 ✦'),
+      ()=>toast('複製失敗，請改用長按選取')
+    );
+  }else{
+    toast('此瀏覽器不支援自動複製');
+  }
+}
+function openMap(i){
+  const t = trips[i];
+  const url = t.dir ? t.dir
+    : 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(t.q);
+  window.open(url,'_blank','noopener');
+}
+function scrollTop(){ window.scrollTo({top:0,behavior: RM ? 'auto' : 'smooth'}); }
+
+/* ===========================================================
+   啟動
+   =========================================================== */
+renderGallery();
+// 深層連結：若網址帶 #trip-N 直接開啟該趟
+(function(){
+  const m = location.hash.match(/^#trip-(\d+)/);
+  if(m){
+    const i = Math.min(trips.length-1, Math.max(0, (+m[1])-1));
+    history.replaceState({d:1,i},'', location.hash);
+    doOpen(i);
+  }
+})();
+// APP_END
+</script>
+</body>
+</html>
