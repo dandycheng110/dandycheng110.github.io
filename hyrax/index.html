@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>台灣蹄兔科技 Taiwan Hyrax Tech · 相信一個人，也能很完整。</title>
+<meta name="description" content="台灣蹄兔科技（Awawa 精神）— 成育典的一人公司。用 AI 與數位工作術，把時間還給生活：典典週報、數位工作術、給 AI 用的線上課程。">
+<meta name="theme-color" content="#04070F">
+<link rel="canonical" href="https://dandycheng110.github.io/hyrax/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="台灣蹄兔科技 Taiwan Hyrax Tech · 相信一個人，也能很完整。">
+<meta property="og:description" content="用 AI 與數位工作術，把時間還給生活。一人公司、超級個體的實戰紀錄，每週寄到你的信箱。">
+<meta property="og:url" content="https://dandycheng110.github.io/hyrax/">
+<meta property="og:image" content="https://dandycheng110.github.io/hyrax/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="台灣蹄兔科技 Taiwan Hyrax Tech">
+<meta name="twitter:description" content="用 AI 與數位工作術，把時間還給生活。">
+<meta name="twitter:image" content="https://dandycheng110.github.io/hyrax/assets/og.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2304070F'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%2336E2C8'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   台灣蹄兔科技 Taiwan Hyrax Tech — 官網
+   單一 HTML 檔｜設計稿：Figma「作業三改造版」
+   ============================================================ */
+:root{
+  --bg:#04070F; --bg-alt:#060B17; --input:#0B1322;
+  --glass:rgba(11,19,34,.55); --glass-border:rgba(173,210,255,.16); --line:rgba(173,210,255,.12);
+  --teal:#36E2C8; --teal-deep:#1FB6A0; --teal-soft:#7CF0DE; --violet:#8A6CFF; --amber:#FF8A4C;
+  --text:#E6F4FF; --dim:#7E94B4; --on-teal:#04070F;
+  --radius:26px; --radius-sm:18px;
+  --sans:'Noto Sans TC','PingFang TC','Microsoft JhengHei',system-ui,sans-serif;
+  --mono:'Space Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --container:1440px; --gutter:120px;
+  --shadow-card:0 16px 40px rgba(0,0,0,.45);
+  --glow:0 0 40px rgba(54,226,200,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:96px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.7;overflow-x:hidden}
+img,svg{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:6px}
+.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter)}
+@media (max-width:1439px){:root{--gutter:64px}}
+@media (max-width:1024px){:root{--gutter:40px}}
+@media (max-width:768px){:root{--gutter:24px}}
+
+/* ---------- type ---------- */
+.mono{font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--teal)}
+.mono-tag{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--dim)}
+.mob-br{display:none}
+h1{font-size:56px;line-height:1.3;font-weight:700;letter-spacing:-.01em}
+h2{font-size:36px;line-height:1.4;font-weight:700}
+h3{font-size:24px;line-height:1.5;font-weight:700}
+h4{font-size:20px;line-height:1.5;font-weight:700}
+.lead{font-size:18px;color:var(--dim)}
+.dim{color:var(--dim)}
+.small{font-size:14px;line-height:1.65}
+
+/* ---------- buttons / chips ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 28px;border-radius:999px;font-weight:500;font-size:16px;line-height:1.5;border:1.5px solid transparent;transition:transform .18s ease,box-shadow .18s ease,background .18s ease;cursor:pointer;font-family:var(--sans)}
+.btn-primary{background:var(--teal);color:var(--on-teal);box-shadow:var(--glow)}
+.btn-primary:hover{background:var(--teal-soft);transform:translateY(-2px)}
+.btn-outline{border-color:rgba(54,226,200,.6);color:var(--teal);background:transparent}
+.btn-outline:hover{background:rgba(54,226,200,.08);transform:translateY(-2px)}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--glass);border:1px solid var(--glass-border);box-shadow:var(--shadow-card);font-size:13px;font-weight:500;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal);flex:none}
+.glass{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);box-shadow:var(--shadow-card);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:50;height:80px;background:rgba(4,7,15,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .container{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:14px;height:14px;border-radius:50%;background:var(--teal);box-shadow:var(--glow);flex:none}
+.logo-text{display:flex;flex-direction:column;line-height:1.25}
+.logo-text strong{font-size:20px;font-weight:700}
+.logo-text span{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--dim)}
+.tabs{display:flex;align-items:center;gap:36px}
+.tabs a{font-size:15px;font-weight:500;position:relative;padding:10px 0}
+.tabs a::after{content:"";position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);width:20px;height:2px;border-radius:1px;background:var(--teal);opacity:0;transition:opacity .18s}
+.tabs a.active,.tabs a:hover{color:var(--teal)}
+.tabs a.active::after{opacity:1}
+.tabs .btn{padding:10px 24px;min-height:44px}
+.burger{display:none;width:44px;height:44px;align-items:flex-end;justify-content:center;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:10px 8px}
+.burger span{display:block;height:2.5px;border-radius:2px;background:var(--teal);width:22px;transition:transform .2s,opacity .2s,width .2s}
+.burger span:last-child{width:14px}
+.mobile-menu{display:none;position:fixed;inset:80px 0 auto 0;z-index:49;max-height:calc(100dvh - 80px);overflow-y:auto;background:rgba(4,7,15,.96);border-bottom:1px solid var(--line);padding:12px 24px 24px;backdrop-filter:blur(14px)}
+.mobile-menu a{display:block;padding:14px 4px;font-size:17px;font-weight:500;border-bottom:1px solid var(--line)}
+.mobile-menu a.active{color:var(--teal)}
+.mobile-menu a.btn{display:flex;justify-content:center;text-align:center;margin-top:16px;padding:12px 24px;width:100%;border-bottom:0}
+body.menu-open .mobile-menu{display:block}
+body.menu-open .burger span:nth-child(1){transform:translateY(7.5px) rotate(45deg);width:22px}
+body.menu-open .burger span:nth-child(2){opacity:0}
+body.menu-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);width:22px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;min-height:640px;display:flex;align-items:center}
+.hero .container{position:relative;z-index:2;display:grid;grid-template-columns:1fr 520px;align-items:center;gap:64px;padding-top:48px;padding-bottom:48px;width:100%}
+.glow{position:absolute;border-radius:50%;filter:blur(160px);pointer-events:none}
+.glow-teal{width:700px;height:700px;left:-200px;top:-250px;background:rgba(54,226,200,.18)}
+.glow-violet{width:640px;height:640px;right:-180px;top:200px;background:rgba(138,108,255,.22)}
+.grid-lines{position:absolute;inset:0;opacity:.35;background-image:linear-gradient(to right,rgba(173,210,255,.10) 1px,transparent 1px);background-size:120px 100%;background-position:calc(50% + 60px) 0;pointer-events:none}
+.hero-fade{position:absolute;left:0;right:0;bottom:0;height:200px;background:linear-gradient(to bottom,rgba(4,7,15,0),var(--bg));pointer-events:none;z-index:1}
+.hero-copy{display:flex;flex-direction:column;gap:20px;max-width:560px}
+.hero-copy h1{margin-top:4px}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.portrait{position:relative;width:480px;height:480px;margin-left:auto}
+.portrait-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(54,226,200,.35)}
+.portrait-photo{position:absolute;inset:40px;border-radius:50%;overflow:hidden;border:3px solid var(--teal);box-shadow:var(--glow)}
+.portrait-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.portrait .chip{position:absolute}
+.portrait .chip.c1{left:-40px;top:70px}
+.portrait .chip.c2{right:-40px;top:310px}
+.portrait .chip.c3{left:-10px;top:390px}
+
+/* ---------- sections ---------- */
+.section{padding:96px 0}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:40px}
+.section-head .title{display:flex;flex-direction:column;gap:10px}
+.section-head .aside{text-align:right;color:var(--dim);max-width:360px}
+
+/* ---------- products ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.card{display:flex;flex-direction:column;gap:14px;padding:28px;transition:transform .2s ease,border-color .2s ease}
+.card:hover{transform:translateY(-4px);border-color:rgba(54,226,200,.35)}
+.card-head{display:flex;justify-content:space-between;align-items:center}
+.card-head .idx{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--teal)}
+.card-head .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);opacity:.6}
+.stage{position:relative;height:220px;border-radius:var(--radius-sm);background:rgba(4,7,15,.5);overflow:hidden;display:flex;align-items:flex-start;justify-content:center;padding-top:12px}
+.stage::before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(54,226,200,.14);filter:blur(60px);top:40px;left:50%;transform:translateX(-50%)}
+.stage img{position:relative;width:200px;height:200px}
+.card p{color:var(--dim);font-size:14px;line-height:1.65;flex:1}
+.card .btn{align-self:flex-start;padding:10px 24px}
+
+/* ---------- about ---------- */
+.about{background:var(--bg-alt)}
+.about .container{display:grid;grid-template-columns:500px 1fr;gap:64px;align-items:center}
+.about-copy{display:flex;flex-direction:column;gap:18px}
+.points{list-style:none;display:flex;flex-direction:column;gap:10px;font-size:14px}
+.points li{display:flex;align-items:center;gap:10px}
+.points li::before{content:"";width:6px;height:6px;background:var(--teal);border-radius:1px;transform:rotate(45deg);flex:none}
+.photo-block{position:relative}
+.photo-block img.main{width:100%;aspect-ratio:636/400;object-fit:cover;border-radius:var(--radius);border:1px solid var(--glass-border);box-shadow:var(--shadow-card)}
+.badge{position:absolute;left:-24px;bottom:-20px;display:flex;align-items:center;gap:12px;padding:10px 18px 10px 10px;border-radius:999px}
+.badge img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--teal)}
+.badge b{display:block;font-size:13px;font-weight:500}
+.badge small{display:block;font-size:12px;color:var(--dim)}
+
+/* ---------- contact ---------- */
+.contact-card{display:grid;grid-template-columns:420px 1fr;gap:56px;padding:48px 56px}
+.contact-copy{display:flex;flex-direction:column;gap:12px}
+.contact-card h2{font-size:24px;line-height:1.5}
+.form{display:flex;flex-direction:column;gap:12px}
+.form input,.form textarea{width:100%;background:var(--input);border:1px solid var(--glass-border);border-radius:12px;color:var(--text);font:inherit;font-size:14px;padding:13px 16px;transition:border-color .18s}
+.form input::placeholder,.form textarea::placeholder{color:var(--dim)}
+.form input:focus,.form textarea:focus{border-color:rgba(54,226,200,.6)}
+.form input:focus-visible,.form textarea:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.form textarea{min-height:120px;resize:vertical}
+.form .actions{display:flex;justify-content:flex-end}
+.form .btn{padding:10px 24px}
+.form-note{font-size:12px;color:var(--dim);margin-top:4px}
+
+/* ---------- footer ---------- */
+.footer{border-top:1px solid var(--line);padding:48px 0;text-align:center}
+.footer .container{display:flex;flex-direction:column;align-items:center;gap:20px}
+.social{display:flex;gap:12px}
+.social a{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--glass);border:1px solid var(--glass-border);transition:transform .18s,border-color .18s}
+.social a:hover{transform:translateY(-2px);border-color:rgba(54,226,200,.5)}
+.social svg{width:20px;height:20px;fill:var(--teal)}
+.footer .copy{font-size:12px;color:var(--dim)}
+.footer .tagline{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--teal)}
+.footer .links a:hover,.footer .credits a:hover{color:var(--teal)}
+.footer .credits{font-size:11px;color:var(--dim);opacity:.8}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .hero .container{grid-template-columns:1fr 420px;gap:40px}
+  .portrait{width:400px;height:400px}
+  .portrait .chip.c2{right:-10px}
+  h1{font-size:48px}
+  .about .container{grid-template-columns:1fr 1fr;gap:40px}
+  .contact-card{grid-template-columns:1fr 1fr;gap:40px;padding:40px}
+}
+@media (max-width:900px){
+  .cards{grid-template-columns:1fr;max-width:520px;margin:0 auto}
+  .section-head{flex-direction:column;align-items:flex-start}
+  .section-head .aside{text-align:left;max-width:none}
+}
+@media (max-width:900px){
+  .nav{height:64px}
+  html{scroll-padding-top:80px}
+  .logo-mark{width:12px;height:12px}
+  .logo-text strong{font-size:15px}
+  .logo-text span{font-size:10px}
+  .tabs{display:none}
+  .burger{display:flex}
+  .mobile-menu{inset:64px 0 auto 0;max-height:calc(100dvh - 64px)}
+  .hero{min-height:0}
+  .hero .container{grid-template-columns:1fr;gap:28px;padding-top:32px;padding-bottom:56px}
+  .hero-copy{gap:14px;max-width:none}
+  .hero-copy h1{font-size:36px;line-height:1.35}
+  .lead{font-size:14px}
+  .hero-actions{flex-direction:column;gap:10px;margin-top:4px}
+  .hero-actions .btn{width:100%;min-height:48px}
+  .glow-teal{width:420px;height:420px;left:-180px;top:-160px;filter:blur(120px)}
+  .glow-violet{width:420px;height:420px;right:-120px;top:auto;bottom:-80px;filter:blur(120px)}
+  .grid-lines{display:none}
+  .hero-fade{height:160px}
+  .portrait{width:min(300px,calc(100vw - 64px));height:auto;aspect-ratio:1;margin:12px auto 0}
+  .portrait-photo{inset:25px}
+  .portrait .chip{font-size:12px;padding:6px 12px}
+  .portrait .chip.c1{left:-16px;top:40px}
+  .portrait .chip.c2{right:-8px;top:190px}
+  .portrait .chip.c3{left:-8px;top:250px}
+  .section{padding:56px 0}
+  h2{font-size:24px}
+  .section-head{margin-bottom:20px;gap:8px}
+  .section-head .aside{font-size:14px}
+  .cards{gap:20px;max-width:none}
+  .card{padding:20px;border-radius:22px;gap:12px}
+  .stage{height:190px;padding-top:10px}
+  .stage img{width:170px;height:170px}
+  .card h3{font-size:20px}
+  .card .btn{align-self:stretch;min-height:48px}
+  .about .container{display:flex;flex-direction:column;align-items:stretch;gap:12px}
+  .about-copy{display:contents}
+  .about-copy .mono-tag{order:1;margin-top:4px}
+  .about h2 br,.contact-card h2 br{display:none}
+  .mob-br{display:inline}
+  .about-copy{gap:12px}
+  .photo-block{margin:8px 0 36px}
+  .photo-block img.main{aspect-ratio:345/220;border-radius:20px}
+  .badge{left:12px;bottom:-28px;padding:8px 14px 8px 8px}
+  .badge img{width:44px;height:44px}
+  .contact-card{grid-template-columns:1fr;gap:16px;padding:28px 24px;border-radius:22px}
+  .contact-card h2{font-size:20px}
+  .form .actions .btn{width:100%;min-height:48px}
+  .footer{padding:36px 0}
+  .footer .container{gap:14px}
+  .social{gap:10px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .btn,.card,.social a{transition:none}
+  .btn:hover,.card:hover,.social a:hover{transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="nav" id="home">
+  <div class="container">
+    <a class="logo" href="#home" aria-label="台灣蹄兔科技 首頁">
+      <span class="logo-mark" aria-hidden="true"></span>
+      <span class="logo-text"><strong>台灣蹄兔科技</strong><span>TAIWAN HYRAX TECH</span></span>
+    </a>
+    <nav class="tabs" aria-label="主選單">
+      <a href="#home" class="active" data-nav>首頁</a>
+      <a href="#newsletter" data-nav>典典週報</a>
+      <a href="#workflow" data-nav>數位工作術</a>
+      <a href="#course" data-nav>給 AI 用的課</a>
+      <a href="#about" data-nav>關於蹄兔</a>
+      <a class="btn btn-primary" href="https://linktr.ee/dot1000110" target="_blank" rel="noopener">免費訂閱</a>
+    </nav>
+    <button class="burger" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-menu" id="mobile-menu" aria-label="手機選單">
+  <a href="#home" class="active" data-nav>首頁</a>
+  <a href="#newsletter" data-nav>典典週報</a>
+  <a href="#workflow" data-nav>數位工作術</a>
+  <a href="#course" data-nav>給 AI 用的課</a>
+  <a href="#about" data-nav>關於蹄兔</a>
+  <a class="btn btn-primary" href="https://linktr.ee/dot1000110" target="_blank" rel="noopener">免費訂閱</a>
+</nav>
+
+<main>
+<section class="hero">
+  <div class="glow glow-teal" aria-hidden="true"></div>
+  <div class="glow glow-violet" aria-hidden="true"></div>
+  <div class="grid-lines" aria-hidden="true"></div>
+  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-copy">
+      <p class="mono">Taiwan Hyrax Tech · Awawa Spirit</p>
+      <h1>相信一個人，<br>也能很完整。</h1>
+      <p class="lead">用 AI 與數位工作術，把時間還給生活。一人公司、超級個體的實戰<span style="white-space:nowrap">紀錄</span>，每週寄到你的信箱。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://linktr.ee/dot1000110" target="_blank" rel="noopener">免費訂閱典典週報</a>
+        <a class="btn btn-outline" href="https://linktr.ee/dot1000110" target="_blank" rel="noopener">看線上課程</a>
+      </div>
+    </div>
+    <div class="portrait">
+      <div class="portrait-ring" aria-hidden="true"></div>
+      <div class="portrait-photo"><img src="assets/headshot.jpg" width="781" height="1000" alt="成育典的大頭照" fetchpriority="high"></div>
+      <span class="chip c1">一人公司</span>
+      <span class="chip c2">超級個體</span>
+      <span class="chip c3">NYCU 碩士生</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="products">
+  <div class="container">
+    <div class="section-head">
+      <div class="title">
+        <p class="mono">Products · 三條產品線</p>
+        <h2>我在用的，才寫給你。</h2>
+      </div>
+      <p class="aside">三條產品線，都從我自己的工作流長出來，<br>用過、踩過雷，才寫給你。</p>
+    </div>
+    <div class="cards">
+      <article class="card glass" id="newsletter">
+        <div class="card-head"><span class="idx">01</span><span class="dot" aria-hidden="true"></span></div>
+        <div class="stage"><img src="assets/ill-newsletter.svg" width="200" height="200" alt="" loading="lazy"></div>
+        <h3>典典週報</h3>
+        <p>每週一封，把這週真正用得上的 AI 工具與工作術濃縮給你。</p>
+        <a class="btn btn-primary" href="https://linktr.ee/dot1000110" target="_blank" rel="noopener">免費訂閱</a>
+      </article>
+      <article class="card glass" id="workflow">
+        <div class="card-head"><span class="idx">02</span><span class="dot" aria-hidden="true"></span></div>
+        <div class="stage"><img src="assets/ill-working.svg" width="200" height="200" alt="" loading="lazy"></div>
+        <h3>數位工作術</h3>
+        <p>Notion、n8n、自動化流程——<br>一個人也能跑完整條產線。</p>
+        <a class="btn btn-outline" href="https://linktr.ee/dot1000110" target="_blank" rel="noopener">看教學</a>
+      </article>
+      <article class="card glass" id="course">
+        <div class="card-head"><span class="idx">03</span><span class="dot" aria-hidden="true"></span></div>
+        <div class="stage"><img src="assets/ill-ai.svg" width="200" height="200" alt="" loading="lazy"></div>
+        <h3>給 AI 用的線上課程</h3>
+        <p>不是教你用 AI，是把你的知識整理成 AI 讀得懂的格式。</p>
+        <a class="btn btn-outline" href="https://linktr.ee/dot1000110" target="_blank" rel="noopener">了解課程</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section about" id="about">
+  <div class="container">
+    <div class="about-copy">
+      <p class="mono">Awawa Spirit · 品牌精神</p>
+      <h2>慢慢來，<br>但一直走。</h2>
+      <p class="dim">把所學持續記錄、公開分享，是放大個人影響力最好的方式。這就是 Awawa 精神：一個人，也能把事情做完整。</p>
+      <ul class="points">
+        <li>每週固定出刊，不靠靈感靠系統</li>
+        <li>工具只挑真的在用的：Notion、n8n、Claude</li>
+        <li>記錄成長，也公開失敗</li>
+      </ul>
+      <p class="mono-tag">SLOW IS FINE — JUST KEEP MOVING.</p>
+    </div>
+    <div class="photo-block">
+      <img class="main" src="assets/night-desk.jpg" width="1280" height="854" alt="夜晚的書桌：一台筆電、一盞檯燈、窗外的城市燈火" loading="lazy">
+      <div class="badge glass">
+        <img src="assets/hyrax.jpg" width="56" height="56" alt="" loading="lazy">
+        <span><b>蹄兔 Hyrax</b><small>品牌吉祥物 · 小小的，但很完整</small></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="container">
+    <div class="contact-card glass">
+      <div class="contact-copy">
+        <p class="mono">Contact</p>
+        <h2>想合作，<br>或有問題想聊？</h2>
+        <p class="small dim">留下 Email 與想聊的主題，<br class="mob-br">我會盡快回你。</p>
+      </div>
+      <form class="form" id="contact-form" novalidate>
+        <label for="email" style="position:absolute;left:-9999px">你的 Email</label>
+        <input id="email" name="email" type="email" placeholder="你的 Email" autocomplete="email" required>
+        <label for="message" style="position:absolute;left:-9999px">想聊什麼</label>
+        <textarea id="message" name="message" placeholder="想聊什麼…" required></textarea>
+        <div class="actions"><button class="btn btn-primary" type="submit" id="send-btn">送出</button></div>
+        <p class="form-note">按「送出」會開啟你的郵件 App，內容已幫你填好。</p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="social" role="group" aria-label="社群連結">
+      <a href="https://linktr.ee/dot1000110" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></a>
+      <a href="https://linktr.ee/dot1000110" target="_blank" rel="noopener" aria-label="Threads"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/></svg></a>
+      <a href="https://linktr.ee/dot1000110" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      <a href="https://github.com/dandycheng110" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+      <a href="https://linktr.ee/dot1000110" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z"/></svg></a>
+    </div>
+    <p class="copy">© 2026 台灣蹄兔科技 Taiwan Hyrax Tech · Awawa 精神</p>
+    <p class="tagline">A SINGLE PERSON, MADE WHOLE.</p>
+    <p class="copy links">數位名片 <a href="https://dot1000110-card.vercel.app/" target="_blank" rel="noopener">dot1000110-card.vercel.app</a> ｜ <a href="https://linktr.ee/dot1000110" target="_blank" rel="noopener">linktr.ee/dot1000110</a></p>
+    <p class="credits">Illustrations by <a href="https://storyset.com" target="_blank" rel="noopener">Storyset</a> · Photo by <a href="https://unsplash.com/photos/P6NY5x3ivYg" target="_blank" rel="noopener">Avtar Singh on Unsplash</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // 漢堡選單
+  var burger=document.querySelector('.burger'), body=document.body;
+  burger.addEventListener('click',function(){
+    var open=body.classList.toggle('menu-open');
+    burger.setAttribute('aria-expanded',open?'true':'false');
+    burger.setAttribute('aria-label',open?'關閉選單':'開啟選單');
+  });
+  document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',function(){body.classList.remove('menu-open');burger.setAttribute('aria-expanded','false');});});
+
+  // Nav active 狀態（依捲動位置）
+  var links=document.querySelectorAll('[data-nav]');
+  var ids=['home','newsletter','workflow','course','about'];
+  var targets=ids.map(function(id){return document.getElementById(id);});
+  var clicked=null;
+  links.forEach(function(a){a.addEventListener('click',function(){clicked=a.getAttribute('href').slice(1);});});
+  function top(el){return el.getBoundingClientRect().top+window.scrollY;}
+  function setActive(){
+    var y=window.scrollY+120, cur='home', cards=['newsletter','workflow','course'];
+    targets.forEach(function(el){ if(el && top(el)<=y) cur=el.id; });
+    if(cards.indexOf(cur)>-1){
+      // 桌機三張卡同一列：以最近點過的頁籤為準，否則預設第一張
+      var sameRow=cards.filter(function(id){return Math.abs(top(document.getElementById(id))-top(document.getElementById(cur)))<4;});
+      cur=(clicked&&sameRow.indexOf(clicked)>-1)?clicked:sameRow[0];
+    } else { clicked=null; }
+    links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+cur);});
+  }
+  window.addEventListener('scroll',setActive,{passive:true}); window.addEventListener('resize',setActive); setActive();
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&body.classList.contains('menu-open')){ body.classList.remove('menu-open'); burger.setAttribute('aria-expanded','false'); burger.focus(); } });
+
+  // 聯絡表單 → mailto
+  var form=document.getElementById('contact-form'), btn=document.getElementById('send-btn');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var email=form.email.value.trim(), msg=form.message.value.trim();
+    if(!email||!msg){ (email?form.message:form.email).focus(); return; }
+    var subject='[蹄兔官網] 想聊：'+msg.slice(0,30).replace(/\s+/g,' ');
+    var bodyText='來自：'+email+'\n\n'+msg+'\n\n—\n由 dandycheng110.github.io/hyrax 聯絡表單送出';
+    window.location.href='mailto:dot1000110@gmail.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(bodyText);
+    var old=btn.textContent; btn.textContent='已開啟郵件 App ✓';
+    setTimeout(function(){btn.textContent=old;},3000);
+  });
+})();
+</script>
+</body>
+</html>
