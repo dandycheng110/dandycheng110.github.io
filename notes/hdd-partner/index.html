@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI 硬碟健康預警合作邀請</title>
+<meta name="description" content="2026 全國 AI 專題創意競賽新竹學生團隊：免費幫貴單位做硬碟健康檢查，換一份去識別化的硬碟健康數值（SMART），附唯讀收集腳本。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --ground: #f3f6f6; --surface: #ffffff; --surface-2: #e8eff0;
+  --ink: #17262d; --muted: #56676e; --line: #d3dcde;
+  --brand: #1f4e5f; --brand-ink: #ffffff; --amber: #a86a00; --amber-soft: #fbefd6;
+  --no-bg: #f6e5e5; --focus: #d9961a;
+  --mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --ground: #0e181c; --surface: #152329; --surface-2: #1c2e35;
+    --ink: #e2ecee; --muted: #9aaeb5; --line: #2a3f47;
+    --brand: #7cc4d6; --brand-ink: #0e181c; --amber: #f0b64a; --amber-soft: #3a2d12;
+    --no-bg: #3d2020; --focus: #f0b64a;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.7; }
+.wrap { max-width: 980px; margin: 0 auto; padding-inline: 20px; padding-block: 36px 56px; }
+a { color: var(--brand); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+h1, h2, h3 { text-wrap: balance; line-height: 1.3; }
+code { font-family: var(--mono); font-size: .88em; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
+.eyebrow { font-family: var(--mono); font-size: 12.5px; letter-spacing: .08em; color: var(--muted); }
+
+header.hero { padding-bottom: 8px; }
+header.hero h1 { font-size: clamp(32px, 6vw, 52px); font-weight: 900; margin: 10px 0 4px; letter-spacing: .01em; }
+header.hero .tag { font-size: clamp(18px, 2.6vw, 23px); font-weight: 700; color: var(--amber); margin: 0 0 14px; }
+header.hero p.lead { max-width: 60ch; margin: 0 0 22px; font-size: 17px; }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 700; font-size: 15px; padding: 10px 18px; border-radius: 10px; border: 1px solid var(--brand); }
+.btn.primary { background: var(--brand); color: var(--brand-ink); }
+.btn.ghost { color: var(--brand); background: transparent; }
+
+section { margin-top: 48px; scroll-margin-top: 20px; }
+section > h2 { font-size: 24px; margin: 0 0 6px; }
+section > p.lede { margin: 0 0 18px; color: var(--muted); max-width: 66ch; }
+
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 18px 14px; }
+.stat .n { font-family: var(--mono); font-size: 34px; font-weight: 600; color: var(--brand); line-height: 1.1; }
+.stat p { margin: 8px 0 8px; font-size: 15px; }
+.stat a { font-size: 12.5px; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+.ways { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.way .k { font-family: var(--mono); font-size: 12.5px; color: var(--muted); }
+.way h3 { margin: 2px 0 6px; font-size: 18px; }
+.way p { margin: 0; font-size: 15px; }
+.way.best { border-color: var(--amber); background: var(--amber-soft); }
+
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.two h3 { margin: 0 0 8px; font-size: 18px; }
+ul.clean { margin: 0; padding-left: 1.2em; }
+ul.clean li { margin-bottom: 6px; }
+
+ol.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; counter-reset: s; }
+ol.steps li { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 14.5px; }
+ol.steps b { display: block; font-family: var(--mono); color: var(--brand); font-size: 15px; }
+
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--line); }
+th { color: var(--muted); font-weight: 500; font-size: 13.5px; background: var(--surface-2); }
+td.nw, th.nw { white-space: nowrap; }
+.no { background: var(--no-bg); border-radius: 10px; padding: 12px 16px; margin-top: 14px; }
+
+.dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+.dl a { display: block; text-decoration: none; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; color: var(--ink); }
+.dl a b { display: block; font-family: var(--mono); color: var(--brand); font-size: 14px; overflow-wrap: anywhere; }
+.dl a span { font-size: 13.5px; color: var(--muted); }
+pre { background: #10212a; color: #dcebef; border-radius: 10px; padding: 14px 16px; overflow-x: auto; font-family: var(--mono); font-size: 13.5px; line-height: 1.6; margin: 8px 0 0; }
+pre .c { color: #8fb3bf; }
+
+dl.faq { margin: 0; display: grid; gap: 14px; }
+dl.faq dt { font-weight: 700; }
+dl.faq dd { margin: 4px 0 0; color: var(--ink); max-width: 72ch; }
+
+.contact { background: var(--brand); color: var(--brand-ink); border-radius: 14px; padding: 22px 24px; display: grid; gap: 10px; }
+.contact h2 { margin: 0; font-size: 22px; }
+.contact p { margin: 0; }
+.mail { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.mail .addr { font-family: var(--mono); font-size: 18px; font-weight: 600; user-select: all; overflow-wrap: anywhere; }
+.mail button, .mail a { font: inherit; font-size: 14px; font-weight: 700; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--brand-ink); background: transparent; color: var(--brand-ink); cursor: pointer; text-decoration: none; }
+
+footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+footer p { margin: 0 0 6px; }
+
+@media (max-width: 760px) {
+  .stats, .ways, .two, .dl { grid-template-columns: minmax(0, 1fr); }
+  ol.steps { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">2026 全國 AI 專題創意競賽 · 新竹在地學生團隊合作邀請</div>
+    <h1>AI 硬碟健康預警</h1>
+    <p class="tag">讓硬碟在壞掉前先亮黃燈</p>
+    <p class="lead">我們免費幫貴單位做一次<strong>硬碟健康檢查</strong>，換一份<strong>去識別化</strong>的硬碟健康數值（SMART），用來驗證競賽作品。只讀數值，不碰任何檔案。</p>
+    <div class="cta">
+      <a class="btn primary" href="#contact">聯絡我們</a>
+      <a class="btn ghost" href="hdd-partner-onepager.pdf">下載一頁提案（PDF）</a>
+      <a class="btn ghost" href="#spec">給 IT 同仁：資料規格</a>
+    </div>
+  </header>
+
+  <section id="why">
+    <h2>為什麼值得做</h2>
+    <div class="stats">
+      <div class="stat"><div class="n">23.3%</div><p>將近四分之一的故障硬碟，事前在 5 項常用 SMART 指標上完全沒有警訊。只看單一門檻不夠，要靠 AI 看整體趨勢。</p><a href="https://www.backblaze.com/blog/what-smart-stats-indicate-hard-drive-failures/" target="_blank" rel="noopener">Backblaze, 2016</a></div>
+      <div class="stat"><div class="n">52 週</div><p>AI 帶動大容量硬碟缺貨，交期拉長到一年以上。碟壞了不一定買得到，要能提早知道、提早備料。</p><a href="https://www.trendforce.com/presscenter/news/20250915-12714.html" target="_blank" rel="noopener">集邦科技 TrendForce, 2025-09</a></div>
+      <div class="stat"><div class="n">30 日</div><p>新竹市規定監視錄影至少保存 30 日。錄影主機的硬碟壞了沒發現，錄影就斷了。</p><a href="https://law.hccg.gov.tw/LawContent.aspx?id=FL055111" target="_blank" rel="noopener">新竹市監視錄影系統設置管理維護要點</a></div>
+    </div>
+  </section>
+
+  <section id="who">
+    <h2>我們是誰</h2>
+    <div class="panel">
+      <p style="margin:0">陽明交大學生與勞動部 AI 職訓班結訓學員組成的 4 人團隊，參加國立臺南大學主辦的 2026 全國 AI 專題創意競賽（12 月決賽）。作品用 AI 讀硬碟內建的健康數值，預測哪顆硬碟快壞了，再用白話告訴管理者該怎麼做，例如：「3 號碟的待觀察磁區一週內從 0 變 8，建議這週備份並換碟。」</p>
+    </div>
+  </section>
+
+  <section id="ways">
+    <h2>請您挑一種方式</h2>
+    <p class="lede">硬碟一年大約壞 1～2%。從現在才開始收資料，兩個月內幾乎等不到硬碟壞掉，所以過去留下的換碟紀錄最有幫助；但只聊 20 分鐘，對我們也很有價值。</p>
+    <div class="ways">
+      <div class="panel way"><div class="k">約 20 分鐘</div><h3>只訪談</h3><p>不給資料，聊聊硬碟壞掉時你們怎麼發現、怎麼處理。電話或線上都可以。</p></div>
+      <div class="panel way"><div class="k">約 10 分鐘</div><h3>一次健康快照</h3><p>在您的機器上跑我們的唯讀腳本一次，交出去識別化的健康數值檔。</p></div>
+      <div class="panel way best"><div class="k">最有幫助</div><h3>歷史紀錄</h3><p>過去 3～12 個月的 SMART 歷史，加上換碟紀錄：哪天、哪顆、為什麼換。</p></div>
+    </div>
+  </section>
+
+  <section id="give">
+    <div class="two">
+      <div class="panel">
+        <h3>您會得到</h3>
+        <ul class="clean">
+          <li><strong>免費硬碟健康檢查報告</strong>：列出高風險硬碟，用您自己的金鑰就能對回是哪一顆</li>
+          <li>可以留下來繼續用的收集腳本</li>
+          <li>比賽致謝，具名或匿名由您決定</li>
+          <li>12 月比賽結束後的完整成果分享</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>我們的承諾</h3>
+        <ul class="clean">
+          <li>不拿主機名稱、IP、帳號、檔案內容；硬碟序號在您的機器上就先雜湊</li>
+          <li>只用於本競賽，只有 4 名隊員能存取；可簽保密協議</li>
+          <li>公開素材先給您審閱 5 個工作天；品牌一律寫成 Vendor A／B</li>
+          <li>決賽後 30 天內刪除全部資料，附書面刪除證明</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="timeline">
+    <h2>時程</h2>
+    <ol class="steps">
+      <li><b>10/16 前</b>告訴我們要不要合作</li>
+      <li><b>10/30 前</b>交資料或完成訪談</li>
+      <li><b>11/20</b>交健檢報告，請您審閱公開素材</li>
+      <li><b>12/19</b>決賽（臺南大學）</li>
+      <li><b>2027/1/18 前</b>刪除資料並附證明</li>
+    </ol>
+  </section>
+
+  <section id="spec">
+    <h2>給 IT 同仁：資料規格</h2>
+    <p class="lede">每顆硬碟、每次收集一筆，由收集腳本自動產生。欄位名稱依 smartctl 的 JSON 輸出。</p>
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th style="width:22%">類別</th><th>欄位</th></tr></thead>
+        <tbody>
+          <tr><td>型號</td><td><code>model_family</code> <code>model_name</code> <code>firmware_version</code> <code>user_capacity</code> <code>rotation_rate</code>、介面（SATA／SAS／NVMe）</td></tr>
+          <tr><td>健康狀態</td><td><code>smart_status.passed</code>、smartctl 結束代碼</td></tr>
+          <tr><td>基本量</td><td>通電時數、開機次數、溫度</td></tr>
+          <tr><td>SATA 屬性表</td><td>整張保留。關鍵是 5（重新配置磁區）、187（無法修正錯誤）、188（指令逾時）、197（待觀察磁區）、198（離線無法修正），以及 9、193、194、199、241、242</td></tr>
+          <tr><td>SAS 硬碟</td><td>grown defect list、error counter log（SAS 沒有上面的 SATA 屬性）</td></tr>
+          <tr><td>NVMe</td><td>health information log</td></tr>
+          <tr><td>識別</td><td>收集時間、站點代號（例如 <code>SITE_A</code>）、<code>disk_id</code>＝序號的 HMAC-SHA256 雜湊</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin:22px 0 8px;font-size:18px">換碟紀錄（最重要：沒有它，模型不知道哪些碟最後壞了）</h3>
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th>disk_id</th><th>型號</th><th class="nw">容量</th><th class="nw">安裝日期</th><th class="nw">拔除日期</th><th>拔除原因</th><th>誰判定</th></tr></thead>
+        <tbody><tr><td>用腳本 <code>--hash</code> 產生</td><td>ST4000VN008</td><td class="nw">4 TB</td><td class="nw">2022-03-15</td><td class="nw">2026-08-02</td><td>壞掉／SMART 警告／RAID 降級／預防性更換／升級汰換</td><td>系統告警／人員／原廠</td></tr></tbody>
+      </table>
+    </div>
+    <p style="font-size:14px;color:var(--muted);margin:8px 0 0">工單、RMA 單、補貨單、Excel 都可以，我們來整理格式。</p>
+    <div class="no"><strong>我們明確不拿：</strong>主機名稱、IP、帳號、檔案內容、系統日誌、原始序號、硬碟全球識別碼（WWN／EUI-64）。</div>
+  </section>
+
+  <section id="script">
+    <h2>收集腳本</h2>
+    <p class="lede">腳本在您的機器上執行，全文不到 150 行，歡迎逐行檢查。<code>smartctl -a</code> 只讀取健康數值：不啟動自我檢測、不寫入硬碟，休眠中的碟預設不吵醒。序號用 HMAC-SHA256 雜湊，金鑰只存在您的機器上。</p>
+    <div class="dl">
+      <a href="collect_smart.sh" download><b>collect_smart.sh</b><span>唯讀收集腳本（需要 smartmontools 7.0 以上）</span></a>
+      <a href="hdd-replacement-log-template.csv" download><b>hdd-replacement-log-template.csv</b><span>換碟紀錄範本（Excel 可直接開）</span></a>
+      <a href="hdd-partner-onepager.pdf" download><b>hdd-partner-onepager.pdf</b><span>一頁提案（A4 正反兩面）</span></a>
+    </div>
+    <div class="panel">
+<pre><span class="c"># 1. 安裝 smartmontools（Debian／Ubuntu；RHEL 系用 dnf）</span>
+sudo apt install smartmontools
+
+<span class="c"># 2. 跑一次（站點代號用 SITE_A 這種代號，不要放公司或主機名稱）</span>
+sudo ./collect_smart.sh --site SITE_A --out /var/lib/hdd_smart
+
+<span class="c"># 3. 換碟紀錄上的序號，換成同一套雜湊（要用同一個 --out 資料夾）</span>
+./collect_smart.sh --out /var/lib/hdd_smart --hash 原始序號
+
+<span class="c"># 4.（選用）每天早上 9 點自動跑：寫進 /etc/cron.d/hdd_smart</span>
+0 9 * * * root /opt/collect_smart.sh --site SITE_A --out /var/lib/hdd_smart</pre>
+      <p style="margin:12px 0 0;font-size:14.5px">交給我們之前：用文字編輯器打開任一個 <code>.jsonl</code>，搜尋某顆碟的原始序號，確認找不到。只交 <code>.jsonl</code> 和換碟紀錄；<strong>不要交 <code>.hmac_key</code></strong>。Synology NAS 沒開 SSH 的話，也可以用 SNMP 讀 SMART，我們可以協助。</p>
+    </div>
+  </section>
+
+  <section id="faq">
+    <h2>常見問題</h2>
+    <div class="panel">
+      <dl class="faq">
+        <dt>這算個人資料嗎？</dt>
+        <dd>硬碟健康數值描述的是硬碟，不是人。我們不收主機名稱、IP 和原始序號，也優先收機房設備、不收員工個人電腦。這是依個資法第 2 條定義做的判斷；貴單位法務若有疑慮，我們配合調整。</dd>
+        <dt>會不會影響硬碟或系統？</dt>
+        <dd>不會。<code>smartctl -a</code> 只讀取硬碟自己記錄的健康數值，不啟動自我檢測、不寫入資料，一顆碟不到一秒。</dd>
+        <dt>比賽會公開什麼？</dt>
+        <dd>只公開彙總結果，例如準確率、故障比例，不公開單顆硬碟，也不公開顆數。依競賽規則，說明書要寫出資料來源，可以寫成「新竹某科技公司（匿名）」；主辦單位可非營利使用作品簡介與影片。這些素材都會先給您審閱。</dd>
+        <dt>我們的硬碟不多，也有幫助嗎？</dt>
+        <dd>有。幾十顆的一次快照，就能檢查模型在台灣真實環境的表現；壞過的碟尤其珍貴。</dd>
+        <dt>模型是用什麼資料訓練的？</dt>
+        <dd>用 Backblaze 公開的硬碟統計資料訓練（依其條款標註出處）。貴單位的資料只用於驗證與展示。</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact">
+      <h2>聯絡我們</h2>
+      <p>聯絡人：成育典（陽明交大）。10/16 前回覆一句「有興趣」就好，我們會配合您的時間。</p>
+      <div class="mail">
+        <span class="addr" id="addr">dot1000110@gmail.com</span>
+        <button type="button" id="copy">複製信箱</button>
+        <a href="mailto:dot1000110@gmail.com?subject=AI%20%E7%A1%AC%E7%A2%9F%E5%81%A5%E5%BA%B7%E9%A0%90%E8%AD%A6%E5%90%88%E4%BD%9C">寫信</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>資料來源：Backblaze「What SMART Stats Tell Us About Hard Drives」（2016）；TrendForce 新聞稿（2025-09-15）；新竹市監視錄影系統設置管理維護要點。</p>
+    <p>2026-09 版 · <a href="../">← 我的筆記</a></p>
+  </footer>
+</div>
+<script>
+document.getElementById("copy").addEventListener("click", async (e) => {
+  const btn = e.currentTarget, addr = document.getElementById("addr").textContent;
+  try { await navigator.clipboard.writeText(addr); btn.textContent = "已複製"; }
+  catch { const r = document.createRange(); r.selectNodeContents(document.getElementById("addr")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "已選取，按 ⌘C 複製"; }
+  setTimeout(() => { btn.textContent = "複製信箱"; }, 2000);
+});
+</script>
+</body>
+</html>

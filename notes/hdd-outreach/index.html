@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+<title>HDD 外聯作戰板（唯讀）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+:root {
+  --ground: #f3f6f6;
+  --surface: #ffffff;
+  --surface-2: #e8eff0;
+  --ink: #17262d;
+  --muted: #56676e;
+  --line: #d3dcde;
+  --brand: #1f4e5f;
+  --brand-ink: #ffffff;
+  --amber: #b87908;
+  --amber-soft: #fbefd6;
+  --s-none: #8a979c;   --s-none-bg: #eef1f2;
+  --s-sent: #3d6aa8;   --s-sent-bg: #e5edf8;
+  --s-reply: #16786f;  --s-reply-bg: #dff2ef;
+  --s-meet: #a86a00;   --s-meet-bg: #fbefd6;
+  --s-yes: #2f7d32;    --s-yes-bg: #e2f2e2;
+  --s-no: #a34a4a;     --s-no-bg: #f6e5e5;
+  --focus: #d9961a;
+  --mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #0e181c; --surface: #152329; --surface-2: #1c2e35; --ink: #e2ecee; --muted: #9aaeb5; --line: #2a3f47;
+    --brand: #7cc4d6; --brand-ink: #0e181c; --amber: #f0b64a; --amber-soft: #3a2d12;
+    --s-none: #9aa7ac; --s-none-bg: #22333a; --s-sent: #8fb4ea; --s-sent-bg: #1d2d45;
+    --s-reply: #6fd0c4; --s-reply-bg: #163a37; --s-meet: #f0b64a; --s-meet-bg: #3a2d12;
+    --s-yes: #86d38a; --s-yes-bg: #1b3a1d; --s-no: #e39a9a; --s-no-bg: #3d2020; --focus: #f0b64a;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #0e181c; --surface: #152329; --surface-2: #1c2e35; --ink: #e2ecee; --muted: #9aaeb5; --line: #2a3f47;
+  --brand: #7cc4d6; --brand-ink: #0e181c; --amber: #f0b64a; --amber-soft: #3a2d12;
+  --s-none: #9aa7ac; --s-none-bg: #22333a; --s-sent: #8fb4ea; --s-sent-bg: #1d2d45;
+  --s-reply: #6fd0c4; --s-reply-bg: #163a37; --s-meet: #f0b64a; --s-meet-bg: #3a2d12;
+  --s-yes: #86d38a; --s-yes-bg: #1b3a1d; --s-no: #e39a9a; --s-no-bg: #3d2020; --focus: #f0b64a;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--ground); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.65; margin: 0; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; }
+a { color: var(--brand); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+h1, h2, h3 { text-wrap: balance; line-height: 1.3; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+header h1 { font-size: clamp(26px, 4.4vw, 38px); font-weight: 900; margin: 6px 0 6px; letter-spacing: .01em; }
+header p.sub { margin: 0; color: var(--muted); max-width: 62ch; }
+
+/* 總覽 */
+.summary { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 2fr); gap: 16px; margin-top: 22px; }
+.gate { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: grid; gap: 8px; align-content: start; }
+.gate .days { font-family: var(--mono); font-size: 44px; font-weight: 600; line-height: 1; color: var(--brand); font-variant-numeric: tabular-nums; }
+.gate .days small { font-size: 15px; font-weight: 500; color: var(--muted); margin-left: 6px; font-family: var(--sans); }
+.light { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; padding: 4px 12px; border-radius: 999px; width: fit-content; }
+.light::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: currentColor; }
+.light.go { color: var(--s-yes); background: var(--s-yes-bg); }
+.light.wait { color: var(--amber); background: var(--amber-soft); }
+.counts { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 18px; }
+.count .n { font-family: var(--mono); font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.count .l { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.sync { grid-column: 1 / -1; font-size: 12.5px; color: var(--muted); border-top: 1px dashed var(--line); padding-top: 10px; }
+
+/* 導覽 */
+nav.jump { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--ground); margin: 26px -4px 0; padding: 10px 4px; display: flex; gap: 6px; overflow-x: auto; border-bottom: 1px solid var(--line); }
+nav.jump a { flex: none; text-decoration: none; color: var(--ink); font-size: 14px; padding: 5px 12px; border-radius: 999px; }
+nav.jump a:hover { background: var(--surface-2); }
+
+section { margin-top: 36px; scroll-margin-top: 64px; }
+section > h2 { font-size: 22px; margin: 0 0 4px; }
+section > p.lede { margin: 0 0 16px; color: var(--muted); max-width: 70ch; }
+
+/* 篩選 */
+.filters { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-bottom: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: inherit; font-size: 13.5px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 4px 12px; border-radius: 999px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+.filters label.toggle { font-size: 13.5px; display: inline-flex; gap: 6px; align-items: center; color: var(--muted); cursor: pointer; }
+
+/* 名單 */
+.tier-head { display: flex; align-items: baseline; gap: 10px; margin: 22px 0 8px; }
+.tier-head h3 { margin: 0; font-size: 17px; }
+.tier-head span { color: var(--muted); font-size: 13.5px; }
+.list { display: grid; gap: 10px; }
+.row { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; display: grid; grid-template-columns: 4px minmax(0, 1fr); overflow: hidden; }
+.row .stripe { background: var(--s-none); }
+.row[data-status="已聯絡"] .stripe { background: var(--s-sent); }
+.row[data-status="已回覆"] .stripe { background: var(--s-reply); }
+.row[data-status="約到訪談"] .stripe { background: var(--s-meet); }
+.row[data-status="同意給資料"] .stripe { background: var(--s-yes); }
+.row[data-status="婉拒"] .stripe { background: var(--s-no); }
+.row[data-status="婉拒"] .body { opacity: .72; }
+.body { padding: 14px 16px; display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 10px 20px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; font-size: 13px; color: var(--muted); }
+.id { font-family: var(--mono); font-weight: 600; color: var(--brand); font-size: 13px; }
+.name { font-size: 16.5px; font-weight: 700; margin: 2px 0 4px; }
+.first { font-size: 14px; margin: 0; }
+.first b { font-weight: 500; color: var(--muted); }
+.tag { font-size: 12px; padding: 1px 8px; border-radius: 999px; background: var(--surface-2); color: var(--muted); }
+.tag.partial { background: var(--amber-soft); color: var(--amber); }
+details { grid-column: 1 / -1; font-size: 14px; }
+details summary { cursor: pointer; color: var(--brand); font-size: 13.5px; width: fit-content; }
+.detail-grid { display: grid; grid-template-columns: 7em minmax(0, 1fr); gap: 6px 14px; margin-top: 10px; }
+.detail-grid dt { color: var(--muted); font-size: 13px; }
+.detail-grid dd { margin: 0; overflow-wrap: anywhere; }
+.detail-grid dd .src { display: block; font-family: var(--mono); font-size: 12px; }
+.ctrl { display: grid; gap: 6px; align-content: start; }
+.ctrl label { font-size: 12px; color: var(--muted); }
+.ctrl select, .ctrl input, .ctrl textarea { font: inherit; font-size: 14px; width: 100%; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; }
+.ctrl textarea { min-height: 54px; resize: vertical; }
+.ctrl .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.ctrl .stamp { font-size: 12px; color: var(--muted); min-height: 1.2em; font-variant-numeric: tabular-nums; }
+.wrap.public .body { grid-template-columns: minmax(0, 1fr); }
+.wrap.public .filters label.toggle { display: none; }
+.public-note { grid-column: 1 / -1; }
+.public-note p { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+.ctrl[aria-disabled="true"] select, .ctrl[aria-disabled="true"] input, .ctrl[aria-disabled="true"] textarea { opacity: .6; }
+
+/* 一般區塊 */
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.timeline li { display: grid; grid-template-columns: 11.5em minmax(0, 1fr); gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+.timeline li:last-child { border-bottom: 0; }
+.timeline .when { font-family: var(--mono); font-size: 13.5px; font-weight: 500; }
+.timeline li.key .when { color: var(--amber); font-weight: 600; }
+.timeline li.key .what b { color: var(--amber); }
+.levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.level h3 { margin: 0 0 4px; font-size: 16px; }
+.level .k { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.level.best { border-color: var(--amber); background: var(--amber-soft); }
+table.math { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 460px; }
+table.math th, table.math td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
+table.math th:first-child, table.math td:first-child { text-align: left; }
+table.math th { color: var(--muted); font-weight: 500; font-size: 13px; }
+table.math td.hi { color: var(--s-yes); font-weight: 700; }
+.scroll { overflow-x: auto; }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.smart { font-family: var(--mono); font-size: 13px; display: grid; grid-template-columns: 3.2em minmax(0, 1fr); gap: 4px 10px; margin: 8px 0 0; }
+.smart dt { color: var(--brand); font-weight: 600; }
+.smart dd { margin: 0; font-family: var(--sans); font-size: 14px; }
+.numbers { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.num .big { font-family: var(--mono); font-size: 30px; font-weight: 600; color: var(--brand); line-height: 1.15; }
+.num p { margin: 6px 0 6px; font-size: 14px; }
+.num a { font-size: 12.5px; }
+blockquote { margin: 0; padding: 14px 18px; border-left: 3px solid var(--amber); background: var(--amber-soft); border-radius: 0 10px 10px 0; font-size: 15.5px; }
+.checklist { margin: 0; padding-left: 1.2em; }
+.checklist li { margin-bottom: 6px; }
+.who { font-size: 12.5px; color: var(--muted); }
+footer { margin-top: 44px; font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; }
+
+@media (max-width: 760px) {
+  .summary { grid-template-columns: minmax(0, 1fr); }
+  .body { grid-template-columns: minmax(0, 1fr); }
+  .levels, .two { grid-template-columns: minmax(0, 1fr); }
+  .timeline li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .first, .name, header p.sub { overflow-wrap: anywhere; }
+  .counts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .row { transition: border-color .2s; }
+}
+</style>
+
+<div class="wrap public">
+  <header>
+    <div class="eyebrow">2026 全國 AI 專題創意競賽 · HDD 健康監測與故障預測</div>
+    <h1>HDD 外聯作戰板</h1>
+    <p class="sub">目標：10/16（五）前，至少一家新竹／竹北單位同意給資料，而且資料範圍談好。這是公開的唯讀版，聯絡進度請在 LINE 群組回報。</p>
+  </header>
+
+  <div class="summary" aria-live="polite">
+    <div class="gate">
+      <div class="eyebrow">距離 go/no-go（10/16）</div>
+      <div class="days" id="days">–<small>天</small></div>
+      <span class="light wait" id="light">還沒有單位同意給資料</span>
+    </div>
+    <div class="counts" id="counts">
+      <div class="sync" id="sync">狀態讀取中…</div>
+    </div>
+  </div>
+
+  <nav class="jump" aria-label="頁內導覽">
+    <a href="#list">聯絡名單</a>
+    <a href="#timeline">時程</a>
+    <a href="#ask">要什麼資料</a>
+    <a href="#pitch">給評審的說法</a>
+    <a href="#open">待確認</a>
+  </nav>
+
+  <section id="list">
+    <h2>聯絡名單</h2>
+    <p class="lede">A 級 9/30 第一波就聯絡；B 級要引薦或多一道流程；C 級只約訪談或背書。標「部分查證」的，打電話前先到官網再確認一次。高階經理人班的聯絡由育典負責。</p>
+    <div class="filters">
+      <div class="chips" role="group" aria-label="依等級篩選" id="tierChips">
+        <button type="button" class="chip" data-tier="all" aria-pressed="true">全部</button>
+        <button type="button" class="chip" data-tier="A" aria-pressed="false">A 級</button>
+        <button type="button" class="chip" data-tier="B" aria-pressed="false">B 級</button>
+        <button type="button" class="chip" data-tier="C" aria-pressed="false">C 級</button>
+      </div>
+      <label class="toggle"><input type="checkbox" id="hideDone"> 隱藏已婉拒</label>
+    </div>
+    <div id="tiers"></div>
+  </section>
+
+  <section id="timeline">
+    <h2>時程</h2>
+    <p class="lede">台北時間。假日以人事總處辦公日曆為準（9/25 中秋、9/28 教師節、10/9 國慶補假）。</p>
+    <div class="panel">
+      <ol class="timeline">
+        <li><div class="when">9/25（五）～9/28（一）</div><div class="what">寄信問主辦作品規範（同時報銘祥會不會算相似、資料來源怎麼寫）；育典請產業顧問圈出認識的公司；博士班隊員寄指導老師邀請信，老師答應後請老師引薦交大系計中與資訊中心</div></li>
+        <li><div class="when">9/30（三）</div><div class="what"><b>第一波</b>：A 級全部，加上 B 級的資料救援業者與東區電訊；產業顧問同步引薦喬鼎、ULINK、正源、Accusys。博士班隊員用 Backblaze 資料做一張樣本健檢報告截圖</div></li>
+        <li><div class="when">10/2（五）</div><div class="what">（可選）決定要不要報新竹縣「智慧沙盒創新計畫」，10/7 截止；要先問兩邊能不能同一件作品</div></li>
+        <li><div class="when">10/5（一）～10/8（四）</div><div class="what">追蹤信附樣本健檢截圖；10/6 上午 10～11 點打總機，只問「該找誰」；職訓班同學拜訪資料救援門市；育典私訊 2～3 位高階經理人班同學</div></li>
+        <li><div class="when">10/9（五）</div><div class="what">小檢查：A 級如果都沒回，就把力氣轉到熟人管道，不再等冷信</div></li>
+        <li><div class="when">10/13（二）～10/15（四）</div><div class="what">縮小請求：「只約 20 分鐘訪談也行」；10/15 寄最後一封；<b>10/15 晚上高階經理人班上課，當面請託</b></div></li>
+        <li class="key"><div class="when">10/16（五）</div><div class="what"><b>Go/no-go</b>：至少一家同意、資料範圍談好 → 真實資料進「外部驗證」主章節。只拿到快照或壞碟快照 → 改成「台灣案例展示」。什麼都沒有 → 小組決定 HDD 只用 Backblaze＋自己收，或回到 AOI</div></li>
+        <li><div class="when">10/28（三）</div><div class="what">保密協議簽完</div></li>
+        <li class="key"><div class="when">10/30（五）</div><div class="what"><b>真實資料最晚到手</b></div></li>
+        <li><div class="when">11/2～11/20</div><div class="what">用台灣資料做外部驗證、做儀表板；11/13 後拿到的少量資料只能放「台灣現場驗證」；11/20 交健檢報告給合作方並請對方審閱公開素材</div></li>
+        <li class="key"><div class="when">11/30（一）</div><div class="what"><b>送出報名</b>（說明書 PDF＋影片連結；12/1 23:59:59 截止）</div></li>
+        <li><div class="when">12/11 · 12/19</div><div class="what">初賽線上展示 · 決賽南大中山館；2027/1/18 前刪除合作方資料並附證明</div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="ask">
+    <h2>要什麼資料</h2>
+    <p class="lede">從 10 月才開始收，幾乎等不到硬碟壞掉。所以優先要<strong>過去的換碟紀錄</strong>和監控系統存下的 SMART 歷史；資料救援業者手上的壞碟快照也很珍貴。作品定位：用 Backblaze 公開資料訓練，台灣資料做外部驗證和現場展示。</p>
+    <div class="levels">
+      <div class="panel level"><div class="k">約 20 分鐘</div><h3>只訪談</h3>不給資料，聊聊硬碟壞掉時怎麼發現、怎麼處理。一定要問最後一題：「還有誰也很痛？」</div>
+      <div class="panel level"><div class="k">約 10 分鐘</div><h3>一次快照</h3>在對方機器上跑 <code>collect_smart.sh</code> 一次，交出去識別化的 <code>.jsonl</code>。</div>
+      <div class="panel level best"><div class="k">最有幫助</div><h3>歷史紀錄</h3>過去 3～12 個月的 SMART 歷史，加上換碟紀錄：哪天、哪顆（雜湊）、為什麼換。</div>
+    </div>
+
+    <div class="panel" style="margin-top:12px">
+      <h3 style="margin:0 0 6px;font-size:16px">為什麼一定要歷史資料：預期會壞幾顆？</h3>
+      <p style="margin:0 0 10px;color:var(--muted);font-size:14px">假設年故障率 1.5%。要大約 30 筆故障事件才夠驗證，等於 2,000「顆·年」的紀錄。</p>
+      <div class="scroll">
+        <table class="math">
+          <thead><tr><th>硬碟數</th><th>10/1～11/30 新收</th><th>一顆都沒壞的機率</th><th>過去 1 年紀錄</th><th>過去 3 年紀錄</th></tr></thead>
+          <tbody>
+            <tr><td>100 顆</td><td>0.25</td><td>78%</td><td>1.5</td><td>4.5</td></tr>
+            <tr><td>500 顆</td><td>1.25</td><td>29%</td><td>7.5</td><td class="hi">22.5</td></tr>
+            <tr><td>2,000 顆</td><td>5.0</td><td>0.7%</td><td class="hi">30</td><td class="hi">90</td></tr>
+            <tr><td>10,000 顆</td><td class="hi">25</td><td>約 0</td><td class="hi">150</td><td class="hi">450</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="two" style="margin-top:12px">
+      <div class="panel">
+        <h3 style="margin:0;font-size:16px">Backblaze 盯的 5 項 SMART 指標</h3>
+        <dl class="smart">
+          <dt>5</dt><dd>重新配置磁區數：壞格子搬去備胎區的次數</dd>
+          <dt>187</dt><dd>無法修正的錯誤：錯誤更正也救不回來</dd>
+          <dt>188</dt><dd>指令逾時：線材、電源問題也會讓它變大</dd>
+          <dt>197</dt><dd>待觀察磁區：讀不穩、等確認的格子</dd>
+          <dt>198</dt><dd>離線無法修正：確定救不回來的格子</dd>
+        </dl>
+        <p style="margin:10px 0 0;font-size:13px;color:var(--muted)">SAS 硬碟沒有這套屬性，要看 grown defect list 和 error counter log。</p>
+      </div>
+      <div class="panel">
+        <h3 style="margin:0 0 6px;font-size:16px">明確不拿、怎麼保護</h3>
+        <ul class="checklist" style="font-size:14px">
+          <li>不拿主機名稱、IP、帳號、檔案內容、系統日誌、原始序號</li>
+          <li>序號用 HMAC-SHA256 雜湊，金鑰留在對方手上</li>
+          <li>腳本在對方機器上跑、只讀取、不到 150 行可逐行檢查</li>
+          <li>公開素材先給對方審 5 個工作天；品牌寫 Vendor A／B</li>
+          <li>決賽後 30 天內刪除並附書面證明；可簽保密協議</li>
+          <li>先講清楚比賽規則：說明書要寫來源（可寫「新竹某科技公司（匿名）」），主辦可非營利使用作品簡介與影片</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="pitch">
+    <h2>給評審的說法</h2>
+    <p class="lede">評審多半是南大數位學習科技系、電機系老師，不一定懂硬碟。先講故事，再給數字。</p>
+    <blockquote>台灣人都遇過：出了車禍要調畫面，才發現行車記錄器的記憶卡早就壞了。監視器和伺服器的硬碟是同一件事，只是規模大一萬倍。我們做的是「硬碟的健康檢查報告」：用 AI 讀硬碟自己記錄的體檢數值，在它壞掉之前先亮黃燈。</blockquote>
+    <div class="numbers" style="margin-top:14px">
+      <div class="panel num"><div class="big">52 週</div><p>AI 讓大容量硬碟缺貨，交期從幾週拉長到一年以上。壞了不一定買得到替換品。</p><a href="https://www.trendforce.com/presscenter/news/20250915-12714.html" target="_blank" rel="noopener">集邦 TrendForce 2025-09</a></div>
+      <div class="panel num"><div class="big">每天 11 顆</div><p>Backblaze 的 34 萬顆碟，2026 Q1 一季壞了 1,030 顆（1,030 ÷ 90 天自行換算）。</p><a href="https://www.backblaze.com/cloud-storage/resources/hard-drive-test-data" target="_blank" rel="noopener">Backblaze Drive Stats</a></div>
+      <div class="panel num"><div class="big">23.3%</div><p>將近四分之一的故障碟，事前 5 項 SMART 指標完全沒有警訊。只看門檻不夠，才需要 AI。</p><a href="https://www.backblaze.com/blog/what-smart-stats-indicate-hard-drive-failures/" target="_blank" rel="noopener">Backblaze 2016</a></div>
+      <div class="panel num"><div class="big">39 倍</div><p>第一次出現掃描錯誤後，60 天內故障的機率是正常碟的 39 倍（超過 10 萬顆碟）。</p><a href="https://static.googleusercontent.com/media/research.google.com/en//archive/disk_failures.pdf" target="_blank" rel="noopener">Google FAST 2007</a></div>
+      <div class="panel num"><div class="big">30 日</div><p>新竹市規定監視錄影至少保存 30 日，警察局可以隨時抽查。錄影主機的碟壞了就是違規。</p><a href="https://law.hccg.gov.tw/LawContent.aspx?id=FL055111" target="_blank" rel="noopener">新竹市監視錄影系統設置管理維護要點</a></div>
+    </div>
+    <div class="two" style="margin-top:12px">
+      <div class="panel">
+        <h3 style="margin:0 0 6px;font-size:16px">評審會問：「市面上不是已經有了？」</h3>
+        <p style="margin:0;font-size:14px">有：竹北的 ULINK 和 QNAP 合作的 DA Drive Analyzer。先承認，這正好證明業界願意付錢。差異化：① 台灣中小企業、工廠、監視錄影主機場域；② SHAP＋LLM 產生白話健檢報告（「3 號碟待觀察磁區一週從 0 變 8，建議這週備份換碟」）；③ 支援伺服器常用的 SAS 碟；④ 誠實報告換到台灣場域後準確率掉多少。</p>
+      </div>
+      <div class="panel">
+        <h3 style="margin:0 0 6px;font-size:16px">評審會問：「模型是不是在背答案？」</h3>
+        <p style="margin:0;font-size:14px">Backblaze 2024 Q3 有 53% 的故障是看指標「提前換掉」的，模型可能在學換碟規則。先講出限制，再說明做法：依硬碟序號分組、依時間切資料、只用 7 天前的資料預測。也不報準確率——永遠猜「不會壞」就有 99.99%——改報 precision、recall、PR-AUC。</p>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-top:10px">別講錯：重大停機的頭號原因是電力，不是硬碟；韓國政府資料中心事故起因是火災；高雄路口監視器新聞沒寫是硬碟壞。</p>
+  </section>
+
+  <section id="open">
+    <h2>待確認</h2>
+    <p class="lede">這些沒問清楚前，不要寫進說明書。</p>
+    <div class="two">
+      <div class="panel">
+        <h3 style="margin:0 0 8px;font-size:16px">團隊內部（本週）</h3>
+        <ul class="checklist">
+          <li>主辦回覆：同時報銘祥企業命題，會不會被判跟 HDD 作品高度相似？說明書的資料來源能不能寫成匿名？ <span class="who">育典寄信</span></li>
+          <li>職訓班承辦單位願不願意把一頁提案轉給企業專區的合作廠商？ <span class="who">職訓班同學</span></li>
+          <li>指導老師邀請信寄出後等回覆；老師答應後，請老師具名寄信給交大系計中與資訊中心 <span class="who">博士班隊員</span></li>
+          <li>產業顧問熟哪些公司、同不同意在提案上具名？ <span class="who">育典</span></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3 style="margin:0 0 8px;font-size:16px">聯絡資訊有疑慮（打之前先確認）</h3>
+        <ul class="checklist">
+          <li>晟誼：官網聯絡資訊不完整</li>
+          <li>Accusys：中文名「旭驊」還是「世仰」？地址在竹北還是新竹市？</li>
+          <li>ULINK：電話和信箱沒有二次核對</li>
+          <li>正源：總機只出自搜尋摘要，官網連不上</li>
+          <li>鴻華：完整門牌和電話待查</li>
+          <li>新竹縣電腦公會：官網最新消息停在 2024-08</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    資料：2026-09-24 研究（5 路搜尋＋逐路查核），完整欄位與來源在 <code>目標名單.xlsx</code>；信件範本在 <code>外聯範本.md</code>；給廠商的附件是 <code>一頁提案.pdf</code> 和 <code>collect_smart/</code>。聯絡管道一律是組織層級的公開管道。
+  </footer>
+</div>
+
+<script>
+const TARGETS = [{"id": "A1", "tier": "A", "name": "陽明交大 資工系資訊中心（系計中）", "category": "校內機房", "area": "新竹市東區", "location": "新竹市東區大學路 1001 號 工程三館 3 樓 320 室", "pain": "管全系 Linux 工作站、郵件、GPU 教學機房，並代管各實驗室伺服器（12 個機櫃）；碟壞了是師生資料和服務中斷，要自己換碟重建", "ask": "B 級優先：問有沒有留換碟紀錄或 SMART 歷史；A 級：在工作站／GPU 教學機房裝唯讀收集腳本，連續收 8～10 週", "first_step": "寄 help@cs.nycu.edu.tw，或平日直接去 EC3 320 值班台，請轉系統組；先問「有沒有保存換碟紀錄」這個是非題", "who": "博士班隊員（副本給指導教授；育典可陪同）", "contact": "help@cs.nycu.edu.tw；(03) 5712121 #54707；學期中週一到週五 9:00–22:00", "check": "已查證", "sources": ["https://it.cs.nycu.edu.tw/", "https://it.cs.nycu.edu.tw/co-location", "https://it.cs.nycu.edu.tw/gpu-room"]}, {"id": "A2", "tier": "A", "name": "陽明交大 資訊技術服務中心（光復校區）", "category": "校內機房", "area": "新竹市東區", "location": "新竹市東區大學路 1001 號 資訊館 1 樓", "pain": "全校郵件、VPS、GPU 虛擬主機、機房代管都靠它，背後是大量儲存；RAID 降級就影響全校服務", "ask": "B 級：去識別化的換碟紀錄＋SMART 歷史；C 級：儲存維運同仁 20 分鐘訪談", "first_step": "請指導教授具名寄 itsc@nycu.edu.tw（副本給老師），請轉負責儲存或虛擬化平台的組別；儲存設備若有原廠維護合約，資料可能要經過維護廠商", "who": "指導教授具名＋博士班隊員", "contact": "itsc@nycu.edu.tw；03-5712121 #31888；週一到週五 8:00–17:30", "check": "已查證", "sources": ["https://it.nycu.edu.tw/", "https://it.nycu.edu.tw/it/ch/app/folder/270"]}, {"id": "A3", "tier": "A", "name": "阿姆雷特科技（Armlet）", "category": "中小企業 IT 委外維運", "area": "新竹市北區", "location": "新竹市北大路 29-1 號 5F-2", "pain": "專做 100 人以下、沒有專職 IT 的中小企業，官網寫會即時監控「硬碟異常、Raid 錯誤、備份策略失敗」——很可能真的有監控紀錄", "ask": "B 級：客戶硬碟告警與換碟紀錄（去識別化）；或挑 1～2 家客戶試裝收集腳本", "first_step": "平日 9:00–18:00 打 03-5421902，問他們用什麼工具監控硬碟、紀錄留多久，再約拜訪；沒人接就私訊 FB 粉專 Armlet.Taiwan", "who": "職訓班同學（技術問題博士班隊員支援）", "contact": "03-5421902；FB：Armlet.Taiwan", "check": "已查證", "sources": ["https://www.teng.com.tw/it_outsourcing.asp", "https://www.teng.com.tw/"]}, {"id": "A4", "tier": "A", "name": "華奕資訊（e-tobe）", "category": "NAS 建置與 IT 維運", "area": "新竹市北區", "location": "新竹市少年街 23 號", "pain": "新竹、竹北、竹南、竹東的 Synology／QNAP NAS 代安裝與維運，客戶多是中小企業；NAS 壞碟、RAID 重建失敗直接變成客訴", "ask": "問有沒有遠端監控客戶 NAS、SMART 紀錄留不留；交換條件是免費幫 1～3 家客戶做 NAS 健檢", "first_step": "寄 info@e-tobe.com 附一頁提案，信裡只問一個問題；兩天後打 03-5256151 約時間", "who": "職訓班同學", "contact": "03-5256151；info@e-tobe.com", "check": "已查證", "sources": ["https://www.e-tobe.com/", "https://www.e-tobe.com/nas-install-setup-hsinchu-zhupei/"]}, {"id": "A5", "tier": "A", "name": "零壹科技 新竹辦公室（含子公司朔宇科技）", "category": "儲存與 IT 系統整合／通路", "area": "新竹市東區", "location": "新竹市東區慈雲路 118 號 17 樓之 3（台北總部在內湖）", "pain": "代理與整合多家儲存品牌（朔宇代理 QSAN），服務新竹企業客戶；客戶硬碟壞了是他們的維運與保固成本，AI 預警可以變成加值服務", "ask": "引薦 1～2 家願意的客戶場域；C 級業界觀點訪談；B 級維運換碟統計", "first_step": "有熟人引薦管道：先私訊請對方介紹一家願意試的新竹客戶，或約 20 分鐘聊他們看到的換碟狀況", "who": "育典", "contact": "新竹辦公室 +886-3-668-6638；台北總機 +886-2-2656-5656", "check": "部分查證", "sources": ["https://www.zerone.com.tw/contact/location", "https://www.zerone.com.tw/product/brand", "https://www.petacom.com.tw/Salesbrand/QSAN/"]}, {"id": "A6", "tier": "A", "name": "育典的高階經理人班人脈", "category": "搭橋管道", "area": "新竹", "location": "陽明交大光復校區（每月第三個星期四上課，下一堂 10/15）", "pain": "班上同學多是新竹科技業主管，不少人在工廠工作；工廠的監視錄影主機和檔案伺服器就是「真實廠房數據」", "ask": "請同學把一頁提案轉給自家 IT／廠務；目標是 2～3 家工廠願意跑一次快照＋提供換碟紀錄", "first_step": "不用等上課：10/5 那週先私訊 2～3 位最相關的同學，只請對方介紹公司 IT 或廠務主管；10/15 上課時再當面請託", "who": "育典", "contact": "（育典自行聯絡）", "check": "已查證", "sources": []}, {"id": "A7", "tier": "A", "name": "產業顧問的伺服器業界人脈", "category": "搭橋管道", "area": "待確認", "location": "待確認", "pain": "伺服器業界的前輩，最可能直接認識機房、系統整合商、儲存廠的維運主管", "ask": "先問清楚她熟哪些圈子、同不同意在提案上具名；引薦控制在 4 家以內（喬鼎、ULINK、正源、Accusys 優先）", "first_step": "9/25 前把這份名單給她看，請她圈出認識的公司", "who": "育典", "contact": "（育典自行聯絡）", "check": "待確認", "sources": []}, {"id": "A8", "tier": "A", "name": "勞動部 × 陽明交大「半導體與重點科技產業人才發展基地」（職訓班承辦單位）", "category": "搭橋管道", "area": "新竹市東區", "location": "陽明交大光復校區", "pain": "基地的企業專區有 20 多家合作廠商（例如緯穎、台灣美光）；學員得獎也算基地的計畫績效，承辦方有動機幫忙", "ask": "請承辦把一頁提案轉給企業專區廠商的 IT／廠務窗口；問下一場產業活動能不能讓團隊露出", "first_step": "請職訓班同學用學員身分傳 LINE @nycubase 或寄 lasercenter@nycu.edu.tw，附一頁提案，請承辦轉給企業專區廠商的 IT／廠務窗口；如果承辦單位不是這個基地，就改問自己班的承辦", "who": "職訓班同學", "contact": "03-571-2121 #56092；lasercenter@nycu.edu.tw；LINE @nycubase", "check": "部分查證", "sources": ["https://base.stem.lasercenter.nycu.edu.tw/", "https://base.stem.lasercenter.nycu.edu.tw/cooperation", "https://base.stem.lasercenter.nycu.edu.tw/about/project"]}, {"id": "B1", "tier": "B", "name": "晟誼科技（新竹資料救援中心）", "category": "資料救援", "area": "新竹市東區", "location": "新竹市東區金城一路 11 號 1 樓（新竹總公司）", "pain": "RAID／NAS 救援為主，官網有新竹校園伺服器 RAID6 救援案例，痛點故事現成", "ask": "故障型態彙總統計＋一段業界觀點；進一步才談故障碟快照；進階：我們免費寫一個「收件時自動存 smartctl 報告」的小工具，10～11 月每收一顆還讀得到的壞碟就留一份去識別化快照（全是正樣本）", "first_step": "先打 03-5750935 確認窗口（官網聯絡資訊不完整，先確認窗口）", "who": "職訓班同學", "contact": "03-5750935；0800-600-966；FB：Datasos.tw", "check": "部分查證", "sources": ["https://raidnas.tw/", "https://raidnas.tw/datarecoverylocation/", "https://data-tw.blogspot.com/"]}, {"id": "B2", "tier": "B", "name": "雷德硬碟資料救援 新竹 NOVA 店（WD 授權服務中心）", "category": "資料救援／原廠保固服務", "area": "新竹市東區", "location": "新竹市光復路二段 200 號 3 樓 307 室（新竹 NOVA 3F）", "pain": "每天收壞掉的硬碟，也做 WD 保固換貨——手上有做故障預測最缺的「壞掉樣本」", "ask": "去識別化的救援案件彙總（型號、故障類型、SMART 摘要）；或在客戶同意下讀故障碟的死前快照；進階：我們免費寫一個「收件時自動存 smartctl 報告」的小工具，10～11 月每收一顆還讀得到的壞碟就留一份去識別化快照（全是正樣本）", "first_step": "門市電話先了解流程；要資料得打總公司 02-23917555 找企業合作或行銷窗口，用書面提案", "who": "職訓班同學跑門市，提案信由博士班隊員寄", "contact": "新竹店 03-5753299；總公司 02-23917555", "check": "已查證", "sources": ["https://www.raid5.com.tw/contact.php?type=8", "https://www.raid5.com.tw/"]}, {"id": "B3", "tier": "B", "name": "復得科技 新竹服務站", "category": "資料救援", "area": "新竹市東區", "location": "新竹市東區光復路二段 276 號（總部在高雄）", "pain": "硬碟救援案件多，看得到消費與企業端的真實故障分布", "ask": "去識別化的故障案件彙總", "first_step": "寄 service@hdd.tw 附一頁提案，再打新竹站確認", "who": "職訓班同學", "contact": "新竹站 03-5734511（11:00–20:00）；0800-882-119；service@hdd.tw", "check": "已查證", "sources": ["https://www.hdd.tw/tw/location.asp", "https://www.hdd.tw/"]}, {"id": "B4", "tier": "B", "name": "鴻華資料救援", "category": "資料救援", "area": "新竹市北區", "location": "新竹市北區（官網寫；完整門牌執行前再確認）", "pain": "官網有新竹 Synology DS918+ RAID5 案例：有壞軌警告，但使用者看不懂、拔錯碟，整個陣列認不得——正是「沒有 IT 人員」的故事", "ask": "C 級訪談＋允許引用案例；故障型態彙總", "first_step": "官網聯絡管道詢問（電話執行前再查）", "who": "職訓班同學", "contact": "官網 data-recover.com.tw（電話待查）", "check": "部分查證", "sources": ["https://www.data-recover.com.tw/cases/synology-ds918-raid5-seagate-4tb-ironwolf-nas-btrfs-%E8%B3%87%E6%96%99%E6%95%91%E6%8F%B4"]}, {"id": "B5", "tier": "B", "name": "喬鼎資訊 PROMISE（3057）", "category": "RAID 儲存設備廠", "area": "竹科", "location": "新竹科學園區工業東四路 21 號 5 樓", "pain": "產品就是一整櫃硬碟的 RAID 儲存，含監控錄影用 Vess 系列；碟壞加重建失敗＝客戶錄影消失；預測換碟可以寫進產品當加值功能", "ask": "業界觀點訪談；保固 RMA 的故障型態彙總；長線談產品合作", "first_step": "寄 marketing@tw.promise.com（業務 sales@tw.promise.com 副本），附一頁提案，強調「竹科在地學生團隊」", "who": "產業顧問引薦；沒有引薦就博士班隊員寄信", "contact": "03-5782395；sales@tw.promise.com；marketing@tw.promise.com", "check": "已查證", "sources": ["https://www.promise.com/tw/ContactUs/APAC", "https://www.promise.com/tw/About"]}, {"id": "B6", "tier": "B", "name": "Accusys Storage（中文公司名待確認：旭驊或世仰）", "category": "RAID 儲存設備廠", "area": "竹北", "location": "新竹縣竹北市台元科技園區（完整門牌待確認）", "pain": "RAID 儲存（ExaSAN、Gamma 系列），客戶有媒體製作、醫療、政府；官網主打 AI-Ready Data，規模比喬鼎小、決策鏈可能短", "ask": "業界觀點訪談；客戶支援的換碟統計", "first_step": "寄 marketing@accusys.com.tw 附一頁提案，再打 03-5600258", "who": "產業顧問或博士班隊員", "contact": "03-5600258；marketing@accusys.com.tw；sales@accusys.com.tw", "check": "部分查證", "sources": ["https://www.accusys.com.tw/about-us/", "https://www.accusys.com.tw/contact-us/"]}, {"id": "B7", "tier": "B", "name": "ULINK Technology 台灣分公司（DA Drive Analyzer）", "category": "AI 硬碟故障預測廠商（業師）", "area": "竹北", "location": "新竹縣竹北市光明六路東一段 257 號 14 樓", "pain": "已經在賣 AI 硬碟故障預測（跟 QNAP、ASUSTOR 合作），宣稱監控 200 萬顆以上、平均提前 12 天預警", "ask": "C 級：30 分鐘業師訪談，請教現場痛點與做不到的地方；不期待給資料", "first_step": "先問產業顧問儲存圈有沒有熟人；沒有就寄 contact@ulinktech.com（電話與信箱打之前再確認），說明是學生研究請益，不是做競品", "who": "產業顧問引介；技術部分博士班隊員談", "contact": "(03) 668-1770；contact@ulinktech.com", "check": "部分查證", "sources": ["https://ulinktech.com/company/", "https://ulinktech.com/products/daanalyzer/", "https://www.qnap.com/en/news/2025/qnap-and-ulink-upgrade-da-drive-analyzer-with-new-ai-engine-greatly-enhancing-drive-health-prediction-accuracy"]}, {"id": "B8", "tier": "B", "name": "東區電訊", "category": "監視系統與弱電整合", "area": "竹北", "location": "新竹縣竹北市縣政十六街 18 號", "pain": "做監視、門禁、總機，服務竹北、湖口、新豐、新竹市；NVR 硬碟壞了＝客戶錄影調不出來", "ask": "問一年換幾顆 NVR 碟、有沒有維修單；有紀錄才談挑 2～3 個場域現場讀 SMART", "first_step": "平日上午打 03-6565665 請監視系統主管接聽", "who": "職訓班同學", "contact": "03-6565665", "check": "已查證", "sources": ["https://www.dtel.com.tw/index.html"]}, {"id": "B9", "tier": "B", "name": "國家高速網路與計算中心（國網中心）", "category": "國家級計算與儲存", "area": "竹科", "location": "新竹市東區研發六路 7 號（台南南科另有分部與雲端算力中心）", "pain": "晶創 26 等系統有 25 PB 儲存，壞碟與重建是日常維運成本，最接近 Backblaze 的規模；台南分部可連結南大主辦的比賽", "ask": "只約訪談或請儲存工程師當審閱者，不要一開口就要 log", "first_step": "問博士班隊員實驗室是不是國網用戶、有沒有合作老師可引薦；沒有就寄 webmaster@niar.org.tw 請轉儲存維運", "who": "指導教授引薦", "contact": "03-5776085；webmaster@niar.org.tw", "check": "已查證", "sources": ["https://www.nchc.org.tw/Page?itemid=35&mid=60", "https://www.nchc.org.tw/"]}, {"id": "B10", "tier": "B", "name": "新竹馬偕紀念醫院 資訊部門", "category": "醫院（PACS 影像儲存）", "area": "新竹市東區", "location": "新竹市東區光復路二段 690 號", "pain": "醫學影像量大、病歷至少保存 7 年；資料量大，碟壞了影響看診", "ask": "只約 C 級訪談；對方若提到維護廠商，請他們引薦", "first_step": "有熟人引薦管道，請同學轉介資訊部門", "who": "育典（透過高階經理人班同學轉介）", "contact": "03-6889595（總機轉資訊部門）", "check": "已查證", "sources": ["https://www.hc.mmh.org.tw/"]}, {"id": "B11", "tier": "B", "name": "臺大醫院新竹臺大分院 資訊室", "category": "醫院（PACS 影像儲存）", "area": "新竹市東區／竹北", "location": "新竹院區：新竹市經國路一段 442 巷 25 號；生醫醫院竹北院區：竹北市生醫路", "pain": "多院區影像與病歷系統；資訊室下設系統網路組", "ask": "只約 C 級訪談", "first_step": "有熟人引薦管道；沒有就總機轉資訊室", "who": "育典（透過高階經理人班同學轉介）", "contact": "新竹院區 (03)5326151；竹北院區 (03)6677600", "check": "部分查證", "sources": ["https://www.hch.gov.tw/", "https://www.hch.gov.tw/?aid=60&pid=87"]}, {"id": "C1", "tier": "C", "name": "清華大學 計算機與通訊中心", "category": "校級機房", "area": "新竹市東區", "location": "新竹市光復路二段 101 號", "pain": "全校網路與校務系統的伺服器與儲存；可以跟交大並列成「新竹兩校」做跨機房驗證", "ask": "先只約痛點訪談", "first_step": "透過清大老師牽線；沒有就寄 service@cc.nthu.edu.tw 請轉網路系統組", "who": "博士班隊員（找清大老師牽線）", "contact": "03-5731000（分機 31000）；service@cc.nthu.edu.tw", "check": "已查證", "sources": ["https://ccc.site.nthu.edu.tw/p/412-1285-1210.php?Lang=zh-tw"]}, {"id": "C2", "tier": "C", "name": "中華電信 IDC 竹北機房／中華電信—陽明交大創新研究中心", "category": "電信機房", "area": "竹北", "location": "新竹縣竹北市光明五街 136 號", "pain": "200 櫃機房；原始資料外流機率低，但研究中心是交大合作管道", "ask": "請研究院 AIOps／雲端團隊當業師，或提供去識別化換碟統計樣本", "first_step": "博士班隊員問電信所老師有沒有人參與 CHT-NYCU 計畫；不要打 IDC 客服推案", "who": "博士班隊員＋電信所老師", "contact": "（走老師管道）", "check": "已查證", "sources": ["https://www.idc.hinet.net/Environment_Location_Hsinchu_Zhubei.html", "https://chtnycu.web.nycu.edu.tw/"]}, {"id": "C3", "tier": "C", "name": "正源科技（裕隆集團）竹北 IDC", "category": "IDC／主機代管", "area": "竹北", "location": "新竹縣竹北市台元街 30 號 4 樓之 1（公司登記）", "pain": "在地主機代管機房", "ask": "C 級訪談；B 級換碟統計", "first_step": "先確認總機（官網這次連不上）再寄提案", "who": "產業顧問引薦最好", "contact": "03-600-5999（搜尋摘要，未直接驗證）", "check": "部分查證", "sources": ["https://www.findcompany.com.tw/%E6%AD%A3%E6%BA%90%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8", "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000091177_BL707H2HRC6WYJR8REFSR"]}, {"id": "C4", "tier": "C", "name": "新竹市政府「智慧城市場域驗證服務合作計畫」", "category": "公部門媒合管道", "area": "新竹市", "location": "新竹市中正路 120 號", "pain": "市府開放場域與難題給產學研做概念驗證，大專校院可提案；機房、監視系統的儲存健康可包裝成智慧政府提案", "ask": "場域驗證機會或支持函（時程較長）", "first_step": "下載計畫辦法，打總機轉分機 337 詢問學生競賽能否適用", "who": "職訓班同學（新竹市職訓學員身分）", "contact": "03-5216121 轉 337", "check": "已查證", "sources": ["https://icity.hccg.gov.tw/cityland/app/artwebsite?module=artwebsite&id=11&serno=null"]}, {"id": "C5", "tier": "C", "name": "新竹縣電腦商業同業公會", "category": "公會管道", "area": "竹北", "location": "新竹縣竹北市光明九路 8-10 號 8 樓", "pain": "會員是新竹縣的電腦公司與周邊廠商；可請秘書處把一頁提案轉進會員群組", "ask": "轉發徵求＋會員名冊中做 NAS／監控／伺服器維護的公司", "first_step": "平日打 (03) 583-7275 找秘書處，同時寄 service@hcca.org.tw（官網最新消息停在 2024-08，活躍度待確認）", "who": "職訓班同學", "contact": "(03) 583-7275；service@hcca.org.tw", "check": "已查證", "sources": ["https://www.hcca.org.tw/", "https://www.hcca.org.tw/membership-roster/"]}, {"id": "C6", "tier": "C", "name": "PTT Storage_Zone 板", "category": "線上社群", "area": "線上", "location": "PTT", "pain": "玩家與小型 NAS 使用者聚集，求助文常見；資料量小，只能當展示與補充驗證", "ask": "徵求匿名上傳 smartctl JSON，回送一份 AI 健康評估", "first_step": "先讀板規確認能不能發徵求文，再用隊員自己的帳號發文；提醒遮掉序號", "who": "職訓班同學", "contact": "https://www.ptt.cc/bbs/Storage_Zone/", "check": "已查證", "sources": ["https://www.ptt.cc/bbs/Storage_Zone/index.html"]}, {"id": "C7", "tier": "C", "name": "承星資訊科技", "category": "機房與監視器維運（政府共同供應契約立約商）", "area": "桃園（服務新竹）", "location": "桃園市八德區瑞發街 107 巷 9 弄 5 號", "pain": "做機房管理、監視器建置維護、IT 外包，服務範圍含新竹市、竹北、竹東", "ask": "問換碟工單統計，請他們介紹一家新竹客戶試裝收集腳本", "first_step": "加 LINE 官方帳號 @fos5396p 或打 03-368-8203", "who": "職訓班同學", "contact": "03-368-8203；LINE @fos5396p", "check": "已查證", "sources": ["https://cxit.com.tw/services/network/hsinchu/"]}, {"id": "C8", "tier": "C", "name": "睿卡科技／凌威科技（台北資料救援，服務竹科）", "category": "資料救援", "area": "台北（新竹快遞收件）", "location": "睿卡：台北市松山區；凌威：台北市內湖區", "pain": "宣稱服務很多竹科企業的 RAID／NAS 救援", "ask": "只要彙總的故障型態比例或一段業界觀點，讓說明書引用", "first_step": "寄 service@r-data.com.tw、engineer@linwei.com.tw", "who": "職訓班同學", "contact": "睿卡 02-27199059；凌威 02-2799-3377", "check": "已查證", "sources": ["https://www.r-data.com.tw/customer-detail/392/"]}, {"id": "C9", "tier": "C", "name": "新竹市錄影監視系統的維護得標廠商", "category": "監視系統維護（政府標案）", "area": "新竹市", "location": "到政府電子採購網查決標公告後才知道", "pain": "新竹市規定監視錄影至少保存 30 日、警察局可以隨時抽查（設置管理維護要點第 13、14 條）；錄影主機的碟壞了就是違規", "ask": "換碟紀錄或 NVR 故障統計；請他們挑幾個場域現場讀 SMART", "first_step": "不要跟警察局要資料。到政府電子採購網搜尋「新竹市 錄影監視系統 維護」的決標公告，找出得標廠商再聯絡；法規條文同時拿去放進說明書", "who": "職訓班同學", "contact": "（查到得標廠商後再補）", "check": "已查證", "sources": ["https://law.hccg.gov.tw/LawContent.aspx?id=FL055111", "https://data.gov.tw/dataset/67490"]}];
+const PUBLIC = true;
+const STATUSES = ["未聯絡", "已聯絡", "已回覆", "約到訪談", "同意給資料", "婉拒"];
+const STATUS_VAR = { "未聯絡": "--s-none", "已聯絡": "--s-sent", "已回覆": "--s-reply", "約到訪談": "--s-meet", "同意給資料": "--s-yes", "婉拒": "--s-no" };
+const TIER_INFO = { A: ["A 級", "熟人、校內，或在地小公司決策最快：9/30 第一波"], B: ["B 級", "要引薦或多一道流程"], C: ["C 級", "長線，只約訪談或背書"] };
+const GO_DATE = new Date("2026-10-16T00:00:00+08:00");
+
+const state = {};         // id -> {status, owner, note, updatedAt}
+let db = null, readOnly = false;
+const pending = {};       // id -> promise chain, one write at a time per doc
+let tierFilter = "all";
+
+function el(tag, attrs = {}, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") n.className = v;
+    else if (k === "text") n.textContent = v;
+    else n.setAttribute(k, v);
+  }
+  for (const k of kids) if (k != null) n.append(k);
+  return n;
+}
+
+function fmtStamp(iso) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (isNaN(d)) return "";
+  const t = d.toLocaleString("zh-TW", { timeZone: "Asia/Taipei", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false });
+  return "最後更新 " + t;
+}
+
+function buildRow(t) {
+  const row = el("article", { class: "row", id: "row-" + t.id, "data-status": "未聯絡", "data-tier": t.tier });
+  const body = el("div", { class: "body" });
+  const left = el("div");
+  const meta = el("div", { class: "meta" },
+    el("span", { class: "id", text: t.id }),
+    el("span", { text: t.category }),
+    el("span", { text: "· " + t.area }),
+    el("span", { class: "tag" + (t.check === "已查證" ? "" : " partial"), text: t.check }),
+    null);
+  left.append(meta, el("div", { class: "name", text: t.name }));
+  const first = el("p", { class: "first" }, el("b", { text: "第一步　" }), t.first_step);
+  left.append(first);
+
+  const ctrl = el("div", { class: "ctrl" });
+  const sel = el("select", { id: "st-" + t.id, "aria-label": t.name + " 的狀態" });
+  for (const s of STATUSES) sel.append(el("option", { value: s, text: s }));
+  const owner = el("input", { id: "ow-" + t.id, type: "text", placeholder: "負責人", "aria-label": t.name + " 的負責人", maxlength: "20" });
+  const note = el("textarea", { id: "nt-" + t.id, placeholder: "備註：幾月幾日、做了什麼、下一步", "aria-label": t.name + " 的備註", maxlength: "400" });
+  const stamp = el("div", { class: "stamp", id: "sp-" + t.id });
+  ctrl.append(el("label", { for: "st-" + t.id, text: "狀態 · 建議由 " + t.who }), el("div", { class: "pair" }, sel, owner), note, stamp);
+  sel.addEventListener("change", () => save(t.id));
+  owner.addEventListener("change", () => save(t.id));
+  note.addEventListener("change", () => save(t.id));
+
+  const det = el("details");
+  det.append(el("summary", { text: "為什麼他們痛、要什麼、聯絡管道" }));
+  const dl = el("dl", { class: "detail-grid" });
+  const add = (k, v) => dl.append(el("dt", { text: k }), v instanceof Node ? v : el("dd", { text: v }));
+  add("痛點", t.pain);
+  add("我們要什麼", t.ask);
+  add("地址", t.location);
+  add("公開聯絡管道", t.contact);
+  const src = el("dd");
+  if (t.sources.length) for (const u of t.sources) src.append(el("a", { class: "src", href: u, target: "_blank", rel: "noopener", text: decodeURIComponentSafe(u) }));
+  else src.textContent = "（無公開來源）";
+  add("來源", src);
+  det.append(dl);
+
+  if (PUBLIC) { left.append(el("p", { class: "who", text: "建議由 " + t.who + " 聯絡" })); body.append(left, det); }
+  else body.append(left, ctrl, det);
+  row.append(el("div", { class: "stripe" }), body);
+  return row;
+}
+
+function decodeURIComponentSafe(u) { try { return decodeURI(u); } catch { return u; } }
+
+function renderList() {
+  const host = document.getElementById("tiers");
+  host.replaceChildren();
+  for (const tier of ["A", "B", "C"]) {
+    const items = TARGETS.filter(t => t.tier === tier);
+    const group = el("div", { class: "tier-group", "data-tier": tier });
+    group.append(el("div", { class: "tier-head" }, el("h3", { text: TIER_INFO[tier][0] + "（" + items.length + "）" }), el("span", { text: TIER_INFO[tier][1] })));
+    const list = el("div", { class: "list" });
+    for (const t of items) list.append(buildRow(t));
+    group.append(list);
+    host.append(group);
+  }
+  applyFilters();
+}
+
+function applyFilters() {
+  const hideDone = document.getElementById("hideDone").checked;
+  for (const g of document.querySelectorAll(".tier-group")) g.hidden = !(tierFilter === "all" || g.dataset.tier === tierFilter);
+  for (const r of document.querySelectorAll(".row")) r.hidden = hideDone && r.dataset.status === "婉拒";
+}
+
+function paintRow(id) {
+  const s = state[id] || {};
+  const status = STATUSES.includes(s.status) ? s.status : "未聯絡";
+  const row = document.getElementById("row-" + id);
+  if (!row) return;
+  row.dataset.status = status;
+  if (PUBLIC) return;
+  const sel = document.getElementById("st-" + id), ow = document.getElementById("ow-" + id), nt = document.getElementById("nt-" + id);
+  if (document.activeElement !== sel) sel.value = status;
+  if (document.activeElement !== ow) ow.value = typeof s.owner === "string" ? s.owner : "";
+  if (document.activeElement !== nt) nt.value = typeof s.note === "string" ? s.note : "";
+  document.getElementById("sp-" + id).textContent = fmtStamp(s.updatedAt);
+}
+
+function paintPublicSummary() {
+  const box = document.getElementById("counts");
+  box.replaceChildren(el("div", { class: "public-note" },
+    el("strong", { text: "這是公開的唯讀版" }),
+    el("p", { text: "聯絡進度請在 LINE 群組回報，或用 claude.ai 上的即時版更新（需要育典用 email 邀請）。名單上的聯絡管道都是各單位官網公開的資訊。" })));
+  document.getElementById("light").hidden = true;
+}
+
+function paintSummary() {
+  if (PUBLIC) { paintPublicSummary(); return; }
+  const counts = Object.fromEntries(STATUSES.map(s => [s, 0]));
+  for (const t of TARGETS) {
+    const st = state[t.id] && STATUSES.includes(state[t.id].status) ? state[t.id].status : "未聯絡";
+    counts[st]++;
+  }
+  const box = document.getElementById("counts");
+  const sync = document.getElementById("sync");
+  box.replaceChildren();
+  for (const s of STATUSES) {
+    box.append(el("div", { class: "count" },
+      el("div", { class: "n", text: String(counts[s]) }),
+      el("div", { class: "l" }, (() => { const d = el("span", { class: "dot" }); d.style.background = "var(" + STATUS_VAR[s] + ")"; return d; })(), s)));
+  }
+  box.append(sync);
+  const light = document.getElementById("light");
+  if (counts["同意給資料"] >= 1) { light.className = "light go"; light.textContent = counts["同意給資料"] + " 家同意給資料：GO"; }
+  else { light.className = "light wait"; light.textContent = "還沒有單位同意給資料"; }
+  applyFilters();
+}
+
+function paintDays() {
+  const now = new Date();
+  const ms = GO_DATE - now;
+  const days = Math.ceil(ms / 86400000);
+  const box = document.getElementById("days");
+  box.firstChild.nodeValue = days > 0 ? String(days) : (days === 0 ? "今天" : "已過");
+  box.querySelector("small").textContent = days > 0 ? "天" : "";
+}
+
+function setReadOnly(msg) {
+  readOnly = true;
+  for (const c of document.querySelectorAll(".ctrl")) {
+    c.setAttribute("aria-disabled", "true");
+    for (const i of c.querySelectorAll("select, input, textarea")) i.disabled = true;
+  }
+  document.getElementById("sync").textContent = msg;
+}
+
+function save(id) {
+  if (!db || readOnly) return;
+  const body = {
+    status: document.getElementById("st-" + id).value,
+    owner: document.getElementById("ow-" + id).value.trim().slice(0, 20),
+    note: document.getElementById("nt-" + id).value.trim().slice(0, 400),
+    updatedAt: new Date().toISOString(),
+  };
+  const prev = state[id] || {};
+  if (prev.status === body.status && (prev.owner || "") === body.owner && (prev.note || "") === body.note) return;
+  state[id] = body;
+  paintRow(id); paintSummary();
+  const sync = document.getElementById("sync");
+  sync.textContent = "儲存中…";
+  pending[id] = (pending[id] || Promise.resolve()).then(() => db.doc("outreach/" + id).set(body)).then(
+    () => { sync.textContent = "已儲存，全隊同步中。"; },
+    (e) => {
+      if (e && (e.code === "invalid_argument" || e.code === "not_granted")) setReadOnly("你目前只能檢視，不能改狀態。請育典在 Share 裡給你「可編輯」權限。");
+      else sync.textContent = "這次沒存到（" + (e && e.code || "未知錯誤") + "），請稍後再改一次。";
+    });
+}
+
+renderList();
+paintSummary();
+paintDays();
+if (!PUBLIC) document.getElementById("sync").textContent = "狀態讀取中…";
+
+document.getElementById("tierChips").addEventListener("click", (ev) => {
+  const b = ev.target.closest(".chip");
+  if (!b) return;
+  tierFilter = b.dataset.tier;
+  for (const c of document.querySelectorAll("#tierChips .chip")) c.setAttribute("aria-pressed", String(c === b));
+  applyFilters();
+});
+document.getElementById("hideDone").addEventListener("change", applyFilters);
+try { if (localStorage.getItem("hideDone") === "1") { document.getElementById("hideDone").checked = true; applyFilters(); } } catch {}
+document.getElementById("hideDone").addEventListener("change", (e) => { try { localStorage.setItem("hideDone", e.target.checked ? "1" : "0"); } catch {} });
+
+if (!PUBLIC) (async () => {
+  try { db = await (window.claude && window.claude.use ? window.claude.use("db") : null); } catch { db = null; }
+  if (!db) { setReadOnly("狀態同步只在 claude.ai 上開啟這頁時才能用；這裡顯示的是預設狀態。"); return; }
+  db.collection("outreach").onSnapshot((snap) => {
+    for (const d of snap.docs) {
+      const v = d.data();
+      if (v && typeof v === "object") state[d.id] = v;
+    }
+    for (const t of TARGETS) paintRow(t.id);
+    paintSummary();
+    const sync = document.getElementById("sync");
+    if (!readOnly && sync.textContent !== "儲存中…") sync.textContent = snap.metadata.fromCache ? "同步中…" : "已同步。改狀態或備註會自動儲存，全隊即時看到。";
+  }, (e) => {
+    if (e && e.code === "revoked") setReadOnly("這頁的存取權已變更，目前只能檢視。");
+    else document.getElementById("sync").textContent = "暫時連不上同步（" + (e && e.code || "未知") + "），重新整理頁面試試。";
+  });
+})();
+</script>
+
+</body>
+</html>
