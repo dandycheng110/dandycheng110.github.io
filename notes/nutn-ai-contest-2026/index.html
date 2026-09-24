@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="2026 全國 AI 專題創意競賽的參賽資格、題目、時程與分工評估。">
+<title>南大 AI 專題賽評估</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --ground:#F3F6F5; --surface:#FFFFFF; --sunk:#E9EFED;
+  --ink:#15201E; --ink-2:#3D4B48; --muted:#63726E; --line:#D5DEDB;
+  --accent:#0C6670; --accent-ink:#FFFFFF; --accent-soft:#DCEEEF;
+  --ok:#2B7A4B; --ok-soft:#E1F1E7;
+  --warn:#9A6414; --warn-soft:#F8EDD9;
+  --crit:#B02A20; --crit-soft:#F8E1DE;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0E1513; --surface:#151F1D; --sunk:#1B2725;
+    --ink:#E3ECE9; --ink-2:#C0CCC8; --muted:#93A39E; --line:#2A3835;
+    --accent:#5BC0C9; --accent-ink:#0B1A1C; --accent-soft:#163A3D;
+    --ok:#6CC592; --ok-soft:#173226;
+    --warn:#E3AA52; --warn-soft:#382A12;
+    --crit:#F0877C; --crit-soft:#3C1B18;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0E1513; --surface:#151F1D; --sunk:#1B2725;
+  --ink:#E3ECE9; --ink-2:#C0CCC8; --muted:#93A39E; --line:#2A3835;
+  --accent:#5BC0C9; --accent-ink:#0B1A1C; --accent-soft:#163A3D;
+  --ok:#6CC592; --ok-soft:#173226;
+  --warn:#E3AA52; --warn-soft:#382A12;
+  --crit:#F0877C; --crit-soft:#3C1B18;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:20px;padding-block:40px 80px}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+h1,h2,h3{font-family:var(--serif);text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,5vw,2.9rem);line-height:1.2;font-weight:900;letter-spacing:.01em}
+h2{font-size:1.55rem;line-height:1.35;font-weight:900}
+h3{font-size:1.12rem;line-height:1.45;font-weight:600}
+p{margin:0}
+.num,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+
+/* header */
+header.top{display:grid;gap:18px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.lede{font-size:1.1rem;color:var(--ink-2);max-width:62ch}
+.lede b{color:var(--ink)}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:6px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:2px}
+.tile .k{font-size:.8rem;color:var(--muted)}
+.tile .v{font-family:var(--mono);font-size:1.6rem;font-weight:600;line-height:1.2}
+.tile .s{font-size:.82rem;color:var(--ink-2)}
+.tile.hot{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.tile.hot .k,.tile.hot .s{color:var(--accent-ink);opacity:.85}
+@media (max-width:720px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.9rem;padding-block:16px;border-bottom:1px solid var(--line)}
+nav.toc a{text-decoration:none;color:var(--ink-2)}
+nav.toc a:hover{color:var(--accent)}
+
+section{padding-top:48px;display:grid;gap:18px}
+.sec-head{display:grid;gap:6px}
+.sec-head p{color:var(--ink-2);max-width:66ch}
+
+/* verdict */
+.verdict{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:720px){.verdict{grid-template-columns:1fr}}
+.vcol{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px;display:grid;gap:10px;align-content:start}
+.vcol ul{margin:0;padding-left:1.2em;display:grid;gap:6px}
+.vcol h3{display:flex;gap:8px;align-items:center}
+
+/* chips */
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:.76rem;font-weight:700;line-height:1;padding:5px 8px;border-radius:999px;white-space:nowrap;font-family:var(--sans)}
+.chip.crit{background:var(--crit-soft);color:var(--crit)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.info{background:var(--accent-soft);color:var(--accent)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
+
+/* issues list */
+.issues{display:grid;gap:0;border-top:1px solid var(--line)}
+.issue{display:grid;grid-template-columns:92px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.issue .body{display:grid;gap:6px}
+.issue .body p{color:var(--ink-2)}
+.issue .src{font-size:.82rem;color:var(--muted)}
+@media (max-width:560px){.issue{grid-template-columns:1fr;gap:8px}}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.92rem;min-width:620px}
+th,td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+thead th{background:var(--sunk);font-weight:700;font-size:.84rem;color:var(--ink-2);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.c{text-align:center}
+td .sub{display:block;font-size:.8rem;color:var(--muted);margin-top:2px}
+tr.sum td{background:var(--accent-soft);font-weight:700}
+.score{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:center}
+.bar{display:inline-block;height:6px;border-radius:3px;background:var(--accent);vertical-align:middle;margin-right:6px}
+
+/* stats row */
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:720px){.facts{grid-template-columns:1fr}}
+.fact{border-top:2px solid var(--ink);padding-top:10px;display:grid;gap:4px}
+.fact .v{font-family:var(--mono);font-size:1.35rem;font-weight:600}
+.fact p{font-size:.9rem;color:var(--ink-2)}
+
+/* prize ladder */
+.ladder{display:grid;gap:8px}
+.rung{display:grid;grid-template-columns:5.5em 1fr 7.5em;align-items:center;gap:10px;font-size:.92rem}
+.rung .track{height:14px;background:var(--sunk);border-radius:3px;overflow:hidden}
+.rung .fill{height:100%;background:var(--accent)}
+.rung .amt{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+
+/* plans */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:720px){.plans{grid-template-columns:1fr}}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:12px;align-content:start}
+.plan.primary{border:2px solid var(--accent)}
+.plan .tag{justify-self:start}
+.plan dl{margin:0;display:grid;grid-template-columns:4.6em 1fr;gap:6px 12px;font-size:.92rem}
+.plan dt{color:var(--muted);font-weight:500}
+.plan dd{margin:0;color:var(--ink-2)}
+.flowline{font-family:var(--mono);font-size:.8rem;background:var(--sunk);border-radius:8px;padding:10px 12px;color:var(--ink-2);line-height:1.8;overflow-x:auto;white-space:nowrap}
+
+/* gates */
+.gates{display:grid;gap:10px;counter-reset:g}
+.gate{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.gate .d{font-family:var(--mono);font-weight:600;font-size:.9rem;background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.gate p{color:var(--ink-2);font-size:.94rem}
+
+/* timeline */
+.tl{display:grid;gap:0;border-left:2px solid var(--line);margin-left:6px}
+.tl-row{display:grid;grid-template-columns:7.2em 1fr;gap:14px;padding:9px 0 9px 18px;position:relative}
+.tl-row::before{content:"";position:absolute;left:-6px;top:17px;width:10px;height:10px;border-radius:50%;background:var(--surface);border:2px solid var(--muted)}
+.tl-row.key::before{background:var(--accent);border-color:var(--accent)}
+.tl-row.hard::before{background:var(--crit);border-color:var(--crit)}
+.tl-row .when{font-family:var(--mono);font-size:.88rem;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.tl-row .what{font-size:.94rem}
+.tl-row .what small{display:block;color:var(--muted);font-size:.82rem}
+@media (max-width:480px){.tl-row{grid-template-columns:1fr;gap:2px}}
+
+/* ban list */
+.bans{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:720px){.bans{grid-template-columns:1fr}}
+.banbox{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:grid;gap:10px;align-content:start}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:.82rem;padding:4px 9px;border-radius:6px;background:var(--sunk);color:var(--ink-2)}
+.pill.no{background:var(--crit-soft);color:var(--crit)}
+.pill.yes{background:var(--ok-soft);color:var(--ok)}
+.traps{margin:0;padding-left:1.2em;display:grid;gap:6px;font-size:.92rem;color:var(--ink-2)}
+
+/* email */
+.mail{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.mail-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;background:var(--sunk);flex-wrap:wrap}
+.mail-bar .meta{font-size:.85rem;color:var(--ink-2)}
+.mail-bar .meta span{font-family:var(--mono);user-select:all}
+button.copy{font:inherit;font-size:.85rem;font-weight:700;border:0;border-radius:8px;padding:7px 14px;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+button.copy:hover{filter:brightness(1.08)}
+#mailtext{margin:0;padding:16px 18px;white-space:pre-wrap;font-family:var(--sans);font-size:.9rem;line-height:1.8;color:var(--ink-2);max-height:460px;overflow:auto}
+
+.note{font-size:.86rem;color:var(--muted)}
+.callout{background:var(--warn-soft);color:var(--ink);border-radius:10px;padding:14px 16px;font-size:.94rem}
+.callout b{color:var(--warn)}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:.84rem;color:var(--muted);display:grid;gap:8px}
+footer ul{margin:0;padding-left:1.2em}
+@media (prefers-reduced-motion:no-preference){a,button{transition:color .15s,filter .15s}}
+</style>
+<style>html{color-scheme:light}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">2026 全國 AI 專題創意競賽 · 賽前評估 · 2026-09-24 台北時間</div>
+  <h1>值得報，但只報一類</h1>
+  <p class="lede">建議 <b>4 人一隊報「AI 職能培力組」</b>，題目換成能展示微電子班所學的 <b>AOI 瑕疵偵測</b>。銘祥企業命題<b>先放一邊</b>，要同時滿足三個條件才加報：主辦書面同意、10/16 前拿到資料、有指導老師。另外，這份簡報第 18 頁的「兩類一起報」在報名表上<b>送不出去</b>。</p>
+  <div class="tiles">
+    <div class="tile hot"><span class="k">距報名截止（＝交件日）</span><span class="v" id="daysLeft">68 天</span><span class="s">12/1（二）23:59:59</span></div>
+    <div class="tile"><span class="k">建議內部定稿</span><span class="v">11/24</span><span class="s">11/28 正式送出</span></div>
+    <div class="tile"><span class="k">初賽</span><span class="v">12/11</span><span class="s">週五，線上展示</span></div>
+    <div class="tile"><span class="k">決賽＋頒獎</span><span class="v">12/19</span><span class="s">週六，臺南大學中山館</span></div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="目錄">
+  <a href="#blockers">四個地雷</a><a href="#eligibility">資格矩陣</a><a href="#worth">值不值得</a><a href="#topics">題目評估</a><a href="#route">建議路線</a><a href="#timeline">倒排時程</a><a href="#roles">分工</a><a href="#deck">簡報修改</a><a href="#models">禁用模型</a><a href="#mail">寄主辦的信</a>
+</nav>
+
+<section id="blockers">
+  <div class="sec-head">
+    <span class="eyebrow">先處理</span>
+    <h2>四個會讓報名直接失敗的地雷</h2>
+    <p>前三個都是從官方報名表、簡章、文件範本逐字比對出來的，第四個要寫信問才能確定。</p>
+  </div>
+  <div class="issues">
+    <div class="issue">
+      <div><span class="chip crit"><span class="dot"></span>阻斷</span></div>
+      <div class="body">
+        <h3>報名表依「身分」分流，一隊沒辦法同時報企業命題和 AI 職能培力組</h3>
+        <p>選「勞動部職訓學員」只看得到 AI 職能培力組；選「大專校院」可以報企業命題，但看不到 AI 職能培力組。一份表單只能選一種身分，而且規定每人只能加入一隊。就算真的能報兩類，兩件作品的「主題、內容及成果須明顯不同」，否則主辦可以取消資格。簡報 4 個候選題全都是預測維護或時序預測，同質性太高。</p>
+        <p class="src">來源：官方報名 Google 表單結構（2026-09-24 讀取）、主頁「競賽資格」</p>
+      </div>
+    </div>
+    <div class="issue">
+      <div><span class="chip crit"><span class="dot"></span>阻斷</span></div>
+      <div class="body">
+        <h3>指導老師是必填，簡報完全沒提</h3>
+        <p>報名表的「第一位指導老師姓名」和「任教學校科系」都是必填，但作品說明書範本又寫「AI 職能培力組可免填」，兩邊互相矛盾。最快的解法是請李宗唐的博班指導教授，或育典的碩論指導教授（黃俊穎老師）掛名。老師不必出席決賽，但得獎時姓名會公開，要先徵得同意。</p>
+        <p class="src">來源：報名表、作品說明書 docx、主頁「需有 1 至 2 名學校指導老師」</p>
+      </div>
+    </div>
+    <div class="issue">
+      <div><span class="chip crit"><span class="dot"></span>阻斷</span></div>
+      <div class="body">
+        <h3>報名當天就要交完整作品</h3>
+        <p>報名時就要上傳作品說明書 PDF（6 章＋摘要 250–300 字）和影片連結，所以簡報第 15 頁「10 月中完成報名」做不到，12/1 其實就是最終交件日。主辦要 2–3 個工作天檢核，有缺件才會寄補件連結，所以最晚 11/28 送出。</p>
+        <p class="src">來源：主頁「報名需準備」、報名表上傳欄位</p>
+      </div>
+    </div>
+    <div class="issue">
+      <div><span class="chip warn"><span class="dot"></span>待確認</span></div>
+      <div class="body">
+        <h3>「微電子與 AI 應用班」算不算「勞動部相關職訓」？</h3>
+        <p>這個班的全名是「115 年度新竹市政府職前訓練計畫」，由陽明交大承辦、就業安定基金補助。簡章寫的是「參加勞動部（115 年度）AI 相關培訓課程」。2025 年 7 支得獎隊全部來自勞動部分署或委辦單位，沒有地方政府辦的班。<b>如果主辦說不算，賀康瑋、黃文彥就沒有任何組別可以報</b>，所以這題要第一個問。</p>
+        <p class="src">來源：陽明交大雷射中心職訓簡章、2025 決賽結果 PDF</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="eligibility">
+  <div class="sec-head">
+    <span class="eyebrow">誰能報什麼</span>
+    <h2>資格矩陣</h2>
+    <p>依主頁、FAQ 和報名表判斷。賀康瑋、黃文彥假設不是在學學生，如果其實有學籍，結論會不一樣。</p>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>成員</th><th>身分</th><th>AI 職能培力組</th><th>企業命題（銘祥）</th><th>資電／跨領域組</th></tr></thead>
+      <tbody>
+        <tr><td><b>李宗唐</b></td><td>交大博一＋微電子與 AI 應用班結訓</td><td><span class="chip ok">可以</span><span class="sub">全隊的資格錨點，要附結訓證書</span></td><td><span class="chip ok">可以</span><span class="sub">大專在學生</span></td><td><span class="chip warn">看系所</span></td></tr>
+        <tr><td><b>成育典</b></td><td>交大資訊學院國防資安管理碩士在職專班</td><td><span class="chip ok">可以</span><span class="sub">規則只要求「至少一名」是學員</span></td><td><span class="chip ok">可以</span><span class="sub">2025 年有在職專班得獎前例</span></td><td><span class="chip warn">待主辦認定</span><span class="sub">屬「其他相關」科系</span></td></tr>
+        <tr><td><b>賀康瑋</b></td><td>同班結訓</td><td><span class="chip ok">可以</span></td><td><span class="chip crit">很可能不行</span><span class="sub">規則沒明文禁止，但報名表擋住</span></td><td><span class="chip crit">不行</span></td></tr>
+        <tr><td><b>黃文彥</b></td><td>同班結訓</td><td><span class="chip ok">可以</span></td><td><span class="chip crit">很可能不行</span></td><td><span class="chip crit">不行</span></td></tr>
+        <tr class="sum"><td colspan="2">4 人一隊的結論</td><td>✓ 唯一走得通的路</td><td>✗ 除非主辦書面同意</td><td>✗</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="worth">
+  <div class="sec-head">
+    <span class="eyebrow">比賽本身</span>
+    <h2>值不值得花 9 週？</h2>
+    <p>這是南大理工學院辦的「校辦全國賽」，今年第 4 屆，規模中等、得獎率高、業界知名度低。把它當成<b>低成本的作品集和隊友人脈</b>就值得；如果期待的是履歷大獎，就不值得。</p>
+  </div>
+  <div class="facts">
+    <div class="fact"><span class="v">15 → 7</span><p>2025 年 AI 職能培力組 15 隊進決賽，7 隊得獎（47%）。金、銀牌都被緯育 TibaMe 的班拿走。</p></div>
+    <div class="fact"><span class="v">≈ 30%</span><p>2025 年公布的配分中，「職能培訓成果」約占決賽總分三成，比技術深度還重。2026 年沒公布配分。</p></div>
+    <div class="fact"><span class="v">第三梯隊</span><p>2025 全賽 112 隊；官方花絮影片只有 86 次觀看。等級低於 AI CUP、智慧創新大賞、金盾獎。</p></div>
+  </div>
+  <div class="verdict">
+    <div class="vcol">
+      <h3>AI 職能培力組獎金 <span class="chip info">均含稅</span></h3>
+      <div class="ladder" aria-label="AI 職能培力組獎金">
+        <div class="rung"><span>金牌 ×1</span><span class="track"><span class="fill" style="width:100%;display:block"></span></span><span class="amt">NT$ 20,000</span></div>
+        <div class="rung"><span>銀牌 ×1</span><span class="track"><span class="fill" style="width:50%;display:block"></span></span><span class="amt">NT$ 10,000</span></div>
+        <div class="rung"><span>銅牌 ×2</span><span class="track"><span class="fill" style="width:25%;display:block"></span></span><span class="amt">NT$ 5,000</span></div>
+        <div class="rung"><span>佳作 ×3</span><span class="track"><span class="fill" style="width:10%;display:block"></span></span><span class="amt">NT$ 2,000</span></div>
+      </div>
+      <p class="note">粗估整隊的期望獎金約 3,000 元，所以真正的收穫是作品和故事，不是錢。</p>
+    </div>
+    <div class="vcol">
+      <h3>銘祥企業命題 <span class="chip warn">沒有現金</span></h3>
+      <ul>
+        <li>獎勵是實習或工讀名額「2~3 位以上」，時薪 210 元以上或月薪 38,000 以上，<b>不保證 4 人都有</b>。</li>
+        <li>銘祥約 50 人，22 個職缺都在台南仁德，<b>沒有任何 AI 或資料職缺</b>；月薪 38,000 就是他們入門職缺的起薪。</li>
+        <li>命題頁寫資料「由銘祥企業提供」，但何時給、怎麼給都沒公告。</li>
+        <li>對住新竹的隊員來說，價值主要是作品集和南部 AIoT 廠商的人脈。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="topics">
+  <div class="sec-head">
+    <span class="eyebrow">題目</span>
+    <h2>4 個 Kaggle 候選題都不建議當主題</h2>
+    <p>主要有三個問題。第一，都不是銘祥的場域：銘祥做的是水質、溶氧、養殖、冷鏈、空品。第二，其中兩題是教科書等級的熱門練習題。第三，都答不出命題的第三問「現在應該採取什麼行動」。評分 1–5 分，5 分最好。</p>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>候選題</th><th>契合銘祥</th><th>新穎度</th><th>三問都答得出</th><th>9 週做得完</th><th>職能培力契合</th><th>一句話</th></tr></thead>
+      <tbody>
+        <tr><td>S11 Backblaze 硬碟</td><td class="score">1</td><td class="score">3</td><td class="score">3</td><td class="score">3</td><td class="score">2</td><td>銘祥沒有硬碟產品；Kaggle 鏡像約 97 GB，故障樣本極少</td></tr>
+        <tr><td>S12 CWRU 軸承</td><td class="score">2</td><td class="score">1</td><td class="score">2</td><td class="score">4</td><td class="score">3</td><td><span class="chip crit">事實錯誤</span> 只有振動訊號，沒有電流和溫度；benchmark 論文被引用 2,709 次</td></tr>
+        <tr><td>S13 NASA C-MAPSS</td><td class="score">1</td><td class="score">1</td><td class="score">4</td><td class="score">5</td><td class="score">2</td><td>模擬的航空引擎資料，最熱門的 RUL 練習題（被引用 1,730 次）</td></tr>
+        <tr><td>S14 UCI 家庭用電</td><td class="score">2</td><td class="score">2</td><td class="score">4</td><td class="score">4</td><td class="score">2</td><td>只有法國一戶人家 2006–2010 年的資料，推論不到發電廠調度</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="plans">
+    <article class="plan primary">
+      <span class="chip ok tag">主推 · AI 職能培力組</span>
+      <h3>方案 C「微光判片師」：小樣本 AOI 瑕疵偵測＋製程根因報告</h3>
+      <dl>
+        <dt>為什麼</dt><dd>每個模組都對得到微電子班的一門課：半導體設備（AOI）、電子實驗、光學實驗、Python 與數據分析（CNN）、AI 應用實作，FPGA 可以當加分。正好打中占比最重的「職能培訓成果」。</dd>
+        <dt>資料</dt><dd>VisA PCB（Amazon，CC BY 4.0）、WM-811K 晶圓圖（授權未寫明，引用論文、只做非商用），再加上<b>自己焊的電路板拍照做成資料集</b>，這是最有說服力的學習歷程證據。</dd>
+        <dt>模型</dt><dd>anomalib（Intel）的 PatchCore／PaDiM，只用正常樣本訓練，輸出熱力圖；另訓練一個晶圓圖分類 CNN。LLM 只依據「知識卡」寫判片報告。</dd>
+        <dt>Demo</dt><dd>在現場拔掉一顆電阻或做出一個錫橋，畫面立刻跳出紅色熱力圖和判片報告。</dd>
+        <dt>差異化</dt><dd>2025 年這組的得獎作品多半是消費型或生成式 AI 應用，一個扎實的工業視覺作品比較容易被記住。</dd>
+      </dl>
+      <div class="flowline">取像治具 → 對位／打光正規化 → PatchCore 熱力圖 ＋ 晶圓圖分類 → 知識卡根因報告 → 人工覆判（OK／NG／新瑕疵）→ 回饋學習</div>
+    </article>
+    <article class="plan">
+      <span class="chip warn tag">條件式 · 企業命題（銘祥）</span>
+      <h3>方案 A「溶氧守夜人」：養殖池夜間缺氧預測＋水車決策引擎</h3>
+      <dl>
+        <dt>為什麼</dt><dd>直接對上銘祥的養殖產品線（智水星、DO4/8/16 水車控制器、電流偵測），也對上命題頁的決策閉環和安全原則（高風險要人工確認、系統失效走 Fallback）。</dd>
+        <dt>賣點</dt><dd>分辨「水真的缺氧」和「探頭髒了」，也就是感測器可信度。這對應銘祥自己的校正專利 TW I643071，以及他們說的「誤警不斷」痛點。</dd>
+        <dt>輸出</dt><dd>照銘祥的「標準決策資料」格式：設備、動作、時間、幅度、理由、預期效果、風險、人工確認、Fallback。</dd>
+        <dt>原型資料</dt><dd>哥倫比亞吳郭魚池 IoT（Mendeley，CC BY 4.0，有增氧介入欄位）、奈及利亞 12 個魚池（CC BY 4.0）。拿到銘祥資料後再換掉。</dd>
+        <dt>育典接點</dt><dd>感測器可信度可以套碩論的 IDS 異常偵測方法；LINE 人工確認可以用現成的 n8n 管線。</dd>
+      </dl>
+    </article>
+  </div>
+  <p class="note">如果大家還是想做預測維護，可以留在 AI 職能培力組做，但要補上「現在該做什麼」的決策層。資料可以改用 MetroPT-3（UCI，CC BY 4.0，有馬達電流和 4 次故障維修紀錄），不過跟微電子課程的連結會比 AOI 弱。</p>
+</section>
+
+<section id="route">
+  <div class="sec-head">
+    <span class="eyebrow">決策點</span>
+    <h2>建議路線</h2>
+    <p>一件完整作品粗估要 200–250 人時，4 人 9 週的產能大約 225–290 人時。<b>只夠做一件</b>，要做兩件得再找第 5、第 6 位隊員。</p>
+  </div>
+  <div class="gates">
+    <div class="gate"><span class="d">預設</span><p><b>4 人一隊報 AI 職能培力組，做方案 C。</b>資格最穩，3 位結訓學員剛好對上占比最重的「職能培訓成果」，獎金是現金。</p></div>
+    <div class="gate"><span class="d">10/2</span><p>主辦還沒回信的話，打電話 06-2130019。<b>如果主辦說新竹市職前班不算數</b>：改由李宗唐、成育典用大專身分報名，賀康瑋、黃文彥無法參賽，所有人重新討論要不要報。</p></div>
+    <div class="gate"><span class="d">10/16</span><p>加報銘祥要四個條件<b>全部</b>到位：① 主辦書面同意混合隊可以同隊報兩類；② 銘祥資料到手；③ 指導老師確定；④ 找到第 5 位隊員補人力。缺任何一個就不報，10/18 定案。</p></div>
+    <div class="gate"><span class="d">11/8</span><p>MVP 內部 Demo，資料 → 模型 → 報告／畫面要一路跑通。跑不通就砍功能。</p></div>
+  </div>
+</section>
+
+<section id="timeline">
+  <div class="sec-head">
+    <span class="eyebrow">從 12/1 往回排</span>
+    <h2>倒排時程</h2>
+    <p>中間有國慶（10/9–10/11）和光復節（10/24–10/26）兩個連假可以當衝刺日。主辦是學校，連假期間大概不會回信。</p>
+  </div>
+  <div class="tl">
+    <div class="tl-row key"><span class="when">9/27（日）</span><span class="what">第一次會議，拍板 8 件事（見下方分工）<small>中秋＋教師節連假期間，線上 60 分鐘</small></span></div>
+    <div class="tl-row key"><span class="when">9/28（一）</span><span class="what">組長寄信問主辦（信件在本頁最下方）</span></div>
+    <div class="tl-row key"><span class="when">10/4（日）</span><span class="what">指導老師確定；收齊 3 張結訓證書和 2 張學生證</span></div>
+    <div class="tl-row"><span class="when">10/11（日）</span><span class="what">題目和類別初定，公開資料 baseline 開跑</span></div>
+    <div class="tl-row key"><span class="when">10/16（五）</span><span class="what">銘祥加報的條件檢查，10/18 定案</span></div>
+    <div class="tl-row"><span class="when">10/30（五）</span><span class="what">資料凍結，自製 AOI 資料集拍攝完成</span></div>
+    <div class="tl-row key"><span class="when">11/8（日）</span><span class="what">MVP 內部 Demo，說明書一到三章初稿</span></div>
+    <div class="tl-row"><span class="when">11/15（日）</span><span class="what">功能凍結，只做評估和錯誤分析</span></div>
+    <div class="tl-row"><span class="when">11/18（三）</span><span class="what">說明書全稿，請指導老師審閱；11/20–22 錄影片</span></div>
+    <div class="tl-row key"><span class="when">11/24（二）</span><span class="what">內部定稿：說明書、影片（設「不公開」並用無痕視窗測試）、切結書（PDF ≤ 1 MB）</span></div>
+    <div class="tl-row key"><span class="when">11/28（六）</span><span class="what">由組長本人的 Google 帳號送出報名表</span></div>
+    <div class="tl-row hard"><span class="when">12/1（二）</span><span class="what">官方截止 23:59:59，只當緩衝</span></div>
+    <div class="tl-row hard"><span class="when">12/11（五）</span><span class="what">初賽線上展示（平日，要先排好人）</span></div>
+    <div class="tl-row hard"><span class="when">12/19（六）</span><span class="what">決賽＋頒獎，臺南大學府城校區中山館，至少 1 人到場<small>2025 年決賽前 2 天才公告：海報、簡報不得出現校名、校徽、系所、指導老師，違者扣分。今年從一開始就做去識別版</small></span></div>
+  </div>
+</section>
+
+<section id="roles">
+  <div class="sec-head">
+    <span class="eyebrow">以方案 C 為準</span>
+    <h2>分工建議</h2>
+    <p>技術主線交給三位結訓學員，評審看的正是「學員把培訓所學用在哪裡」。育典這學期要寫碩論，<b>每週最多 4 小時、總量 35 小時以內</b>，只做延誤了也不會卡住別人的模組。</p>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>成員</th><th>角色</th><th>主責</th><th>不做</th></tr></thead>
+      <tbody>
+        <tr><td><b>李宗唐</b></td><td>組長／對外窗口</td><td>聯絡主辦、指導老師；技術架構；作品說明書的「培訓學習歷程」章節；初賽和決賽主講</td><td>—</td></tr>
+        <tr><td><b>賀康瑋</b></td><td>資料與模型</td><td>取像治具、自製電路板資料集、PatchCore 異常偵測、評估實驗</td><td>—</td></tr>
+        <tr><td><b>黃文彥</b></td><td>系統與展示</td><td>晶圓圖分類、判片報告、Streamlit 介面、離線備援 Demo、影片剪輯、決賽現場操作</td><td>—</td></tr>
+        <tr><td><b>成育典</b></td><td>文件總編＋品質把關</td><td>說明書整合與摘要、AI 工具揭露附錄、影片腳本、初賽簡報稿；用 IDS 經驗檢查資料洩漏（例如同一張板子的照片分到訓練集和測試集）；選配：判片結果推 LINE 讓人覆判</td><td>資料清理、模型訓練、前端、決賽主講</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">第一次會議要拍板的 8 件事：組長和隊名、報哪一類、指導老師人選、誰寄信給主辦、題目方向、資料來源和 Plan B 觸發點、模型白名單、每人每週時數和例會時間（建議每週日 21:00，45 分鐘）。</p>
+</section>
+
+<section id="deck">
+  <div class="sec-head">
+    <span class="eyebrow">逐頁</span>
+    <h2>簡報要改的地方</h2>
+    <p>整份簡報把比賽介紹得很完整，但還算不上一份「決策簡報」：19 頁裡沒有任何一頁寫出要拍板什麼、誰負責、何時完成。</p>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>頁</th><th>問題</th><th>改法</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">S3</td><td>沒有指導老師、組長、隊名；沒寫誰在學</td><td>加欄位：在學與否、結訓日期、證件是否到手、每週時數、12/11 和 12/19 能否出席</td></tr>
+        <tr><td class="mono">S4</td><td>一般專題類漏了關鍵條件</td><td>原文是「以非 AI 技術為主」，我們不適用。另外補 5 條硬規則</td></tr>
+        <tr><td class="mono">S5</td><td>AI 職能培力組寫法不精確</td><td>改成原文「曾於 115 年度參加」，並分清楚結訓證書和在訓證明書</td></tr>
+        <tr><td class="mono">S6–7</td><td><span class="chip crit">事實錯誤</span> 公司名少兩個字</td><td>全名是「銘祥科技<b>實業</b>股份有限公司」（JNC TECHNOLOGY）；也補上另一家企業富雅居（獎金 1 萬／7 千／3 千）</td></tr>
+        <tr><td class="mono">S8</td><td>左欄標籤貼錯</td><td>「主要產品」要改成「團隊要回答的三個問題」</td></tr>
+        <tr><td class="mono">S9</td><td>沒註明出處</td><td>這張圖出自命題頁，官網找不到，等於銘祥的隱藏評分表。把它轉成我們的驗收清單</td></tr>
+        <tr><td class="mono">S12</td><td><span class="chip crit">事實錯誤</span> CWRU 沒有電流和溫度</td><td>改成「振動訊號」。真的要電流＋振動＋溫度，可以換 Paderborn KAt 資料集</td></tr>
+        <tr><td class="mono">S13–14</td><td>沒揭露資料限制</td><td>C-MAPSS 要註明是模擬資料；UCI 只有一戶人家，推論不到發電廠調度</td></tr>
+        <tr><td class="mono">S15</td><td>把報名當成交件前的步驟</td><td>報名就是交件，改成本頁的倒排時程</td></tr>
+        <tr><td class="mono">S16–17</td><td>只有初賽標準</td><td>補決賽標準：初賽成績、完整性、職能培訓成果深化、特色介紹短片＋現場解說</td></tr>
+        <tr><td class="mono">S18</td><td>前提錯誤</td><td>兩類必須是兩件不同作品；銘祥名額不保證；獎金含稅；截圖漏了佳作 2,000 × 3。改成「事前共識」頁</td></tr>
+        <tr><td class="mono">S19</td><td>只寫 END</td><td>改成「下一步：誰、做什麼、何時完成」</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="models">
+  <div class="sec-head">
+    <span class="eyebrow">競賽須知第 6 點</span>
+    <h2>禁用中國或中資模型與介接工具</h2>
+    <p>原文禁的是「來源自中國或中資的開源模型（如 DeepSeek）、介接工具（如 API、MCP）」，訓練和推論都不能用。最容易踩到的是「看起來不像中國貨」的東西。</p>
+  </div>
+  <div class="bans">
+    <div class="banbox">
+      <h3>不要用</h3>
+      <div class="pills">
+        <span class="pill no">DeepSeek（含 R1-Distill-Llama）</span><span class="pill no">Qwen 與其衍生模型</span><span class="pill no">GLM</span><span class="pill no">Kimi</span><span class="pill no">MiniMax</span><span class="pill no">BGE／bge-m3</span><span class="pill no">PaddleOCR／RapidOCR</span><span class="pill no">YOLOv6／v10／YOLOX／RT-DETR</span><span class="pill no">Grounding DINO</span><span class="pill no">OpenMMLab</span><span class="pill no">Dify</span><span class="pill no">Coze</span><span class="pill no">RAGFlow</span><span class="pill no">LLaMA-Factory</span><span class="pill no">Trae</span><span class="pill no">可靈</span>
+      </div>
+    </div>
+    <div class="banbox">
+      <h3>可以用</h3>
+      <div class="pills">
+        <span class="pill yes">scikit-learn</span><span class="pill yes">XGBoost／LightGBM</span><span class="pill yes">PyTorch 自己寫</span><span class="pill yes">anomalib（Intel）</span><span class="pill yes">YOLOv7／v9（中研院）</span><span class="pill yes">OpenAI／Claude／Gemini 官方 API</span><span class="pill yes">Gemma 3</span><span class="pill yes">Llama</span><span class="pill yes">TAIDE（Gemma 版）</span><span class="pill yes">Breeze-7B</span><span class="pill yes">n8n＋LINE Messaging API</span><span class="pill yes">Streamlit</span><span class="pill yes">DaVinci Resolve</span>
+      </div>
+    </div>
+  </div>
+  <div class="banbox">
+    <h3>容易誤踩的預設值</h3>
+    <ul class="traps">
+      <li>Ultralytics 套件裡直接附了 YOLOv10（清華）和 RT-DETR（百度），要自己指定 YOLO11 或 v9。</li>
+      <li>Qdrant FastEmbed 的預設 embedding 是 BAAI 的 bge-small；Docling 用預設方式安裝時，OCR 會用到 PaddleOCR 的模型。</li>
+      <li>n8n 內建「DeepSeek Chat Model」節點；Cursor 的 Composer 2 建立在 Kimi 上，要手動選模型。</li>
+      <li>CapCut 的 AI 字幕和配音屬於字節跳動的 AI 功能，剪片改用 DaVinci Resolve 或 iMovie，字幕用 Whisper。</li>
+      <li>Hugging Face 上寫著「繁中」的小模型很多其實是 Qwen 底，用之前先查 <span class="mono">base_model</span>。</li>
+    </ul>
+    <p class="note">從今天起開一張「AI 工具使用紀錄」表（工具、版本、用途、日期），也保留 git 紀錄。切結書第七點寫明，主辦可以要求團隊提供創作歷程，說不清楚就會被取消資格。</p>
+  </div>
+</section>
+
+<section id="mail">
+  <div class="sec-head">
+    <span class="eyebrow">9/28 前寄出</span>
+    <h2>寄給主辦單位的信</h2>
+    <p>由組長用之後要送報名表的同一個信箱寄。回信要存檔，有爭議時可以當依據。方括號的地方請自己填。</p>
+  </div>
+  <div class="mail">
+    <div class="mail-bar">
+      <span class="meta">收件人 <span>aittc.nutn@gmail.com</span> · 電話 <span>06-2130019</span></span>
+      <button class="copy" id="copyBtn" type="button">複製信件內容</button>
+    </div>
+<pre id="mailtext">主旨：【2026 全國 AI 專題創意競賽】參賽資格與報名方式詢問（聯絡人：〔組長姓名〕）
+
+承辦人員您好：
+
+我們是準備報名 2026 全國 AI 專題創意競賽的團隊（隊名暫定〔　〕），成員 4 人：
+・A：國立陽明交通大學〔系所〕博士班在學生，同時為「115 年度新竹市政府職前訓練計畫—微電子與AI應用班」第 01 期結訓學員
+・B：國立陽明交通大學資訊學院國防資安管理碩士在職專班在學生
+・C、D：同上微電子與AI應用班結訓學員（目前非大專在學生）
+
+閱讀官網、FAQ、文件範本與報名表後，想請教以下問題：
+
+一、參賽資格
+1. 「微電子與AI應用班」由新竹市政府主辦、陽明交大承辦、就業安定基金補助，是否符合「參加勞動部（115 年度）AI 相關培訓課程」的資格？結訓證書是否每位結訓成員都要附？
+2. 報名表選「勞動部相關職業訓練學員」時只能選 AI 職能培力組，選「大專校院」則沒有 AI 職能培力組。像我們這樣的混合隊伍，是否可以同一隊同時報「AI 職能培力組」和「企業命題類—AI 應用組（銘祥科技）」？如果可以，表單要怎麼填，是否違反「每人限報名一隊」？
+3. 非在學的職訓學員（C、D）能否擔任企業命題類的隊員？
+4. B 就讀的碩士在職專班，是否屬於參賽資格列表的「資訊電機相關科系（其他相關）」？
+
+二、指導老師
+5. 作品說明書範本註明「AI 職能培力組可免填」指導老師欄，但報名表的指導老師姓名與任教學校為必填。AI 職能培力組應該怎麼填？可以填職訓班講師嗎？
+
+三、繳交文件
+6. 報名時的介紹影片有沒有長度、格式規定？決賽評分提到的「特色介紹短片」和報名影片是同一支嗎？
+7. 作品說明書有沒有頁數或字數上限？切結書註明 PDF 不得超過 1 MB，是否以此為準？
+8. 送出報名表後、12/1 截止前，如果要更新作品說明書或影片，要怎麼辦理？
+
+四、賽程與規範
+9. 12/11 初賽的「線上展示」是即時簡報（需要預約時段），還是只做書面和影片審查？
+10. 「不得使用中國或中資開源模型與介接工具」的範圍，是否包含以這些模型為底的衍生模型，以及清華、北航等中國大學發表的模型架構程式碼？
+
+五、企業命題（若可報名）
+11. 銘祥科技的 IoT 資料何時、用什麼方式提供？需要簽保密協議嗎？作品影片和說明書可以放去識別化後的圖表嗎？
+
+麻煩您撥冗回覆，謝謝！
+
+〔組長姓名〕 敬上
+〔學校系所／訓練單位〕〔手機〕〔Email〕</pre>
+  </div>
+</section>
+
+<footer>
+  <p><b>查證方式</b>：官網各分頁逐一點開擷取；官方 PDF 和 docx 範本自己下載解析；讀取報名表的欄位結構（未填寫、未送出）；比對 2025 年決賽結果 PDF 和當年配分；查銘祥官網、商工登記、104 職缺和專利資料；由 6 個研究 agent 分頭查證，另外 4 個負責反證。標「待確認」的項目要以主辦回信為準。</p>
+  <ul>
+    <li><a href="https://phpweb4.nutn.edu.tw/ilt/wordpress/?page_id=4308" target="_blank" rel="noopener">競賽官網</a> · <a href="https://phpweb4.nutn.edu.tw/ilt/wordpress/?page_id=4359" target="_blank" rel="noopener">銘祥命題頁</a> · <a href="https://phpweb4.nutn.edu.tw/ilt/wordpress/?page_id=4444" target="_blank" rel="noopener">富雅居命題頁</a></li>
+    <li><a href="https://phpweb4.nutn.edu.tw/ilt/wordpress/wp-content/uploads/2025/12/%E6%B1%BA%E8%B3%BD%E7%B5%90%E6%9E%9C.pdf" target="_blank" rel="noopener">2025 決賽結果 PDF</a> · <a href="https://phpweb4.nutn.edu.tw/ilt/wordpress/?page_id=2631" target="_blank" rel="noopener">2025 競賽頁</a></li>
+    <li><a href="https://www.jnc-tec.com.tw/zh-TW/" target="_blank" rel="noopener">銘祥官網 jnc-tec.com.tw</a> · <a href="https://engineering.case.edu/bearingdatacenter/apparatus-and-procedures" target="_blank" rel="noopener">CWRU 資料說明</a> · <a href="https://github.com/amazon-science/spot-diff" target="_blank" rel="noopener">VisA 資料集</a></li>
+  </ul>
+</footer>
+</div>
+
+<script>
+(function(){
+  try{
+    var deadline=new Date('2026-12-01T23:59:59+08:00').getTime();
+    var now=Date.now();
+    var days=Math.ceil((deadline-now)/86400000);
+    var el=document.getElementById('daysLeft');
+    if(el){ el.textContent = days>0 ? days+' 天' : '已截止'; }
+  }catch(e){}
+  var btn=document.getElementById('copyBtn');
+  var pre=document.getElementById('mailtext');
+  if(btn&&pre){
+    btn.addEventListener('click',function(){
+      var text=pre.textContent;
+      var done=function(){btn.textContent='已複製';setTimeout(function(){btn.textContent='複製信件內容';},1800);};
+      var fallback=function(){
+        var r=document.createRange();r.selectNodeContents(pre);
+        var s=window.getSelection();s.removeAllRanges();s.addRange(r);
+        btn.textContent='已選取，請按 ⌘C／Ctrl+C';
+        setTimeout(function(){btn.textContent='複製信件內容';},2600);
+      };
+      try{
+        if(navigator.clipboard&&navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(done,fallback);
+        }else{fallback();}
+      }catch(e){fallback();}
+    });
+  }
+})();
+</script>
+</body>
+</html>
