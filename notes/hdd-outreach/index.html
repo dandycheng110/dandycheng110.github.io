@@ -163,6 +163,40 @@ blockquote { margin: 0; padding: 14px 18px; border-left: 3px solid var(--amber);
 .who { font-size: 12.5px; color: var(--muted); }
 footer { margin-top: 44px; font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; }
 
+/* 專案全貌 */
+.modmap { display: grid; gap: 14px; }
+.modmap figure { margin: 0; }
+.modmap .scroll { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+.modmap svg { display: block; width: 100%; min-width: 760px; height: auto; font-family: var(--sans); }
+.modmap figcaption { font-size: 13.5px; color: var(--muted); margin-top: 8px; max-width: 75ch; }
+.mm-box { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+.mm-box.open { fill: var(--amber-soft); stroke: var(--amber); }
+.mm-box.core { fill: var(--surface-2); stroke: var(--brand); }
+.mm-t { fill: var(--ink); font-size: 14px; font-weight: 700; }
+.mm-s { fill: var(--muted); font-size: 11.5px; }
+.mm-o { fill: var(--amber); font-size: 11.5px; font-weight: 700; }
+.mm-e { stroke: var(--muted); stroke-width: 1.5; fill: none; }
+.mm-e.dash { stroke-dasharray: 5 4; }
+.mm-head { fill: var(--muted); }
+.mm-l { fill: var(--muted); font-size: 11px; }
+.mm-bar { fill: var(--surface-2); stroke: var(--line); stroke-width: 1.5; }
+.mm-link { stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 2 4; }
+.unclaimed { border: 1px solid var(--amber); background: var(--amber-soft); border-radius: 12px; padding: 12px 16px; font-size: 14.5px; }
+.unclaimed b { color: var(--amber); }
+.mods { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 960px) { .mods { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .mods { grid-template-columns: minmax(0, 1fr); } }
+.mod { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.mod .k { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+.mod h3 { margin: 0; font-size: 16px; }
+.mod p { margin: 0; font-size: 14px; }
+.mod dl { display: grid; grid-template-columns: 4.5em minmax(0, 1fr); gap: 4px 10px; margin: 4px 0 0; font-size: 13.5px; }
+.mod dt { color: var(--muted); }
+.mod dd { margin: 0; overflow-wrap: anywhere; }
+.mod .date { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.owner { display: inline-block; font-size: 12.5px; padding: 1px 9px; border-radius: 999px; background: var(--s-sent-bg); color: var(--s-sent); margin: 0 4px 3px 0; }
+.owner.open { background: var(--amber-soft); color: var(--amber); font-weight: 700; }
+
 @media (max-width: 760px) {
   .summary { grid-template-columns: minmax(0, 1fr); }
   .body { grid-template-columns: minmax(0, 1fr); }
@@ -195,6 +229,7 @@ footer { margin-top: 44px; font-size: 12.5px; color: var(--muted); border-top: 1
   </div>
 
   <nav class="jump" aria-label="頁內導覽">
+    <a href="#modules">專案全貌</a>
     <a href="#list">聯絡名單</a>
     <a href="#timeline">時程</a>
     <a href="#ask">要什麼資料</a>
@@ -202,9 +237,100 @@ footer { margin-top: 44px; font-size: 12.5px; color: var(--muted); border-top: 1
     <a href="#open">待確認</a>
   </nav>
 
+  <section id="modules">
+    <h2>專案全貌</h2>
+    <p class="lede">整個專案拆成 6 個模組。每塊只要知道自己拿到什麼、要交出什麼，就能各自開工；時間少的人挑一塊做就好。日期是建議，10/8（四）會議確認。</p>
+    <div class="modmap">
+      <figure>
+        <div class="scroll">
+        <svg viewBox="0 0 1080 290" role="img" aria-label="HDD 專案資料流：Backblaze 公開資料與台灣廠商資料進入 SMART 特徵，經模型產生風險分數，變成燈號，最後寫進說明書與影片；程式碼都放在 GitHub">
+          <defs><marker id="mm-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" class="mm-head"/></marker></defs>
+          <rect class="mm-box open" x="20" y="25" width="170" height="74" rx="10"/>
+          <text x="105" y="56" text-anchor="middle" class="mm-t">Backblaze 公開資料</text>
+          <text x="105" y="78" text-anchor="middle" class="mm-o">訓練用 · 整理待認領</text>
+          <rect class="mm-box" x="20" y="175" width="170" height="74" rx="10"/>
+          <text x="105" y="206" text-anchor="middle" class="mm-t">台灣廠商資料</text>
+          <text x="105" y="228" text-anchor="middle" class="mm-s">驗證用 · 外聯：育典</text>
+          <path class="mm-e" d="M190,62 L248,118" marker-end="url(#mm-arrow)"/>
+          <text x="232" y="80" text-anchor="middle" class="mm-l">訓練</text>
+          <path class="mm-e dash" d="M190,212 L248,156" marker-end="url(#mm-arrow)"/>
+          <text x="232" y="204" text-anchor="middle" class="mm-l">驗證</text>
+          <rect class="mm-box core" x="250" y="95" width="160" height="80" rx="10"/>
+          <text x="330" y="124" text-anchor="middle" class="mm-t">SMART 特徵＋標籤</text>
+          <text x="330" y="146" text-anchor="middle" class="mm-s">職訓班隊員、博士班隊員</text>
+          <text x="330" y="164" text-anchor="middle" class="mm-s">產業顧問 支援</text>
+          <path class="mm-e" d="M410,135 L468,135" marker-end="url(#mm-arrow)"/>
+          <text x="439" y="126" text-anchor="middle" class="mm-l">特徵表</text>
+          <rect class="mm-box open" x="470" y="95" width="160" height="80" rx="10"/>
+          <text x="550" y="124" text-anchor="middle" class="mm-t">模型訓練與評估</text>
+          <text x="550" y="146" text-anchor="middle" class="mm-s">XGBoost 基準＋PR-AUC</text>
+          <text x="550" y="164" text-anchor="middle" class="mm-o">待認領</text>
+          <path class="mm-e" d="M630,135 L688,135" marker-end="url(#mm-arrow)"/>
+          <text x="659" y="126" text-anchor="middle" class="mm-l">風險分數</text>
+          <rect class="mm-box open" x="690" y="95" width="160" height="80" rx="10"/>
+          <text x="770" y="124" text-anchor="middle" class="mm-t">預警輸出</text>
+          <text x="770" y="146" text-anchor="middle" class="mm-s">燈號＋白話建議＋Pico LED</text>
+          <text x="770" y="164" text-anchor="middle" class="mm-o">待認領</text>
+          <path class="mm-e" d="M850,135 L908,135" marker-end="url(#mm-arrow)"/>
+          <text x="879" y="126" text-anchor="middle" class="mm-l">截圖數字</text>
+          <rect class="mm-box" x="910" y="95" width="150" height="80" rx="10"/>
+          <text x="985" y="124" text-anchor="middle" class="mm-t">說明書＋影片</text>
+          <text x="985" y="146" text-anchor="middle" class="mm-s">12/1 報名要交</text>
+          <text x="985" y="164" text-anchor="middle" class="mm-s">育典</text>
+          <line class="mm-link" x1="330" y1="175" x2="330" y2="232"/>
+          <line class="mm-link" x1="550" y1="175" x2="550" y2="232"/>
+          <line class="mm-link" x1="770" y1="175" x2="770" y2="232"/>
+          <rect class="mm-bar" x="250" y="232" width="600" height="40" rx="10"/>
+          <text x="550" y="257" text-anchor="middle" class="mm-t">GitHub：程式碼與資料管線 · 職訓班隊員</text>
+        </svg>
+        </div>
+        <figcaption>資料由左往右流：Backblaze 公開資料拿來訓練，台灣廠商資料拿來驗證，經過特徵和模型變成燈號，最後寫進說明書和影片。程式都放在同一個 GitHub。琥珀色是還沒人認領的模組，虛線代表台灣資料還在外聯中。</figcaption>
+      </figure>
+      <div class="unclaimed"><b>還沒人認領</b>：Backblaze 資料整理、模型訓練與評估、預警輸出。10/8（四）19:00 會議認領。</div>
+      <div class="mods">
+      <article class="panel mod">
+        <div class="k">模組 1 · 資料</div>
+        <h3>食材：訓練資料與驗證資料</h3>
+        <p>Backblaze 公開資料有幾十萬顆硬碟、每天一筆 SMART 紀錄，拿來訓練。台灣廠商的換碟紀錄或壞碟快照，拿來驗證模型在台灣現場準不準。</p>
+        <dl><dt>負責</dt><dd><span class="owner">外聯：育典</span><span class="owner open">Backblaze 整理：待認領</span></dd><dt>交什麼</dt><dd>一份整理好的 Backblaze 子集（挑常見型號與年份）＋外聯結果</dd><dt>建議日期</dt><dd class="date">10/16 外聯 go/no-go · 10/23 資料子集</dd></dl>
+      </article>
+      <article class="panel mod">
+        <div class="k">模組 2 · SMART 特徵與標籤</div>
+        <h3>看懂硬碟的體檢報告</h3>
+        <p>決定要看哪些 SMART 欄位（5、187、188、197、198 等）、怎麼算 3／7／14 天的變化量，以及「快壞了」怎麼定義，例如拔除前 7～30 天。</p>
+        <dl><dt>負責</dt><dd><span class="owner">職訓班隊員</span><span class="owner">博士班隊員</span><span class="owner">產業顧問 支援</span></dd><dt>交什麼</dt><dd>一頁特徵清單＋標籤規則</dd><dt>建議日期</dt><dd class="date">10/22</dd></dl>
+      </article>
+      <article class="panel mod">
+        <div class="k">模組 3 · 模型訓練與評估</div>
+        <h3>醫生下判斷</h3>
+        <p>先用 XGBoost 做一個基準模型。訓練和測試要按硬碟切開，不能讓同一顆碟兩邊都有；成績看 PR-AUC 和「固定誤報率下抓到幾成」，不看準確率。</p>
+        <dl><dt>負責</dt><dd><span class="owner open">待認領</span></dd><dt>交什麼</dt><dd>基準模型＋評估表；再用台灣資料做外部驗證</dd><dt>建議日期</dt><dd class="date">11/6 基準 · 11/20 外部驗證</dd></dl>
+      </article>
+      <article class="panel mod">
+        <div class="k">模組 4 · 預警輸出</div>
+        <h3>在壞掉前先亮黃燈</h3>
+        <p>把風險分數變成綠黃紅三種燈號，加一句白話建議，例如「這週先備份、準備換碟」。Pico 板的 LED 做實體示範，評審一看就懂。</p>
+        <dl><dt>負責</dt><dd><span class="owner open">待認領</span></dd><dt>交什麼</dt><dd>示範畫面＋Pico LED 實機</dd><dt>建議日期</dt><dd class="date">11/20</dd></dl>
+      </article>
+      <article class="panel mod">
+        <div class="k">模組 5 · 程式碼與管線</div>
+        <h3>大家共用的廚房</h3>
+        <p>所有程式和資料處理步驟放同一個 GitHub repo。寫好 README，別人照著做就能從原始資料重跑出同樣的結果。</p>
+        <dl><dt>負責</dt><dd><span class="owner">職訓班隊員</span></dd><dt>交什麼</dt><dd>repo 架構＋README＋資料處理腳本</dd><dt>建議日期</dt><dd class="date">10/15 建好，之後持續更新</dd></dl>
+      </article>
+      <article class="panel mod">
+        <div class="k">模組 6 · 說明書、影片與外聯</div>
+        <h3>端上桌給評審看</h3>
+        <p>作品說明書 PDF、展示影片、給評審的說法；對外聯絡廠商與主辦單位也在這塊。</p>
+        <dl><dt>負責</dt><dd><span class="owner">育典</span></dd><dt>交什麼</dt><dd>說明書初稿＋影片腳本；報名表</dd><dt>建議日期</dt><dd class="date">11/27 初稿 · 11/30 送出</dd></dl>
+      </article>
+      </div>
+    </div>
+  </section>
+
   <section id="list">
     <h2>聯絡名單</h2>
-    <p class="lede">A 級 9/30 第一波就聯絡；B 級要引薦或多一道流程；C 級只約訪談或背書。標「部分查證」的，打電話前先到官網再確認一次。高階經理人班的聯絡由育典負責。</p>
+    <p class="lede">10/7 起全部由育典聯絡：第①波 10/7 上午、第②波 10/8 上午寄出，10/9～10/11 連假不寄。晟誼、雷德、佳蔘先打電話問信箱；零壹、新竹馬偕、新竹臺大透過育典的同學轉介。A 級在地、決策快；B 級要引薦或多一道流程；C 級只約訪談或背書。</p>
     <div class="filters">
       <div class="chips" role="group" aria-label="依等級篩選" id="tierChips">
         <button type="button" class="chip" data-tier="all" aria-pressed="true">全部</button>
@@ -219,19 +345,20 @@ footer { margin-top: 44px; font-size: 12.5px; color: var(--muted); border-top: 1
 
   <section id="timeline">
     <h2>時程</h2>
-    <p class="lede">台北時間。假日以人事總處辦公日曆為準（9/25 中秋、9/28 教師節、10/9 國慶補假）。</p>
+    <p class="lede">台北時間。10/9（五）～10/11（日）國慶連假。</p>
     <div class="panel">
       <ol class="timeline">
-        <li><div class="when">9/25（五）～9/28（一）</div><div class="what">寄信問主辦作品規範（同時報銘祥會不會算相似、資料來源怎麼寫）；育典請產業顧問圈出認識的公司；博士班隊員寄指導老師邀請信，老師答應後請老師引薦交大系計中與資訊中心</div></li>
-        <li><div class="when">9/30（三）</div><div class="what"><b>第一波</b>：A 級全部，加上 B 級的資料救援業者與東區電訊；產業顧問同步引薦喬鼎、ULINK、正源、Accusys。博士班隊員用 Backblaze 資料做一張樣本健檢報告截圖</div></li>
-        <li><div class="when">10/2（五）</div><div class="what">（可選）決定要不要報新竹縣「智慧沙盒創新計畫」，10/7 截止；要先問兩邊能不能同一件作品</div></li>
-        <li><div class="when">10/5（一）～10/8（四）</div><div class="what">追蹤信附樣本健檢截圖；10/6 上午 10～11 點打總機，只問「該找誰」；職訓班同學拜訪資料救援門市；育典私訊 2～3 位高階經理人班同學</div></li>
-        <li><div class="when">10/9（五）</div><div class="what">小檢查：A 級如果都沒回，就把力氣轉到熟人管道，不再等冷信</div></li>
-        <li><div class="when">10/13（二）～10/15（四）</div><div class="what">縮小請求：「只約 20 分鐘訪談也行」；10/15 寄最後一封；<b>10/15 晚上高階經理人班上課，當面請託</b></div></li>
-        <li class="key"><div class="when">10/16（五）</div><div class="what"><b>Go/no-go</b>：至少一家同意、資料範圍談好 → 真實資料進「外部驗證」主章節。只拿到快照或壞碟快照 → 改成「台灣案例展示」。什麼都沒有 → 小組決定 HDD 只用 Backblaze＋自己收，或回到 AOI</div></li>
-        <li><div class="when">10/28（三）</div><div class="what">保密協議簽完</div></li>
+        <li><div class="when">10/2（五）</div><div class="what">小組會議定題 HDD：純軟體、預測 7～30 天、警示可用 Pico LED。分工：SMART（職訓班隊員、博士班隊員）、GitHub（職訓班隊員）、外聯（育典）</div></li>
+        <li><div class="when">10/7（三）</div><div class="what"><b>第①波</b>：上午寄 10 封（A2、A3、A4、B3、B5、B6、B8、C3、C4、C7）；第一優先同學 LINE；私訊 產業顧問 問引薦；晚上可發 PTT 徵求文</div></li>
+        <li class="key"><div class="when">10/8（四）</div><div class="what"><b>第②波</b>：上午寄 11 封，含主辦詢問信。<b>19:00 小組會議：認領模組、決定預測時窗</b></div></li>
+        <li><div class="when">10/12（一）</div><div class="what">查退信；上午打電話確認第①波有沒有收到、該找誰</div></li>
+        <li><div class="when">10/15（四）</div><div class="what">還沒回的，在原信下回最後一封追蹤；<b>晚上高階經理人班上課，當面請託</b></div></li>
+        <li class="key"><div class="when">10/16（五）</div><div class="what"><b>Go/no-go：決定資料來源</b>。至少一家同意、資料範圍談好 → 真實資料進「外部驗證」主章節。只拿到快照或壞碟快照 → 改成「台灣案例展示」。什麼都沒有 → 只用 Backblaze＋自己收</div></li>
+        <li><div class="when">10/22（四）～10/23（五）</div><div class="what">特徵清單與標籤規則、Backblaze 資料子集完成（模組 1、2）</div></li>
         <li class="key"><div class="when">10/30（五）</div><div class="what"><b>真實資料最晚到手</b></div></li>
-        <li><div class="when">11/2～11/20</div><div class="what">用台灣資料做外部驗證、做儀表板；11/13 後拿到的少量資料只能放「台灣現場驗證」；11/20 交健檢報告給合作方並請對方審閱公開素材</div></li>
+        <li><div class="when">11/6（五）</div><div class="what">基準模型與評估表（模組 3）</div></li>
+        <li><div class="when">11/20（五）</div><div class="what">台灣資料外部驗證、燈號與 Pico LED 示範完成（模組 3、4）；健檢報告交給合作方審閱</div></li>
+        <li><div class="when">11/27（五）</div><div class="what">說明書與影片初稿（模組 6）</div></li>
         <li class="key"><div class="when">11/30（一）</div><div class="what"><b>送出報名</b>（說明書 PDF＋影片連結；12/1 23:59:59 截止）</div></li>
         <li><div class="when">12/11 · 12/19</div><div class="what">初賽線上展示 · 決賽南大中山館；2027/1/18 前刪除合作方資料並附證明</div></li>
       </ol>
@@ -320,37 +447,36 @@ footer { margin-top: 44px; font-size: 12.5px; color: var(--muted); border-top: 1
       <div class="panel">
         <h3 style="margin:0 0 8px;font-size:16px">團隊內部（本週）</h3>
         <ul class="checklist">
-          <li>主辦回覆：同時報銘祥企業命題，會不會被判跟 HDD 作品高度相似？說明書的資料來源能不能寫成匿名？ <span class="who">育典寄信</span></li>
-          <li>職訓班承辦單位願不願意把一頁提案轉給企業專區的合作廠商？ <span class="who">職訓班同學</span></li>
-          <li>指導老師邀請信寄出後等回覆；老師答應後，請老師具名寄信給交大系計中與資訊中心 <span class="who">博士班隊員</span></li>
-          <li>產業顧問熟哪些公司、同不同意在提案上具名？ <span class="who">育典</span></li>
+          <li>主辦回覆三題：雙報銘祥會不會算高度相似、資料來源能不能寫匿名、主辦有沒有運算或業師資源 <span class="who">育典 10/8 寄信</span></li>
+          <li>產業顧問 熟哪些公司可以引薦？一頁提案上不具名的「產業顧問」寫法 OK 嗎？ <span class="who">育典 LINE</span></li>
+          <li>模組認領：Backblaze 資料整理、模型訓練與評估、預警輸出還沒人負責 <span class="who">10/8 會議</span></li>
+          <li>預測時窗與標籤：要預測 7、10 還是 30 天？換碟紀錄的拔除日能不能直接當故障日？ <span class="who">SMART 組</span></li>
         </ul>
       </div>
       <div class="panel">
-        <h3 style="margin:0 0 8px;font-size:16px">聯絡資訊有疑慮（打之前先確認）</h3>
+        <h3 style="margin:0 0 8px;font-size:16px">聯絡資訊有疑慮</h3>
         <ul class="checklist">
-          <li>晟誼：官網聯絡資訊不完整</li>
-          <li>Accusys：中文名「旭驊」還是「世仰」？地址在竹北還是新竹市？</li>
-          <li>ULINK：電話和信箱沒有二次核對</li>
-          <li>正源：總機只出自搜尋摘要，官網連不上</li>
-          <li>鴻華：完整門牌和電話待查</li>
-          <li>新竹縣電腦公會：官網最新消息停在 2024-08</li>
+          <li>晟誼：官網聯絡資訊不完整，公司登記可能已解散，先打電話確認還有沒有營業</li>
+          <li>雷德：官網沒有公開信箱，要打總公司問窗口</li>
+          <li>佳蔘：只查得到決標公告上的電話</li>
+          <li>承星：信箱可能收不到，寄出後留意退信</li>
+          <li>ULINK：總公司信箱可能先到美國同事手上，主旨已加英文</li>
+          <li>新竹縣電腦公會：官網最新消息停在 2024-08，寄信同一天要打電話</li>
         </ul>
       </div>
-    </div>
   </section>
 
   <footer>
-    資料：2026-09-24 研究（5 路搜尋＋逐路查核），完整欄位與來源在 <code>目標名單.xlsx</code>；信件範本在 <code>外聯範本.md</code>；給廠商的附件是 <code>一頁提案.pdf</code> 和 <code>collect_smart/</code>。聯絡管道一律是組織層級的公開管道。
+    資料：2026-09-24 研究（5 路搜尋＋逐路查核），完整欄位與來源在 <code>目標名單.xlsx</code>；信件範本在 <code>外聯範本.md</code>；給廠商的附件是 <code>一頁提案.pdf</code> 和 <code>collect_smart/</code>。聯絡管道一律是組織層級的公開管道。2026-10-07 更新：所有對外聯絡改由育典統一寄出，加入專案全貌。
   </footer>
 </div>
 
 <script>
-const TARGETS = [{"id": "A1", "tier": "A", "name": "陽明交大 資工系資訊中心（系計中）", "category": "校內機房", "area": "新竹市東區", "location": "新竹市東區大學路 1001 號 工程三館 3 樓 320 室", "pain": "管全系 Linux 工作站、郵件、GPU 教學機房，並代管各實驗室伺服器（12 個機櫃）；碟壞了是師生資料和服務中斷，要自己換碟重建", "ask": "B 級優先：問有沒有留換碟紀錄或 SMART 歷史；A 級：在工作站／GPU 教學機房裝唯讀收集腳本，連續收 8～10 週", "first_step": "寄 help@cs.nycu.edu.tw，或平日直接去 EC3 320 值班台，請轉系統組；先問「有沒有保存換碟紀錄」這個是非題", "who": "博士班隊員（副本給指導教授；育典可陪同）", "contact": "help@cs.nycu.edu.tw；(03) 5712121 #54707；學期中週一到週五 9:00–22:00", "check": "已查證", "sources": ["https://it.cs.nycu.edu.tw/", "https://it.cs.nycu.edu.tw/co-location", "https://it.cs.nycu.edu.tw/gpu-room"]}, {"id": "A2", "tier": "A", "name": "陽明交大 資訊技術服務中心（光復校區）", "category": "校內機房", "area": "新竹市東區", "location": "新竹市東區大學路 1001 號 資訊館 1 樓", "pain": "全校郵件、VPS、GPU 虛擬主機、機房代管都靠它，背後是大量儲存；RAID 降級就影響全校服務", "ask": "B 級：去識別化的換碟紀錄＋SMART 歷史；C 級：儲存維運同仁 20 分鐘訪談", "first_step": "請指導教授具名寄 itsc@nycu.edu.tw（副本給老師），請轉負責儲存或虛擬化平台的組別；儲存設備若有原廠維護合約，資料可能要經過維護廠商", "who": "指導教授具名＋博士班隊員", "contact": "itsc@nycu.edu.tw；03-5712121 #31888；週一到週五 8:00–17:30", "check": "已查證", "sources": ["https://it.nycu.edu.tw/", "https://it.nycu.edu.tw/it/ch/app/folder/270"]}, {"id": "A3", "tier": "A", "name": "阿姆雷特科技（Armlet）", "category": "中小企業 IT 委外維運", "area": "新竹市北區", "location": "新竹市北大路 29-1 號 5F-2", "pain": "專做 100 人以下、沒有專職 IT 的中小企業，官網寫會即時監控「硬碟異常、Raid 錯誤、備份策略失敗」——很可能真的有監控紀錄", "ask": "B 級：客戶硬碟告警與換碟紀錄（去識別化）；或挑 1～2 家客戶試裝收集腳本", "first_step": "平日 9:00–18:00 打 03-5421902，問他們用什麼工具監控硬碟、紀錄留多久，再約拜訪；沒人接就私訊 FB 粉專 Armlet.Taiwan", "who": "職訓班同學（技術問題博士班隊員支援）", "contact": "03-5421902；FB：Armlet.Taiwan", "check": "已查證", "sources": ["https://www.teng.com.tw/it_outsourcing.asp", "https://www.teng.com.tw/"]}, {"id": "A4", "tier": "A", "name": "華奕資訊（e-tobe）", "category": "NAS 建置與 IT 維運", "area": "新竹市北區", "location": "新竹市少年街 23 號", "pain": "新竹、竹北、竹南、竹東的 Synology／QNAP NAS 代安裝與維運，客戶多是中小企業；NAS 壞碟、RAID 重建失敗直接變成客訴", "ask": "問有沒有遠端監控客戶 NAS、SMART 紀錄留不留；交換條件是免費幫 1～3 家客戶做 NAS 健檢", "first_step": "寄 info@e-tobe.com 附一頁提案，信裡只問一個問題；兩天後打 03-5256151 約時間", "who": "職訓班同學", "contact": "03-5256151；info@e-tobe.com", "check": "已查證", "sources": ["https://www.e-tobe.com/", "https://www.e-tobe.com/nas-install-setup-hsinchu-zhupei/"]}, {"id": "A5", "tier": "A", "name": "零壹科技 新竹辦公室（含子公司朔宇科技）", "category": "儲存與 IT 系統整合／通路", "area": "新竹市東區", "location": "新竹市東區慈雲路 118 號 17 樓之 3（台北總部在內湖）", "pain": "代理與整合多家儲存品牌（朔宇代理 QSAN），服務新竹企業客戶；客戶硬碟壞了是他們的維運與保固成本，AI 預警可以變成加值服務", "ask": "引薦 1～2 家願意的客戶場域；C 級業界觀點訪談；B 級維運換碟統計", "first_step": "有熟人引薦管道：先私訊請對方介紹一家願意試的新竹客戶，或約 20 分鐘聊他們看到的換碟狀況", "who": "育典", "contact": "新竹辦公室 +886-3-668-6638；台北總機 +886-2-2656-5656", "check": "部分查證", "sources": ["https://www.zerone.com.tw/contact/location", "https://www.zerone.com.tw/product/brand", "https://www.petacom.com.tw/Salesbrand/QSAN/"]}, {"id": "A6", "tier": "A", "name": "育典的高階經理人班人脈", "category": "搭橋管道", "area": "新竹", "location": "陽明交大光復校區（每月第三個星期四上課，下一堂 10/15）", "pain": "班上同學多是新竹科技業主管，不少人在工廠工作；工廠的監視錄影主機和檔案伺服器就是「真實廠房數據」", "ask": "請同學把一頁提案轉給自家 IT／廠務；目標是 2～3 家工廠願意跑一次快照＋提供換碟紀錄", "first_step": "不用等上課：10/5 那週先私訊 2～3 位最相關的同學，只請對方介紹公司 IT 或廠務主管；10/15 上課時再當面請託", "who": "育典", "contact": "（育典自行聯絡）", "check": "已查證", "sources": []}, {"id": "A7", "tier": "A", "name": "產業顧問的伺服器業界人脈", "category": "搭橋管道", "area": "待確認", "location": "待確認", "pain": "伺服器業界的前輩，最可能直接認識機房、系統整合商、儲存廠的維運主管", "ask": "先問清楚她熟哪些圈子、同不同意在提案上具名；引薦控制在 4 家以內（喬鼎、ULINK、正源、Accusys 優先）", "first_step": "9/25 前把這份名單給她看，請她圈出認識的公司", "who": "育典", "contact": "（育典自行聯絡）", "check": "待確認", "sources": []}, {"id": "A8", "tier": "A", "name": "勞動部 × 陽明交大「半導體與重點科技產業人才發展基地」（職訓班承辦單位）", "category": "搭橋管道", "area": "新竹市東區", "location": "陽明交大光復校區", "pain": "基地的企業專區有 20 多家合作廠商（例如緯穎、台灣美光）；學員得獎也算基地的計畫績效，承辦方有動機幫忙", "ask": "請承辦把一頁提案轉給企業專區廠商的 IT／廠務窗口；問下一場產業活動能不能讓團隊露出", "first_step": "請職訓班同學用學員身分傳 LINE @nycubase 或寄 lasercenter@nycu.edu.tw，附一頁提案，請承辦轉給企業專區廠商的 IT／廠務窗口；如果承辦單位不是這個基地，就改問自己班的承辦", "who": "職訓班同學", "contact": "03-571-2121 #56092；lasercenter@nycu.edu.tw；LINE @nycubase", "check": "部分查證", "sources": ["https://base.stem.lasercenter.nycu.edu.tw/", "https://base.stem.lasercenter.nycu.edu.tw/cooperation", "https://base.stem.lasercenter.nycu.edu.tw/about/project"]}, {"id": "B1", "tier": "B", "name": "晟誼科技（新竹資料救援中心）", "category": "資料救援", "area": "新竹市東區", "location": "新竹市東區金城一路 11 號 1 樓（新竹總公司）", "pain": "RAID／NAS 救援為主，官網有新竹校園伺服器 RAID6 救援案例，痛點故事現成", "ask": "故障型態彙總統計＋一段業界觀點；進一步才談故障碟快照；進階：我們免費寫一個「收件時自動存 smartctl 報告」的小工具，10～11 月每收一顆還讀得到的壞碟就留一份去識別化快照（全是正樣本）", "first_step": "先打 03-5750935 確認窗口（官網聯絡資訊不完整，先確認窗口）", "who": "職訓班同學", "contact": "03-5750935；0800-600-966；FB：Datasos.tw", "check": "部分查證", "sources": ["https://raidnas.tw/", "https://raidnas.tw/datarecoverylocation/", "https://data-tw.blogspot.com/"]}, {"id": "B2", "tier": "B", "name": "雷德硬碟資料救援 新竹 NOVA 店（WD 授權服務中心）", "category": "資料救援／原廠保固服務", "area": "新竹市東區", "location": "新竹市光復路二段 200 號 3 樓 307 室（新竹 NOVA 3F）", "pain": "每天收壞掉的硬碟，也做 WD 保固換貨——手上有做故障預測最缺的「壞掉樣本」", "ask": "去識別化的救援案件彙總（型號、故障類型、SMART 摘要）；或在客戶同意下讀故障碟的死前快照；進階：我們免費寫一個「收件時自動存 smartctl 報告」的小工具，10～11 月每收一顆還讀得到的壞碟就留一份去識別化快照（全是正樣本）", "first_step": "門市電話先了解流程；要資料得打總公司 02-23917555 找企業合作或行銷窗口，用書面提案", "who": "職訓班同學跑門市，提案信由博士班隊員寄", "contact": "新竹店 03-5753299；總公司 02-23917555", "check": "已查證", "sources": ["https://www.raid5.com.tw/contact.php?type=8", "https://www.raid5.com.tw/"]}, {"id": "B3", "tier": "B", "name": "復得科技 新竹服務站", "category": "資料救援", "area": "新竹市東區", "location": "新竹市東區光復路二段 276 號（總部在高雄）", "pain": "硬碟救援案件多，看得到消費與企業端的真實故障分布", "ask": "去識別化的故障案件彙總", "first_step": "寄 service@hdd.tw 附一頁提案，再打新竹站確認", "who": "職訓班同學", "contact": "新竹站 03-5734511（11:00–20:00）；0800-882-119；service@hdd.tw", "check": "已查證", "sources": ["https://www.hdd.tw/tw/location.asp", "https://www.hdd.tw/"]}, {"id": "B4", "tier": "B", "name": "鴻華資料救援", "category": "資料救援", "area": "新竹市北區", "location": "新竹市北區（官網寫；完整門牌執行前再確認）", "pain": "官網有新竹 Synology DS918+ RAID5 案例：有壞軌警告，但使用者看不懂、拔錯碟，整個陣列認不得——正是「沒有 IT 人員」的故事", "ask": "C 級訪談＋允許引用案例；故障型態彙總", "first_step": "官網聯絡管道詢問（電話執行前再查）", "who": "職訓班同學", "contact": "官網 data-recover.com.tw（電話待查）", "check": "部分查證", "sources": ["https://www.data-recover.com.tw/cases/synology-ds918-raid5-seagate-4tb-ironwolf-nas-btrfs-%E8%B3%87%E6%96%99%E6%95%91%E6%8F%B4"]}, {"id": "B5", "tier": "B", "name": "喬鼎資訊 PROMISE（3057）", "category": "RAID 儲存設備廠", "area": "竹科", "location": "新竹科學園區工業東四路 21 號 5 樓", "pain": "產品就是一整櫃硬碟的 RAID 儲存，含監控錄影用 Vess 系列；碟壞加重建失敗＝客戶錄影消失；預測換碟可以寫進產品當加值功能", "ask": "業界觀點訪談；保固 RMA 的故障型態彙總；長線談產品合作", "first_step": "寄 marketing@tw.promise.com（業務 sales@tw.promise.com 副本），附一頁提案，強調「竹科在地學生團隊」", "who": "產業顧問引薦；沒有引薦就博士班隊員寄信", "contact": "03-5782395；sales@tw.promise.com；marketing@tw.promise.com", "check": "已查證", "sources": ["https://www.promise.com/tw/ContactUs/APAC", "https://www.promise.com/tw/About"]}, {"id": "B6", "tier": "B", "name": "Accusys Storage（中文公司名待確認：旭驊或世仰）", "category": "RAID 儲存設備廠", "area": "竹北", "location": "新竹縣竹北市台元科技園區（完整門牌待確認）", "pain": "RAID 儲存（ExaSAN、Gamma 系列），客戶有媒體製作、醫療、政府；官網主打 AI-Ready Data，規模比喬鼎小、決策鏈可能短", "ask": "業界觀點訪談；客戶支援的換碟統計", "first_step": "寄 marketing@accusys.com.tw 附一頁提案，再打 03-5600258", "who": "產業顧問或博士班隊員", "contact": "03-5600258；marketing@accusys.com.tw；sales@accusys.com.tw", "check": "部分查證", "sources": ["https://www.accusys.com.tw/about-us/", "https://www.accusys.com.tw/contact-us/"]}, {"id": "B7", "tier": "B", "name": "ULINK Technology 台灣分公司（DA Drive Analyzer）", "category": "AI 硬碟故障預測廠商（業師）", "area": "竹北", "location": "新竹縣竹北市光明六路東一段 257 號 14 樓", "pain": "已經在賣 AI 硬碟故障預測（跟 QNAP、ASUSTOR 合作），宣稱監控 200 萬顆以上、平均提前 12 天預警", "ask": "C 級：30 分鐘業師訪談，請教現場痛點與做不到的地方；不期待給資料", "first_step": "先問產業顧問儲存圈有沒有熟人；沒有就寄 contact@ulinktech.com（電話與信箱打之前再確認），說明是學生研究請益，不是做競品", "who": "產業顧問引介；技術部分博士班隊員談", "contact": "(03) 668-1770；contact@ulinktech.com", "check": "部分查證", "sources": ["https://ulinktech.com/company/", "https://ulinktech.com/products/daanalyzer/", "https://www.qnap.com/en/news/2025/qnap-and-ulink-upgrade-da-drive-analyzer-with-new-ai-engine-greatly-enhancing-drive-health-prediction-accuracy"]}, {"id": "B8", "tier": "B", "name": "東區電訊", "category": "監視系統與弱電整合", "area": "竹北", "location": "新竹縣竹北市縣政十六街 18 號", "pain": "做監視、門禁、總機，服務竹北、湖口、新豐、新竹市；NVR 硬碟壞了＝客戶錄影調不出來", "ask": "問一年換幾顆 NVR 碟、有沒有維修單；有紀錄才談挑 2～3 個場域現場讀 SMART", "first_step": "平日上午打 03-6565665 請監視系統主管接聽", "who": "職訓班同學", "contact": "03-6565665", "check": "已查證", "sources": ["https://www.dtel.com.tw/index.html"]}, {"id": "B9", "tier": "B", "name": "國家高速網路與計算中心（國網中心）", "category": "國家級計算與儲存", "area": "竹科", "location": "新竹市東區研發六路 7 號（台南南科另有分部與雲端算力中心）", "pain": "晶創 26 等系統有 25 PB 儲存，壞碟與重建是日常維運成本，最接近 Backblaze 的規模；台南分部可連結南大主辦的比賽", "ask": "只約訪談或請儲存工程師當審閱者，不要一開口就要 log", "first_step": "問博士班隊員實驗室是不是國網用戶、有沒有合作老師可引薦；沒有就寄 webmaster@niar.org.tw 請轉儲存維運", "who": "指導教授引薦", "contact": "03-5776085；webmaster@niar.org.tw", "check": "已查證", "sources": ["https://www.nchc.org.tw/Page?itemid=35&mid=60", "https://www.nchc.org.tw/"]}, {"id": "B10", "tier": "B", "name": "新竹馬偕紀念醫院 資訊部門", "category": "醫院（PACS 影像儲存）", "area": "新竹市東區", "location": "新竹市東區光復路二段 690 號", "pain": "醫學影像量大、病歷至少保存 7 年；資料量大，碟壞了影響看診", "ask": "只約 C 級訪談；對方若提到維護廠商，請他們引薦", "first_step": "有熟人引薦管道，請同學轉介資訊部門", "who": "育典（透過高階經理人班同學轉介）", "contact": "03-6889595（總機轉資訊部門）", "check": "已查證", "sources": ["https://www.hc.mmh.org.tw/"]}, {"id": "B11", "tier": "B", "name": "臺大醫院新竹臺大分院 資訊室", "category": "醫院（PACS 影像儲存）", "area": "新竹市東區／竹北", "location": "新竹院區：新竹市經國路一段 442 巷 25 號；生醫醫院竹北院區：竹北市生醫路", "pain": "多院區影像與病歷系統；資訊室下設系統網路組", "ask": "只約 C 級訪談", "first_step": "有熟人引薦管道；沒有就總機轉資訊室", "who": "育典（透過高階經理人班同學轉介）", "contact": "新竹院區 (03)5326151；竹北院區 (03)6677600", "check": "部分查證", "sources": ["https://www.hch.gov.tw/", "https://www.hch.gov.tw/?aid=60&pid=87"]}, {"id": "C1", "tier": "C", "name": "清華大學 計算機與通訊中心", "category": "校級機房", "area": "新竹市東區", "location": "新竹市光復路二段 101 號", "pain": "全校網路與校務系統的伺服器與儲存；可以跟交大並列成「新竹兩校」做跨機房驗證", "ask": "先只約痛點訪談", "first_step": "透過清大老師牽線；沒有就寄 service@cc.nthu.edu.tw 請轉網路系統組", "who": "博士班隊員（找清大老師牽線）", "contact": "03-5731000（分機 31000）；service@cc.nthu.edu.tw", "check": "已查證", "sources": ["https://ccc.site.nthu.edu.tw/p/412-1285-1210.php?Lang=zh-tw"]}, {"id": "C2", "tier": "C", "name": "中華電信 IDC 竹北機房／中華電信—陽明交大創新研究中心", "category": "電信機房", "area": "竹北", "location": "新竹縣竹北市光明五街 136 號", "pain": "200 櫃機房；原始資料外流機率低，但研究中心是交大合作管道", "ask": "請研究院 AIOps／雲端團隊當業師，或提供去識別化換碟統計樣本", "first_step": "博士班隊員問電信所老師有沒有人參與 CHT-NYCU 計畫；不要打 IDC 客服推案", "who": "博士班隊員＋電信所老師", "contact": "（走老師管道）", "check": "已查證", "sources": ["https://www.idc.hinet.net/Environment_Location_Hsinchu_Zhubei.html", "https://chtnycu.web.nycu.edu.tw/"]}, {"id": "C3", "tier": "C", "name": "正源科技（裕隆集團）竹北 IDC", "category": "IDC／主機代管", "area": "竹北", "location": "新竹縣竹北市台元街 30 號 4 樓之 1（公司登記）", "pain": "在地主機代管機房", "ask": "C 級訪談；B 級換碟統計", "first_step": "先確認總機（官網這次連不上）再寄提案", "who": "產業顧問引薦最好", "contact": "03-600-5999（搜尋摘要，未直接驗證）", "check": "部分查證", "sources": ["https://www.findcompany.com.tw/%E6%AD%A3%E6%BA%90%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8", "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000091177_BL707H2HRC6WYJR8REFSR"]}, {"id": "C4", "tier": "C", "name": "新竹市政府「智慧城市場域驗證服務合作計畫」", "category": "公部門媒合管道", "area": "新竹市", "location": "新竹市中正路 120 號", "pain": "市府開放場域與難題給產學研做概念驗證，大專校院可提案；機房、監視系統的儲存健康可包裝成智慧政府提案", "ask": "場域驗證機會或支持函（時程較長）", "first_step": "下載計畫辦法，打總機轉分機 337 詢問學生競賽能否適用", "who": "職訓班同學（新竹市職訓學員身分）", "contact": "03-5216121 轉 337", "check": "已查證", "sources": ["https://icity.hccg.gov.tw/cityland/app/artwebsite?module=artwebsite&id=11&serno=null"]}, {"id": "C5", "tier": "C", "name": "新竹縣電腦商業同業公會", "category": "公會管道", "area": "竹北", "location": "新竹縣竹北市光明九路 8-10 號 8 樓", "pain": "會員是新竹縣的電腦公司與周邊廠商；可請秘書處把一頁提案轉進會員群組", "ask": "轉發徵求＋會員名冊中做 NAS／監控／伺服器維護的公司", "first_step": "平日打 (03) 583-7275 找秘書處，同時寄 service@hcca.org.tw（官網最新消息停在 2024-08，活躍度待確認）", "who": "職訓班同學", "contact": "(03) 583-7275；service@hcca.org.tw", "check": "已查證", "sources": ["https://www.hcca.org.tw/", "https://www.hcca.org.tw/membership-roster/"]}, {"id": "C6", "tier": "C", "name": "PTT Storage_Zone 板", "category": "線上社群", "area": "線上", "location": "PTT", "pain": "玩家與小型 NAS 使用者聚集，求助文常見；資料量小，只能當展示與補充驗證", "ask": "徵求匿名上傳 smartctl JSON，回送一份 AI 健康評估", "first_step": "先讀板規確認能不能發徵求文，再用隊員自己的帳號發文；提醒遮掉序號", "who": "職訓班同學", "contact": "https://www.ptt.cc/bbs/Storage_Zone/", "check": "已查證", "sources": ["https://www.ptt.cc/bbs/Storage_Zone/index.html"]}, {"id": "C7", "tier": "C", "name": "承星資訊科技", "category": "機房與監視器維運（政府共同供應契約立約商）", "area": "桃園（服務新竹）", "location": "桃園市八德區瑞發街 107 巷 9 弄 5 號", "pain": "做機房管理、監視器建置維護、IT 外包，服務範圍含新竹市、竹北、竹東", "ask": "問換碟工單統計，請他們介紹一家新竹客戶試裝收集腳本", "first_step": "加 LINE 官方帳號 @fos5396p 或打 03-368-8203", "who": "職訓班同學", "contact": "03-368-8203；LINE @fos5396p", "check": "已查證", "sources": ["https://cxit.com.tw/services/network/hsinchu/"]}, {"id": "C8", "tier": "C", "name": "睿卡科技／凌威科技（台北資料救援，服務竹科）", "category": "資料救援", "area": "台北（新竹快遞收件）", "location": "睿卡：台北市松山區；凌威：台北市內湖區", "pain": "宣稱服務很多竹科企業的 RAID／NAS 救援", "ask": "只要彙總的故障型態比例或一段業界觀點，讓說明書引用", "first_step": "寄 service@r-data.com.tw、engineer@linwei.com.tw", "who": "職訓班同學", "contact": "睿卡 02-27199059；凌威 02-2799-3377", "check": "已查證", "sources": ["https://www.r-data.com.tw/customer-detail/392/"]}, {"id": "C9", "tier": "C", "name": "新竹市錄影監視系統的維護得標廠商", "category": "監視系統維護（政府標案）", "area": "新竹市", "location": "到政府電子採購網查決標公告後才知道", "pain": "新竹市規定監視錄影至少保存 30 日、警察局可以隨時抽查（設置管理維護要點第 13、14 條）；錄影主機的碟壞了就是違規", "ask": "換碟紀錄或 NVR 故障統計；請他們挑幾個場域現場讀 SMART", "first_step": "不要跟警察局要資料。到政府電子採購網搜尋「新竹市 錄影監視系統 維護」的決標公告，找出得標廠商再聯絡；法規條文同時拿去放進說明書", "who": "職訓班同學", "contact": "（查到得標廠商後再補）", "check": "已查證", "sources": ["https://law.hccg.gov.tw/LawContent.aspx?id=FL055111", "https://data.gov.tw/dataset/67490"]}];
+const TARGETS = [{"id": "A1", "tier": "A", "name": "陽明交大 資工系資訊中心（系計中）", "category": "校內機房", "area": "新竹市東區", "location": "新竹市東區大學路 1001 號 工程三館 3 樓 320 室", "pain": "管全系 Linux 工作站、郵件、GPU 教學機房，並代管各實驗室伺服器（12 個機櫃）；碟壞了是師生資料和服務中斷，要自己換碟重建", "ask": "B 級優先：問有沒有留換碟紀錄或 SMART 歷史；A 級：在工作站／GPU 教學機房裝唯讀收集腳本，連續收 8～10 週", "first_step": "10/8 上午寄 help@cs.nycu.edu.tw（草稿已備）；10/13 沒回就打分機 54707 或到 EC3 320 值班台", "who": "育典", "contact": "help@cs.nycu.edu.tw；(03) 5712121 #54707；學期中週一到週五 9:00–22:00", "check": "已查證", "sources": ["https://it.cs.nycu.edu.tw/", "https://it.cs.nycu.edu.tw/co-location", "https://it.cs.nycu.edu.tw/gpu-room"]}, {"id": "A2", "tier": "A", "name": "陽明交大 資訊技術服務中心（光復校區）", "category": "校內機房", "area": "新竹市東區", "location": "新竹市東區大學路 1001 號 資訊館 1 樓", "pain": "全校郵件、VPS、GPU 虛擬主機、機房代管都靠它，背後是大量儲存；RAID 降級就影響全校服務", "ask": "B 級：去識別化的換碟紀錄＋SMART 歷史；C 級：儲存維運同仁 20 分鐘訪談", "first_step": "10/7 上午寄 itsc@nycu.edu.tw（草稿已備），問中心自營平臺有沒有保存換碟紀錄", "who": "育典", "contact": "itsc@nycu.edu.tw；03-5712121 #31888；週一到週五 8:00–17:30", "check": "已查證", "sources": ["https://it.nycu.edu.tw/", "https://it.nycu.edu.tw/it/ch/app/folder/270"]}, {"id": "A3", "tier": "A", "name": "阿姆雷特科技（Armlet）", "category": "中小企業 IT 委外維運", "area": "新竹市北區", "location": "新竹市北大路 29-1 號 5F-2", "pain": "專做 100 人以下、沒有專職 IT 的中小企業，官網寫會即時監控「硬碟異常、Raid 錯誤、備份策略失敗」——很可能真的有監控紀錄", "ask": "B 級：客戶硬碟告警與換碟紀錄（去識別化）；或挑 1～2 家客戶試裝收集腳本", "first_step": "10/7 上午寄 service@teng.com.tw（草稿已備）；10/12 沒回就打 03-5421902", "who": "育典", "contact": "service@teng.com.tw；03-5421902；FB：Armlet.Taiwan", "check": "已查證", "sources": ["https://www.teng.com.tw/it_outsourcing.asp", "https://www.teng.com.tw/"]}, {"id": "A4", "tier": "A", "name": "華奕資訊（e-tobe）", "category": "NAS 建置與 IT 維運", "area": "新竹市北區", "location": "新竹市少年街 23 號", "pain": "新竹、竹北、竹南、竹東的 Synology／QNAP NAS 代安裝與維運，客戶多是中小企業；NAS 壞碟、RAID 重建失敗直接變成客訴", "ask": "問有沒有遠端監控客戶 NAS、SMART 紀錄留不留；交換條件是免費幫 1～3 家客戶做 NAS 健檢", "first_step": "10/7 上午寄 info@e-tobe.com（草稿已備）；10/12 沒回就打 03-5256151", "who": "育典", "contact": "03-5256151；info@e-tobe.com", "check": "已查證", "sources": ["https://www.e-tobe.com/", "https://www.e-tobe.com/nas-install-setup-hsinchu-zhupei/"]}, {"id": "A5", "tier": "A", "name": "零壹科技 新竹辦公室（含子公司朔宇科技）", "category": "儲存與 IT 系統整合／通路", "area": "新竹市東區", "location": "新竹市東區慈雲路 118 號 17 樓之 3（台北總部在內湖）", "pain": "代理與整合多家儲存品牌（朔宇代理 QSAN），服務新竹企業客戶；客戶硬碟壞了是他們的維運與保固成本，AI 預警可以變成加值服務", "ask": "引薦 1～2 家願意的客戶場域；C 級業界觀點訪談；B 級維運換碟統計", "first_step": "育典 LINE 請高階經理人班同學介紹新竹的儲存維運同仁（10/7 傳）", "who": "育典", "contact": "新竹辦公室 +886-3-668-6638；台北總機 +886-2-2656-5656", "check": "部分查證", "sources": ["https://www.zerone.com.tw/contact/location", "https://www.zerone.com.tw/product/brand", "https://www.petacom.com.tw/Salesbrand/QSAN/"]}, {"id": "A6", "tier": "A", "name": "育典的高階經理人班人脈", "category": "搭橋管道", "area": "新竹", "location": "陽明交大光復校區（每月第三個星期四上課，下一堂 10/15）", "pain": "班上同學多是新竹科技業主管，不少人在工廠工作；工廠的監視錄影主機和檔案伺服器就是「真實廠房數據」", "ask": "請同學把一頁提案轉給自家 IT／廠務；目標是 2～3 家工廠願意跑一次快照＋提供換碟紀錄", "first_step": "同學 LINE 私訊已備：第一優先 10/7 傳，其餘 10/7～10/8 傳或 10/15 上課當面講", "who": "育典", "contact": "（育典自行聯絡）", "check": "已查證", "sources": []}, {"id": "A7", "tier": "A", "name": "產業顧問的伺服器業界人脈", "category": "搭橋管道", "area": "待確認", "location": "待確認", "pain": "伺服器業界的前輩，最可能直接認識機房、系統整合商、儲存廠的維運主管", "ask": "先問清楚她熟哪些圈子、同不同意在提案上具名；引薦控制在 4 家以內（喬鼎、ULINK、正源、Accusys 優先）", "first_step": "育典 LINE 私訊：問喬鼎、Accusys、ULINK、正源有沒有熟人可以引薦", "who": "育典", "contact": "（育典自行聯絡）", "check": "待確認", "sources": []}, {"id": "A8", "tier": "A", "name": "勞動部 × 陽明交大「半導體與重點科技產業人才發展基地」（職訓班承辦單位）", "category": "搭橋管道", "area": "新竹市東區", "location": "陽明交大光復校區", "pain": "基地的企業專區有 20 多家合作廠商（例如緯穎、台灣美光）；學員得獎也算基地的計畫績效，承辦方有動機幫忙", "ask": "請承辦把一頁提案轉給企業專區廠商的 IT／廠務窗口；問下一場產業活動能不能讓團隊露出", "first_step": "10/8 上午寄 lasercenter@nycu.edu.tw（草稿已備），請承辦轉給企業專區廠商的 IT 或廠務窗口", "who": "育典", "contact": "03-571-2121 #56092；lasercenter@nycu.edu.tw；LINE @nycubase", "check": "部分查證", "sources": ["https://base.stem.lasercenter.nycu.edu.tw/", "https://base.stem.lasercenter.nycu.edu.tw/cooperation", "https://base.stem.lasercenter.nycu.edu.tw/about/project"]}, {"id": "B1", "tier": "B", "name": "晟誼科技（新竹資料救援中心）", "category": "資料救援", "area": "新竹市東區", "location": "新竹市東區金城一路 11 號 1 樓（新竹總公司）", "pain": "RAID／NAS 救援為主，官網有新竹校園伺服器 RAID6 救援案例，痛點故事現成", "ask": "故障型態彙總統計＋一段業界觀點；進一步才談故障碟快照；進階：我們免費寫一個「收件時自動存 smartctl 報告」的小工具，10～11 月每收一顆還讀得到的壞碟就留一份去識別化快照（全是正樣本）", "first_step": "先打 03-5750935 問收信的信箱（官網聯絡資訊不完整），問到就寄草稿；打不通改 FB 粉專私訊", "who": "育典", "contact": "03-5750935；0800-600-966；FB：Datasos.tw", "check": "部分查證", "sources": ["https://raidnas.tw/", "https://raidnas.tw/datarecoverylocation/", "https://data-tw.blogspot.com/"]}, {"id": "B2", "tier": "B", "name": "雷德硬碟資料救援 新竹 NOVA 店（WD 授權服務中心）", "category": "資料救援／原廠保固服務", "area": "新竹市東區", "location": "新竹市光復路二段 200 號 3 樓 307 室（新竹 NOVA 3F）", "pain": "每天收壞掉的硬碟，也做 WD 保固換貨——手上有做故障預測最缺的「壞掉樣本」", "ask": "去識別化的救援案件彙總（型號、故障類型、SMART 摘要）；或在客戶同意下讀故障碟的死前快照；進階：我們免費寫一個「收件時自動存 smartctl 報告」的小工具，10～11 月每收一顆還讀得到的壞碟就留一份去識別化快照（全是正樣本）", "first_step": "先打總公司 02-23917555 問企業合作窗口的信箱，問到就寄草稿", "who": "育典", "contact": "新竹店 03-5753299；總公司 02-23917555", "check": "已查證", "sources": ["https://www.raid5.com.tw/contact.php?type=8", "https://www.raid5.com.tw/"]}, {"id": "B3", "tier": "B", "name": "復得科技 新竹服務站", "category": "資料救援", "area": "新竹市東區", "location": "新竹市東區光復路二段 276 號（總部在高雄）", "pain": "硬碟救援案件多，看得到消費與企業端的真實故障分布", "ask": "去識別化的故障案件彙總", "first_step": "10/7 上午寄 service@hdd.tw（草稿已備）；10/12 沒回就打新竹站 03-5734511", "who": "育典", "contact": "新竹站 03-5734511（11:00–20:00）；0800-882-119；service@hdd.tw", "check": "已查證", "sources": ["https://www.hdd.tw/tw/location.asp", "https://www.hdd.tw/"]}, {"id": "B4", "tier": "B", "name": "鴻華資料救援", "category": "資料救援", "area": "新竹市北區", "location": "新竹市北區（官網寫；完整門牌執行前再確認）", "pain": "官網有新竹 Synology DS918+ RAID5 案例：有壞軌警告，但使用者看不懂、拔錯碟，整個陣列認不得——正是「沒有 IT 人員」的故事", "ask": "C 級訪談＋允許引用案例；故障型態彙總", "first_step": "10/8 上午寄官網客服信箱（草稿已備），約 20 分鐘訪談；10/12 沒回就打 03-525-2673", "who": "育典", "contact": "andrew@data-recover.com.tw（官網客服信箱）；03-525-2673", "check": "部分查證", "sources": ["https://www.data-recover.com.tw/cases/synology-ds918-raid5-seagate-4tb-ironwolf-nas-btrfs-%E8%B3%87%E6%96%99%E6%95%91%E6%8F%B4"]}, {"id": "B5", "tier": "B", "name": "喬鼎資訊 PROMISE（3057）", "category": "RAID 儲存設備廠", "area": "竹科", "location": "新竹科學園區工業東四路 21 號 5 樓", "pain": "產品就是一整櫃硬碟的 RAID 儲存，含監控錄影用 Vess 系列；碟壞加重建失敗＝客戶錄影消失；預測換碟可以寫進產品當加值功能", "ask": "業界觀點訪談；保固 RMA 的故障型態彙總；長線談產品合作", "first_step": "10/7 上午寄 marketing@tw.promise.com，副本 sales@（草稿已備）；10/12 沒回就打總機", "who": "育典", "contact": "03-5782395；sales@tw.promise.com；marketing@tw.promise.com", "check": "已查證", "sources": ["https://www.promise.com/tw/ContactUs/APAC", "https://www.promise.com/tw/About"]}, {"id": "B6", "tier": "B", "name": "Accusys Storage（登記名：金萬益股份有限公司）", "category": "RAID 儲存設備廠", "area": "竹北", "location": "新竹縣竹北市台元科技園區（完整門牌待確認）", "pain": "RAID 儲存（ExaSAN、Gamma 系列），客戶有媒體製作、醫療、政府；官網主打 AI-Ready Data，規模比喬鼎小、決策鏈可能短", "ask": "業界觀點訪談；客戶支援的換碟統計", "first_step": "10/7 上午寄 marketing@accusys.com.tw（草稿已備）；10/12 沒回就打 03-5600258", "who": "育典", "contact": "03-5600258；marketing@accusys.com.tw；sales@accusys.com.tw", "check": "部分查證", "sources": ["https://www.accusys.com.tw/about-us/", "https://www.accusys.com.tw/contact-us/"]}, {"id": "B7", "tier": "B", "name": "ULINK Technology 台灣分公司（DA Drive Analyzer）", "category": "AI 硬碟故障預測廠商（業師）", "area": "竹北", "location": "新竹縣竹北市光明六路東一段 257 號 14 樓", "pain": "已經在賣 AI 硬碟故障預測（跟 QNAP、ASUSTOR 合作），宣稱監控 200 萬顆以上、平均提前 12 天預警", "ask": "C 級：30 分鐘業師訪談，請教現場痛點與做不到的地方；不期待給資料", "first_step": "先等產業顧問回覆有沒有熟人；沒有就 10/8 寄 contact@ulinktech.com（草稿已備），只請教不要資料", "who": "育典", "contact": "(03) 668-1770；contact@ulinktech.com", "check": "部分查證", "sources": ["https://ulinktech.com/company/", "https://ulinktech.com/products/daanalyzer/", "https://www.qnap.com/en/news/2025/qnap-and-ulink-upgrade-da-drive-analyzer-with-new-ai-engine-greatly-enhancing-drive-health-prediction-accuracy"]}, {"id": "B8", "tier": "B", "name": "東區電訊", "category": "監視系統與弱電整合", "area": "竹北", "location": "新竹縣竹北市縣政十六街 18 號", "pain": "做監視、門禁、總機，服務竹北、湖口、新豐、新竹市；NVR 硬碟壞了＝客戶錄影調不出來", "ask": "問一年換幾顆 NVR 碟、有沒有維修單；有紀錄才談挑 2～3 個場域現場讀 SMART", "first_step": "10/7 上午寄官網兩個信箱（草稿已備）；10/12 上午打 03-6565665", "who": "育典", "contact": "jean7258@ms41.hinet.net、jeanson510521@gmail.com（官網兩個信箱）；03-6565665", "check": "已查證", "sources": ["https://www.dtel.com.tw/index.html"]}, {"id": "B9", "tier": "B", "name": "國家高速網路與計算中心（國網中心）", "category": "國家級計算與儲存", "area": "竹科", "location": "新竹市東區研發六路 7 號（台南南科另有分部與雲端算力中心）", "pain": "晶創 26 等系統有 25 PB 儲存，壞碟與重建是日常維運成本，最接近 Backblaze 的規模；台南分部可連結南大主辦的比賽", "ask": "只約訪談或請儲存工程師當審閱者，不要一開口就要 log", "first_step": "10/8 上午寄 webmaster@niar.org.tw（草稿已備），只約 20 分鐘請教", "who": "育典", "contact": "03-5776085；webmaster@niar.org.tw", "check": "已查證", "sources": ["https://www.nchc.org.tw/Page?itemid=35&mid=60", "https://www.nchc.org.tw/"]}, {"id": "B10", "tier": "B", "name": "新竹馬偕紀念醫院 資訊部門", "category": "醫院（PACS 影像儲存）", "area": "新竹市東區", "location": "新竹市東區光復路二段 690 號", "pain": "醫學影像量大、病歷至少保存 7 年；資料量大，碟壞了影響看診", "ask": "只約 C 級訪談；對方若提到維護廠商，請他們引薦", "first_step": "透過高階經理人班同學轉介資訊部門（LINE 已備），只約訪談", "who": "育典", "contact": "03-6889595（總機轉資訊部門）", "check": "已查證", "sources": ["https://www.hc.mmh.org.tw/"]}, {"id": "B11", "tier": "B", "name": "臺大醫院新竹臺大分院 資訊室", "category": "醫院（PACS 影像儲存）", "area": "新竹市東區／竹北", "location": "新竹院區：新竹市經國路一段 442 巷 25 號；生醫醫院竹北院區：竹北市生醫路", "pain": "多院區影像與病歷系統；資訊室下設系統網路組", "ask": "只約 C 級訪談", "first_step": "透過高階經理人班同學轉介資訊室（LINE 已備），只約訪談", "who": "育典", "contact": "新竹院區 (03)5326151；竹北院區 (03)6677600", "check": "部分查證", "sources": ["https://www.hch.gov.tw/", "https://www.hch.gov.tw/?aid=60&pid=87"]}, {"id": "C1", "tier": "C", "name": "清華大學 計算機與通訊中心", "category": "校級機房", "area": "新竹市東區", "location": "新竹市光復路二段 101 號", "pain": "全校網路與校務系統的伺服器與儲存；可以跟交大並列成「新竹兩校」做跨機房驗證", "ask": "先只約痛點訪談", "first_step": "10/8 上午寄 service@cc.nthu.edu.tw（草稿已備），只約 20 分鐘請教", "who": "育典", "contact": "03-5731000（分機 31000）；service@cc.nthu.edu.tw", "check": "已查證", "sources": ["https://ccc.site.nthu.edu.tw/p/412-1285-1210.php?Lang=zh-tw"]}, {"id": "C2", "tier": "C", "name": "中華電信 IDC 竹北機房／中華電信—陽明交大創新研究中心", "category": "電信機房", "area": "竹北", "location": "新竹縣竹北市光明五街 136 號", "pain": "200 櫃機房；原始資料外流機率低，但研究中心是交大合作管道", "ask": "請研究院 AIOps／雲端團隊當業師，或提供去識別化換碟統計樣本", "first_step": "10/8 上午寄研究中心聯絡信箱（草稿已備），請轉介做 AIOps 或雲端維運的研究人員", "who": "育典", "contact": "研究中心官網「聯絡我們」信箱", "check": "已查證", "sources": ["https://www.idc.hinet.net/Environment_Location_Hsinchu_Zhubei.html", "https://chtnycu.web.nycu.edu.tw/"]}, {"id": "C3", "tier": "C", "name": "正源科技（裕隆集團）竹北 IDC", "category": "IDC／主機代管", "area": "竹北", "location": "新竹縣竹北市台元街 30 號 4 樓之 1（公司登記）", "pain": "在地主機代管機房", "ask": "C 級訪談；B 級換碟統計", "first_step": "10/7 上午寄 service@yulonitsolutions.com（草稿已備）；10/12 沒回就打 (03) 6005-999", "who": "育典", "contact": "service@yulonitsolutions.com；(03) 6005-999", "check": "部分查證", "sources": ["https://www.findcompany.com.tw/%E6%AD%A3%E6%BA%90%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8", "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000091177_BL707H2HRC6WYJR8REFSR"]}, {"id": "C4", "tier": "C", "name": "新竹市政府「智慧城市場域驗證服務合作計畫」", "category": "公部門媒合管道", "area": "新竹市", "location": "新竹市中正路 120 號", "pain": "市府開放場域與難題給產學研做概念驗證，大專校院可提案；機房、監視系統的儲存健康可包裝成智慧政府提案", "ask": "場域驗證機會或支持函（時程較長）", "first_step": "10/7 上午寄智慧城市窗口信箱（草稿已備）；10/14 沒回就打 03-5216121 轉 337", "who": "育典", "contact": "041254@ems.hccg.gov.tw（智慧城市窗口）；03-5216121 轉 337", "check": "已查證", "sources": ["https://icity.hccg.gov.tw/cityland/app/artwebsite?module=artwebsite&id=11&serno=null"]}, {"id": "C5", "tier": "C", "name": "新竹縣電腦商業同業公會", "category": "公會管道", "area": "竹北", "location": "新竹縣竹北市光明九路 8-10 號 8 樓", "pain": "會員是新竹縣的電腦公司與周邊廠商；可請秘書處把一頁提案轉進會員群組", "ask": "轉發徵求＋會員名冊中做 NAS／監控／伺服器維護的公司", "first_step": "10/8 上午寄 service@hcca.org.tw（草稿已備），同一天打電話給秘書處", "who": "育典", "contact": "(03) 583-7275；service@hcca.org.tw", "check": "已查證", "sources": ["https://www.hcca.org.tw/", "https://www.hcca.org.tw/membership-roster/"]}, {"id": "C6", "tier": "C", "name": "PTT Storage_Zone 板", "category": "線上社群", "area": "線上", "location": "PTT", "pain": "玩家與小型 NAS 使用者聚集，求助文常見；資料量小，只能當展示與補充驗證", "ask": "徵求匿名上傳 smartctl JSON，回送一份 AI 健康評估", "first_step": "板規已查過，10/7 或 10/8 晚上用育典的帳號發 [徵求] 文", "who": "育典", "contact": "https://www.ptt.cc/bbs/Storage_Zone/", "check": "已查證", "sources": ["https://www.ptt.cc/bbs/Storage_Zone/index.html"]}, {"id": "C7", "tier": "C", "name": "承星資訊科技", "category": "機房與監視器維運（政府共同供應契約立約商）", "area": "桃園（服務新竹）", "location": "桃園市八德區瑞發街 107 巷 9 弄 5 號", "pain": "做機房管理、監視器建置維護、IT 外包，服務範圍含新竹市、竹北、竹東", "ask": "問換碟工單統計，請他們介紹一家新竹客戶試裝收集腳本", "first_step": "10/7 上午寄 cxit@cxit.com.tw（草稿已備，留意退信）；10/12 沒回就打電話或加 LINE", "who": "育典", "contact": "cxit@cxit.com.tw；03-368-8203；LINE @fos5396p", "check": "已查證", "sources": ["https://cxit.com.tw/services/network/hsinchu/"]}, {"id": "C8", "tier": "C", "name": "睿卡科技／凌威科技（台北資料救援，服務竹科）", "category": "資料救援", "area": "台北（新竹快遞收件）", "location": "睿卡：台北市松山區；凌威：台北市內湖區", "pain": "宣稱服務很多竹科企業的 RAID／NAS 救援", "ask": "只要彙總的故障型態比例或一段業界觀點，讓說明書引用", "first_step": "睿卡、凌威是兩家不同公司，10/8 上午各寄一封（草稿已備），不要互相副本", "who": "育典", "contact": "睿卡 service@r-data.com.tw、02-27199059；凌威 engineer@linwei.com.tw、02-2799-3377", "check": "已查證", "sources": ["https://www.r-data.com.tw/customer-detail/392/"]}, {"id": "C9", "tier": "C", "name": "新竹市錄影監視系統維護得標廠商（佳蔘科技）", "category": "監視系統維護（政府標案）", "area": "新竹市", "location": "到政府電子採購網查決標公告後才知道", "pain": "新竹市規定監視錄影至少保存 30 日、警察局可以隨時抽查（設置管理維護要點第 13、14 條）；錄影主機的碟壞了就是違規", "ask": "換碟紀錄或 NVR 故障統計；請他們挑幾個場域現場讀 SMART", "first_step": "得標廠商是佳蔘科技：先打 (03)5553508 問信箱，問到再寄草稿", "who": "育典", "contact": "(03)5553508（政府採購網決標公告）", "check": "已查證", "sources": ["https://law.hccg.gov.tw/LawContent.aspx?id=FL055111", "https://data.gov.tw/dataset/67490"]}];
 const PUBLIC = true;
 const STATUSES = ["未聯絡", "已聯絡", "已回覆", "約到訪談", "同意給資料", "婉拒"];
 const STATUS_VAR = { "未聯絡": "--s-none", "已聯絡": "--s-sent", "已回覆": "--s-reply", "約到訪談": "--s-meet", "同意給資料": "--s-yes", "婉拒": "--s-no" };
-const TIER_INFO = { A: ["A 級", "熟人、校內，或在地小公司決策最快：9/30 第一波"], B: ["B 級", "要引薦或多一道流程"], C: ["C 級", "長線，只約訪談或背書"] };
+const TIER_INFO = { A: ["A 級", "熟人、校內，或在地小公司，決策最快"], B: ["B 級", "要引薦或多一道流程"], C: ["C 級", "長線，只約訪談或背書"] };
 const GO_DATE = new Date("2026-10-16T00:00:00+08:00");
 
 const state = {};         // id -> {status, owner, note, updatedAt}
