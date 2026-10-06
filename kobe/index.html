@@ -12,9 +12,10 @@ input{width:100%;box-sizing:border-box;font-size:18px;padding:12px 14px;border:1
 button{margin-top:12px;width:100%;font-size:16px;padding:12px;border:0;border-radius:10px;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
 button[disabled]{opacity:.6}.err{color:#b91c1c;font-size:14px;margin-top:10px;min-height:1.4em}
 .tiny{font-size:12px;color:var(--muted);margin-top:16px}
-</style></head><body><main><form class="card" id="f" autocomplete="off">
+</style></head><body><main><form class="card" id="f" autocomplete="on">
 <h1>🏃‍♀️ 神戶馬拉松 2026 行程包</h1><p>這頁是加密的，輸入育典給你的密碼就能打開。</p>
-<input id="pw" type="password" placeholder="密碼" autofocus inputmode="latin">
+<input type="text" name="username" value="kobe" autocomplete="username" hidden>
+<input id="pw" name="password" type="password" placeholder="密碼" autocomplete="current-password" autofocus inputmode="latin">
 <button id="go" type="submit">打開行程包</button><div class="err" id="err"></div>
 <div class="tiny">內容在你的手機／電腦上解密，伺服器上只有亂碼。</div>
 </form></main>
