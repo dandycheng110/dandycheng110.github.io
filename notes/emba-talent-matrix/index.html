@@ -24,6 +24,12 @@ button { font: inherit; font-weight: 700; padding: 10px 12px; border-radius: 8px
 button:disabled { opacity: .6; cursor: wait; }
 input:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .err { color: var(--accent); font-size: .88rem; min-height: 1.2em; }
+.notice { background: var(--bg); border: 1px solid var(--rule); border-radius: 8px; padding: 14px; font-size: .82rem; line-height: 1.65; color: var(--muted); max-height: 200px; overflow-y: auto; }
+.notice h2 { font-size: .88rem; margin: 0 0 6px; color: var(--ink); }
+.notice ul { margin: 4px 0; padding-left: 1.2em; }
+.notice li { margin-bottom: 4px; }
+label.consent { display: flex; gap: 8px; align-items: flex-start; font-size: .84rem; color: var(--ink); line-height: 1.5; }
+label.consent input { margin-top: 3px; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -32,8 +38,21 @@ input:focus-visible, button:focus-visible { outline: 2px solid var(--accent); ou
   <p>內容已加密，只有輸入正確密碼才會在你的瀏覽器裡解開。</p>
   <input type="text" name="username" value="emba-talent-matrix" autocomplete="username" hidden>
   <input type="password" id="pw" name="password" autocomplete="current-password" placeholder="密碼" required>
+  <div class="notice">
+    <h2>個資法注意事項</h2>
+    <p>本頁內容含有第 40 屆交大高階經理人班同學之個人資料（姓名、公司、職稱、專長等），受《個人資料保護法》保護。存取本頁即表示你同意：</p>
+    <ul>
+      <li>僅限班級同學間的聯繫與合作用途，不得用於商業行銷、徵才或其他目的</li>
+      <li>不得將內容截圖、複製、轉發或分享給非本屆同學</li>
+      <li>不得將個資上傳至任何第三方平台或公開管道</li>
+      <li>如有資料異動或要求移除，請聯繫管理人處理</li>
+      <li>違反上述事項所生之法律責任，由存取者自行承擔</li>
+    </ul>
+    <p>依個資法第 19、20 條，本資料之蒐集與利用係基於同學間正當聯繫之特定目的，並已採加密等適當安全措施。</p>
+  </div>
+  <label class="consent"><input type="checkbox" id="agree"> 我已閱讀並同意上述個資法注意事項，承諾妥善保管本頁資料</label>
   <label class="rem"><input type="checkbox" id="rem"> 在這台裝置記住密碼</label>
-  <button id="go" type="submit">解鎖</button>
+  <button id="go" type="submit" disabled>解鎖</button>
   <div class="err" id="err" role="alert"></div>
 </form>
 <script>
@@ -49,10 +68,11 @@ input:focus-visible, button:focus-visible { outline: 2px solid var(--accent); ou
     return new TextDecoder().decode(pt);
   }
   function show(html) { document.open(); document.write(html); document.close(); }
-  var f = document.getElementById('f'), pw = document.getElementById('pw'), rem = document.getElementById('rem'), go = document.getElementById('go'), err = document.getElementById('err');
+  var f = document.getElementById('f'), pw = document.getElementById('pw'), rem = document.getElementById('rem'), go = document.getElementById('go'), err = document.getElementById('err'), agree = document.getElementById('agree');
   if (!window.crypto || !crypto.subtle) { err.textContent = '這個瀏覽器不支援解密，請換 Safari 或 Chrome。'; go.disabled = true; return; }
+  agree.addEventListener('change', function () { go.disabled = !agree.checked; });
   f.addEventListener('submit', async function (e) {
-    e.preventDefault(); err.textContent = ''; go.disabled = true; go.textContent = '解密中…';
+    e.preventDefault(); if (!agree.checked) { err.textContent = '請先勾選同意個資法注意事項。'; return; } err.textContent = ''; go.disabled = true; go.textContent = '解密中…';
     try {
       var html = await unlock(pw.value);
       try { if (rem.checked) localStorage.setItem(KEY, pw.value); else localStorage.removeItem(KEY); } catch (x) {}
@@ -60,7 +80,7 @@ input:focus-visible, button:focus-visible { outline: 2px solid var(--accent); ou
     } catch (x) { err.textContent = '密碼不對，再試一次。'; go.disabled = false; go.textContent = '解鎖'; pw.select(); }
   });
   var saved = null; try { saved = localStorage.getItem(KEY); } catch (x) {}
-  if (saved) { pw.value = saved; rem.checked = true; unlock(saved).then(show).catch(function () { try { localStorage.removeItem(KEY); } catch (x) {} pw.value = ''; rem.checked = false; }); }
+  if (saved) { pw.value = saved; rem.checked = true; agree.checked = true; go.disabled = false; unlock(saved).then(show).catch(function () { try { localStorage.removeItem(KEY); } catch (x) {} pw.value = ''; rem.checked = false; }); }
 })();
 </script>
 </body>
