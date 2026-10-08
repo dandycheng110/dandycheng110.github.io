@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LiPo 電池冒煙應變海報</title>
+<meta name="description" content="A4 可列印的 LiPo 電池冒煙或起火應變海報：三步驟、沙桶／水／乾粉滅火器各做什麼，附 PDF 下載。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&display=swap">
+<style>
+:root { --bg:#E4EAEC; --surface:#F6F8F9; --fg:#111418; --mut:#4F5B64; --rule:#C9D4D9; --acc:#B4430E; color-scheme:light; }
+@media (prefers-color-scheme: dark) { :root { --bg:#0A1319; --surface:#122029; --fg:#E3ECEF; --mut:#93A5AC; --rule:#22343D; --acc:#FF8A4C; color-scheme:dark; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif; }
+.wrap { max-width:860px; margin:0 auto; padding-inline:16px; padding-block:28px 64px; display:grid; gap:20px; }
+.back { color:var(--mut); font-size:14px; text-decoration:none; }
+.back:hover { color:var(--acc); }
+.title { margin:0; font-size:clamp(24px,5vw,34px); line-height:1.25; font-weight:800; }
+.lede { margin:0; color:var(--mut); line-height:1.7; max-width:62ch; }
+.bar { display:flex; flex-wrap:wrap; gap:10px; }
+.btn { font:inherit; font-size:15px; font-weight:700; padding:9px 16px; border-radius:8px; background:var(--fg); color:var(--bg); text-decoration:none; }
+.btn:focus-visible { outline:3px solid var(--acc); outline-offset:2px; }
+.tips { margin:0; padding-left:1.2em; color:var(--mut); line-height:1.8; }
+.sheet { position:relative; width:100%; max-width:794px; aspect-ratio:210/297; overflow:hidden; margin:0 auto; box-shadow:0 2px 18px rgba(0,0,0,.18); background:#fff; }
+
+  
+  .poster {
+    --ink: #111418;
+    --muted: #4A535C;
+    --line: #9AA3AA;
+    --orange: #E8611A;
+    --paper: #FFFFFF;
+    --tint: #F2F4F5;
+  }
+  .poster * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  .poster { position:absolute; top:0; left:0; transform-origin:top left; transform:scale(var(--s,1)); background: var(--paper); width: 210mm; height: 297mm;
+    font-family: "PingFang TC", "Noto Sans TC", "Heiti TC", sans-serif;
+    color: var(--ink);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .poster .page {
+    width: 210mm; height: 297mm;
+    padding: 0 14mm 10mm;
+    display: flex; flex-direction: column; gap: 6mm;
+    border-top: 9mm solid var(--orange);
+  }
+  .poster header { padding-top: 7mm; display: flex; flex-direction: column; gap: 2mm; border-bottom: 1.2mm solid var(--ink); padding-bottom: 5mm; }
+  .poster .kicker { font-size: 13pt; font-weight: 600; letter-spacing: 0.3em; color: var(--muted); }
+  .poster h1 { font-size: 40pt; font-weight: 800; line-height: 1.15; letter-spacing: 0.02em; }
+  .poster .sub { font-size: 22pt; font-weight: 700; }
+  .poster .sub span { background: var(--ink); color: var(--paper); padding: 0 2.5mm; }
+
+  .poster .steps { display: flex; flex-direction: column; gap: 7mm; }
+  .poster .step { display: grid; grid-template-columns: 22mm 1fr; gap: 5mm; align-items: start; }
+  .poster .num {
+    width: 22mm; height: 22mm; border-radius: 50%;
+    background: var(--ink); color: var(--paper);
+    display: grid; place-items: center;
+    font-size: 34pt; font-weight: 800; line-height: 1;
+  }
+  .poster .step h2 { font-size: 26pt; font-weight: 800; line-height: 1.25; }
+  .poster .step p { font-size: 16.5pt; line-height: 1.55; color: var(--ink); margin-top: 1mm; }
+  .poster .step p b { font-weight: 800; }
+  .poster .call { display: inline-block; font-size: 30pt; font-weight: 800; border: 1mm solid var(--ink); padding: 0 3mm; margin-left: 1mm; line-height: 1.2; vertical-align: -2mm; }
+
+  .poster .roles { display: grid; grid-template-columns: repeat(3, 1fr); border: 0.8mm solid var(--ink); }
+  .poster .role { padding: 3.5mm 4mm; display: flex; flex-direction: column; gap: 1mm; }
+  .poster .role + .role { border-left: 0.8mm solid var(--ink); }
+  .poster .role h3 { font-size: 15pt; font-weight: 800; }
+  .poster .role p { font-size: 13.5pt; line-height: 1.45; color: var(--muted); }
+  .poster .roles-cap { font-size: 12pt; font-weight: 700; color: var(--muted); margin-bottom: -4mm; }
+
+  .poster .fill { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm 8mm; background: var(--tint); padding: 4mm 5mm; }
+  .poster .fill div { display: flex; align-items: flex-end; gap: 2mm; font-size: 13pt; font-weight: 700; white-space: nowrap; }
+  .poster .fill div::after { content: ""; flex: 1; border-bottom: 0.4mm solid var(--line); height: 7mm; }
+
+  .poster footer { margin-top: auto; display: flex; flex-direction: column; gap: 2mm; border-top: 0.6mm solid var(--ink); padding-top: 3mm; }
+  .poster .daily { font-size: 13pt; font-weight: 700; }
+  .poster .daily span { color: var(--muted); font-weight: 600; }
+  .poster .meta { display: flex; justify-content: space-between; gap: 6mm; font-size: 9.5pt; color: var(--muted); white-space: nowrap; }
+
+@media print {
+  @page { size:A4; margin:0; }
+  body { background:#fff; }
+  .wrap { display:block; padding:0; max-width:none; }
+  .wrap > :not(.sheet) { display:none !important; }
+  .sheet { width:210mm; height:297mm; max-width:none; box-shadow:none; aspect-ratio:auto; }
+  .poster { transform:none !important; }
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <a class="back" href="/notes/">← 筆記站</a>
+  <h1 class="title">LiPo 電池冒煙應變海報</h1>
+  <p class="lede">交大 ORCA 水下無人機隊貼在電池區的 A4 海報。冒煙或起火時先顧人：喊人、小火用火鉗夾進沙桶或水桶、控制不住就撤離打 119。下方也寫了沙桶、大量的水、乾粉滅火器各自的用途。</p>
+  <div class="bar"><a class="btn" href="lipo-fire-poster-a4.pdf" download>下載 A4 PDF</a></div>
+  <ul class="tips">
+    <li>直接印就好，黑白印表機也看得清楚。</li>
+    <li>貼之前用筆填下方空格：滅火器、沙桶、火鉗的位置，負責人，校安中心電話，逃生方向。</li>
+    <li>建議護貝，貼在電池區旁、視線高度。</li>
+  </ul>
+  <div class="sheet" id="sheet"><div class="poster"><div class="page">
+  <header>
+    <p class="kicker">ORCA 基地｜電池區</p>
+    <h1>LiPo 電池冒煙或起火</h1>
+    <p class="sub"><span>先顧人，再顧東西</span></p>
+  </header>
+
+  <section class="steps">
+    <div class="step">
+      <div class="num">1</div>
+      <div>
+        <h2>先喊人</h2>
+        <p>大聲通知大家。能安全做到就<b>拔掉充電器插頭</b>，再退開。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <div>
+        <h2>火還很小</h2>
+        <p>用<b>長柄火鉗</b>把電池夾進沙桶或水桶。<b>絕對不要徒手拿。</b></p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <div>
+        <h2>控制不住</h2>
+        <p>關門撤離，打 <span class="call">119</span><br>LiPo 燒起來的煙有毒，不要留在室內。</p>
+      </div>
+    </div>
+  </section>
+
+  <p class="roles-cap">三樣東西各做什麼</p>
+  <section class="roles">
+    <div class="role">
+      <h3>沙桶</h3>
+      <p>蓋住、防止延燒。不會降溫。</p>
+    </div>
+    <div class="role">
+      <h3>大量的水</h3>
+      <p>降溫、防止復燃。LiPo 可以用水。</p>
+    </div>
+    <div class="role">
+      <h3>乾粉滅火器</h3>
+      <p>救旁邊燒起來的東西。對電池本身效果有限。</p>
+    </div>
+  </section>
+
+  <section class="fill">
+    <div>滅火器在</div>
+    <div>沙桶在</div>
+    <div>火鉗在</div>
+    <div>電池安全負責人</div>
+    <div>校安中心電話</div>
+    <div>逃生方向</div>
+  </section>
+
+  <footer>
+    <p class="daily">平常就要做到：<span>有人在場才充電｜不用時調到 3.8 V 收進防火箱｜膨脹馬上停用</span></p>
+    <div class="meta">
+      <span>NYCU ORCA AUV｜2026-10 版</span>
+      <span>參考：事實查核中心（引述消防署）、FAA SAFO 09013、RoboSub 2025 手冊</span>
+    </div>
+  </footer>
+</div></div></div>
+</main>
+<script>
+(function () {
+  var sheet = document.getElementById('sheet'), p = sheet.querySelector('.poster');
+  function fit() { p.style.setProperty('--s', sheet.clientWidth / (210 * 96 / 25.4)); }
+  fit(); new ResizeObserver(fit).observe(sheet);
+})();
+</script>
+</body>
+</html>

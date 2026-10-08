@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>ORCA 基地整理計畫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@400..700&display=swap">
+<style>
+:root { --bg:#E4EAEC; --surface:#F6F8F9; --ink:#0E2233; --muted:#4F6271; --rule:#C9D4D9; --accent:#B4430E; color-scheme:light; }
+@media (prefers-color-scheme: dark) { :root { --bg:#0A1319; --surface:#122029; --ink:#E3ECEF; --muted:#93A5AC; --rule:#22343D; --accent:#FF8A4C; color-scheme:dark; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; }
+.wrap { max-width:1100px; margin:0 auto; padding-inline:16px; padding-block:28px 64px; display:grid; gap:24px; }
+header.top { display:grid; gap:10px; }
+.back { color:var(--muted); font-size:14px; text-decoration:none; }
+.back:hover { color:var(--accent); }
+h1.title { margin:0; font-size:clamp(26px,5vw,36px); line-height:1.25; font-weight:900; text-wrap:balance; }
+.lede { margin:0; color:var(--muted); line-height:1.7; max-width:62ch; }
+.bar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+.btn { font:inherit; font-size:15px; font-weight:700; padding:9px 16px; border-radius:8px; border:0; background:var(--ink); color:var(--bg); cursor:pointer; text-decoration:none; }
+.btn.ghost { background:transparent; color:var(--ink); border:1px solid var(--rule); }
+.btn:focus-visible, summary:focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+.card { background:var(--surface); border:1px solid var(--rule); border-radius:12px; overflow:hidden; }
+.frame { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; }
+.slide { position:absolute; top:0; left:0; width:1920px; height:1080px; box-sizing:border-box; transform-origin:top left; transform:scale(var(--s,0.5)); }
+.slide * { box-sizing:border-box; }
+.slide h1, .slide h2, .slide h3, .slide p, .slide ul { margin:0; }
+.slide ul { padding-left:1.2em; }
+.slide table { border-collapse:separate; border-spacing:0; width:100%; overflow:hidden; }
+.slide th, .slide td { padding:.35em .6em; text-align:left; border-bottom:1px solid #CFDADF; }
+.slide th { font-weight:700; }
+.slide tr:last-child td { border-bottom:0; }
+details { border-top:1px solid var(--rule); }
+summary { cursor:pointer; padding:10px 16px; font-size:14px; color:var(--muted); display:flex; gap:12px; align-items:center; }
+.pg { font-family:"Oswald",sans-serif; font-variant-numeric:tabular-nums; color:var(--ink); }
+.notes { margin:0; padding:0 16px 16px; font-size:15px; line-height:1.8; max-width:70ch; }
+#stage { position:fixed; inset:0; background:#05090C; display:grid; place-items:center; z-index:10; }
+#stage[hidden] { display:none; }
+#stage .frame { width:min(100vw, calc(100vh * 16 / 9)); }
+#stage .hint { position:fixed; bottom:12px; left:0; right:0; text-align:center; color:#7D8E96; font-size:13px; }
+@media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <a class="back" href="/notes/">← 筆記站</a>
+    <h1 class="title">ORCA 基地整理計畫（試行草案）</h1>
+    <p class="lede">交大 ORCA 水下無人機隊的基地整理提案：分區、守則 10 條、LiPo 電池安全、分工、新生第一週，以及時程與預算。共 17 頁，每頁的講者備註可以展開。</p>
+    <div class="bar">
+      <button class="btn" type="button" id="play">全螢幕播放</button>
+      <a class="btn ghost" href="/notes/lipo-fire-poster/">LiPo 冒煙應變海報（A4）</a>
+    </div>
+  </header>
+  
+  <article class="card" id="p1">
+    <div class="frame"><section class="slide" data-id="cover" style="background:#0E2233;color:#EAF1F3;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:24px">
+<div style="position:absolute;left:1110px;top:150px;width:780px;height:780px;background:transparent;border:2px solid #24465E;border-radius:50%"></div>
+<div style="position:absolute;left:1230px;top:270px;width:540px;height:540px;background:transparent;border:2px solid #2C5872;border-radius:50%"></div>
+<div style="position:absolute;left:1350px;top:390px;width:300px;height:300px;background:transparent;border:2px solid #3B7290;border-radius:50%"></div>
+<div style="position:absolute;left:1484px;top:524px;width:32px;height:32px;background:#F07A35;border-radius:50%"></div>
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:32px;font-weight:500;letter-spacing:6px;color:#F07A35">NYCU ORCA AUV</p>
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:200px;font-weight:700;line-height:1;color:#EAF1F3">ORCA</p>
+<h1 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:120px;font-weight:900;line-height:1.1;color:#EAF1F3">基地整理計畫</h1>
+<p style="font-size:44px;font-weight:500;line-height:1.4;color:#B8CCD6">分區、守則、分工｜試行到 11 月底</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1100px;font-size:24px;color:#8FA6B2">2026 年 10 月｜給社長、幹部和新生｜報告：成育典</p>
+</section></div>
+    <details>
+      <summary><span class="pg">01 / 17</span>講者備註</summary>
+      <p class="notes">大家好，今天想花大約 15 分鐘，講一個整理基地的提案。這是草案，社長和大家都可以改。<br><br>順序是：先講為什麼要整理，再講怎麼做、電池安全、誰負責、新生第一週要做什麼，最後是時程、預算，還有需要社長決定的 4 件事。</p>
+    </details>
+  </article>
+  <article class="card" id="p2">
+    <div class="frame"><section class="slide" data-id="pain" style="background:#EEF2F3;color:#0E2233;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#B4430E">01　為什麼要整理</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#0E2233">這些狀況，你應該遇過</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FBFCFC;padding:48px;border:1px solid #CFDADF;border-radius:16px">
+<svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#B4430E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#0E2233">找個接頭翻了半天</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">東西沒有固定位置，每次都要從頭找</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FBFCFC;padding:48px;border:1px solid #CFDADF;border-radius:16px">
+<svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#B4430E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#0E2233">接上去才發現是壞的</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">壞零件跟好零件混在一起，沒人標記</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FBFCFC;padding:48px;border:1px solid #CFDADF;border-radius:16px">
+<svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#B4430E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#0E2233">比賽前打包，怕漏帶</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">沒有清單，只能靠記憶一樣一樣想</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#56697A">ORCA 基地整理計畫</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#56697A;text-align:right">02 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">02 / 17</span>講者備註</summary>
+      <p class="notes">先問大家：有沒有人找一個接頭找了半天？或是接上一條線，才發現它是壞的？<br><br>這幾個狀況應該不少人遇過。比賽前打包也一樣，沒有清單就只能靠記憶，很容易漏帶。</p>
+    </details>
+  </article>
+  <article class="card" id="p3">
+    <div class="frame"><section class="slide" data-id="cause" style="background:#0E2233;color:#EAF1F3;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#F07A35">為什麼會亂</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#EAF1F3">不是誰沒做好，是少了三樣東西</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;border-top:4px solid #F07A35;padding:24px 0px 0px 0px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:96px;font-weight:700;line-height:1;color:#F07A35">1</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#EAF1F3">固定位置</h3>
+<p style="font-size:32px;line-height:1.45;color:#B8CCD6">東西用完，不知道該放回哪</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;border-top:4px solid #F07A35;padding:24px 0px 0px 0px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:96px;font-weight:700;line-height:1;color:#F07A35">2</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#EAF1F3">負責的人</h3>
+<p style="font-size:32px;line-height:1.45;color:#B8CCD6">大家都在用，但沒有人顧</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;border-top:4px solid #F07A35;padding:24px 0px 0px 0px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:96px;font-weight:700;line-height:1;color:#F07A35">3</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#EAF1F3">固定整理時間</h3>
+<p style="font-size:32px;line-height:1.45;color:#B8CCD6">只靠一次大掃除，一個月就亂回去</p>
+</div>
+</div>
+<p style="font-size:32px;line-height:1.45;color:#5CC3CF">所以這次不只辦大掃除，也把「之後誰顧、多久收一次」一起定下來</p>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#8FA6B2">ORCA 基地整理計畫</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#8FA6B2;text-align:right">03 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">03 / 17</span>講者備註</summary>
+      <p class="notes">先講清楚：這不是在檢討誰。基地會亂，是因為少了三樣東西：東西沒有固定位置、沒有人負責、沒有固定整理的時間。<br><br>只辦一次大掃除，大概一個月就會回到原樣。所以這次想連「之後誰顧、多久收一次」一起定下來。</p>
+    </details>
+  </article>
+  <article class="card" id="p4">
+    <div class="frame"><section class="slide" data-id="method" style="background:#EEF2F3;color:#0E2233;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#B4430E">02　怎麼整理</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#0E2233">做法：簡化版 5S</h2>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">工廠常用的整理法，我們只取最基本的部分</p>
+</div>
+<table style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:32px;color:#0E2233;background:#FBFCFC;border:1px solid #CFDADF;border-radius:16px">
+<tr style="background:#DCE5E8"><th style="width:16%">5S</th><th style="width:34%">白話</th><th style="width:50%">在基地怎麼做</th></tr>
+<tr><td style="width:16%"><b>整理</b></td><td style="width:34%">分清楚要不要</td><td style="width:50%">大掃除：留下、丟掉、不知道</td></tr>
+<tr><td><b>整頓</b></td><td>每樣東西有固定位置</td><td>7 個分區、貼標籤、工具牆畫輪廓</td></tr>
+<tr><td><b>清掃</b></td><td>打掃順便檢查</td><td>離開前 5 分鐘收桌</td></tr>
+<tr><td><b>清潔</b></td><td>把做法變成標準</td><td>每區貼一張「收好長這樣」照片</td></tr>
+<tr><td><b>素養</b></td><td>變成習慣</td><td>守則 10 條＋每週值日生</td></tr>
+</table>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#56697A">ORCA 基地整理計畫</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#56697A;text-align:right">04 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">04 / 17</span>講者備註</summary>
+      <p class="notes">做法參考工廠常用的 5S，只取最簡單的版本。<br><br>白話講就是：先分清楚哪些東西要、哪些不要；每樣東西給一個固定位置；打掃的時候順便檢查有沒有壞；把這些做法寫成大家看得懂的標準；最後變成習慣。<br><br>右邊那欄是每一步在我們基地具體要做的事，後面幾頁會一個一個講。</p>
+    </details>
+  </article>
+  <article class="card" id="p5">
+    <div class="frame"><section class="slide" data-id="zones" style="background:#EEF2F3;color:#0E2233;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#B4430E">7 個分區＋待認領區</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#0E2233">每樣東西都有固定位置</h2>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">標籤＝負責的責任區；實際擺哪裡，大掃除那天清出空間再現場排</p>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:20px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FBFCFC;padding:24px;border:1px solid #CFDADF;border-radius:16px">
+<p style="align-self:start;font-size:24px;font-weight:700;color:#FBFCFC;background:#1F7A8C;padding:4px 16px;border-radius:999px">A 區</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#0E2233">乾區</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">電子、焊接、電腦、Jetson 開發</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FBFCFC;padding:24px;border:1px solid #CFDADF;border-radius:16px">
+<p style="align-self:start;font-size:24px;font-weight:700;color:#FBFCFC;background:#1F7A8C;padding:4px 16px;border-radius:999px">A 區</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#0E2233">零件庫</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">透明收納盒＋標籤，分類放</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FBFCFC;padding:24px;border:1px solid #CFDADF;border-radius:16px">
+<p style="align-self:start;font-size:24px;font-weight:700;color:#FBFCFC;background:#2F5D9E;padding:4px 16px;border-radius:999px">B 區</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#0E2233">濕區</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">沖洗晾乾、密封艙、O-ring，離乾區最遠</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FBFCFC;padding:24px;border:1px solid #CFDADF;border-radius:16px">
+<p style="align-self:start;font-size:24px;font-weight:700;color:#FBFCFC;background:#2F5D9E;padding:4px 16px;border-radius:999px">B 區</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#0E2233">機構區</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">3D 列印、切割、鑽孔，粉塵不飄到電子區</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FBFCFC;padding:24px;border:1px solid #CFDADF;border-radius:16px">
+<p style="align-self:start;font-size:24px;font-weight:700;color:#FBFCFC;background:#B4430E;padding:4px 16px;border-radius:999px">C 區</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#0E2233">電池區</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">只放 LiPo，防火箱＋沙桶＋火鉗</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FBFCFC;padding:24px;border:1px solid #CFDADF;border-radius:16px">
+<p style="align-self:start;font-size:24px;font-weight:700;color:#FBFCFC;background:#56697A;padding:4px 16px;border-radius:999px">公共</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#0E2233">紅箱</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">壞掉或不確定的零件，不混回好零件</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FBFCFC;padding:24px;border:1px solid #CFDADF;border-radius:16px">
+<p style="align-self:start;font-size:24px;font-weight:700;color:#FBFCFC;background:#56697A;padding:4px 16px;border-radius:999px">各組</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#0E2233">專案箱</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">每組一箱，做到一半的放這，不佔公共桌</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FBFCFC;padding:24px;border:1px dashed #56697A;border-radius:16px">
+<p style="align-self:start;font-size:24px;font-weight:700;color:#FBFCFC;background:#56697A;padding:4px 16px;border-radius:999px">公共</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.25;color:#0E2233">待認領區</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">沒寫名字、不知道要不要的，2 週後處理</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#56697A">ORCA 基地整理計畫</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#56697A;text-align:right">05 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">05 / 17</span>講者備註</summary>
+      <p class="notes">基地分成 7 個區，再加一個臨時的待認領區。<br><br>最重要的一條：水跟電子要分開。濕區要離乾區最遠、靠近水源。電池區只放 LiPo，獨立一角。紅箱只放壞掉或不確定能不能用的零件，絕對不要混回好零件。專案箱是每組一箱，做到一半的東西放在裡面，不佔公共桌。<br><br>標籤寫的是哪個責任區負責，後面講分工時會再提到。實際擺在哪裡，要等大掃除那天清出空間再現場排。</p>
+    </details>
+  </article>
+  <article class="card" id="p6">
+    <div class="frame"><section class="slide" data-id="rules-a" style="background:#EEF2F3;color:#0E2233;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#B4430E">守則 1–5</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#0E2233">東西怎麼用</h2>
+<p style="font-size:24px;line-height:1.4;color:#56697A">每天都會碰到的 5 條，細節之後開會一起定</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">1</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">用完放回原位</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">離開前 5 分鐘收桌，桌上不留東西過夜；做到一半的放進自己組的專案箱</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">2</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">借貴的東西要登記</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">推進器、電池、示波器、Jetson、相機、電源供應器；螺絲、電線不用登</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">3</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">東西壞了要講</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">貼紅標籤，寫誰、哪天、什麼問題，然後放進紅箱</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">4</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">拿走最後一個，就補一筆</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">寫在全體群記事本的「補貨清單」，後勤長會去補</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">5</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">沒寫名字的東西，放待認領區</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">2 週沒人認領就歸公用或處理；有學校財產編號的要走報廢程序</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#56697A">ORCA 基地整理計畫</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#56697A;text-align:right">06 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">06 / 17</span>講者備註</summary>
+      <p class="notes">守則一共 10 條，之後不會再往上加。這頁是每天都會碰到的前 5 條。<br><br>第 1 條最常被問：debug 到一半怎麼辦？不用拆，整組放進自己組的專案箱就好。<br>第 2 條只登記貴的、常被借走的東西，螺絲、電線這類小東西不用登記。<br>第 5 條要注意：有學校財產編號、或是用計畫經費買的東西，不能自己丟，要走學校的報廢程序。</p>
+    </details>
+  </article>
+  <article class="card" id="p7">
+    <div class="frame"><section class="slide" data-id="rules-b" style="background:#EEF2F3;color:#0E2233;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#B4430E">守則 6–10</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#0E2233">安全和收尾</h2>
+<p style="font-size:24px;line-height:1.4;color:#56697A">第 6、8、10 條跟安全有關：只討論怎麼做、不投票刪掉，等問完大樓管理單位的規定再對齊</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">6</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">LiPo 照電池規則走</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">充電要有人顧、不用時調到 3.8 V 收進防火箱、膨脹馬上停用（下一頁）</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">7</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">下水回來先處理</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">清水沖、擦乾、檢查 O-ring，濕的東西不進乾區</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">8</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">用完就關電</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">焊台、熱風槍、電源供應器</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">9</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">電子桌不放飲料和食物</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">要吃要喝，請到公共桌</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">10</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">最後離開的人檢查一遍</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">電源、充電器、門窗</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#56697A">ORCA 基地整理計畫</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#56697A;text-align:right">07 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">07 / 17</span>講者備註</summary>
+      <p class="notes">後 5 條是安全和收尾。<br><br>第 6、8、10 條跟安全有關，所以建議只討論「怎麼做」，不拿來投票刪掉。基地在防災實驗室的大樓裡，這幾條也要等問完大樓管理單位的規定，再把細節對齊。<br><br>第 7 條是水下載具才有的：下水回來先用清水沖、擦乾、檢查 O-ring，濕的東西不要拿進乾區。</p>
+    </details>
+  </article>
+  <article class="card" id="p8">
+    <div class="frame"><section class="slide" data-id="lipo" style="background:#EEF2F3;color:#0E2233;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#B4430E">03　電池安全</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#0E2233">LiPo 電池：記住三件事</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FBFCFC;padding:40px;border:1px solid #CFDADF;border-radius:16px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center">
+<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#B4430E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">充電</h3>
+</div>
+<ul style="font-size:32px;line-height:1.45;color:#3D5161">
+<li>有人在場才充</li>
+<li>不插了就走、不過夜</li>
+<li>裝防火袋，放不燃檯面</li>
+<li>選 LiPo 模式、對電芯數</li>
+</ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FBFCFC;padding:40px;border:2px solid #B4430E;border-radius:16px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center">
+<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#B4430E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">存放</h3>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:96px;font-weight:700;line-height:1.1;color:#B4430E">3.8 V</p>
+<p style="font-size:24px;line-height:1.4;color:#56697A">每顆電芯的儲存電壓（充電器的 Storage 模式）</p>
+</div>
+<ul style="font-size:32px;line-height:1.45;color:#3D5161">
+<li>幾天以上不用就調好</li>
+<li>收進金屬防火箱</li>
+<li>不滿電、不空電放著</li>
+</ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FBFCFC;padding:40px;border:1px solid #CFDADF;border-radius:16px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center">
+<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#B4430E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">膨脹</h3>
+</div>
+<ul style="font-size:32px;line-height:1.45;color:#3D5161">
+<li>鼓、變形、破皮、發燙</li>
+<li>馬上停用，不充不壓</li>
+<li>裝防火袋放進沙桶</li>
+<li>通知電池安全負責人</li>
+</ul>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1300px;font-size:24px;color:#56697A">參考：RoboSub 2025 Team Handbook、電池原廠安全說明</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#56697A;text-align:right">08 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">08 / 17</span>講者備註</summary>
+      <p class="notes">LiPo 是基地裡最危險的東西，所以單獨講。只要記三件事：<br><br>充電：一定要有人在場顧著，不能插上就離開，也不能過夜充。電池裝進防火袋，放在不會燒的檯面上，充電器要選 LiPo 模式和正確的電芯數。<br><br>存放：幾天以上不會用，就用充電器的 Storage 模式，把每顆電芯調到大約 3.8 V，再收進金屬防火箱。不要滿電或沒電的狀態放著。<br><br>膨脹：只要鼓起來、變形、外皮破、發燙或有怪味，就馬上停用，不要再充，也不要去壓或戳。裝進防火袋放進沙桶，然後通知電池安全負責人安排回收。<br><br>這些規則參考 RoboSub 官方的隊伍手冊和電池原廠的安全說明。</p>
+    </details>
+  </article>
+  <article class="card" id="p9">
+    <div class="frame"><section class="slide" data-id="fire" style="background:#E8611A;color:#0E2233;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:700;letter-spacing:4px;color:#0E2233">萬一冒煙或起火</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#0E2233">先顧人，再顧東西</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;border-top:4px solid #0E2233;padding:24px 0px 0px 0px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:96px;font-weight:700;line-height:1;color:#0E2233">1</p>
+<h3 style="font-size:44px;font-weight:900;line-height:1.2;color:#0E2233">先喊人</h3>
+<p style="font-size:32px;font-weight:500;line-height:1.45;color:#0E2233">能安全做到就拔掉充電器插頭，然後人退開</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;border-top:4px solid #0E2233;padding:24px 0px 0px 0px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:96px;font-weight:700;line-height:1;color:#0E2233">2</p>
+<h3 style="font-size:44px;font-weight:900;line-height:1.2;color:#0E2233">火還很小</h3>
+<p style="font-size:32px;font-weight:500;line-height:1.45;color:#0E2233">用長柄火鉗夾進沙桶或水桶，絕對不要徒手拿</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;border-top:4px solid #0E2233;padding:24px 0px 0px 0px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:96px;font-weight:700;line-height:1;color:#0E2233">3</p>
+<h3 style="font-size:44px;font-weight:900;line-height:1.2;color:#0E2233">控制不住</h3>
+<p style="font-size:32px;font-weight:500;line-height:1.45;color:#0E2233">關門撤離，打 119；LiPo 的煙有毒，不要留在室內</p>
+</div>
+</div>
+<p style="font-size:32px;line-height:1.45;color:#EAF1F3;background:#0E2233;padding:28px 40px;border-radius:16px">沙子：蓋住、防延燒｜大量的水：降溫、防復燃｜門口乾粉滅火器：救旁邊燒起來的東西</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1300px;font-size:24px;color:#0E2233">參考：台灣事實查核中心（引述消防署）、FAA SAFO 09013</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#0E2233;text-align:right">09 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">09 / 17</span>講者備註</summary>
+      <p class="notes">這頁希望每個人都記住，之後也會印一張貼在電池區。<br><br>第一步永遠是先喊人。能安全做到的話拔掉充電器插頭，然後人退開。<br>火還很小、手邊有長柄火鉗，才把電池夾進沙桶或水桶，絕對不要徒手拿。<br>控制不住就關門撤離、打 119。LiPo 燒起來的煙有毒，不要留在室內硬撐。<br><br>有一個常見的誤會：LiPo 是鋰離子電池，其實可以用大量的水降溫，怕水的是一次性的鋰金屬電池。沙子是用來蓋住、防止延燒，但不會降溫。門口的乾粉滅火器主要是救旁邊燒起來的東西，對電池本身效果有限，噴完還可能復燃。</p>
+    </details>
+  </article>
+  <article class="card" id="p10">
+    <div class="frame"><section class="slide" data-id="borrow" style="background:#EEF2F3;color:#0E2233;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#B4430E">04　日常運作</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#0E2233">借貴的東西，10 秒登記</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:center">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FBFCFC;padding:40px;border:1px solid #CFDADF;border-radius:16px">
+<svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="#B4430E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">掃 QR code</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">箱子上都貼一張，手機一掃就開表單</p>
+</div>
+<svg width="64" height="32" viewBox="0 0 64 32" style="flex:none" aria-hidden="true"><polygon points="0,10 38,10 38,0 64,16.0 38,32 38,22 0,22" fill="#B4430E"/></svg>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FBFCFC;padding:40px;border:1px solid #CFDADF;border-radius:16px">
+<svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="#B4430E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">填表單</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">名字、借什麼、大概什麼時候還</p>
+</div>
+<svg width="64" height="32" viewBox="0 0 64 32" style="flex:none" aria-hidden="true"><polygon points="0,10 38,10 38,0 64,16.0 38,32 38,22 0,22" fill="#B4430E"/></svg>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FBFCFC;padding:40px;border:1px solid #CFDADF;border-radius:16px">
+<svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="#B4430E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">放回原位</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">用完放回原來的格子，再登記歸還</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#0E2233;padding:32px 40px;border-radius:16px">
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#F07A35">要登記</h3>
+<p style="font-size:32px;line-height:1.45;color:#EAF1F3">推進器、電池、示波器、Jetson、相機、電源供應器</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FBFCFC;padding:32px 40px;border:1px solid #CFDADF;border-radius:16px">
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#56697A">不用登記</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">螺絲、電線、接頭這類小東西，用完放回零件庫就好</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1300px;font-size:24px;color:#56697A">表單和庫存表建在社團共用的 Google 帳號，交接才不會斷</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#56697A;text-align:right">10 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">10 / 17</span>講者備註</summary>
+      <p class="notes">借用登記一定要簡單，超過 10 秒就沒人會填。<br><br>做法是每個箱子貼一張 QR code，手機一掃就開 Google 表單，填名字、借什麼、大概什麼時候還。用完放回原來的格子，再登記歸還。<br><br>只登記貴的、常被借走的東西：推進器、電池、示波器、Jetson、相機、電源供應器。螺絲、電線、接頭這類小東西不用登記，用完放回零件庫就好。<br><br>表單和庫存表會建在社團共用的 Google 帳號底下，不放在個人帳號，之後交接才不會斷。</p>
+    </details>
+  </article>
+  <article class="card" id="p11">
+    <div class="frame"><section class="slide" data-id="roles" style="background:#EEF2F3;color:#0E2233;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#B4430E">分工</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#0E2233">誰負責什麼</h2>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:32px">
+<div style="display:flex;flex-direction:column;gap:16px;background:#FBFCFC;padding:40px;border:1px solid #CFDADF;border-radius:16px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center;justify-content:space-between">
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">後勤長＋副手</h3>
+<p style="font-size:24px;font-weight:700;color:#56697A;background:#E3EAED;padding:4px 16px;border-radius:999px">待定</p>
+</div>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">管庫存表、借用、採購，每月盤點貴重品。副手就是下一任後勤長</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;background:#FBFCFC;padding:40px;border:1px solid #CFDADF;border-radius:16px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center;justify-content:space-between">
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">電池安全負責人</h3>
+<p style="font-size:24px;font-weight:700;color:#56697A;background:#E3EAED;padding:4px 16px;border-radius:999px">待定</p>
+</div>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">LiPo 專人：電池編號、檢查膨脹，新生第一次用電池前帶一遍</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;background:#FBFCFC;padding:40px;border:1px solid #CFDADF;border-radius:16px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center;justify-content:space-between">
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">三個責任區</h3>
+<p style="font-size:24px;font-weight:700;color:#56697A;background:#E3EAED;padding:4px 16px;border-radius:999px">待定</p>
+</div>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">A 電子乾區＋零件庫、B 濕區＋機構區、C 電池區（電池安全負責人兼）</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;background:#FBFCFC;padding:40px;border:1px solid #CFDADF;border-radius:16px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center;justify-content:space-between">
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">每週值日生</h3>
+<p style="font-size:24px;font-weight:700;color:#FBFCFC;background:#1F7A8C;padding:4px 16px;border-radius:999px">15 人輪</p>
+</div>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">每週花 15 分鐘巡一圈收尾，每人大約 3～4 個月才輪到一次</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#56697A">ORCA 基地整理計畫</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#56697A;text-align:right">11 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">11 / 17</span>講者備註</summary>
+      <p class="notes">分工的原則是：每個區都有人顧，但不讓任何一個人扛全部。<br><br>後勤長加一位副手，管庫存、借用、採購，每月盤點一次。盤點只盤貴重品，不用數螺絲。人選最好是細心、常在基地、還會待 1 到 2 年的人，也最好不是比賽主力，不然比賽前會忙不過來。副手就是下一任後勤長，這樣交接不會斷。<br><br>電池安全負責人是 LiPo 專人，也兼 C 電池區。<br><br>我們只有 15 個人，7 個區各配一個區長太多，所以併成 3 個責任區，由最常用那一區的人或幹部兼。<br><br>值日生 15 人輪流，每週花 15 分鐘巡一圈，每個人大約 3 到 4 個月才輪到一次。<br><br>標「待定」的人選，等一下請社長決定，自薦、推薦都歡迎。</p>
+    </details>
+  </article>
+  <article class="card" id="p12">
+    <div class="frame"><section class="slide" data-id="newbie" style="background:#0E2233;color:#EAF1F3;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#F07A35">給新生</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#EAF1F3">第一週，做這 5 件事</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:row;gap:32px;align-items:center">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#F07A35">1</p>
+<p style="flex:1;font-size:32px;line-height:1.45;color:#EAF1F3">跟學長姐在基地走一圈，認識 7 個分區</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:center">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#F07A35">2</p>
+<p style="flex:1;font-size:32px;line-height:1.45;color:#EAF1F3">讀一遍守則 10 條，看不懂的直接問</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:center">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#F07A35">3</p>
+<p style="flex:1;font-size:32px;line-height:1.45;color:#EAF1F3">第一次用 LiPo 前，找電池安全負責人帶一遍</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:center">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#F07A35">4</p>
+<p style="flex:1;font-size:32px;line-height:1.45;color:#EAF1F3">試掃一次 QR code，學會借用登記</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:center">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#F07A35">5</p>
+<p style="flex:1;font-size:32px;line-height:1.45;color:#EAF1F3">記住滅火器、沙桶和逃生路線在哪</p>
+</div>
+</div>
+<p style="font-size:44px;font-weight:700;line-height:1.3;color:#5CC3CF">東西壞了、找不到、看不懂，直接問就好</p>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#8FA6B2">ORCA 基地整理計畫</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#8FA6B2;text-align:right">12 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">12 / 17</span>講者備註</summary>
+      <p class="notes">這頁是給新生的。剛進來第一週，只要做這 5 件事就好。<br><br>最重要的是第 3 件：第一次用 LiPo 電池之前，一定要找電池安全負責人帶一遍，不要自己摸索。<br><br>還有最後一句：東西壞了、找不到、看不懂，直接問就好。弄壞東西不會被罵，偷偷放回去才麻煩，因為下一個人會拿到壞的。</p>
+    </details>
+  </article>
+  <article class="card" id="p13">
+    <div class="frame"><section class="slide" data-id="timeline" style="background:#EEF2F3;color:#0E2233;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:64px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#B4430E">05　怎麼開始</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#0E2233">三週上路，11 月底檢討</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:40px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;border-top:6px solid #B4430E;padding:24px 0px 0px 0px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:32px;font-weight:600;color:#B4430E">第 1 週</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">大掃除</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">半天，請吃披薩；東西分成三堆（下一頁）</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;border-top:6px solid #0E2233;padding:24px 0px 0px 0px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:32px;font-weight:600;color:#0E2233">第 2 週</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">分區、貼標籤</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">每區拍「收好長這樣」照片；開會定守則細節</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;border-top:6px solid #0E2233;padding:24px 0px 0px 0px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:32px;font-weight:600;color:#0E2233">第 3 週</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">庫存表上線</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">開始用 QR code 登記借用</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;border-top:6px dashed #56697A;padding:24px 0px 0px 0px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:32px;font-weight:600;color:#56697A">11 月底</p>
+<h3 style="font-size:44px;font-weight:700;line-height:1.2;color:#0E2233">一起檢討</h3>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">哪條沒用、哪裡卡住，一起調整</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center;background:#FBFCFC;padding:28px 40px;border:1px solid #CFDADF;border-radius:16px">
+<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#B4430E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+<p style="flex:1;font-size:32px;line-height:1.45;color:#0E2233">大掃除候選日：<b>10/17（六）</b>或 <b>10/18（日）</b>，投票後由社長決定</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#56697A">ORCA 基地整理計畫</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#56697A;text-align:right">13 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">13 / 17</span>講者備註</summary>
+      <p class="notes">時程分三週。<br><br>第 1 週大掃除，大約半天，會請大家吃披薩。<br>第 2 週分區、貼標籤，每區拍一張「收好長這樣」的照片貼在牆上；門口也貼緊急資訊：119、校安中心電話、滅火器和沙桶的位置、逃生路線。這週也找一天開會，把守則細節定下來。<br>第 3 週庫存表上線，開始登記借用。<br><br>試行到 11 月底，到時候一起檢討：哪條沒用、哪裡卡住，就改。<br><br>大掃除的候選日是 10/17 星期六或 10/18 星期日，會開投票，最後由社長決定。</p>
+    </details>
+  </article>
+  <article class="card" id="p14">
+    <div class="frame"><section class="slide" data-id="cleanup" style="background:#EEF2F3;color:#0E2233;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#B4430E">大掃除那天</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#0E2233">每樣東西分成三堆</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FBFCFC;padding:40px;border:1px solid #CFDADF;border-radius:16px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center">
+<h3 style="font-size:72px;font-weight:900;line-height:1.15;color:#1F7A8C">留下</h3>
+</div>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">歸到該去的分區，貼上標籤</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FBFCFC;padding:40px;border:1px solid #CFDADF;border-radius:16px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center">
+<h3 style="font-size:72px;font-weight:900;line-height:1.15;color:#56697A">丟掉</h3>
+</div>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">先看有沒有學校財產編號；計畫經費買的要走報廢，不能直接丟</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FBFCFC;padding:40px;border:2px solid #B4430E;border-radius:16px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center">
+<h3 style="font-size:72px;font-weight:900;line-height:1.15;color:#B4430E">不知道</h3>
+</div>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">貼紅標籤寫日期和名字，放待認領區，2 週沒人認領再處理</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center;background:#FBFCFC;padding:28px 40px;border:1px solid #CFDADF;border-radius:16px">
+<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#B4430E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+<p style="flex:1;font-size:32px;line-height:1.45;color:#0E2233">分 3 組，一組顧一個責任區；能來的盡量來，每區至少要有人</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#56697A">ORCA 基地整理計畫</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#56697A;text-align:right">14 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">14 / 17</span>講者備註</summary>
+      <p class="notes">大掃除那天，每樣東西只問一個問題：要留、要丟，還是不知道？<br><br>留下的，歸到該去的分區、貼上標籤。<br><br>要丟的，先看有沒有學校的財產編號。有編號、或是用計畫經費買的東西，不能自己丟，要走學校的報廢程序。<br><br>不知道的，最常見。貼紅標籤，寫上日期和是誰貼的，放到待認領區。2 週都沒人認領，再由後勤長處理。注意紅箱只放壞掉的零件，不要跟待認領的東西混在一起。<br><br>當天分 3 組，一組顧一個責任區。週末不強制，能來的盡量來，每個區至少要有人。</p>
+    </details>
+  </article>
+  <article class="card" id="p15">
+    <div class="frame"><section class="slide" data-id="budget" style="background:#EEF2F3;color:#0E2233;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#B4430E">預算（10/8 網路查價）</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#0E2233">必買約 8,700～14,400 元</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FBFCFC;padding:40px;border:2px solid #B4430E;border-radius:16px">
+<p style="font-size:24px;font-weight:700;line-height:1.4;color:#B4430E">第一批｜大掃除前下單</p>
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:600;line-height:1.1;color:#0E2233">5,300～9,200</p>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">標籤機、紅箱、紅點貼紙、防火袋、防火箱、沙桶、火鉗、滅火器</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FBFCFC;padding:40px;border:1px solid #CFDADF;border-radius:16px">
+<p style="font-size:24px;font-weight:700;line-height:1.4;color:#56697A">第二批｜大掃除後看量</p>
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:600;line-height:1.1;color:#0E2233">3,400～5,200</p>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">零件分類箱約 4 個、專案箱 6 個</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#EEF2F3;padding:40px;border:2px dashed #56697A;border-radius:16px">
+<p style="font-size:24px;font-weight:700;line-height:1.4;color:#56697A">建議買，不急</p>
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:600;line-height:1.1;color:#56697A">3,400～5,300</p>
+<p style="font-size:32px;line-height:1.45;color:#3D5161">洞洞板工具牆（先問能不能鑽牆）、24 抽零件櫃</p>
+</div>
+</div>
+<p style="font-size:24px;line-height:1.5;color:#3D5161">不含運費和披薩（15 人份粗估 1,500～2,500 元）。附近已有合格、沒過期的滅火器，第一批可再省約 500～900 元。經費從哪裡出，請社長決定。</p>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#56697A">ORCA 基地整理計畫</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#56697A;text-align:right">15 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">15 / 17</span>講者備註</summary>
+      <p class="notes">錢的部分，我 10/8 在網路上查過價，分兩批買，必買兩批合計大約 8,700 到 14,400 元。<br><br>第一批是大掃除前就要的，主要是安全用品和清掃當天用得到的東西，大約 5,300 到 9,200 元。如果附近已經有合格、沒過期的滅火器，可以再省 500 到 900 元。<br><br>第二批等大掃除完、看清出多少東西再決定數量，大約 3,400 到 5,200 元。<br><br>洞洞板工具牆和大零件櫃不急，要先問牆能不能鑽孔。<br><br>這些都不含運費和披薩。經費從社費、學校補助還是其他地方出，請社長決定。要報帳的話，下單前會先確認賣場能開發票或收據。</p>
+    </details>
+  </article>
+  <article class="card" id="p16">
+    <div class="frame"><section class="slide" data-id="decide" style="background:#EEF2F3;color:#0E2233;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#B4430E">06　請社長決定</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:72px;font-weight:900;line-height:1.15;color:#0E2233">今天想請社長決定 4 件事</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">1</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">同不同意先試行</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">從大掃除那天起，試行到 11 月底再檢討</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">2</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">人選</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">後勤長＋副手、電池安全負責人（自薦、推薦都歡迎）</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">3</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">大掃除日期</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">10/17（六）或 10/18（日），看投票結果</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:start">
+<p style="width:64px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:700;line-height:1.2;color:#B4430E">4</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:32px;font-weight:700;line-height:1.4;color:#0E2233">預算上限和經費來源</p>
+<p style="font-size:32px;line-height:1.4;color:#3D5161">必買約 8,700～14,400 元，分兩批買</p>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center;background:#FBFCFC;padding:24px 40px;border:1px solid #CFDADF;border-radius:16px">
+<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#B4430E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+<p style="flex:1;font-size:32px;line-height:1.45;color:#0E2233">開始前要先問大樓管理單位的消防、用電和 LiPo 規定，社長同意的話我去問</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#56697A">ORCA 基地整理計畫</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#56697A;text-align:right">16 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">16 / 17</span>講者備註</summary>
+      <p class="notes">最後，有 4 件事想請社長決定：<br><br>第一，同不同意先試行，從大掃除那天起試行到 11 月底。<br>第二，人選：後勤長加副手、電池安全負責人，自薦、推薦都歡迎。<br>第三，大掃除辦哪天，10/17 星期六或 10/18 星期日，可以看投票結果再定。<br>第四，預算上限，以及錢從哪筆經費出。<br><br>另外，基地在防災實驗室的大樓裡，開始前要先問清楚大樓管理單位的消防、用電和 LiPo 規定。社長同意的話我去問，社長想請別人問也可以。</p>
+    </details>
+  </article>
+  <article class="card" id="p17">
+    <div class="frame"><section class="slide" data-id="close" style="background:#0E2233;color:#EAF1F3;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:32px">
+<div style="position:absolute;left:1110px;top:150px;width:780px;height:780px;background:transparent;border:2px solid #24465E;border-radius:50%"></div>
+<div style="position:absolute;left:1230px;top:270px;width:540px;height:540px;background:transparent;border:2px solid #2C5872;border-radius:50%"></div>
+<div style="position:absolute;left:1350px;top:390px;width:300px;height:300px;background:transparent;border:2px solid #3B7290;border-radius:50%"></div>
+<div style="position:absolute;left:1484px;top:524px;width:32px;height:32px;background:#F07A35;border-radius:50%"></div>
+<p style="font-family:'Oswald', 'Noto Sans TC', Arial, sans-serif;font-size:24px;font-weight:500;letter-spacing:4px;color:#F07A35">最後</p>
+<h2 style="font-family:'Noto Sans TC', Arial, sans-serif;font-size:120px;font-weight:900;line-height:1.1;color:#EAF1F3">不設罰則</h2>
+<p style="width:900px;font-size:44px;font-weight:500;line-height:1.4;color:#B8CCD6">靠互相提醒和每週收尾，<br>我們幹部先做到</p>
+<p style="width:900px;font-size:32px;line-height:1.45;color:#5CC3CF">有意見現在說，或之後在群組留言</p>
+<p style="position:absolute;left:128px;bottom:64px;width:900px;font-size:24px;color:#8FA6B2">ORCA 基地整理計畫｜謝謝大家</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-family:'Oswald', Arial, sans-serif;font-size:24px;color:#8FA6B2;text-align:right">17 / 17</p>
+</section></div>
+    <details>
+      <summary><span class="pg">17 / 17</span>講者備註</summary>
+      <p class="notes">最後想強調：這套做法不設罰則。靠的是互相提醒和每週固定收尾，我們幹部會先做到。<br><br>這是試行，11 月底會一起檢討，哪裡不好用就改。大家有意見可以現在說，或之後在群組留言。謝謝大家。</p>
+    </details>
+  </article>
+</main>
+<div id="stage" hidden><div class="frame" id="stageFrame"></div><p class="hint">← → 換頁　Esc 離開</p></div>
+<script>
+(function () {
+  function fit(frame) {
+    var s = frame.querySelector('.slide');
+    if (s) s.style.setProperty('--s', frame.clientWidth / 1920);
+  }
+  var frames = Array.prototype.slice.call(document.querySelectorAll('.card .frame'));
+  var ro = new ResizeObserver(function (es) { es.forEach(function (e) { fit(e.target); }); });
+  frames.forEach(function (f) { fit(f); ro.observe(f); });
+
+  var stage = document.getElementById('stage'), sf = document.getElementById('stageFrame'), cur = 0;
+  ro.observe(sf);
+  function show(i) {
+    cur = Math.max(0, Math.min(frames.length - 1, i));
+    sf.innerHTML = frames[cur].innerHTML;
+    fit(sf);
+  }
+  function open() {
+    stage.hidden = false; show(cur);
+    try { if (stage.requestFullscreen) stage.requestFullscreen().catch(function () {}); } catch (e) {}
+  }
+  function close() {
+    stage.hidden = true;
+    try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {}
+    var t = document.getElementById('p' + (cur + 1)); if (t) t.scrollIntoView({block:'center'});
+  }
+  document.getElementById('play').addEventListener('click', function () { cur = 0; open(); });
+  stage.addEventListener('click', function (e) { show(cur + (e.clientX > window.innerWidth / 2 ? 1 : -1)); });
+  document.addEventListener('keydown', function (e) {
+    if (stage.hidden) return;
+    if (['ArrowRight','PageDown',' ','Enter'].indexOf(e.key) > -1) { e.preventDefault(); show(cur + 1); }
+    else if (['ArrowLeft','PageUp','Backspace'].indexOf(e.key) > -1) { e.preventDefault(); show(cur - 1); }
+    else if (e.key === 'Escape') close();
+  });
+  document.addEventListener('fullscreenchange', function () { if (!document.fullscreenElement && !stage.hidden) close(); });
+})();
+</script>
+</body>
+</html>
