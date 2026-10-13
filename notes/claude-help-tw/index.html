@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Help 雙語版</title>
+</head>
+<body>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #fafaf9;
+    --card: #ffffff;
+    --fg: #1c1917;
+    --fg2: #57534e;
+    --border: #e7e5e4;
+    --accent: #d97706;
+    --accent-bg: #fffbeb;
+    --zh: #92400e;
+    --zh-bg: #fef3c7;
+    --tag-bg: #f5f5f4;
+    --tag-fg: #44403c;
+    --code-bg: #f5f5f4;
+    --section-line: #d6d3d1;
+    --shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #1a1a1a;
+    --card: #262626;
+    --fg: #e7e5e4;
+    --fg2: #a8a29e;
+    --border: #3d3d3d;
+    --accent: #f59e0b;
+    --accent-bg: #422006;
+    --zh: #fbbf24;
+    --zh-bg: #362005;
+    --tag-bg: #333;
+    --tag-fg: #d6d3d1;
+    --code-bg: #2d2d2d;
+    --section-line: #444;
+    --shadow: 0 1px 3px rgba(0,0,0,.3);
+    color-scheme: dark;
+  }}
+  :root[data-theme="dark"] {
+    --bg: #1a1a1a;
+    --card: #262626;
+    --fg: #e7e5e4;
+    --fg2: #a8a29e;
+    --border: #3d3d3d;
+    --accent: #f59e0b;
+    --accent-bg: #422006;
+    --zh: #fbbf24;
+    --zh-bg: #362005;
+    --tag-bg: #333;
+    --tag-fg: #d6d3d1;
+    --code-bg: #2d2d2d;
+    --section-line: #444;
+    --shadow: 0 1px 3px rgba(0,0,0,.3);
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    line-height: 1.6;
+    padding-inline: 20px;
+    max-width: 760px;
+    margin: 0 auto;
+    font-variant-numeric: tabular-nums;
+  }
+
+  header {
+    padding: 2.5rem 0 1.5rem;
+    border-bottom: 2px solid var(--accent);
+    margin-bottom: 2rem;
+  }
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 .3rem;
+    letter-spacing: -.02em;
+  }
+  header p {
+    color: var(--fg2);
+    font-size: .9rem;
+    margin: 0;
+  }
+  header code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: .85em;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 2rem;
+  }
+  nav a {
+    background: var(--tag-bg);
+    color: var(--tag-fg);
+    text-decoration: none;
+    font-size: .78rem;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    transition: background .15s;
+  }
+  nav a:hover { background: var(--accent-bg); color: var(--accent); }
+
+  .section {
+    margin-bottom: 2.5rem;
+  }
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 0 0 1rem;
+    padding-bottom: .4rem;
+    border-bottom: 1px solid var(--section-line);
+    text-wrap: balance;
+  }
+
+  .item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    box-shadow: var(--shadow);
+  }
+
+  .item-flag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .88rem;
+    font-weight: 600;
+    color: var(--fg);
+    margin: 0 0 4px;
+  }
+
+  .item-en {
+    font-size: .82rem;
+    color: var(--fg2);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .item-zh {
+    font-size: .85rem;
+    color: var(--zh);
+    background: var(--zh-bg);
+    border-radius: 4px;
+    padding: 4px 8px;
+    margin: 6px 0 0;
+    line-height: 1.6;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: .65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    background: var(--accent-bg);
+    color: var(--accent);
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--fg2);
+    font-size: .75rem;
+    padding: 2rem 0 3rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<header>
+  <h1>Claude Code Help 雙語速查</h1>
+  <p><code>claude [options] [command] [prompt]</code></p>
+  <p style="margin-top:.3rem">預設啟動互動式對話 ─ 加 <code>-p</code> 印完就走</p>
+</header>
+
+<nav>
+  <a href="#daily">日常必備</a>
+  <a href="#session">Session 管理</a>
+  <a href="#model">模型與 Prompt</a>
+  <a href="#permission">權限與安全</a>
+  <a href="#tools">工具與外掛</a>
+  <a href="#advanced">進階開發</a>
+  <a href="#commands">子命令</a>
+</nav>
+
+<section class="section" id="daily">
+  <h2 class="section-title">日常必備</h2>
+
+  <div class="item">
+    <p class="item-flag">-c, --continue</p>
+    <p class="item-en">Continue the most recent conversation in the current directory</p>
+    <p class="item-zh">接續這個資料夾裡最近一次對話</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">-r, --resume [value]</p>
+    <p class="item-en">Resume a conversation by session ID, or open interactive picker with optional search term</p>
+    <p class="item-zh">用 session ID 恢復對話；不加 ID 會跳出選單讓你挑</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">-p, --print</p>
+    <p class="item-en">Print response and exit (useful for pipes)</p>
+    <p class="item-zh">印完回應就結束，適合接 shell 管線，例如 <code>echo "翻譯這段" | claude -p</code></p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">-n, --name &lt;name&gt;</p>
+    <p class="item-en">Set a display name for this session (shown in prompt box, /resume picker, terminal title)</p>
+    <p class="item-zh">幫對話取名字，之後在 /resume 選單和標題列都看得到</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--model &lt;model&gt;</p>
+    <p class="item-en">Model for the current session. Provide an alias (fable, opus, sonnet) or full name.</p>
+    <p class="item-zh">指定這次對話用的模型，打別名（fable / opus / sonnet）或完整名都行</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--effort &lt;level&gt;</p>
+    <p class="item-en">Effort level for the current session (low, medium, high, xhigh, max)</p>
+    <p class="item-zh">思考力度：low 快但淺、max 慢但深</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">-v, --version</p>
+    <p class="item-en">Output the version number</p>
+    <p class="item-zh">顯示版本號</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">-h, --help</p>
+    <p class="item-en">Display help for command</p>
+    <p class="item-zh">顯示說明（就是這頁的內容）</p>
+  </div>
+</section>
+
+<section class="section" id="session">
+  <h2 class="section-title">Session 管理</h2>
+
+  <div class="item">
+    <p class="item-flag">--bg, --background</p>
+    <p class="item-en">Start the session in the background and return immediately</p>
+    <p class="item-zh">背景跑，終端機馬上還你。之後用 <code>claude attach</code> 接回來</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--cloud [description|session_id|url]</p>
+    <p class="item-en">Create a cloud session or attach to an existing one by session ID or claude.ai/code URL</p>
+    <p class="item-zh">建立雲端 session，或用 ID / URL 接回既有的</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">-w, --worktree [name]</p>
+    <p class="item-en">Create a new git worktree for this session (optionally specify a name)</p>
+    <p class="item-zh">開一個獨立的 git worktree，不會動到你的主分支</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--tmux</p>
+    <p class="item-en">Create a tmux session for the worktree (requires --worktree)</p>
+    <p class="item-zh">搭配 worktree 開 tmux 分割畫面，有 iTerm2 會用原生分頁</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--desktop</p>
+    <p class="item-en">Open in the Claude Desktop app instead of the terminal</p>
+    <p class="item-zh">用 Claude 桌面版開，不在終端機裡</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--fork-session</p>
+    <p class="item-en">When resuming, create a new session ID instead of reusing the original</p>
+    <p class="item-zh">恢復對話時產生新 ID，不覆蓋原本的 session</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--session-id &lt;uuid&gt;</p>
+    <p class="item-en">Use a specific session ID for the conversation (must be a valid UUID)</p>
+    <p class="item-zh">指定一個 UUID 當 session ID</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--from-pr [value]</p>
+    <p class="item-en">Resume a session linked to a PR by PR number/URL, or open interactive picker</p>
+    <p class="item-zh">恢復跟某個 PR 綁定的 session</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--teleport [session]</p>
+    <p class="item-en">Resume a teleport session, optionally specify session ID</p>
+    <p class="item-zh">恢復 teleport session</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--no-session-persistence</p>
+    <p class="item-en">Disable session persistence — sessions will not be saved to disk (only with --print)</p>
+    <p class="item-zh">不存 session，結束就消失（搭配 --print 用）</p>
+  </div>
+</section>
+
+<section class="section" id="model">
+  <h2 class="section-title">模型與 Prompt</h2>
+
+  <div class="item">
+    <p class="item-flag">--system-prompt &lt;prompt&gt;</p>
+    <p class="item-en">System prompt to use for the session</p>
+    <p class="item-zh">自訂系統提示詞，會取代預設的</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--append-system-prompt &lt;prompt&gt;</p>
+    <p class="item-en">Append a system prompt to the default system prompt</p>
+    <p class="item-zh">在預設系統提示詞後面追加內容（不會取代）</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--system-prompt-snapshot &lt;on|off&gt;</p>
+    <p class="item-en">Record the system prompt once and reuse it verbatim on every request and resume</p>
+    <p class="item-zh">on（預設）：第一次就鎖定提示詞，之後 resume 都用同一份。off：每次都重新產生，適合調 prompt 時</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--autocompact &lt;auto|tokens&gt;</p>
+    <p class="item-en">Auto-compact window size (auto, or 100k–1M tokens)</p>
+    <p class="item-zh">自動壓縮對話，避免爆 context。auto 自動判斷，或填 token 數</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--fallback-model &lt;model&gt;</p>
+    <p class="item-en">Automatic fallback model(s) when default is overloaded. Comma-separated list.</p>
+    <p class="item-zh">主模型忙碌時自動切的備用模型，逗號分隔多個</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--json-schema &lt;schema&gt;</p>
+    <p class="item-en">JSON Schema for structured output validation</p>
+    <p class="item-zh">指定 JSON Schema，讓 Claude 的輸出符合特定結構</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--max-budget-usd &lt;amount&gt;</p>
+    <p class="item-en">Maximum dollar amount to spend on API calls (only with --print)</p>
+    <p class="item-zh">設花費上限（美元），超過就停</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--prompt-suggestions</p>
+    <p class="item-en">Enable prompt suggestions — emits predicted next user prompt after each turn</p>
+    <p class="item-zh">每輪結束後預測你下一步想問什麼</p>
+  </div>
+</section>
+
+<section class="section" id="permission">
+  <h2 class="section-title">權限與安全</h2>
+
+  <div class="item">
+    <p class="item-flag">--permission-mode &lt;mode&gt;</p>
+    <p class="item-en">Permission mode: acceptEdits, auto, bypassPermissions, manual, dontAsk, plan</p>
+    <p class="item-zh">權限模式。manual＝每次都問、auto＝自動判斷、dontAsk＝全不問</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--permission-prompts &lt;target&gt;</p>
+    <p class="item-en">Who answers permission prompts with --print: "host" or "none"</p>
+    <p class="item-zh">用 --print 時誰回答權限：host 交給程式、none 全部拒絕</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--dangerously-skip-permissions</p>
+    <p class="item-en">Bypass all permission checks. Recommended only for sandboxes with no internet.</p>
+    <p class="item-zh">跳過所有權限檢查 ⚠️ 只適合沒有網路的沙箱環境</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--allow-dangerously-skip-permissions</p>
+    <p class="item-en">Enable bypassing as an option, without it being enabled by default</p>
+    <p class="item-zh">允許「跳過權限」這個選項出現，但不預設開啟</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--restricted</p>
+    <p class="item-en">Restricted mode: removes Bash/PowerShell/REPL, confines file tools to working dirs</p>
+    <p class="item-zh">限制模式：拿掉 Bash 等執行工具，檔案操作只能在工作目錄裡</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--safe-mode</p>
+    <p class="item-en">Start with all customizations disabled — useful for troubleshooting</p>
+    <p class="item-zh">安全模式：關掉所有自訂（CLAUDE.md、hook、plugin、MCP 等），排錯專用</p>
+  </div>
+</section>
+
+<section class="section" id="tools">
+  <h2 class="section-title">工具與外掛</h2>
+
+  <div class="item">
+    <p class="item-flag">--allowedTools &lt;tools...&gt;</p>
+    <p class="item-en">Comma or space-separated list of tool names to allow (e.g. "Bash(git *) Edit")</p>
+    <p class="item-zh">只允許這些工具（白名單）</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--disallowedTools &lt;tools...&gt;</p>
+    <p class="item-en">Comma or space-separated list of tool names to deny</p>
+    <p class="item-zh">禁止這些工具（黑名單）</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--tools &lt;tools...&gt;</p>
+    <p class="item-en">Specify available tools. "" = none, "default" = all, or names like "Bash,Edit,Read"</p>
+    <p class="item-zh">指定可用工具清單。空字串全關、default 全開、或列名字</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--mcp-config &lt;configs...&gt;</p>
+    <p class="item-en">Load MCP servers from JSON files or strings</p>
+    <p class="item-zh">從 JSON 檔載入 MCP 伺服器設定</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--strict-mcp-config</p>
+    <p class="item-en">Only use MCP servers from --mcp-config, ignoring all other configurations</p>
+    <p class="item-zh">只用你指定的 MCP，忽略其他來源的</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--chrome / --no-chrome</p>
+    <p class="item-en">Enable / Disable Claude in Chrome integration</p>
+    <p class="item-zh">開啟 / 關閉 Chrome 瀏覽器整合</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--ide</p>
+    <p class="item-en">Automatically connect to IDE on startup if exactly one valid IDE is available</p>
+    <p class="item-zh">啟動時自動連上 IDE（VS Code / JetBrains）</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--plugin-dir &lt;path&gt;</p>
+    <p class="item-en">Load a plugin from a directory or .zip for this session only</p>
+    <p class="item-zh">載入本地外掛（資料夾或 .zip），只限這次 session</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--plugin-url &lt;url&gt;</p>
+    <p class="item-en">Fetch a plugin .zip from a URL for this session only</p>
+    <p class="item-zh">從網址下載外掛，只限這次 session</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--disable-slash-commands</p>
+    <p class="item-en">Disable all skills</p>
+    <p class="item-zh">關閉所有 slash command（skill）</p>
+  </div>
+</section>
+
+<section class="section" id="advanced">
+  <h2 class="section-title">進階 / 開發用</h2>
+
+  <div class="item">
+    <p class="item-flag">--add-dir &lt;directories...&gt;</p>
+    <p class="item-en">Additional directories to allow tool access to</p>
+    <p class="item-zh">額外允許工具存取的資料夾（預設只有當前目錄）</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--agent &lt;agent&gt;</p>
+    <p class="item-en">Agent for the current session. Overrides the 'agent' setting.</p>
+    <p class="item-zh">指定這次 session 使用的 agent</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--agents &lt;json-or-file&gt;</p>
+    <p class="item-en">JSON object defining custom agents, or with --print a path to a file</p>
+    <p class="item-zh">用 JSON 定義自訂 agent（搭配 --print 可指定檔案路徑）</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--bare</p>
+    <p class="item-en">Minimal mode: skip hooks, LSP, plugins, auto-memory, CLAUDE.md auto-discovery</p>
+    <p class="item-zh">極簡模式：跳過 hook、LSP、外掛、自動記憶、CLAUDE.md 掃描</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--betas &lt;betas...&gt;</p>
+    <p class="item-en">Beta headers to include in API requests (API key users only)</p>
+    <p class="item-zh">API 請求加上 beta header，僅 API key 使用者</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--brief</p>
+    <p class="item-en">Enable SendUserMessage tool for agent-to-user communication</p>
+    <p class="item-zh">開啟 agent 主動傳訊給使用者的功能</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">-d, --debug [filter]</p>
+    <p class="item-en">Enable debug mode with optional category filtering (e.g. "api,hooks")</p>
+    <p class="item-zh">開 debug 模式，可用逗號指定過濾類別</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--debug-file &lt;path&gt;</p>
+    <p class="item-en">Write debug logs to a specific file path</p>
+    <p class="item-zh">debug log 寫到指定檔案</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--environment &lt;id&gt;</p>
+    <p class="item-en">Create a new cloud session on the given self-hosted environment (ccpool_...)</p>
+    <p class="item-zh">在自架環境上跑雲端 session</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--exclude-dynamic-system-prompt-sections</p>
+    <p class="item-en">Move per-machine sections from system prompt into first user message</p>
+    <p class="item-zh">把機器相關資訊從系統提示詞移到使用者訊息，提高 cache 命中率</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--file &lt;specs...&gt;</p>
+    <p class="item-en">File resources to download at startup. Format: file_id:relative_path</p>
+    <p class="item-zh">啟動時下載的檔案資源，格式：file_id:路徑</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--forward-subagent-text</p>
+    <p class="item-en">Forward subagent text and thinking blocks (only with --print and stream-json)</p>
+    <p class="item-zh">轉發子 agent 的文字和思考過程</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--include-hook-events</p>
+    <p class="item-en">Include all hook lifecycle events in the output stream</p>
+    <p class="item-zh">在輸出串流中包含 hook 事件</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--include-partial-messages</p>
+    <p class="item-en">Include partial message chunks as they arrive</p>
+    <p class="item-zh">訊息片段一到就輸出，不等完整</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--input-format &lt;format&gt;</p>
+    <p class="item-en">Input format: "text" (default) or "stream-json"</p>
+    <p class="item-zh">輸入格式，預設純文字</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--output-format &lt;format&gt;</p>
+    <p class="item-en">Output format: "text", "json", or "stream-json"</p>
+    <p class="item-zh">輸出格式：純文字 / 單次 JSON / 串流 JSON</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--remote-control [name]</p>
+    <p class="item-en">Start an interactive session with Remote Control enabled</p>
+    <p class="item-zh">開啟遠端控制模式</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--setting-sources &lt;sources&gt;</p>
+    <p class="item-en">Comma-separated list of setting sources to load (user, project, local)</p>
+    <p class="item-zh">指定要讀哪些設定來源</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--settings &lt;file-or-json&gt;</p>
+    <p class="item-en">Path to a settings JSON file or a JSON string</p>
+    <p class="item-zh">載入額外設定檔</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--verbose</p>
+    <p class="item-en">Override verbose mode setting from config</p>
+    <p class="item-zh">開啟詳細輸出</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--ax-screen-reader</p>
+    <p class="item-en">Render screen-reader friendly output</p>
+    <p class="item-zh">螢幕閱讀器友善模式，去掉裝飾邊框和動畫</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">--replay-user-messages</p>
+    <p class="item-en">Re-emit user messages from stdin back on stdout</p>
+    <p class="item-zh">把 stdin 的使用者訊息回送到 stdout</p>
+  </div>
+</section>
+
+<section class="section" id="commands">
+  <h2 class="section-title">子命令 Commands</h2>
+
+  <div class="item">
+    <p class="item-flag">claude agents [options]</p>
+    <p class="item-en">Manage background agents</p>
+    <p class="item-zh">管理背景 agent（列出、查看狀態）</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude attach &lt;id|name&gt;</p>
+    <p class="item-en">Open a background session in this terminal</p>
+    <p class="item-zh">把背景 session 拉到當前終端機操作</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude auth</p>
+    <p class="item-en">Manage authentication</p>
+    <p class="item-zh">管理登入驗證</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude auto-mode</p>
+    <p class="item-en">Inspect or reset auto mode classifier configuration</p>
+    <p class="item-zh">查看或重設 auto mode 的分類設定</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude doctor</p>
+    <p class="item-en">Check the health of your Claude Code installation</p>
+    <p class="item-zh">檢查 Claude Code 安裝是否正常，排錯用</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude gateway [options]</p>
+    <p class="item-en">Run the enterprise auth/telemetry gateway</p>
+    <p class="item-zh">跑企業用的驗證 / 遙測閘道</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude import [source]</p>
+    <p class="item-en">Import config from another AI coding agent into Claude Code</p>
+    <p class="item-zh">從其他 AI 程式工具（如 Cursor）匯入設定</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude install [target]</p>
+    <p class="item-en">Install Claude Code native build (stable, latest, or specific version)</p>
+    <p class="item-zh">安裝原生版本</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude logs &lt;id|name&gt;</p>
+    <p class="item-en">Print a background session's recent terminal output</p>
+    <p class="item-zh">印出背景 session 最近的終端機輸出</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude mcp</p>
+    <p class="item-en">Configure and manage MCP servers</p>
+    <p class="item-zh">設定與管理 MCP 伺服器</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude plugin</p>
+    <p class="item-en">Manage Claude Code plugins</p>
+    <p class="item-zh">管理外掛</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude purge [path]</p>
+    <p class="item-en">Delete all Claude Code state for a project (transcripts, tasks, file history)</p>
+    <p class="item-zh">清除某專案的所有 Claude Code 狀態</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude respawn [id]</p>
+    <p class="item-en">Restart a background session on the current Claude Code version</p>
+    <p class="item-zh">用當前版本重啟背景 session</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude rm &lt;id&gt;</p>
+    <p class="item-en">Delete a background session, and its worktree when safe</p>
+    <p class="item-zh">刪除背景 session，有 worktree 也一起清</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude setup-token</p>
+    <p class="item-en">Set up a long-lived authentication token (requires Claude subscription)</p>
+    <p class="item-zh">設定長效驗證 token，需有 Claude 訂閱</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude stop &lt;id&gt;</p>
+    <p class="item-en">Stop a background session (conversation is kept)</p>
+    <p class="item-zh">停止背景 session，對話保留，之後可以 attach 回來</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude ultrareview [target]</p>
+    <p class="item-en">Run a cloud-hosted multi-agent code review</p>
+    <p class="item-zh">跑雲端多 agent 程式碼審查</p>
+  </div>
+
+  <div class="item">
+    <p class="item-flag">claude update</p>
+    <p class="item-en">Check for updates and install if available</p>
+    <p class="item-zh">檢查並安裝更新</p>
+  </div>
+</section>
+
+<footer>
+  Claude Code Help 雙語速查 · 2026-10-14
+</footer>
+</body>
+</html>
