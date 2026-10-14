@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="為什麼高手工作時聽有節奏的遊戲式 BGM、哪些聲音真的對專注有用、YouTube Music 上該按哪個歌單，附反方查核與兩週自我實驗記錄器。">
+<meta name="color-scheme" content="light dark">
+<title>工作 BGM 手冊</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: 單欄研究手冊，頂部黏性章節列；證據強度用四格「電平表」呈現，呼應混音台的 VU meter。 */
+:root {
+  --bg: #eef1f5;
+  --surface: #ffffff;
+  --surface-2: #e3e8ee;
+  --fg: #1a212b;
+  --muted: #5d6877;
+  --line: #d0d7e0;
+  --accent: #3a4fd6;
+  --accent-soft: #e3e7fb;
+  --ok: #1e7a4e;
+  --info: #2458b9;
+  --warn: #b0650e;
+  --bad: #b6283e;
+  --ok-soft: #dff3e8; --info-soft: #e2ebfb; --warn-soft: #fbeedb; --bad-soft: #fbe3e7;
+  --font-display: "Noto Serif TC", "Songti TC", "PingFang TC", serif;
+  --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(20, 30, 50, .06), 0 6px 18px rgba(20, 30, 50, .05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f131a; --surface: #171d27; --surface-2: #1f2834; --fg: #e8ecf2; --muted: #9ba7b6; --line: #2b3542;
+    --accent: #9aa6ff; --accent-soft: #232b4d;
+    --ok: #52c98c; --info: #7aa7ff; --warn: #e7a650; --bad: #ff7f92;
+    --ok-soft: #16302a; --info-soft: #1a2742; --warn-soft: #3a2a14; --bad-soft: #3d1a22;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f131a; --surface: #171d27; --surface-2: #1f2834; --fg: #e8ecf2; --muted: #9ba7b6; --line: #2b3542;
+  --accent: #9aa6ff; --accent-soft: #232b4d;
+  --ok: #52c98c; --info: #7aa7ff; --warn: #e7a650; --bad: #ff7f92;
+  --ok-soft: #16302a; --info-soft: #1a2742; --warn-soft: #3a2a14; --bad-soft: #3d1a22;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.35);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.75; margin: 0; }
+.wrap { max-width: 900px; margin: 0 auto; padding-inline: 20px; padding-block: 0 72px; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.3; margin: 0; }
+h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 700; letter-spacing: .01em; }
+h2 { font-size: clamp(22px, 3.2vw, 28px); font-weight: 700; }
+h3 { font-size: 18px; font-weight: 600; }
+p { margin: 0; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.small { font-size: 14px; }
+
+/* nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); margin-inline: -20px; padding-inline: 20px; }
+.nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.nav ul::-webkit-scrollbar { display: none; }
+.nav a { display: block; white-space: nowrap; padding: 12px 10px; font-size: 14px; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; }
+.nav a:hover, .nav a:focus-visible { color: var(--fg); outline: none; border-bottom-color: var(--accent); }
+
+/* hero */
+.hero { padding-block: 44px 28px; display: grid; gap: 18px; }
+.hero .lede { font-size: 18px; max-width: 42em; color: var(--muted); }
+.verdict-box { background: var(--surface); border: 1px solid var(--line); border-left: 5px solid var(--accent); border-radius: var(--radius); padding: 18px 22px; box-shadow: var(--shadow); display: grid; gap: 8px; }
+.verdict-box .big { font-family: var(--font-display); font-size: clamp(18px, 2.6vw, 22px); line-height: 1.5; }
+.rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.rule { background: var(--surface-2); border-radius: var(--radius); padding: 14px 16px; display: grid; gap: 4px; min-width: 0; }
+.rule b { font-family: var(--font-display); font-size: 17px; }
+.rule span { font-size: 14px; color: var(--muted); }
+@media (max-width: 640px) { .rules { grid-template-columns: 1fr; } }
+
+/* sections */
+section { padding-block: 40px 8px; display: grid; gap: 18px; scroll-margin-top: 64px; }
+section > header { display: grid; gap: 6px; }
+section > header p { color: var(--muted); max-width: 44em; }
+
+/* evidence meter */
+.meter { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; white-space: nowrap; }
+.meter .bars { display: inline-flex; gap: 2px; }
+.meter .bars i { display: block; width: 9px; height: 12px; border-radius: 2px; background: var(--line); }
+.meter[data-level="strong"] .bars i:nth-child(-n+4) { background: var(--ok); }
+.meter[data-level="moderate"] .bars i:nth-child(-n+3) { background: var(--info); }
+.meter[data-level="weak"] .bars i:nth-child(-n+2) { background: var(--warn); }
+.meter[data-level="contested"] .bars i:nth-child(-n+1) { background: var(--bad); }
+.meter[data-level="strong"] { color: var(--ok); }
+.meter[data-level="moderate"] { color: var(--info); }
+.meter[data-level="weak"] { color: var(--warn); }
+.meter[data-level="contested"] { color: var(--bad); }
+
+/* chips */
+.chip { display: inline-block; font-family: var(--font-mono); font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; line-height: 1.6; }
+.chip.ok { color: var(--ok); background: var(--ok-soft); border-color: transparent; }
+.chip.info { color: var(--info); background: var(--info-soft); border-color: transparent; }
+.chip.warn { color: var(--warn); background: var(--warn-soft); border-color: transparent; }
+.chip.bad { color: var(--bad); background: var(--bad-soft); border-color: transparent; }
+.chip.accent { color: var(--accent); background: var(--accent-soft); border-color: transparent; }
+
+/* cards */
+.cards { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.card h3 { font-size: 17px; }
+.card .ev { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.card p { font-size: 15px; }
+
+/* claims */
+.claim { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 18px; display: grid; gap: 10px; }
+.claim .head { display: flex; gap: 10px; align-items: flex-start; }
+.claim .id { font-family: var(--font-mono); font-size: 12px; color: var(--muted); padding-top: 4px; min-width: 2.4em; }
+.claim .text { flex: 1; min-width: 0; font-size: 15px; }
+.claim .votes { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.vote { font-family: var(--font-mono); font-size: 12px; padding: 2px 8px; border-radius: 6px; background: var(--surface-2); color: var(--muted); }
+.vote.keep { color: var(--ok); background: var(--ok-soft); }
+.vote.refute { color: var(--bad); background: var(--bad-soft); }
+.claim details { border-top: 1px dashed var(--line); padding-top: 8px; }
+.claim summary { cursor: pointer; font-size: 14px; color: var(--accent); }
+.claim summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.claim .corrected { margin-top: 8px; padding: 10px 12px; background: var(--surface-2); border-radius: 8px; font-size: 15px; }
+.claim .lens-note { font-size: 14px; color: var(--muted); margin-top: 6px; }
+
+/* table */
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; font-size: 13px; color: var(--muted); background: var(--surface-2); white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+td.nowrap { white-space: nowrap; }
+
+/* task selector */
+.tasks { display: flex; flex-wrap: wrap; gap: 8px; }
+.taskbtn { font: inherit; font-size: 14.5px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
+.taskbtn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+.taskbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; display: grid; gap: 14px; box-shadow: var(--shadow); }
+.panel .advice { display: grid; gap: 6px; }
+.panel .advice b { font-family: var(--font-display); font-size: 17px; }
+.panel .advice .ev { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pl-list { display: grid; gap: 8px; }
+.pl { display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); min-width: 0; }
+.pl .name { font-weight: 500; }
+.pl .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+.pl .note { font-size: 13.5px; color: var(--muted); grid-column: 1 / -1; }
+.pl .open { font-size: 13px; font-family: var(--font-mono); padding: 6px 10px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); text-decoration: none; white-space: nowrap; }
+.pl .open:hover { filter: brightness(.95); }
+.pl.skip { opacity: .75; border-style: dashed; }
+
+/* filters */
+.filters { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.filters .label { font-size: 13px; color: var(--muted); margin-right: 4px; }
+.fbtn { font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; }
+.fbtn[aria-pressed="true"] { background: var(--surface-2); color: var(--fg); border-color: var(--fg); }
+.fbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rhythm { display: inline-flex; gap: 2px; vertical-align: middle; }
+.rhythm i { display: block; width: 4px; border-radius: 1px; background: var(--line); }
+.rhythm i:nth-child(1) { height: 6px; } .rhythm i:nth-child(2) { height: 9px; } .rhythm i:nth-child(3) { height: 12px; }
+.rhythm[data-r="無"] i { background: var(--line); }
+.rhythm[data-r="弱"] i:nth-child(1) { background: var(--accent); }
+.rhythm[data-r="中"] i:nth-child(-n+2) { background: var(--accent); }
+.rhythm[data-r="強"] i { background: var(--accent); }
+
+/* steps */
+.steps { display: grid; gap: 10px; counter-reset: step; }
+.step { display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.step::before { counter-increment: step; content: counter(step); font-family: var(--font-mono); font-weight: 600; color: var(--accent); background: var(--accent-soft); width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; }
+.step b { display: block; margin-bottom: 2px; }
+.step p { font-size: 15px; }
+.callout { background: var(--surface-2); border-radius: var(--radius); padding: 14px 18px; display: grid; gap: 6px; font-size: 15px; }
+.callout b { font-family: var(--font-display); }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 14.5px; }
+.kv dt { font-family: var(--font-mono); color: var(--muted); white-space: nowrap; }
+.kv dd { margin: 0; }
+
+/* myths */
+.myth { display: grid; grid-template-columns: 1fr; gap: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 18px; }
+.myth .m { color: var(--bad); font-weight: 500; }
+.myth .m::before { content: "迷思 "; font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; }
+.myth .r::before { content: "實際 "; font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; color: var(--ok); }
+.myth .e { font-size: 13.5px; color: var(--muted); }
+
+/* experiment logger */
+.logger { display: grid; gap: 12px; }
+.logform { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; align-items: end; }
+.logform label { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+.logform input, .logform select { font: inherit; font-size: 14px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--fg); min-width: 0; }
+.logform button { font: inherit; font-size: 14px; padding: 8px 12px; border-radius: 6px; border: none; background: var(--accent); color: #fff; cursor: pointer; }
+.logform button:focus-visible, .logform input:focus-visible, .logform select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; }
+.sumcard { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: grid; gap: 2px; }
+.sumcard .n { font-family: var(--font-mono); font-size: 20px; font-variant-numeric: tabular-nums; }
+.sumcard .t { font-size: 12px; color: var(--muted); }
+.rowdel { font: inherit; font-size: 12px; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+.toast { font-size: 13px; color: var(--muted); min-height: 1.4em; }
+.example-tag { font-family: var(--font-mono); font-size: 11px; color: var(--warn); }
+
+/* sources */
+.sources { display: grid; gap: 8px; font-size: 14.5px; }
+.src { display: grid; gap: 2px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.src:last-child { border-bottom: none; }
+.src .t { font-weight: 500; }
+.src .n { color: var(--muted); font-size: 13.5px; }
+.foot { padding-top: 32px; font-size: 13px; color: var(--muted); display: grid; gap: 4px; }
+
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+@media (max-width: 520px) { .pl { grid-template-columns: 1fr; } .step { grid-template-columns: 28px 1fr; } }
+</style>
+<style>
+/* 完整頁面骨架（筆記站版） */
+img{max-width:100%}[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="章節">
+    <ul>
+      <li><a href="#why">為什麼有效</a></li>
+      <li><a href="#verdicts">證據判決</a></li>
+      <li><a href="#sounds">哪些聲音有用</a></li>
+      <li><a href="#picker">任務選擇器</a></li>
+      <li><a href="#playlists">歌單目錄</a></li>
+      <li><a href="#protocol">每天怎麼用</a></li>
+      <li><a href="#myths">迷思破解</a></li>
+      <li><a href="#experiment">兩週自我實驗</a></li>
+      <li><a href="#profile">你是哪一型</a></li>
+      <li><a href="#ask">問問高手</a></li>
+      <li><a href="#sources">來源</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">2026-10-15 ・ 8 位研究員 × 30 次反方查核 × 3 次補漏 × YouTube Music 實查</div>
+    <h1>工作 BGM 手冊</h1>
+    <p class="lede">腦科所博士學姊、資安社團前後任社長，工作時都在聽有節奏、像打遊戲 BGM 的音樂。這份手冊回答三件事：為什麼這招有效、哪些聲音真的對專注有用（哪些是偽科學）、以及在 YouTube Music 上該按哪個歌單。</p>
+    <div class="verdict-box">
+      <div class="eyebrow">一句話結論</div>
+      <p class="big" id="one-liner">他們聽的不是「讓腦力變強」的音樂，而是剛好避開所有會扣分條件的音樂：無歌詞、聽熟、節奏穩定、音量不大。音樂真正做的是調喚醒度與心情、蓋掉人聲、讓長時間工作撐得住；在困難的任務上，安靜仍然是基準。要學的是「用聲音管理狀態」這個行為，不是他們的曲目。</p>
+      <p class="small muted">音樂不是讓大腦變聰明的外掛。它做的是三件事：調喚醒度、調心情、蓋掉更糟的環境噪音。高手們挑的「無歌詞、有節奏、聽熟了」的 BGM，剛好避開所有會扣分的條件。</p>
+    </div>
+    <div class="rules">
+      <div class="rule"><b>一、讀寫時無歌詞</b><span>有歌詞等於旁邊有人講話，對閱讀與記憶的傷害最穩定。純器樂平均是零：不幫也不害。</span></div>
+      <div class="rule"><b>二、難的任務先關掉</b><span>除錯、讀硬論文、學新工具：音樂平均扣一點分（效果小，主要來自歌詞與快又大聲）。安靜仍是基準，真要放就放慢、小聲、無歌詞的器樂。</span></div>
+      <div class="rule"><b>三、不要又快又大聲</b><span>快沒關係，快加大聲才傷閱讀理解。音量壓到還聽得見自己打鍵盤。</span></div>
+    </div>
+  </header>
+
+  <section id="why">
+    <header>
+      <div class="eyebrow">01</div>
+      <h2>為什麼高手都這樣做</h2>
+      <p>把「邊聽有節奏的 BGM 邊工作」拆成幾個機制，每一個標上目前文獻的證據強度。四格全亮是多篇 RCT 或統合分析一致；一格紅是研究互相打臉。</p>
+    </header>
+    <div class="cards" id="mech-cards"></div>
+  </section>
+
+  <section id="verdicts">
+    <header>
+      <div class="eyebrow">02</div>
+      <h2>十條關鍵說法的反方查核</h2>
+      <p>從研究員的發現裡挑出 10 條最影響「怎麼選、怎麼用」的說法，每條交給三位懷疑者從不同角度試圖推翻：一手文獻、方法論、實務外推。兩票以上推翻就算推翻；展開看「證據撐得住的版本」。</p>
+    </header>
+    <div style="display:grid;gap:10px" id="claims"></div>
+  </section>
+
+  <section id="sounds">
+    <header>
+      <div class="eyebrow">03</div>
+      <h2>哪些聲音有用、哪些沒有</h2>
+      <p>各種聲音類型的判決，整合研究與查核結果。「有效」的意思是在對的任務上有可靠的好處；「中性」是不幫也不害，可以當安靜的替代品。</p>
+    </header>
+    <div class="tablewrap">
+      <table id="sounds-table">
+        <thead><tr><th>聲音類型</th><th>判決</th><th>適合</th><th>避開</th><th>證據</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="picker">
+    <header>
+      <div class="eyebrow">04</div>
+      <h2>任務選擇器</h2>
+      <p>點你現在要做的事，下面會給出該用哪種聲音、該避開什麼，以及對應的歌單。所有歌單都是真實存在、打得開的。</p>
+    </header>
+    <div class="tasks" id="tasks" role="group" aria-label="任務類型"></div>
+    <div class="panel" id="picker-panel"></div>
+  </section>
+
+  <section id="playlists">
+    <header>
+      <div class="eyebrow">05</div>
+      <h2>YouTube Music 歌單目錄</h2>
+      <p>「實查」表示我在 2026-10-15 打開歌單頁看過曲目；「驗證」表示研究員用抓取工具確認過網址與標題。節奏條：無／弱／中／強。</p>
+    </header>
+    <div class="filters" id="cat-filters"><span class="label">分類</span></div>
+    <div class="filters" id="rhythm-filters"><span class="label">節奏</span></div>
+    <div class="pl-list" id="pl-list"></div>
+    <div class="callout">
+      <b>在 YouTube Music App 裡怎麼找到這些</b>
+      <p>底部「探索」→ 往下捲到「情境和場景」→ 點「專注」。你會看到 Flow state、古典樂、動感節奏、氛圍與情調、閱讀這幾個子區。同一分類裡的 Unwind、Chill R&amp;B、絲絨美聲、Latin Pop Ballads 有人聲，工作時跳過。</p>
+      <p>把歌單收進媒體庫：歌單頁右上「⋮」→「儲存到媒體庫」。YouTube 上的直播台（Lofi Girl、Chillhop）是影片串流，手機上沒有 Premium 不能關螢幕；在 YouTube Music 裡想要「開了就不用管」的效果，就挑 4 到 13 小時的官方長歌單開隨機播放。</p>
+    </div>
+  </section>
+
+  <section id="protocol">
+    <header>
+      <div class="eyebrow">06</div>
+      <h2>每天怎麼用</h2>
+      <p>目標是「一按就進狀態」。這靠的不是神曲，是條件反射：固定的歌單、固定的音量、固定的切換規則，兩週後身體會記得。</p>
+    </header>
+    <div class="steps" id="protocol-steps"></div>
+    <div class="callout">
+      <b>音量與聽力：這是唯一會造成永久傷害的地方</b>
+      <dl class="kv">
+        <dt>WHO 額度</dt><dd>成人每週 80 dB × 40 小時。每多 3 dB，可聽時間減半：83 dB 剩 20 小時、86 dB 剩 10 小時。</dd>
+        <dt>iPhone 設定</dt><dd>設定 → 聲音與觸覺 → 耳機安全 → 開「降低大聲音訊」設 75 或 80 dB；健康 App 的「聽力」可以看 7 天耳機音量。</dd>
+        <dt>實際做法</dt><dd>音量壓到聽得見自己打鍵盤、旁邊有人叫你聽得到。想隔絕環境就用降噪耳機降低底噪，而不是把音樂開大。</dd>
+        <dt>60/60</dt><dd>每 60 分鐘拿下耳機至少 10 分鐘。入耳式戴整天會悶出外耳道問題。</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="myths">
+    <header>
+      <div class="eyebrow">07</div>
+      <h2>迷思破解</h2>
+      <p>這些說法在 YouTube 標題和廣告裡很常見。查核後的實際版本在下面。</p>
+    </header>
+    <div style="display:grid;gap:10px" id="myth-list"></div>
+  </section>
+
+  <section id="experiment">
+    <header>
+      <div class="eyebrow">08</div>
+      <h2>兩週自我實驗</h2>
+      <p>研究講的是平均值，你不是平均值。用 N-of-1 的方法自己測：同一種任務、兩種條件交替，記四個數字。紀錄只存在你這台裝置的瀏覽器裡。</p>
+    </header>
+    <div class="steps" id="experiment-steps"></div>
+    <div class="logger">
+      <h3>工作段紀錄</h3>
+      <form class="logform" id="logform">
+        <label>日期<input type="date" id="f-date"></label>
+        <label>條件<select id="f-cond"><option>安靜</option><option>歌單 A</option><option>歌單 B</option><option>噪音</option></select></label>
+        <label>任務<select id="f-task"><option>寫程式</option><option>除錯</option><option>讀論文</option><option>寫作</option><option>整理雜務</option><option>其他</option></select></label>
+        <label>完成度 1–5<input type="number" id="f-done" min="1" max="5" step="1" value="3"></label>
+        <label>中斷次數<input type="number" id="f-int" min="0" max="50" step="1" value="0"></label>
+        <label>Flow 1–5<input type="number" id="f-flow" min="1" max="5" step="1" value="3"></label>
+        <button type="submit" id="f-submit">記一筆</button>
+      </form>
+      <div class="toast" id="log-toast"></div>
+      <div class="summary" id="log-summary"></div>
+      <div class="tablewrap">
+        <table id="log-table">
+          <thead><tr><th>日期</th><th>條件</th><th>任務</th><th>完成度</th><th>中斷</th><th>Flow</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="profile">
+    <header>
+      <div class="eyebrow">09</div>
+      <h2>先搞清楚你是哪一型</h2>
+      <p>同一份歌單對 A 有效、對 B 有害，最大的分岔點是「你平常專注得住嗎」。注意力偏弱或容易無聊的人，從外部刺激（節奏、甚至噪音）得到的幫助較可靠；本來就專注的人，加刺激反而扣分。下面兩個是研究用的篩檢量表，不是診斷。</p>
+    </header>
+    <div class="cards">
+      <div class="card">
+        <h3>成人 ADHD 自填量表 ASRS v1.1 Part A（WHO）</h3>
+        <p class="small muted">回想過去 6 個月。前三題答「有時」以上、後三題答「經常」以上，各算一格；四格以上代表症狀高度符合，建議找專業評估。</p>
+        <ol class="small" style="margin:0;padding-left:1.4em;display:grid;gap:4px">
+          <li>一件事最難的部分做完後，收尾的細節常做不完？</li>
+          <li>需要有條理地安排一件事時，常覺得很難整理好？</li>
+          <li>常忘記約好的事或該做的事？</li>
+          <li>遇到需要大量思考的事，常會拖延或逃避？</li>
+          <li>需要久坐時，常坐立不安、手腳動來動去？</li>
+          <li>常覺得自己像裝了馬達，停不下來？</li>
+        </ol>
+        <p class="small"><b>怎麼用：</b>四格以上，可以試「刺激型但無歌詞」路線（synthwave、techno、甚至白噪音），這群人從噪音得到的幫助在統合分析裡是小幅但一致的。三格以下，白噪音預期是負效果，走器樂或安靜路線。</p>
+      </div>
+      <div class="card">
+        <h3>無聊傾向 SBPS（Struk 等 2017，8 題意譯）</h3>
+        <p class="small muted">每題 1 到 7 分，越高越容易無聊。總分高的人在困難任務上反而是安靜時表現最好，在簡單任務上較能靠音樂撐住。</p>
+        <ol class="small" style="margin:0;padding-left:1.4em;display:grid;gap:4px">
+          <li>我常覺得無所事事、不知道要做什麼。</li>
+          <li>我很難讓自己有事做、保持有趣。</li>
+          <li>我要做的事大多重複又單調。</li>
+          <li>跟多數人比，我需要更多刺激才會動起來。</li>
+          <li>我做的大多數事情都提不起勁。</li>
+          <li>在多數情況下，我很難找到讓自己有興趣的事。</li>
+          <li>很多時候我只是坐著，什麼都沒做。</li>
+          <li>除非在做刺激、甚至有點危險的事，不然我覺得半死不活。</li>
+        </ol>
+        <p class="small"><b>怎麼用：</b>把總分記在自我實驗的旁邊，當共變數。分數高又常做困難任務的人，最該試的是「安靜」這個條件。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="ask">
+    <header>
+      <div class="eyebrow">10</div>
+      <h2>問問那三位高手</h2>
+      <p>這次研究最大的缺口是沒有他們的第一手資料。六題問完，把連結給我，我可以抓曲目、算 BPM、逐曲查人聲，把這份手冊的歌單換成他們真的在聽的。題目改自 Moster 等 2022 對 130 位遠距開發者的問卷。</p>
+    </header>
+    <div class="steps" id="ask-steps"></div>
+    <div class="callout"><b>倖存者偏差的對照題</b><p>「你認識不聽音樂也很強的人嗎？他們做的是哪類工作？」有這一題，才知道聽音樂是原因還是巧合。唯一的開發者田野研究顯示，「拿掉音樂會變差」只在本來就習慣聽的人身上成立。</p></div>
+  </section>
+
+  <section id="sources">
+    <header>
+      <div class="eyebrow">11</div>
+      <h2>注意事項與主要來源</h2>
+    </header>
+    <div class="callout" id="caveats"></div>
+    <div class="sources" id="source-list"></div>
+    <div class="foot">
+      <p>研究方法：8 位研究員各從一個角度上網查一手文獻；主編挑出 10 條關鍵說法；每條由 3 位懷疑者（一手文獻、方法論、實務外推）獨立試圖推翻；完整性審查後補漏；最後綜合。YouTube Music 歌單由我在台灣地區介面實際打開確認。</p>
+      <p>台灣蹄兔科技 ・ 成育典的 LifeOS ・ 2026-10-15</p>
+    </div>
+  </section>
+</div>
+
+<script>
+const MECH = [{"mechanism": "喚醒度與心情（arousal-mood）", "evidence_level": "strong", "explanation": "音樂先拉高喚醒度與心情，再間接影響表現：快板主要推喚醒度、大調主要推心情。把這兩個統計上控制掉，「莫札特效應」就消失。對長時間工作者，這是「撐得住、心情好」的來源，不是「腦力變強」。唯一對軟體工程師做的五週現場研究也是這個方向：沒音樂那週心情最差、自評品質最低、花的時間最長。"}, {"mechanism": "減少走神、撐住單調任務", "evidence_level": "moderate", "explanation": "自選音樂在 30 分鐘的警覺作業裡把走神從 27% 降到 18%、任務聚焦從 54% 升到 62%，但反應時間沒有變快，也沒抵銷時間拉長帶來的疲勞。音樂是減走神，不是續航電池；長時段仍要靠休息節奏。"}, {"mechanism": "蓋掉更糟的噪音", "evidence_level": "strong", "explanation": "開放空間或咖啡廳裡最傷專注的不是音量，是「聽得懂的人聲」。無歌詞的音樂或恆定噪音把人聲蓋掉，就是淨賺。英國 295 位上班族的調查裡，耳機的用途有一半是「把自己跟辦公室隔開」。"}, {"mechanism": "避開會扣分的條件：無歌詞、不要快又大聲", "evidence_level": "strong", "explanation": "有歌詞的音樂對閱讀理解的傷害約 g −0.35，跟旁邊有人講話差不多；純器樂平均接近零。器樂只有在「快加大聲」同時出現時才顯著拖慢閱讀。三位高手挑「無歌詞、有節奏的 BGM」，等於避開了最會扣分的兩個條件。"}, {"mechanism": "任務難度決定一切", "evidence_level": "strong", "explanation": "音樂普遍拖累複雜任務、不傷甚至幫助簡單任務；把所有研究平均起來像沒效果，其實是正負互相抵銷。人也隱約知道這點：越難的事越少開音樂。所以「他們邊聽邊做仍然很強」最可能是因為他們在做熟練的工作，而不是音樂讓難的事變簡單。"}, {"mechanism": "自己選、自己控制開關", "evidence_level": "moderate", "explanation": "外科醫師自選音樂時壓力反應最低、速度與正確率最好；實驗者代選次之；沒音樂最差。職場四週準實驗讓員工自己決定聽不聽，績效與心情都改善。公司廣播、別人放的歌、演算法亂推的新歌都不算。"}, {"mechanism": "低資訊量、可預期：遊戲配樂的設計規格", "evidence_level": "weak", "explanation": "遊戲配樂本來就是寫來「聽 50 小時不膩、不搶注意力、無縫循環」的，聲學變化小，符合「變化多的聲音才干擾」的理論。但沒有任何實驗證明遊戲 OST 比其他器樂更好；它只是剛好同時滿足幾個有證據的條件，電影配樂、ambient、熟悉的古典器樂理論上效果相近。"}, {"mechanism": "節奏帶動動作節奏、拉高喚醒度", "evidence_level": "moderate", "explanation": "音樂速度會帶動吃飯、走路、打字這類動作的速度（八個研究平均 r≈.40），但不會加快思考：138 BPM 不比無音樂快，66 BPM 反而變慢。沒有任何「最佳 BPM」。「有節拍比 ambient 更專注」這件事沒有直接對照實驗。"}, {"mechanism": "熟悉、固定歌單當開工訊號", "evidence_level": "contested", "explanation": "熟悉度的研究互相矛盾：有的反應更快、走神更少，有的更分心；能確定的只有「熟悉可以抵銷陌生遊戲配樂的傷害」。「固定開工歌變條件反射」的主要證據 Brooks 2016 已撤稿。成本零、可預期的聲音較不會突然抓走注意力，當習慣可以，當科學不行。還有一層是自我篩選：能在音樂下工作的人才養成這習慣，被拖垮的人早就關掉了。"}, {"mechanism": "個人差異：你需要多少外部刺激", "evidence_level": "moderate", "explanation": "注意力偏弱或 ADHD 傾向的人，從噪音與刺激型音樂得到的幫助小幅但一致（g≈0.25）；注意力正常的人反而小幅受害（g≈−0.21）。外向性、無聊傾向都會翻轉效果。三位高手的做法對你適不適用，先看你是哪一型。"}];
+const CLAIMS = [{"id": "C1", "claim": "在閱讀理解、寫作、序列記憶這類需要語言或順序處理的任務上，有歌詞的背景音樂會把表現拉低約 d ≈ −0.35（與旁邊有人講話的干擾相當），就算歌詞聽不太懂、或是自己討厭的歌也一樣有害；純器樂的平均效應約為 0，與安靜無顯著差異。這條規則可以直接推到寫程式、讀程式碼、讀論文。", "status": "原句過頭", "refutedCount": 3, "corrected": "在閱讀理解任務上，有歌詞的背景音樂平均會把表現拉低約 g ≈ −0.35（Vasilev 等 2018，36 篇研究的 meta-regression 估計，未附可信區間；音樂整體 g = −0.19），干擾程度與可懂的背景人聲（g ≈ −0.34）相當；純器樂對閱讀理解的平均效應接近 0。一篇 N = 30 的研究顯示喜歡與討厭的有歌詞歌曲同樣有害，但該研究的歌詞前測有約 75% 可辨識，「聽不懂的歌詞也一樣有害」沒有證據，meta-analysis 反而顯示可懂語音比不可懂語音更干擾。語文／視覺回憶任務上有歌詞 vs 安靜約 d ≈ −0.3（單一線上研究，N ≈ 113–118），但同一研究的閱讀理解「有歌詞 vs 安靜」並不可信（d = −.19、BF10 = 0.70）。寫作流暢度會被背景音樂略微拉低（n = 45，18.8→17.8 字/分），但該研究中人聲與器樂同樣有害、寫作品質未降。推到寫程式、讀程式碼沒有直接 RCT，只能算「讀論文≈閱讀理解」的合理外推；唯一的軟體開發者田野研究（56 人、5 週）反而顯示自選音樂伴隨較好心情與工作品質，雖未區分歌詞。", "votes": [{"lens": "文獻", "refuted": true, "reasoning": "本輪 WebSearch 額度已用完，改為直接打開一手來源：Vasilev 等 2018 的 PMC 全文，以及 Souza 2023、Perham 2014、Kämpfe 2011、Ransdell 2001 原文（PDF 抽字）。核心方向成立：Vasilev 2018 共 65 篇、音樂子集 36 篇（兩個數字都對），音樂對閱讀理解 g = −0.19 [−0.34, −0.05]，有歌詞 g = −0.35、器樂「接近 0」，有歌詞音樂與可懂語音（g = −0.34）無差。Perham（N = 30）安靜 ≈ .61、無歌詞 ≈ .55（不顯著）、喜歡／討厭有歌詞 ≈ .36／.37。Kämpfe 閱讀 8 篇全負（r̄ = −.11）。但原句有四處比證據強：(1)「歌詞聽不太懂也有害」無根據——Perham 的 thrash metal 歌詞前測 75% 可辨識，是刻意挑聽得懂的；Vasilev 2018 反而發現可懂語音比不可懂更干擾（99% 機率）。(2)「器樂 ≈ 0」只在閱讀理解成立；Ransdell（n = 45）流暢度 18.8→17.8 wpm，但原文明說人聲、器樂「無差異」，品質也未降（F < 1），研究員摘要寫反了。(3) Souza 的 −.32／−.33 是回憶任務；閱讀理解「有歌詞 vs 安靜」d = −.19、BF10 = 0.70 不可信，只有「器樂優於歌詞」d = .31 成立。(4) 推到寫程式沒有 RCT；唯一找到的開發者研究 Lesiuk 2005（56 人、5 週田野）反而是有音樂時心情、品質較好。Haapakangas 2011 在付費牆外未核實。"}, {"lens": "方法論", "refuted": true, "reasoning": "本輪 WebSearch 額度已被其他 agent 用完，改直接抓 8 篇一手全文（PDF 用 pdftotext 解開）逐條核對。結論：方向站得住，精確數字與延伸撐不住。(1) Vasilev 2018 確有歌詞音樂 g = −0.35、可懂語音 −0.34、器樂≈0；65 篇是全部聲音類型、音樂子集 36 篇，兩個數字都對。但音樂子集 τ² = 0.13，單篇多為每組 10–20 人，歌詞音樂單篇效應從 +0.37 到 −1.61 都有，−0.35 是高異質小樣本的平均。(2) 同作者 4 個預註冊、各 N≈204、同一首歌有無歌詞對照的實驗，歌詞效應只有 d ≈ 0.04–0.07，理解正確率 4 個實驗僅 1 個掉（d = −0.08），作者自稱「相當輕微」。(3) Souza 2023 閱讀理解「歌詞 vs 安靜」d = −.19、BF10 = 0.70，不可信；可信的只有器樂優於歌詞 d = .31；視覺回憶同樣受害 d = −.33，非語言任務專屬；未預註冊、九成女性心理系生、每條件一首歌、熟悉度混淆。(4)「聽不懂也有害」無證據：Perham 2014（N = 30）討厭歌前測是 10 人專心聽懂約 75%，不算聽不懂；Vasilev 2018 反而發現可懂語音比不可懂語音更干擾，其語意干擾模型預測外語歌詞不干擾。(5) Ransdell 2001 被引錯：N = 45，人聲、器樂「沒有差別」，器樂一樣拖慢寫作（18.8→17.8 字/分），品質 F < 1。(6) Cheah 2022 只是方向計票，自承領域「方法不一致、結論不定」。(7) 寫程式無任何直接實驗。"}, {"lens": "實務外推", "refuted": true, "reasoning": "WebSearch 額度已用完，改直接抓一手來源與本機已擷取的全文。核心數字有撐：Vasilev 2018（65 篇；閱讀理解子集音樂 36 篇 g=−0.19）meta-regression 歌詞 g=−0.35、可懂語音 −0.34、器樂≈0，兩種篇數說法都對。但說法有三處撐不住。(1)「聽不懂也一樣有害」：同一篇 meta 發現可懂語音比不可懂語音更干擾（99% 機率），作者模型明說外語歌詞應不干擾；Perham & Currie 的 thrash metal 歌詞前測可辨識約 75%，不算「聽不懂」。(2)「寫作」：Ransdell & Gilroy 2001 人聲、器樂、混合三組流暢度下降一樣（18.8→17.8 字/分，p<.05 邊緣），品質無差，與「器樂≈0」矛盾。(3) 外推到寫程式與整天工作：證據全是 10–30 分鐘、學生、閱讀題；同團隊 4 個受控實驗（同曲歌詞 vs 器樂版）歌詞只讓逐字閱讀變慢 d≈0.04–0.07，理解率多數不變，作者自稱「相當輕微」；Souza 2023 歌詞 vs 安靜的閱讀理解 BF 僅 0.70 不可信，真正受害的是回憶作業。唯一的程式設計證據 Lesiuk 2005（56 位開發者、5 週現場、自選音樂未控歌詞）反而是拿掉音樂時品質最低、耗時最長；Kiss & Linnell 2021 自選（多為人聲）音樂 30 分鐘內減少走神、表現無損；Röer 2014 顯示重複同一干擾音會習慣化。結論：「歌詞≈旁人講話、器樂≈安靜」在短時閱讀理解上成立，但「聽不懂也一樣」與「直接推到寫程式」缺證據，判 refuted。Haapakangas 2011 被擋無法核實。"}]}, {"id": "C2", "claim": "對困難、陌生或正在學習的任務（除錯、讀硬論文、學新工具、第一次做某件事），任何背景音樂都會讓表現變差，與音樂類型和音量無關；對簡單、熟練、重複的任務則無害，甚至較複雜（加鼓與 bass）的器樂會讓表現變好。三位高手邊聽邊做仍有效，是因為對他們而言那些是熟練任務。", "status": "原句過頭", "refutedCount": 3, "corrected": "對需要語意處理或記憶的困難任務（讀硬論文、學新東西、記材料），背景音樂平均有「小幅」負面效應（讀解 g≈−0.2、記憶 r≈−0.1），而且主要來自「有歌詞」的音樂（有歌詞 g≈−0.35，跟聽人講話差不多；無歌詞器樂平均接近 0，多數實驗測不到差異）。效應會因人而異：外向、工作記憶容量高、或偏好外部刺激低的人，傷害可縮到零甚至反轉。對簡單、熟練、重複的任務，背景音樂大致無害；有一篇研究（Gonzalez & Aiello 2019）顯示加鼓與 bass 的無歌詞音樂能小幅提升劃字母任務（ηp²≈.04），但尚未被廣泛重複，不宜說「會變好」。對陌生任務的新手，刺激型／干擾型音樂會傷害，但平靜的器樂（如古典樂）在一個 RCT 中與安靜無差。「三位高手邊聽邊做仍有效，是因為那些對他們是熟練任務」是合理假設，但沒有直接證據；更可能的解釋是他們聽的是無歌詞、穩定節奏的器樂，加上個人特質耐干擾。", "votes": [{"lens": "文獻", "refuted": true, "reasoning": "本輪 WebSearch 額度已被用完，我改直接開一手來源（PDF 全文、PMC、期刊頁）查核。原句比證據強，主要敗在「任何音樂、與類型無關」這句：Vasilev 等 2018 的 65 篇貝氏統合分析顯示，音樂對讀解的整體效應只有 g = −0.19，而且幾乎全由「有歌詞」驅動（有歌詞 g = −0.35、跟聽人說話一樣；無歌詞器樂接近 0）；Perham & Currie 2014（n = 30）器樂與安靜無差、有歌詞才變差；Souza & Barbosa 2023（n≈110）lo-fi 器樂在四項任務都無可信傷害，歌詞才傷記憶（d≈−0.3）；Cheah 2022 的 154 個實驗也說歌詞比器樂糟、而且「多數實驗測不到效果」。Gonzalez & Aiello 2019 自己只用無歌詞電梯音樂做兩種複雜度、兩種音量，所以「類型與音量無所謂」只在那個狹窄範圍成立；音樂對字對任務的傷害 ηp² = .04（平均 15.21 vs 14.56 分），且與外部刺激偏好交互作用：低偏好者配音樂反而更好。作者明說結果是「反對音樂一定有害的常見信念」。Lehmann & Seufert 2017 工作記憶高者無明顯傷害。新手／陌生任務方面，研究員給的 PMC 連結其實是 Conrad 2012（Annals of Surgery，31 位無腹腔鏡經驗外科醫師）：古典樂與安靜在首次表現無差、重複練習時鞏固更好，只有刺激型雙耳音樂傷害速度與準確度——類型顯然有關。Miskovic 2008 一手來源沒找到（PMC3015886 是 Boyd 2008 另一篇）。「簡單任務加鼓與 bass 會變好」目前只有 Gonzalez 一篇（ηp² = .04）加 Kämpfe 兩篇簡單算術 r = .12，尚未廣泛重複。「高手是熟練任務」只是推論，西點（自選、無統計）與 Lesiuk（無對照、自評、作者自承變化極小）撐不起來。"}, {"lens": "方法論", "refuted": true, "reasoning": "WebSearch 額度被其他 agent 用完，改以 DOI 直抓 OpenAlex／Europe PMC 紀錄，並把 gwern 的 PDF 轉文字逐段讀。發現：(1)「種類與音量無所謂」只靠 Gonzalez & Aiello 2019 一篇：150 名大學生組間設計，「複雜任務」是 36 組字對回憶，有音樂 14.56 vs 無音樂 15.21、ηp²=.04，差不到一個字；作者自承任務可能不夠難、低外部刺激偏好者聽音樂反而更好，並呼籲重複驗證。一手反證：Thompson 2012 只有「快又大聲」才傷閱讀理解；Shih 2012 RCT（n=102）只有歌詞版傷注意力；El Boghdady 2019 回顧 18 篇：低中音量古典有益、大聲高拍數才干擾；Kou 2018（n=92）華語流行歌／噪音／安靜全無差。(2)「複雜器樂讓簡單任務變好」也只有這一篇、未重複。(3) 專業度證據更弱：PMC3015886 其實是 Boyd 2008（樂器經驗，非背景音樂）、PMC3354736 其實是 Conrad 2012（31 名新手，古典樂反而讓重複練習進步更多），兩個引用都錯；Miskovic 每組 15 人、同一節 5 次就消失，分不清熟練或新奇感退去；西點論文無推論統計且自選聽不聽；Lesiuk 無對照、全自評。Kämpfe 97 篇整合：閱讀 r=−.11、記憶 r=−.09、音量 r=.02，效果小。強版說法站不住。"}, {"lens": "實務外推", "refuted": true, "reasoning": "「任何音樂、不分類型與音量都讓困難任務變差」是把單一實驗過度推廣。Gonzalez & Aiello 2019 的「不分複雜度與音量」只指同一首電梯音樂的兩個版本、兩段 5 分鐘字對回憶，效果極小（ηp² = .04，14.56 vs 15.21 分），且作者自己找到人格交互作用：外在刺激偏好低的人有音樂反而更好，並明言結果「不是一體適用」、短時間實驗不知能否推到長時間工作。直接反例：Thompson 等 2012 閱讀理解只有「快且大聲」的器樂會變差，其他三種與安靜無異；Vasilev 等 2018 的 65 篇貝氏統合分析，音樂整體 g = −0.19，有歌詞約 −0.35，無歌詞音樂「未發現干擾」；Hilliard & Tolin 1979 熟悉的音樂分數高於不熟悉。類型、歌詞、音量、熟悉度、個人差異都有關。但說法有部分成立：序列回憶（Perham & Sykora 2012）與頓悟題（Threadgold 2019）連器樂、連喜歡的音樂都變差。「高手因熟練所以沒事」證據薄弱：Miskovic 2008 的差異 5 次練習內就消失、西點 2008 自選無統計、Lesiuk 2005 自評且作者說變化很小；沒有研究測過一天 4–8 小時的除錯或讀論文。另：研究員給的兩個 PMC 連結指到別篇論文。本輪 WebSearch 額度已用盡，改以直接開一手文獻查核。"}]}, {"id": "C3", "claim": "無歌詞的遊戲配樂（探索／城鎮／選單段）與純器樂 lo-fi hip hop，因為 loop 設計、聲學變化小、中等喚起，比其他純器樂更能維持工作時的專注與表現；只有 Boss 戰曲、劇情高潮與有人聲的主題曲才有害。", "status": "原句過頭", "refutedCount": 3, "corrected": "工作時若要放音樂，無歌詞的器樂（包含遊戲配樂與 lo-fi hip hop）比有人聲的音樂安全：歌詞會可靠地損害閱讀理解與語文記憶（Vasilev 2018 統合分析：有歌詞 vs 無歌詞 g≈−0.19；Souza & Barbosa 2023：歌詞 d≈−0.3），而純器樂 lo-fi 與安靜相比沒有可信差異（d 介於 −0.23 到 +0.14）。目前沒有任何對照實驗顯示遊戲探索／城鎮曲或 lo-fi 比古典、爵士、鋼琴等其他純器樂更能維持專注或表現；三者在 Kirk 2021（n=120）與 Flores 2021（n=86）中表現相同。「loop、聲學變化小」的機制只在序列記憶任務成立（Kattner 2022），心算不受影響；簡單任務下複雜音樂甚至表現更好（Gonzalez & Aiello 2019）。Boss 戰曲與城鎮曲在 2-back 上無差（Harrel 2020，無安靜組），Mario 配樂在語文推理上反而變差（OSU 2019，僅摘要）。因此可行的選曲原則是：無人聲、避免太快太大聲、選自己熟悉且喜歡的；「遊戲配樂特別好」目前只是作曲設計邏輯與個人經驗，不是實證。", "votes": [{"lens": "文獻", "refuted": true, "reasoning": "本輪 WebSearch 額度已被其他 agent 用完，我改成直接抓一手來源（DOI、PMC、CrossRef、期刊原頁）。結果：沒有任何對照實驗支持「遊戲配樂／lo-fi 比其他純器樂更能維持專注」。(1) Souza & Barbosa 2023（受試者內，n≈106–123、4 種任務）：器樂 lo-fi 對比安靜 d 介於 −0.23～+0.14，貝氏因子多數偏向「無效果」；有歌詞才可信地變差（d≈−0.32／−0.33，BF 20–41）。(2) Kirk 2021（隨機、n=120）：爵士、鋼琴、lo-fi 三組在 SART 與 HRV 上都優於無音樂，但三種器樂之間沒有報告差異，UCLA 頁面引用的 d=−2.0 無法在原文核實（Springer 擋）。(3) 研究員標成 Benzonana 的 KPU 連結其實是 Flores 2021（n=86）：lo-fi 直播、莫札特、安靜在閱讀理解與空間能力上無差（閱讀平均 lo-fi 7.00＝安靜 7.00）；文內引用的 Benzonana & de Dios 2020（阿姆斯特丹碩論）同樣三組無差。(4) Harrel 2020：Zelda 戰鬥曲 vs 城鎮曲配 2-back「無顯著差異」，沒有安靜組、沒給統計；Kostovski 2024 只有 10 人，音樂組分數較低但 t(9)=−0.94、p=.37，摘要的「無音樂較好」撐不住；OSU 2019 原頁仍 403，只能依摘要（Mario 配樂讓語文推理變差）。(5) 機制面：Kattner 2022 證實 changing-state 只傷序列記憶、心算不受影響，是任務特定而非「專注」通則；Gonzalez & Aiello 2019 反而發現簡單任務下複雜音樂表現更好，與「聲學變化小最好」相反。(6) 統合分析：Vasilev 2018（65 篇）音樂對閱讀理解 g=−0.19，有歌詞比無歌詞再差 g=−0.19，無歌詞音樂與一般噪音無可靠差異；Kämpfe 2011 整體效果約 0，閱讀與記憶略受損。(7) NCT07598877 尚未招募，無結果。結論：證據只撐得住「無人聲優於有人聲、lo-fi 與安靜持平」，原句的「比其他純器樂更好」「只有 Boss 戰曲等才有害」皆無實證，判 refuted。"}, {"lens": "方法論", "refuted": true, "reasoning": "搜尋額度已用罄，改直接開一手文獻查核。(1) 沒有任何對照實驗把探索／城鎮段遊戲配樂跟其他純器樂在工作任務上對決；唯一比較多種器樂的 Kirk 2021 自述爵士／鋼琴／lo-fi 三者無差異，且由 Headspace 出資、4 位作者 3 位是其員工、曲目由 Headspace 提供、無主動對照、未盲化，d = −2.0 只是組內前後測。(2)「只有 Boss 戰曲有害」被 Harrel 2020 反證：Zelda 戰鬥／Boss vs 城鎮曲做 2-back 無差（未標樣本數、無安靜組）；Kostovski 2024 僅 10 人、表現差異全不顯著（d = 0.20, p = .37）。(3) lo-fi：Souza & Barbosa 2023（N≈120，受試者內、貝氏）lo-fi 對安靜無可信好處，排序安靜≥器樂＞歌詞，且受試者主觀覺得器樂有幫助但客觀無差；KPU 那篇實為 Flores 2021 學生試探研究，lo-fi／古典／安靜三組無差。(4) 最高品質證據 Vasilev 2018 統合分析（65 篇、無出版偏差）：無歌詞音樂對閱讀 g≈0、有歌詞 −0.35；Kämpfe 2011 整體零效應；Gonzalez & Aiello 2019（N=150）、Lehmann & Seufert 2017 更顯示音樂普遍損害複雜任務。器樂是「≈安靜」不是「更好」。(5) changing-state 效應（Kattner 2022）只影響序列回憶，心算不受影響，無法外推成「loop 維持專注」。(6) 所有實驗皆幾分鐘單次、學生樣本，「持續數小時專注」從未被測；NCT07598877 尚未招募（2026-10 起）；Ohio State 論文 403 無人讀過，摘要卻指 Mario 探索曲拉低表現。支持方只剩作曲家證詞。判定不成立。"}, {"lens": "實務外推", "refuted": true, "reasoning": "搜尋額度已用完，我改用 WebFetch 直接讀一手原文，摘要則用 Europe PMC／Crossref 查；OSU 2019 論文頁仍 403，只能沿用研究員轉述。核對結果：沒有任何對照實驗支持「遊戲配樂或 lo-fi 比其他純器樂更能維持專注」。Kirk 2022（n=108）lo-fi、爵士、鋼琴在 SART 上無差異，且無主動對照組、d≈−2 是組內前後測、Headspace 出資；Souza & Barbosa 2023 lo-fi 對照安靜四項任務皆無可信差異，只有歌詞版有害；Harrel 2020 Zelda 戰鬥曲 vs 城鎮曲配 2-back 無差；Kostovski 2024（n=10）有音樂時分數反而較低；Tan 2010 甚至是「與遊戲無關的音樂」表現最好。機制面：Collins 的 loop／喚起說純屬理論；Kattner 2022 明說 changing-state effect 只限序列回憶，心算不受影響，作者不外推到閱讀或程式。對育典的情境更關鍵：Vasilev 2018 後設分析（65 篇）純器樂對閱讀理解效果接近零、有歌詞 g≈−0.35；Gonzalez & Aiello 2019 顯示音樂通常損害複雜任務、只有簡單任務受益；所有實驗都是 5–45 分鐘的簡單任務，沒人測過 4–8 小時寫程式或讀論文；唯一的 5 週開發者田野研究（Lesiuk 2005）支持的是「自選音樂改善心情與自評品質」，與曲風無關。故「比其他器樂更好」與「只有 Boss 曲才有害」都站不住。"}]}, {"id": "C4", "claim": "有穩定節拍的 BGM（遊戲 BGM、lo-fi、minimal techno、synthwave）比無節拍的 ambient 或安靜更能維持持續專注；音樂的 tempo 會帶動做事速度，而且存在對認知工作最佳的 BPM 區間（60 BPM 巴洛克助學習、120 BPM 是人類自然速度、120–140 BPM 適合重複工作）。", "status": "原句過頭", "refutedCount": 3, "corrected": "目前沒有任何直接實驗證明「有穩定節拍的 BGM（遊戲 BGM、lo-fi、techno、synthwave）比無節拍 ambient 或安靜更能維持持續專注」；現有最接近的證據（lo-fi hip-hop vs 安靜、激昂 vs 放鬆 vs 無音樂）顯示無詞器樂對認知作業大致「不傷也不幫」（效果量約 −.2 到 +.1），而 meta-analysis 顯示背景音樂對閱讀與記憶略有負面影響。證據撐得住的只有：音樂 tempo 會帶動動作節奏（r̄≈.40），但對整體表現沒有一致效果（r̄≈−.01）；明顯偏慢的音樂（約 60–66 BPM）會拖慢反應速度，快＋大聲的音樂會傷閱讀理解。「60 BPM 巴洛克助學習」沒有對照研究支持；「120 BPM 是人類自然速度」與實測不符（個人自發節奏平均約 105 BPM、範圍 54–170）；「120–140 BPM」是運動（跑步機）情境的偏好區間，未在認知工作中驗證。節拍神經同步（entrainment）的 EEG 主效應在大樣本重複中也未能重現。", "votes": [{"lens": "文獻", "refuted": true, "reasoning": "我把研究員列的一手來源逐篇打開核對（WebSearch 額度已用完，改直接抓原文 PDF／全文）。(1)「有節拍 BGM 比 ambient／安靜更能維持專注」：找不到任何同作業、同音量的直接對照，最接近的兩篇反而是反證——Souza & Barbosa 2023（受試者內、各作業 N≈106–123）用有節拍的 lo-fi hip-hop 對比安靜，四項作業 d 介於 −.23 到 +.14，Bayes factor 都不支持有益；Burkhard 2018（n=19）在 Go/NoGo 作業中，激昂、放鬆、無音樂三組反應時間與錯誤率全無差（RT F=0.05, p=.947）。Kämpfe 2011 meta-analysis 音樂 vs 無音樂在認知成就 r̄w=−.01（43 篇、n=3104），閱讀 −.11、記憶 −.09。(2)「tempo 帶動做事速度」：Kämpfe 8 篇動作節奏研究 r̄w=.40 確實成立，但 16 篇 tempo 對整體表現 r̄w=−.01；Husain 2002（每組 9 人、聽 10 分鐘後才做）與 Lin 2023（n=51，慢版 66 BPM 變慢、快版 138 BPM 不比無音樂快）只證明「慢會拖慢」，不是「快更專注」；Thompson 2012 更顯示快＋大聲會傷閱讀。(3) BPM 區間：Lozanov 60 BPM 查無對照研究（Scovel 1979 評為缺乏科學嚴謹）；Hine 2022 實測自發節奏均值 104.6 BPM、範圍 54–170，不是 120；120–140 BPM 出自 Karageorghis 2006 跑步機研究（29 人），作者自己限定在運動情境。節拍 entrainment 的 EEG 基礎（Nozaradan 2011, n=8）在 13 次重複、n=152 的 registered report 中主效應全部重複失敗（ηp² .62–.76 → .03–.04）。原句第一、三部分遠強於證據，判 refuted。"}, {"lens": "方法論", "refuted": true, "reasoning": "本輪網路搜尋額度已用盡，改為直接打開一手論文、並用 pdftotext 抽取 PDF 全文查核。核心主張「有節拍 BGM 比無節拍 ambient 或安靜更能維持持續專注」找不到任何同作業、同音量的對照實驗。最接近的 Kiss & Linnell 2021（n=40，警覺作業，喜好音樂 vs 安靜）只讓自評專注上升，反應時間與其變異完全沒變；Flores 2021 lo-fi vs 古典 vs 安靜（n=86）三組無差異；Kostovski 2024 遊戲配樂實驗 10 人中 9 人無音樂時表現較好；Gonzalez & Aiello 2019 顯示音樂整體傷害複雜作業、只幫到找字母這種簡單作業。唯一大樣本的 Woods 2019（N=677）是 Brain.fm 自家專利的 16 Hz 振幅調變，不是 1–3 Hz 的音樂節拍，相鄰參數也無效，屬廠商利益相關。Tempo 部分：Kämpfe 2011 的 r̄=.40 只來自 8 個用餐、飲水、跑步機等動作行為研究，tempo 對整體表現 r̄=−.01（16 研究）、背景音樂對認知作業為零或偏負；Lin 2023 對照組僅 13 人、在吵雜教室測、內文與表格數字不一致；Husain 2002 每組 9 人且聽完才做測驗。三個 BPM 區間全出自非認知脈絡：Lozanov 60 BPM 被 Scovel 評為嚴重缺乏科學嚴謹且無對照重複；120 BPM 是舞曲資料庫眾數，Hine 2022（n=23）實測自發速度平均 104.6±25.3、範圍 54–170；120–140 BPM 是 29 人跑步機走路偏好研究。機制面 Nozaradan 2011 節拍 entrainment 在 13 實驗室、n=152 重複失敗（ηp² .62–.76 降到 .03–.04）。證據品質與方向都撐不起原句，判 refuted。"}, {"lens": "實務外推", "refuted": true, "reasoning": "本輪 WebSearch 額度已被其他 agent 用完，我改用 WebFetch 直接開一手文獻（PDF 用 pdftotext 抽字），共讀了 14 篇。結果：(1)「有節拍 vs 無節拍 ambient vs 安靜」的直接對照一篇都沒有。最接近的 Kiss & Linnell 2021（n=40、30 分鐘簡易警覺作業）是「自選音樂 vs 安靜」：主觀任務專注 54%→62%、分心念頭下降，但反應時間、變異度、隨時間的專注衰退完全沒改善，且作者明言不適用較難作業、曲風未控制。Woods et al.（N=677、SART 15 分鐘）在固定 120 BPM 下只改振幅調變率，效果來自 16 Hz 調變而非節拍，且主要出現在 ADHD 傾向高的子群，p 值多在 .02–.047。(2)「tempo 帶動做事速度」只在動作層面成立：Kämpfe 2011 的 r̄=.40 來自吃飯、購物、畫線等 8 篇，認知表現整體 r̄≈0；Lin 2023 直接證明 138 BPM 不比無音樂快，66 BPM 反而變慢。Thompson 2012 快又大聲的音樂讓閱讀理解低於安靜，快而輕、慢的都與安靜無異；Husain 2002 是先聽 10 分鐘再做 1 分鐘空間作業，每格 9 人，不是邊聽邊做。(3) 60／120／120–140 BPM 區間全無認知依據：Hine 2022 個人自然速度平均 104.6、範圍 54–170。(4) 機制面：Nozaradan 2011 的節拍 EEG 效應在 13 實驗室、n=152 重複失敗（ηp² .62–.76→.03–.04）；Haegens 指 entrainment 一詞混用。(5) 對寫程式、讀論文的複雜工作反而有反證：Gonzalez & Aiello 2019 音樂損害複雜作業、只幫簡單作業；Threadgold 2019 連純器樂都降低 CRAT 創意解題；Vasilev 2018 統合 65 篇，器樂對閱讀有小而穩定的損害、有歌詞更糟。唯一的開發者田野研究 Lesiuk 2005（56 人、5 週）支持「自選音樂讓心情與自評品質變好、拖延變少」，但音樂不限節拍、指標自評、禁音樂週固定排在第 4 週。所有實驗都在 1–30 分鐘、簡單作業，沒有任何證據撐得起「4–8 小時持續專注」的外推。"}]}, {"id": "C5", "claim": "聽熟（習慣化）的無歌詞音樂比陌生音樂更不干擾工作、走神更少，所以固定同一份歌單重複用、工作時不聽新歌、關掉演算法推薦，會比輪換歌單更好；「熟悉」是三位高手的遊戲 BGM 有效的主因。", "status": "原句過頭", "refutedCount": 3, "corrected": "目前證據只撐得住這樣說：對純器樂、無歌詞的背景音樂，在簡單任務上「熟悉」的曲目大致比「陌生」的曲目少干擾（反應略快、走神不比安靜環境音多；效果量小，熟悉 vs 陌生的走神差異僅 p = 0.07），而且熟悉可以抵銷陌生遊戲配樂的傷害（玩過 Mario 的人不受 Mario 音樂影響，但也沒變好）。熟悉度救不了有歌詞的音樂（喜歡的歌詞音樂和討厭的一樣傷閱讀理解）。分心感跟「喜不喜歡」的相關比跟「熟不熟」強，自選音樂減少走神是喜歡、喚起、熟悉混合的效果，無法說「熟悉」是主因。「固定同一份歌單、不聽新歌、關掉推薦會比輪換歌單更好」沒有任何實驗直接測過，反而有過度重複造成聽覺疲勞的文獻。較穩的做法是：工作時用自己喜歡且熟悉的無歌詞曲目，避免在專注中切到完全陌生的新曲或有歌詞的歌，但不必強求單一歌單無限循環。", "votes": [{"lens": "文獻", "refuted": true, "reasoning": "我直接讀了原句最倚重的一手來源 Bidelman & Feng 2025（Brain Sciences，N = 96，純器樂古典，每個條件只聽幾分鐘）。它確實顯示熟悉曲目下詞彙判斷快約 170 ms，但效果量極小（ηp² = 0.007）；而「走神」的關鍵對比熟悉 vs 陌生只有 p = 0.07，熟悉音樂的走神率與環境音控制組相同（p = 0.84）——熟悉只是「沒把走神拉高」，不是壓低。同一篇的相關分析更關鍵：熟悉度與分心感無關（r = 0.12, p = 0.10），喜歡程度才與分心負相關（r = −0.41），作者自己寫享受可能比熟悉更能驅動表現。Kirk 2022（N = 108，Headspace 出資）同一曲聽三週後反應較快，但是前後測、無主動對照，作者只稱「部分支持」。反方：Perham & Currie 2014 喜歡（熟悉 88/100）與討厭（13/100）的歌詞音樂一樣傷閱讀理解；Threadgold 2019 熟悉歌詞、陌生歌詞、純器樂都傷創意；Brown & Bidelman 2022 熟悉度對語音理解無主效應；Komlao 2018（N = 40）熟悉反而更慢；Ohio State 2019（N = 513）玩過 Mario 只是「不受傷」，不是變好。「固定歌單勝過輪換、關推薦」沒有任何實驗直接測過，反而有過度重複造成聽覺疲勞的文獻（Worrall 2025）。Kiss & Linnell 2021 自選音樂降低走神（d = 0.30）但反應時間沒進步，且自選把熟悉、喜歡、喚起混在一起，無法把三位高手的效果歸因給「熟悉」。方向有部分支持，但原句三段推論都比證據強。註：本輪 WebSearch 額度已用完，我改用 DOI／PMC／機構庫直接開一手來源查核。"}, {"lens": "方法論", "refuted": true, "reasoning": "本輪搜尋額度已用罄，改為直接打開每篇一手來源逐篇核對。結果：(1) 最關鍵的 Bidelman 2025 網址回 404，無法驗證。(2) 唯一用客觀反應時間支持「熟悉較好」的 Kirk 2021（N=108）由 Headspace 出資、三位作者是其員工、對照組是等候名單、未盲化、未提預註冊，熟悉 vs 陌生的效應量 d=1.3–2.1 大到不合理；作者自己把「習慣化」解釋用在心率變異，不是注意力，且陌生音樂與無音樂組無差。(3) Ohio State 2019 是大學部論文，N=513，Mario 音樂的傷害 partial η²=.01；「玩過的人不受傷」來自 8 組探索性調節分析中唯一顯著的一組，結論是「不傷」而非「更好」，所有音樂組主觀分心都比安靜高。(4) 反方 Komlao 2018（N=40）條件順序固定未對抗平衡，同樣不可信。(5) 品質較好的 Perham & Currie 2014（熟悉度評分 88 vs 13）與 Threadgold 2019（三實驗、貝氏整合 BF≈3×10⁴）都顯示熟悉、喜歡、平常習慣配樂讀書，完全抵銷不了音樂對閱讀與創意解題的傷害。(6) Cassidy 2009 的「自選」混淆偏好、控制感與喚起；Kiss & Linnell 2020 自選音樂只減少主觀走神，反應時間無差。Pereira 2011 fMRI 顯示熟悉音樂更強烈啟動情緒與獎賞區，機制可能反而更抓注意力。(7)「固定歌單、不聽新歌、關推薦」從未被任何實驗比較；三位高手 N=3 無法歸因到熟悉。證據只撐得住弱版本。"}, {"lens": "實務外推", "refuted": true, "reasoning": "WebSearch 額度已用罄，我改以直接開一手網址與 DOI 查詢（Crossref／Europe PMC／Semantic Scholar）核對；Bidelman 2025 的 PDF 連結已 404，無法驗證。「熟悉較不干擾」的證據對半開：支持面有 Kirk 2021（N=120）熟悉曲反應較快、Kiss & Linnell 2021（N=40、30 分鐘單調警覺任務）自選音樂減少走神但反應時間沒變、Toon 2019（N=513）只顯示玩過 Mario 的人「不被拖累」而非更好；反面有 Perham & Currie 2014 熟悉與陌生歌詞曲同樣差、Perham & Sykora 2012 喜歡的曲比討厭的更傷序列記憶、Komlao 2018 熟悉曲反應更慢、Huang & Shih 2011（89 名工作者）越強烈喜歡越傷注意力；fMRI 與皮膚電（Pereira 2011、van den Bosch 2013）顯示熟悉曲引發更強情緒與喚起而非更省資源，eLife 2022 更發現熟悉曲神經同步更強，與 Meltzer 2015 相反。機制面只有一點站得住：可預期的聲音較不會因「違反預期」抓走注意力（Vachon 2012；Röer 2014 重複 8 次後習慣化），但那是幾分鐘的序列記憶任務。「固定歌單勝過輪換」「關掉推薦」沒有任何研究直接比較；唯一的長期現場研究 Lesiuk 2005（56 名開發者、5 週）只比有無音樂。對 4–8 小時寫程式、讀論文，Cheah 2022、Kämpfe 2011、Gonzalez & Aiello 2019 一致指出背景音樂對困難任務偏有害，無歌詞最多「不比安靜差」。最穩定的保護因子是無歌詞與任務難度，不是熟悉度；把熟悉當主因是把 5–30 分鐘的學生實驗外推到整天的複雜工作，判 refuted。"}]}, {"id": "C6", "claim": "工作歌單應避開自己「最愛」的歌：喜惡強度越高，注意力測驗表現越差（台灣 89 人 RCT），喜歡的音樂在序列回憶上甚至比討厭的更差；自選喜歡的音樂雖讓人自評更專注、走神更少，但客觀反應時間與正確率沒有改善，人會系統性高估音樂對自己的好處，所以不能靠「感覺」調整歌單。", "status": "原句過頭", "refutedCount": 3, "corrected": "要靠順序記憶或讀懂文字的工作，有歌詞的背景音樂不論喜不喜歡都一樣有害，主因是歌詞與聲音的變化量，不是喜好本身（Perham & Vizard 2011、Perham & Currie 2014）；「喜歡的比討厭的更差」只出現在一個 n = 25、討厭組用 grindcore 的研究，不能推廣。台灣 89 人 pilot 只能說「對研究者指定曲目有強烈感受的人（n = 6 與 16）分數較低」，沒測過自選最愛歌單。自選音樂做單調的持續注意力作業時，自評專注提高、走神減少；客觀表現在 n = 40 無差，在 n = 106／77 反應時間小幅變快但外部分心增加。人對「有沒有歌詞」的害處判斷相當準，對器樂的好處在部分作業會高估，所以歌單該用錯誤率、完成時間等客觀產出校正，不必刻意避開喜歡的歌，重點是避開歌詞與高變化的聲音。", "votes": [{"lens": "文獻", "refuted": true, "reasoning": "搜尋額度已用完，我改直接打開 9 份一手來源（含 4 篇全文 PDF）。原句在四處比證據強：(1) 台灣 89 人研究自稱 pilot，隨機分的是音樂類型（研究者選的流行／古典／國樂），喜惡是事後對指定曲目評分，極端組只有 6 人和 16 人，測驗只做 1 分鐘，四組音樂 vs 無音樂整體不顯著，無法推到「自己最愛的歌單」。(2)「喜歡比討厭更差」只有 Perham & Sykora 2012（n = 25）一筆，討厭組刻意用聲波接近穩態的 grindcore，作者自己把差異歸因於聲學變化而非喜好；同實驗室 2011 序列回憶與 2014 閱讀理解都得到喜歡＝討厭，有歌詞才是主因。(3)「客觀 RT 與正確率沒改善」只在 Kiss & Linnell 2021（n = 40）成立；2024 年 n = 106／77 的複製發現反應時間小幅變快（p = .047／.030）、Exp 2 誤按變少，但外部分心上升。(4)「系統性高估、不能靠感覺」過頭：Perham & Currie 2014 受試者自評排序與實際表現一致；Souza & Barbosa 2023 對歌詞害處判斷正確，只在視覺與閱讀作業高估器樂好處；西點資料是自選、無統計檢定，非榮譽班 3 次有 1 次聽音樂較高，榮譽班 3 次都較高。方向有部分支持，但「避開最愛」當規則撐不住。"}, {"lens": "方法論", "refuted": true, "reasoning": "本輪 WebSearch 額度已耗盡，我改直接抓一手來源，讀完 Huang & Shih 2011、西點軍校、Kiss & Linnell 2021／2024、Souza & Barbosa 2023 全文，其餘看摘要。Huang & Shih 自稱 pilot RCT，但隨機分配的只有音樂類型（4 組各 20–24 人）；喜惡是事後自評再切子群，「非常討厭」只有 6 人、「非常喜歡」16 人，而「喜歡」組（21 人）平均 105.5 與無音樂組 104.9 幾乎一樣，沒有劑量反應、無多重比較校正、測驗只做 1 分鐘、音樂由實驗者挑選，根本沒測「自己最愛的歌」，內文與表格數字還互相矛盾，作者自承需更大樣本重做。Perham 兩篇是 8 項目序列回憶的 irrelevant sound effect 典範，不是持續專注的工作情境，2012 作者明說差異來自聲學變化量而非喜好，摘要未載樣本數。「主觀進步、客觀沒進步」只在 Kiss & Linnell 2021（n=40，RT p=0.12）成立；同實驗室 2024 年 n=106、77 兩實驗用評分 4.86/5 的自選最愛音樂，反應時間反而變快（約 8 ms，p=0.047／0.030）、實驗二誤報減少，只是效果極小、限於習慣邊聽邊做的人，且外部分心上升。西點那篇無統計檢定、音樂組是自願選擇、問卷沒對到個人成績；Souza & Barbosa 的作者結論是後設認知「並非完全失靈」，歌詞傷害大致猜得準。Cassidy & MacDonald 2009（n=125）自選音樂反而表現最好；Kämpfe 2011 統合分析整體零效應、方法品質差、無偏好調節。「避開最愛的歌」這條規則建立在一篇小樣本探索研究與被更大樣本翻盤的 n=40 研究上，站不住。"}, {"lens": "實務外推", "refuted": true, "reasoning": "（本輪 WebSearch 額度已用完，改直接開一手來源核對。）把 C6 放到「慣聽者每天 4–8 小時寫程式、做資安、讀論文」的情境，站不住，主要是過度外推。1）Huang & Shih 2011 我讀了全文：測驗只做 1 分鐘、音樂是實驗者挑的、受試者第一次聽；RCT 只隨機「音樂類型」（結果不顯著），喜惡是事後分組，極端組 n=6 與 16，「不喜歡」組（n=3）反而比無音樂高，作者自稱 pilot。它講的不是「自選、慣聽的最愛」。2）Perham & Sykora 2012、Perham & Vizard 2011 是 8 項序列回憶的 irrelevant sound effect，機制是聲學變化；2011 年喜歡＝討厭，2012 年才出現喜歡更差，任務只有幾分鐘，與持續專注、複雜工作不是同一件事。3）「客觀沒改善」只來自 Kiss & Linnell 2021（n=40）；同實驗室 2024 Sci Rep 兩個居家實驗（n=106、77）用受試者自選、喜好 4.86/5 的歌單，反應時間顯著變快（約 8 ms）、實驗二誤報減少、走神減少；Homann 2023 自選音樂降低 RT 變異，難易任務皆成立，且長時間下保護專注。這正是使用者的情境，方向與主張相反。4）主觀≠客觀只部分成立：Souza & Barbosa 2023 顯示人對「歌詞有害」判斷準確，只對器樂益處偶爾高估；Que 2023 自選音樂理解率無差、閱讀時間變長（d≈.4），慣聽者負荷較低。5）真正穩的變因是歌詞、聲學變化、任務複雜度（Gonzalez & Aiello 2019 音樂普遍損害複雜任務；Kämpfe 2011 干擾閱讀），不是「最愛」。Perham & Currie 2014 全文未取得，故信心中等。"}]}, {"id": "C7", "claim": "背景音樂的好處（如果有）是透過拉高 arousal 與 mood 間接產生，不是特定作曲家、頻率或曲風的直接效果（Mozart effect 已被 meta-analysis 否定）；這個效果在「開工前先聽 5–10 分鐘自選高喚起音樂、開工後換掉或關掉」最可靠；而且固定同一首「開工歌」會因條件反射成為啟動專注的訊號。", "status": "原句過頭", "refutedCount": 3, "corrected": "「先聽音樂再做事」的好處（主要證據是聽 10 分鐘後做空間推理測驗，效果小、約 d 0.3–0.4，且有出版偏差）可用喚起（arousal）、心情與喜好解釋：快節奏、大調、自己喜歡的曲子才有效，跟作曲家無關，Mozart effect 的特異性已被 2010 年 39 篇研究的 meta-analysis 否定。邊做邊聽是另一套證據：整體 meta-analysis 為零效應，閱讀、記憶與複雜任務偏負，但在低負荷、單調的持續注意任務上，自選音樂能減少走神（由主觀喚起中介），只是反應時間沒有明顯改善。目前沒有任何音樂研究直接比較「開工前聽完就關」與「邊做邊聽」，唯一的 before > during 結果來自 binaural beats 的 meta-analysis；「5–10 分鐘」只是沿用實驗室 10 分鐘流程的推論，不是最佳化出來的數字。「固定一首開工歌會變成專注啟動訊號」沒有實證：常被引用的 Brooks 2016 儀式研究已於 2024 年撤稿，習慣線索理論只是一般框架，而且專注反覆聽同一首歌 8–32 次後喜好度會下降，可能反而削弱效果。證據撐得住的做法是：複雜或語文類任務開工前聽自選的快節奏音樂、開工後關掉或換成無歌詞；單調的執行型任務可邊做邊聽自選曲；固定開工歌當作個人實驗，不當作有研究背書的方法。", "votes": [{"lens": "文獻", "refuted": true, "reasoning": "本輪 WebSearch 額度已被用完，改直接打開一手來源核對。第一段（機制）站得住：Thompson 2001 原文（n=24）寫明把 enjoyment、POMS arousal 或主觀 mood-arousal 當共變量後 Mozart 優勢消失（只有 POMS 的 Depression-Dejection 分量表控制後仍顯著）；Husain 2002 tempo 只動 arousal、mode 只動 mood；Nantais 1999（n=84）Schubert 效果等同 Mozart、對照改成朗讀故事就消失、且由受試者偏好決定；Schellenberg 2007 與 2005「Blur effect」顯示小孩聽熟悉兒歌或流行樂效果更好。Pietschnig 2010 共 39 篇，效果小、有明顯出版偏差、Rauscher/Rideout 實驗室效果量為他人 3 倍以上（d 值我只在二手來源看到，未能打開原文）。第二段（時機）證據撐不起「最可靠」：沒有任何音樂研究直接比較「先聽再關」與「邊做邊聽」，唯一的 before > during 來自 Garcia-Argibay 2019 的 binaural beats（g=0.45）。邊做邊聽本身也不是一律壞：Kämpfe 2011 meta 整體零效應、閱讀與記憶偏負；Gonzalez & Aiello 2019 複雜任務受損、簡單任務受益；但 Kiss & Linnell 2020（n=40）、2024（n=106、77）發現自選音樂在低負荷的持續注意任務中減少走神、由主觀喚起中介，只是反應時間沒進步。「5–10 分鐘」只是沿用 10 分鐘實驗流程的推論。第三段（開工歌制約）最弱：引用的 Brooks 2016 儀式研究 Crossref 與 OpenAlex 都標示已撤稿（2024-10 撤稿通知 DOI 10.1016/j.obhdp.2024.104377，共同作者含 Gino）；Wood & Rünger 只是習慣的一般理論；沒有研究測過固定一首歌當專注訊號；反而 Schellenberg, Peretz & Vieillard 2008 顯示專注反覆聽同一曲 8–32 次後喜好度下降，若效果靠喜好與喚起，固定一首歌可能自我削弱。原句比證據強，判 refuted。"}, {"lens": "方法論", "refuted": true, "reasoning": "（本輪 WebSearch 額度已用盡，改直接開一手來源與 Crossref／OpenAlex 紀錄查核。）這條說法分三截。(1) 機制：撐得住。Thompson 2001（n=24，受試者內設計，統計控制喚起／心情後效應消失）、Nantais 1999（用故事當對照就消掉，偏好決定表現）、Husain 2002、Schellenberg & Hallam 2005（兒童聽流行樂贏過 Mozart）、Pietschnig 2010（39 篇、>3,000 人、有出版偏差、Rauscher 系實驗室效應量 3 倍以上）一致指向喚起／心情而非作曲家。但這些全是「先聽 10 分鐘再測空間題」，效果只維持 10–15 分鐘，且多出自同一實驗室。(2) 時機：「最可靠」撐不住。沒有任何音樂研究直接比較「開工前聽」vs「邊聽邊做」；「前聽優於中聽」的 Garcia-Argibay 是雙耳節拍（22 篇、g=0.45），不是音樂；Baldwin & Lewis n=89 分六組、沒量喚起、p=.042。邊做邊聽的統合分析（Kämpfe 2011 整體零效應；Cheah 2022 154 個實驗多數無效、記憶與語言受損；Thompson 2012 快又大聲的音樂傷閱讀）與 Lehmann & Seufert 2017（音樂完全沒改變喚起／心情、無中介）反而削弱「喚起機制在工作中成立」。Kiss & Linnell 2024 並未量瞳孔（原摘要寫錯），只是自評中介、受試者預先篩成「本來就邊聽邊做」的人、RT 只快 8 ms。(3) 開工歌條件反射：主要證據 Brooks 2016 已於 2024-10-16 被期刊撤稿（Crossref／Retraction Watch 紀錄）；Wood & Rünger 只是理論；Schellenberg 2008 顯示專注聆聽同一曲，喜好約 2 次曝光達頂、8–32 次後下滑，暗示固定開工歌會衰減。機制成立，但後兩截無直接證據且關鍵引文已撤稿，整條判 refuted。"}, {"lens": "實務外推", "refuted": true, "reasoning": "搜尋額度用完，改直接開一手來源（Europe PMC／OpenAlex／CrossRef、PLOS、Thompson 2001 原 PDF）。(1) Mozart 效應被推翻、開工前聽靠 arousal／mood，這段成立；但 Thompson 原文明寫效應只有 10–15 分鐘、任務是紙筆空間推理，沒人外推到 4–8 小時寫程式。(2) 邊做邊聽是另一套機制：Vasilev 2018 統合 65 篇，音樂讓閱讀變差 g≈−0.19；Souza 2023 有歌詞 d≈−0.3、無歌詞中性；Gonzalez & Aiello 2019 複雜任務被音樂拖累；Lehmann 2017 找不到 arousal／mood 中介，是工作記憶容量在決定。所以「曲風特徵不重要」不成立。(3)「開工後關掉最可靠」沒證據：Baldwin 2017 只是 7 分鐘休息、p=.042、未量 arousal；Garcia-Argibay 是 binaural beats；Küssner 2017 的先聽再做只是 mini-review 提議。唯一用真實軟體工程師的田野研究 Lesiuk 2005（n=56、5 週）反而是邊做邊聽品質較好、拿掉音樂耗時最長。(4) 開工歌制約的主證據 Brooks 2016 已於 2024 撤稿（CrossRef 標 Retraction Watch 58007）；運動 pre-performance routine 有效（Rupprecht 2021 g≈0.3–0.6）但非音樂、非長時認知作業；Schellenberg 2008 顯示專注反覆聽同一首歌 8–32 次後喜好下降，習慣化風險真實。三段只有第一段成立，後兩段在此情境無支持甚至方向相反，判 refuted。"}]}, {"id": "C8", "claim": "Binaural beats（雙耳節拍）、isochronic tones、「alpha waves study music」、40 Hz gamma 聲光、432 Hz、solfeggio 528 Hz 這類「頻率型」專注音樂，能透過 brainwave entrainment（腦波同步）提升健康成人的持續專注；其中 binaural beats 行為 meta-analysis 的 g ≈ 0.45 是真實、可重複的效應。", "status": "原句過頭", "refutedCount": 3, "corrected": "「頻率型」專注音樂目前沒有站得住腳的證據能提升健康成人的持續專注。雙耳節拍的 g ≈ 0.45（Garcia-Argibay 2019）是把記憶、注意、焦慮、止痛混在一起的小樣本合併值，未報告出版偏差；針對注意力的後續研究結果互相矛盾，設計最嚴謹的持續專注實驗（Robison 2021 貝氏分析、Melnichuk 2025 整體效果、Alves-Castro 2025）多為無效或反效果，而且 monaural beat 與白噪音常有同樣的 EEG 或行為效果，顯示「腦波同步」不是必要機制。Isochronic tones 與「alpha waves 音樂」只有極小樣本的 EEG 研究，沒有可信的專注行為證據。40 Hz 聲光在阿茲海默症的 OVERTURE 試驗主要終點全未達、HOPE（n = 673）尚未公布，健康成人只有一篇有利益衝突、未經同儕審查的預印本。432 Hz 與 528 Hz 沒有任何專注研究支持，唯一含 Stroop 的 RCT（n = 162）三組無差異。若要用這些聲音，應當作安慰劑或個人偏好的背景音，而不是有實證的專注工具。", "votes": [{"lens": "文獻", "refuted": true, "reasoning": "我直接打開一手來源核對（WebSearch 額度已用完，改用 WebFetch 與 Europe PMC API）。g = 0.45 這個數字是真的（Garcia-Argibay 2019，22 篇、35 個效果量），但它把記憶、注意、焦慮、止痛混成一個合併值，摘要未報告出版偏差分析，全文鎖在付費牆後。專門看注意力的後續證據不支持「可重複」：Basu & Banerjee 2023 摘要明寫注意與記憶「結果互相矛盾」；Robison 2021 三實驗合併貝氏分析「強烈反對」16 Hz 增強持續專注，並點名與該 meta-analysis 衝突；Melnichuk 2025（n = 80 分 16 格）整體不減緩 vigilance decrement（p = .751），只有 gamma＋340 Hz 載波一格有效、未報告 Bayes factor；Alves-Castro 2025 甚至發現雙耳節拍讓正常人反應變慢。機制面：Ingendoh 2023 的 14 篇 EEG 研究 5 支持、8 反對，作者說「看不出明確趨勢」；Orozco Perez 2020、Engelbregt 2019 顯示 monaural beat 同步更強或效果相同，Dos Anjos 2024 連白噪音都升 gamma 功率，「雙耳」不是關鍵。40 Hz：OVERTURE 三個主要終點全未達，HOPE（n = 673）2026-06 完成但未公布，健康成人僅一篇未審預印本（n = 62、單次 1 小時、資深作者持 Cognito 股份、實驗者未盲）。432／528 Hz：唯一含注意力指標的 RCT（Bozok 2026，n = 162）Stroop 三組無差異，Calamassi 2019 的「更專注」只是 33 人自評且發過勘誤。原句比證據強太多，判 refuted。"}, {"lens": "方法論", "refuted": true, "reasoning": "（本輪 WebSearch 額度已用盡，改用 WebFetch 直接開一手論文與 Europe PMC 資料庫紀錄查核。）g≈0.45 這個數字本身是真的（Garcia-Argibay 2019：22 篇、35 個效果量），但它把記憶、注意、焦慮、止痛混在一起算，摘要完全沒提出版偏差與異質性，撐不起「持續專注」這個具體宣稱。真正針對持續專注的直接驗證幾乎全軍覆沒：Robison 2021 三個實驗（合計近 500 人、Bayesian 分析、beta 16 Hz）合併後「強烈反對」雙耳節拍提升持續專注；Melnichuk 2025 雖號稱 n=80，但拆成 16 格後每格只剩約 4–8 人（論文內數字自相矛盾），只有 gamma＋340 Hz 載波＋白噪音這一格「一般注意」變好，vigilance decrement 完全沒減緩；Alves-Castro 2025 發現雙耳節拍反而讓神經典型者反應變慢；Cepeda-Zapata 2023 P300 無差異；Basu & Banerjee 2023 自己承認注意力結果互相矛盾；Fatima 2026 的 13 篇 RCT 統合因異質性太高連認知都無法合併。「腦波同步」這個機制也站不住：Ingendoh 2023 的 14 篇 EEG 研究 5 支持、8 反對、1 混合，樣本 4–47 人、多數沒有對照；López-Caballero 2017（n=14）五頻段全無變化；Orozco Perez 2020（n=16）monaural 對照組同步更強，兩者都不改變情緒。Isochronic tones 在 Europe PMC 標題檢索 23 筆，只有 2 筆真的在講它（牙科焦慮、腳踏車表現且為 null），零篇注意力或 EEG 試驗。40 Hz：OVERTURE 三個主要終點全未達；健康成人唯一正向結果是 2025 bioRxiv 預印本（n=62、資深作者持 Cognito 股份、未同儕審查），而 Kvašňák 2026 回顧引述的單次 gamma 聲光研究對知覺、注意、記憶全為 null，並明言「單次同步本身不足以帶來急性認知效益」；Cognito 官網到 2026-07 的新聞仍沒有 Phase 3 結果。432 Hz 在 Europe PMC 的 11 筆文獻全是焦慮、睡眠、心血管（n=12 的交叉試驗等），零篇測專注，且有一篇勘誤。528 Hz 本輪無法另行查核。整體而言，這條說法的每一環（效果真實、可重複、機制是腦波同步、適用於健康成人持續專注）都缺乏夠大、有主動對照、無利益衝突的重複驗證，判定 refuted。"}, {"lens": "實務外推", "refuted": true, "reasoning": "本輪 WebSearch 額度已被其他 agent 用完，我改為直接打開 10 個一手來源核實。(1) g = 0.45（Garcia-Argibay 2019）是 22 篇、35 個效果量把記憶、注意、焦慮、疼痛混算的總效應，摘要沒有分項數字、沒提出版偏差，還說效果方向隨頻率而變；Basu & Banerjee 2023 的 g = 0.40 自己也承認 theta／beta 對注意與記憶「結果互相矛盾」。(2) 直接測「持續專注」的研究都是負的：Robison 2021 三實驗合併後「強烈反對」16 Hz 節拍能加快反應或減緩 vigilance decrement，並點名與該 meta-analysis 不符；Melnichuk 2025（n = 80、16 格、每格約 4 人）只有 gamma＋340 Hz 一個交互作用顯著，vigilance decrement 沒改善（p = 0.75），白噪音讓表現變好卻讓腦波同步變弱，機制與行為脫鉤，作者要求更大樣本重現。(3) 機制層：Ingendoh 2023 的 14 篇 EEG 研究 5 支持、8 反對、1 混合，多無對照；López-Caballero 2017 五頻段 EEG、心率、膚電全無變化；Orozco Perez 2020 的 monaural 對照同步更強，兩者都不影響情緒。(4) 40 Hz：OVERTURE 三個主要終點全未達，第三期無結果；健康成人只有一篇未審、1 小時、資深作者持 Cognito 股份的預印本（n = 62，內文樣本數自相矛盾）。432／528 Hz 零專注研究。所有實驗都是 3–33 分鐘的簡單警覺任務、大學生樣本，沒有一篇測過 4–8 小時的程式或論文工作；最相關的指標在最有利的研究裡也沒改善，所以在育典的情境下站不住。"}]}, {"id": "C9", "claim": "白噪音／粉紅噪音透過 stochastic resonance 對 ADHD 或注意力偏弱者有小幅但可靠的幫助（g ≈ 0.25），對注意力正常者反而小幅有害（g ≈ −0.21）；brown noise 對 ADHD 有優於白噪音的獨特效果；而對一般成人，約 45 dB 的低音量白噪音能略微改善持續注意與創意。", "status": "原句過頭", "refutedCount": 3, "corrected": "針對 ADHD 或注意力偏弱的兒童／青少年，短時間（數分鐘）的白噪音在實驗室作業上有小幅正效果（Nigg 2024 預註冊統合分析，g ≈ 0.25，k = 13、N = 335，異質性低、無發表偏誤，但證據等級中等：對照不足、6/13 篇出自同一研究群、未測長期使用）；對注意力正常者則小幅有害（g ≈ −0.21）。粉紅噪音幾乎沒有獨立證據；brown noise 對 ADHD 或專注力的研究是零，「優於白噪音」只是網路說法。「stochastic resonance／MBA 模型」是解釋性假說，尚未被直接驗證。一般成人方面，只有一篇 39 人的單一研究（Awada 2022）發現 45 dB 白噪音相較 42 dB 辦公室環境音略提升持續注意（d ≈ 0.5）與 RAT 創意，65 dB 則提高壓力與打字錯誤；該研究未重複、基線非安靜、統計分析有疑慮，只能當初步線索，不能當通則。", "votes": [{"lens": "文獻", "refuted": true, "reasoning": "本輪 WebSearch 額度已耗盡，改直接打開一手文獻。Nigg 等 2024 JAACAP 預註冊統合分析確認：ADHD／高症狀組 g = 0.249（95% CI 0.135–0.363，k = 13、N = 335，I² < 0.01，trim-and-fill 無發表偏誤）；非 ADHD 組 g = −0.212（摘要）／−0.206（正文），兩個數字作者未調和。但作者明列限制：暴露只有數分鐘、全是實驗室作業、多數對照不足、無法排除 Hawthorne 效應、13 篇中 6 篇同一作者、3 篇未經同儕審查、GRADE 只到中等；粉紅噪音只有 1 篇且引用有誤，所以「白／粉紅噪音」實際上只有白噪音證據。Brown noise：統合分析明寫找不到任何 brown noise 研究，Healthline 與 The Conversation 引的也全是白噪音文獻，「優於白噪音的獨特效果」沒有任何一手來源。45 dB 部分只有 Awada 2022 一篇（39 名 USC 研究生、受試者內設計）：CPT 正確率 95.2% vs 42.3 dB 辦公室環境音的 93.1%（d = 0.51）、RAT 創意 65% vs 51%；但基線是環境音而非安靜、對照組不戴耳機、誤差自由度 114 疑似把重複量測當獨立觀察，且查無重複驗證。另外研究員引的 PMID 17683456 其實是 Söderlund 2007 的白噪音研究，不是 100 Hz 純音。原句把「零研究」說成「獨特效果」、把「單一小樣本」說成「能略微改善」，照字面不成立。"}, {"lens": "方法論", "refuted": true, "reasoning": "開了 Nigg 2024 全文：ADHD g = 0.249（CI 0.135–0.363）、非 ADHD g = −0.212（結果段卻寫 −0.206），k = 13、N = 335，數字正確，排除 Söderlund 六篇仍顯著；但 GRADE 只給中等：13 篇全無盲化、作者自承 Hawthorne 效應排不掉、2 篇是未發表碩士論文、暴露僅幾分鐘、「多數缺乏適當對照」，且明言「是否經由 stochastic resonance 尚未解決」，機制那句是推測。Brown noise：meta 分析零篇，兩篇科普文也承認沒有任何 brown noise 研究，「優於白噪音」無證據。45 dB：只有 Awada 2022 一篇，39 名 USC 研究生、對照組是不戴耳機的辦公室環境音（耳機本身是混淆）、未盲化、無重複；自稱重複量測 ANOVA 卻報 F(2,114)，自由度對應 117 筆獨立觀測而非 39 人，分析可能有誤。Herweg & Bunzeck 2015（167 名成人、5 實驗）結論白噪音無普遍效果、工作記憶反而變差。我讀的 Söderlund 2010、Helps 2014、Baijot 2016 都是 n ≤ 90 的小樣本、未盲化，Baijot 的眨眼率結果還不支持多巴胺假說。本輪 WebSearch 額度已罄、4 次搜尋被擋，2025–26 新研究無法補查，全靠直接開一手來源。判定：ADHD 數字站得住但「可靠」要打折，brown noise 與 45 dB 兩段撐不住，整句 refuted。"}, {"lens": "實務外推", "refuted": true, "reasoning": "本輪 WebSearch 額度已耗盡，我改直接打開一手論文與 Europe PMC 資料庫查核。核心數字站得住：Nigg 2024 確為 k=13、N=335、ADHD g=0.249（CI 0.135–0.363）、非 ADHD g≈−0.21，異質性低、GRADE 中等。但其餘都撐不住。(1) 13 篇中 11 篇是兒童，2 篇成人是未發表碩士論文；任務全是數分鐘的實驗室小測驗，作者明言只有短暫暴露資料、安全分貝不明、持續中等分貝會傷聽力；ADHD 有效區間 65–80 dB，不可能戴 4–8 小時。(2) Brown noise：Europe PMC 2022–2026 查無任何以注意力為結果的實驗；Erfanian 2025 瞳孔量測顯示白／粉／棕噪音喚醒度無差；唯一相關的 Færøvik 2025 已撤稿。「獨特優於白噪音」零證據。(3) 45 dB 說法只靠 Awada 2022 一篇 n=39 研究生，且 45 dB 組戴主動降噪耳機、對照組不戴，環境音本身 42 dB，效應可能來自降噪而非白噪音；Herweg & Bunzeck 2015（167 成人、70 dB）結論是無普遍效果且傷工作記憶。(4) 機制：Rijmen 2024、2025 在高 ADHD 特質成人用 100 Hz 純音得到與粉紅噪音相同的行為與 EEG 效果，stochastic resonance 非必要；研究摘要把這點錯掛到 Söderlund 2007（該篇只用白噪音）。對每天寫程式 4–8 小時的健康成人，沒有任何研究支持，統合分析反而預測小幅變差。"}]}, {"id": "C10", "claim": "Brain.fm 的 16 Hz（beta）振幅調變音樂能提升一般人的持續注意力，且優於普通器樂與粉紅噪音；Endel 的個人化 soundscape 能讓專注提升 7 倍；Focus@Will 能提升專注 400%；而 Spotify「Focus Flow」、Apple Music「Pure Focus」這類平台官方專注歌單確實比安靜更能提升專注。", "status": "原句過頭", "refutedCount": 3, "corrected": "Brain.fm 的 16 Hz 振幅調變音樂只有公司員工參與、NSF STTR 資助的自家研究支持，且 2024 年論文的利益衝突聲明遲至 2026 年才更正；行為層面在一般人身上沒有穩定的主效果，僅在特定時段、先聽 AM 版、或自評 ADHD 症狀較高者出現小幅、邊緣顯著的優勢（ηp² ≈ 0.05），調變深度實驗無效，且無任何獨立團隊重複；「優於普通器樂與粉紅噪音」在持續注意力表現上並未被證實。Endel 的「專注提升 7 倍」在論文裡找不到，該研究由 Arctop／Endel 出資執行，所謂「專注」是 EEG 解碼的自評代理值而非作業成績，效果只在 30 分鐘自選工作、36 歲以下子群出現；同一研究顯示 Spotify「Focus Flow」與 Apple Music「Pure Focus」和安靜相比都沒有顯著差異。Focus@Will 的「400%／4x」只是官網文案，唯一的研究是公司 Science Director 自己做的未審稿線上實驗，受試者為自選的服務使用者，只有自評專注顯著，客觀的注意力、記憶、邏輯測驗全無效。目前最誠實的說法是：這些商業專注音樂的科學證據全部來自業者自家或資助的研究，效果小、條件限定、未獨立重複，無法宣稱比普通器樂、噪音或安靜更能提升一般人的持續專注。", "votes": [{"lens": "文獻", "refuted": true, "reasoning": "本輪 WebSearch 額度已被其他 agent 用完，我改直接開一手來源（Europe PMC 全文、arXiv PDF、Frontiers、公司官網）查核。Brain.fm：Woods 2024 Communications Biology（SART 僅 n = 83）沒有「音樂種類」主效果，只有音樂×時段（p = 0.016）與音樂×順序（p = 0.015）交互作用，且由「先聽 AM 版」的人驅動；實驗 4 的 16 Hz 優勢只是調變率×時段×ASRS 的三因子交互作用（p = 0.048、ηp² = 0.048），調變深度實驗完全無顯著；論文標題本身就限定「attentional difficulties」。2019 arXiv（n = 677）只在第二個 200 題時段 16 Hz 顯著優於未調變版，效果最強的是高 ASRS 內向者，且從未經同儕審查。更關鍵：2024 原文寫「無利益衝突」，2026 年 4 月才更正揭露 K.J.P.W. 為 Brain.fm 員工持股；Europe PMC 的 9 篇引用文獻全是綜述或無關主題，沒有獨立重複。Endel：Haruvi 2022 全體作者為 Arctop 員工、Endel 出資並參與設計，「專注」是 Muse-S 四通道 EEG 解碼的自評代理值（r ≈ 0.6），不是作業表現；Endel 只在自選任務且「有在工作」子群顯著，36 歲以上無效；論文全文找不到「7x」，該數字只出現在 endel.io。同一研究裡 Spotify Focus Flow（p = 0.65）與 Apple Pure Focus（p = 0.11）vs 靜默皆不顯著，直接推翻「官方歌單比安靜有效」。Focus@Will：Mossbridge 2016 arXiv 作者為該公司 Science Director，受試者從官網招募、用免費試用天數付酬，909 人流失到 157 人，完成四階段的 50 人中 40 人是先聽該公司音樂者（p < 0.00002）；自評專注顯著但 flanker、語文記憶、TOLT 邏輯全無差；「4x 生產力」只在官網標題，無任何數據。Orpella 2025 為公司資助，正確率四組無差。結論：三家的證據都撐不起原句。"}, {"lens": "方法論", "refuted": true, "reasoning": "本輪 WebSearch 額度已被用盡，改直接開一手來源（Europe PMC 全文、arXiv、Frontiers、PLOS、廠商官網）。Brain.fm：Woods 2024 全文顯示四個實驗沒有任何一個出現「調變音樂 vs 未調變／粉紅噪音」的主效應；實驗 1（n=83）只有音樂×時段、音樂×順序交互作用，且由「先聽調變版」者驅動；fMRI、EEG 實驗的行為表現「各條件相似（所有 F<1）」；實驗 4 調變速率子實驗實際 n≈82（F(1,80)），三因子交互作用 p=0.048 只在 ADHD 自評高者出現，深度子實驗完全無效。論文確有寫 12–20 Hz 與 16 Hz（研究員說只在部落格出現是錯的），但第一作者與通訊作者是 Brain.fm 員工、刺激是自家曲目 Techno March、經費是 NSF 小企業 STTR；9 篇引用文獻中沒有獨立重複。部落格引用的「McMahon 2023」在 Europe PMC 查無，作者名單也沒有 McMahon。Endel：Haruvi 2022 全文找不到「7x」字樣，作者全為 Arctop 員工、Endel 出資並參與設計，n=51，「專注」是 Muse 四通道 EEG 預測的自評，沒有任何客觀表現指標；只在 30 分鐘自選任務上 Endel 優於靜默（p=0.008），Spotify Focus Flow（p=0.65）與 Apple Pure Focus（p=0.11）對靜默皆不顯著，36 歲以上三者皆無效。Orpella 2025（Brain.fm 出資、兩位作者為顧問）四組 flanker 正確率無差，串流「深度專注」歌單與辦公室噪音無差。Focus@Will：Mossbridge 2016 只有自評專注／持續度顯著，客觀視覺注意、記憶、邏輯全無效，受試者自述「主要是自認受益的聽眾」，論文無 400%。獨立證據（Kiss & Linnell 2024，n=106/77；Kämpfe 2011 統合分析）顯示背景音樂效果小、透過心情與警醒度作用、因人因任務而異。整條說法四個部分都站不住。"}, {"lens": "實務外推", "refuted": true, "reasoning": "本輪 WebSearch 額度已用罄，我改直接打開一手論文查核。Brain.fm：2024 Communications Biology 論文標題就寫明「支持有注意力困難的聽者」；實驗 1（n=83、約 20 分鐘 SART）只有音樂×時段交互作用且由「先聽 AM 版」者驅動，fMRI／EEG 兩實驗的行為表現各組 F<1 無差，實驗 4 只剩與 ASRS 的三因子交互作用 p=0.048、ηp²=0.048，調變深度完全不顯著。2019 預印本（n=677）自己承認效果在調變開始後 4–12 分鐘才出現、約 10 分鐘後回到基線，5 分鐘換一次條件就消失，重調變可能因疲勞或厭煩反而有害。原稿寫「無利益衝突」，2026-04 更正才補上第一作者是 Brain.fm 員工並持選擇權。Orpella 2025（公司資助、兩位作者是顧問、10 分鐘 flanker、無靜默組）正確率無差。Endel：論文內根本沒有「7x」，量的是 EEG 預測的自評專注（r≈0.54）而非表現，只在 30 分鐘自選任務勝過靜默；Spotify／Apple 歌單全樣本 vs 靜默 p=0.74／0.12 不顯著。Focus@Will 的「400%」查無任何學術來源，Mossbridge 2016 客觀指標全無效、受試者是自認受益者。獨立研究 Kiss & Linnell 2021 只顯示自選音樂降低無聊任務的恍神，反應時間不變。所有證據都 ≤30 分鐘、簡單任務、線上樣本，沒有任何研究測過寫程式、讀論文或 4–8 小時工作，外推站不住。"}]}];
+const SOUNDS = [{"audio_type": "無歌詞器樂（lo-fi、新古典、電子、遊戲探索曲）", "verdict": "中性偏有用", "best_for": "熟練的工作、單調任務、需要蓋噪音", "avoid_for": "困難或正在學的任務、記順序", "evidence": "統合分析平均接近零；單調任務上減少走神；Vasilev 2018、Kämpfe 2011"}, {"audio_type": "遊戲 BGM（探索、城鎮、選單曲）", "verdict": "中性（跟其他器樂一樣）", "best_for": "寫熟的程式、整理、熟悉的遊戲加分", "avoid_for": "戰鬥曲、Boss 曲、有人聲的主題曲；讀寫時", "evidence": "沒有直接對照實驗；戰鬥曲 vs 城鎮曲在 2-back 上無差；熟悉的遊戲音樂不傷語文推理"}, {"audio_type": "Lo-fi hip hop", "verdict": "中性", "best_for": "入門款、不想選歌時的預設", "avoid_for": "期待它讓你變聰明", "evidence": "唯一的 RCT 顯示純器樂 lo-fi 與安靜無可信差異（Souza & Barbosa 2023）；Lofi Girl 紅是產品設計"}, {"audio_type": "Ambient／無節奏氛圍", "verdict": "接近安靜", "best_for": "讀論文、寫作、燒腦除錯時的「安靜替代品」", "avoid_for": "想要推進感的雜務", "evidence": "變化小，依 changing-state 理論干擾最低；屬理論推論"}, {"audio_type": "古典／新古典", "verdict": "中性", "best_for": "讀寫；不喜歡電子味時", "avoid_for": "管弦高潮段、你會想認真聽的名曲", "evidence": "Mozart 沒有特效（Pietschnig 2010）；效果來自喚醒與心情"}, {"audio_type": "Techno／house／synthwave（強節奏）", "verdict": "有限", "best_for": "單調重複工作、開工熱機", "avoid_for": "讀寫與困難任務；又快又大聲", "evidence": "tempo 帶動動作速度不帶動思考；快加大聲拖慢閱讀（Thompson 2012）"}, {"audio_type": "有歌詞的流行歌", "verdict": "有害（讀寫記憶）", "best_for": "只有機械性雜務", "avoid_for": "讀論文、寫作、看程式碼、背東西", "evidence": "g≈−0.35，跟旁邊有人講話差不多；喜不喜歡都一樣（Vasilev 2018、Perham 2014）"}, {"audio_type": "Podcast、廣播、談話型影片", "verdict": "有害", "best_for": "沒有", "avoid_for": "所有需要語言或記憶的工作", "evidence": "聽得懂的人聲是最強干擾（irrelevant speech effect）"}, {"audio_type": "白噪音／粉紅噪音", "verdict": "看人", "best_for": "ADHD 傾向者；當掩蔽聲時低音量", "avoid_for": "注意力正常的人（小幅有害）", "evidence": "Nigg 2024 預註冊統合分析：ADHD g≈0.25、非 ADHD g≈−0.21；證據全來自兒童、數分鐘任務"}, {"audio_type": "Brown noise", "verdict": "未驗證", "best_for": "喜歡它低頻、不刺耳的質感時當掩蔽", "avoid_for": "期待它對 ADHD 有獨特效果", "evidence": "零對照研究；跟白噪音差別只在頻譜，三種顏色的喚醒度量起來沒差"}, {"audio_type": "自然聲（雨、水、鳥鳴）", "verdict": "休息時有用", "best_for": "休息恢復定向注意力；工作時只當掩蔽", "avoid_for": "期待它提升專注", "evidence": "短暫聆聽自然聲恢復定向注意力（Van Hedger 2019）；真實辦公室裡水聲輸給 pseudo-random noise"}, {"audio_type": "咖啡廳環境音（約 70 dB）", "verdict": "不確定", "best_for": "創意發想（也許）", "avoid_for": "持續專注、精確工作；85 dB 有害", "evidence": "單篇消費者研究、測的是創意不是專注（Mehta 2012）；與閱讀統合分析「噪音小幅有害」並存"}, {"audio_type": "Binaural beats／isochronic tones", "verdict": "無效（對專注）", "best_for": "喜歡音色就當普通背景音", "avoid_for": "為它付費、相信它調腦波", "evidence": "EEG 抓不到穩定同步（Ingendoh 2023）；近 500 人的持續專注實驗偏向無效（Robison 2022）；統合分析的 g≈0.45 是記憶、焦慮、疼痛混算"}, {"audio_type": "40 Hz gamma 聲光", "verdict": "不確定", "best_for": "關注阿茲海默研究進展", "avoid_for": "拿來提升健康成人專注", "evidence": "小鼠證據強；人類 AD 試驗主要終點全未達標；健康成人只有一篇未審預印本且有利益衝突"}, {"audio_type": "432 Hz、528 Hz、Solfeggio、7.83 Hz", "verdict": "偽科學", "best_for": "沒有", "avoid_for": "全部", "evidence": "沒有任何 RCT；7.83 Hz 低於人耳聽覺下限；「528 Hz 修復 DNA」連賣音叉的廠商都說沒證據"}, {"audio_type": "8D audio、ASMR、Hemi-Sync、Tomatis", "verdict": "未驗證", "best_for": "ASMR 放鬆可以", "avoid_for": "當專注工具", "evidence": "8D 零對照研究；ASMR 只有情緒與放鬆證據；Hemi-Sync 只有 1999 年麻醉止痛試驗；Tomatis 沒有注意力的系統性回顧"}, {"audio_type": "Brain.fm、Endel、Focus@Will", "verdict": "不確定，不值得付費", "best_for": "自覺 ADHD 傾向者試免費期並自己 A/B", "avoid_for": "一般人", "evidence": "全是廠商參與的研究；Brain.fm 只對 ADHD 症狀高者有邊緣效果（p=.048）且利益衝突聲明 2026 年 4 月才更正；Endel「7 倍」論文裡不存在；Focus@Will「400%」沒有論文"}];
+const MYTHS = [{"myth": "60 BPM 跟心跳同步最適合學習；巴洛克音樂能加速記憶（Lozanov）", "reality": "沒有一手實證。實驗反而顯示 66 BPM 左右的慢速讓表現變差；沒有任何 BPM 數字有證據。", "evidence": "查核 C4：三位懷疑者一致。Kämpfe 2011 顯示 tempo 只帶動動作速度。"}, {"myth": "120 到 140 BPM 最適合工作", "reality": "這個數字來自運動研究。tempo 帶動的是吃飯、走路、打字的速度，不是思考速度。", "evidence": "查核 C4。Husain 2002：快板推喚醒度，不推認知。"}, {"myth": "聽莫札特或古典樂會變聰明", "reality": "2010 年 39 篇研究的統合分析：效果小、有出版偏差、主要來自原始實驗室。殘餘效應是喚醒與心情，任何你喜歡的快板大調都做得到。", "evidence": "Pietschnig, Voracek & Formann 2010；Thompson, Schellenberg & Husain 2001。"}, {"myth": "遊戲配樂天生設計成不搶注意力，所以比其他音樂更適合工作", "reality": "沒有任何對照實驗。唯一的多曲風試驗找不出曲風差異；戰鬥曲 vs 城鎮曲在工作記憶作業上也無差。遊戲 OST 只是剛好無歌詞、熟悉、變化小。", "evidence": "查核 C3：三位懷疑者一致。Kirk 2021、Harrel 2020。"}, {"myth": "Binaural beats、alpha waves 音樂能把腦波調到專注狀態", "reality": "多篇獨立 EEG 研究抓不到穩定的腦波同步，單耳節拍反而更強。設計最嚴謹的持續專注實驗結論偏向無效。", "evidence": "查核 C8。Ingendoh 2023 系統性回顧；Robison 2022。"}, {"myth": "Brown noise 對 ADHD 特別有效", "reality": "TikTok 流行說法，零對照研究。三種顏色噪音的生理喚醒度量起來沒有差別；它的價值只是低頻、不刺耳、適合當掩蔽聲。", "evidence": "查核 C9。Nigg 2024 統合分析裡沒有任何棕噪音研究。"}, {"myth": "白噪音讓每個人更專注", "reality": "只對 ADHD 或注意力偏弱的人有小幅幫助（g≈0.25），而且證據幾乎全來自兒童與數分鐘的任務；注意力正常的人反而小幅扣分（g≈−0.21）。", "evidence": "查核 C9。Nigg 2024；Söderlund 2010。"}, {"myth": "要避開自己最愛的歌，喜好越強越分心", "reality": "這條來自一個 1 分鐘的台灣先導研究（極端組只有 6 與 16 人）。傷害的關鍵是歌詞與聲學變化，不是喜好；自選、熟悉的器樂在單調任務上反而減少走神。", "evidence": "查核 C6：三位懷疑者一致。Perham & Vizard 2011；Kiss & Linnell 2021。"}, {"myth": "固定一首開工歌，久了會變成條件反射", "reality": "主要證據 Brooks 2016 已於 2024 年撤稿；音樂的情境依存記憶效應 48 小時後就消失。可以當習慣提示，不能說成科學。", "evidence": "查核 C7；補漏研究的引文衛生清單。"}, {"myth": "Brain.fm 的「科學專注音樂」能提升一般人的持續注意力", "reality": "研究由公司員工參與、利益衝突聲明到 2026 年 4 月才更正；行為效果只在自評 ADHD 症狀高者出現、邊緣顯著（p=.048）、十幾分鐘後消退，沒有獨立重複。", "evidence": "查核 C10。Woods et al. 2024, Communications Biology。"}, {"myth": "Endel 讓專注提升 7 倍；Focus@Will 提升 400%", "reality": "「7 倍」在論文裡找不到，該研究由 Endel 出資、Arctop 執行，測的是 EEG 預測的自評專注，不是表現。「400%」沒有任何論文。", "evidence": "查核 C10。"}, {"myth": "528 Hz 修復 DNA、432 Hz 是宇宙頻率、7.83 Hz 跟大腦共振", "reality": "沒有任何 RCT。7.83 Hz 低於人耳聽覺下限，「跟 alpha 波吻合」是把 7.5 到 12.5 Hz 的頻帶硬說成一個數字。", "evidence": "偽科學查核研究員；Skeptoid 352。"}, {"myth": "8D audio 幫 ADHD 專注", "reality": "零對照研究，來源全是行銷與使用者自述。它的機制只是左右 panning 加 reverb。", "evidence": "補查缺口 5。"}, {"myth": "聽不懂的外語歌詞也一樣會干擾", "reality": "沒有證據。統合分析顯示聽得懂的語音比聽不懂的更干擾（機率 99%），有歌詞的傷害主要來自語意處理。外語歌詞預期傷害較小，但沒有直接測試，讀寫時仍以純器樂最安全。", "evidence": "查核 C1 三位懷疑者的修正版；Vasilev 2018。"}];
+const CAVEATS = ["幾乎所有實驗只測 4 到 30 分鐘的學生任務。長時間（4 到 8 小時）寫程式、讀論文的對照研究是零，這份手冊是類比，不是定論。", "三位高手的習慣是「相關」不是「因果」。對開發者的直接證據全是自評與問卷；「覺得有效」有文獻支持，「客觀上 code 寫得更好」沒人測過。寫電子報或教人時，別把前者講成後者。", "人會系統性高估音樂對自己的幫助：感覺更專注，不等於做得更好。這就是為什麼要做自我實驗。", "個人差異大：外向性、無聊傾向、ADHD 特質都會翻轉效果。同一份歌單對 A 有效、對 B 有害是正常的。", "音樂擋不住疲勞：走神會減少，但反應時間與疲勞退化不變。長時段仍要靠休息節奏。", "聽力是唯一會造成永久傷害的地方：每週 80 dB × 40 小時，每多 3 dB 可聽時間減半。", "平台的「專注」歌單有「幽靈藝人」問題：Harper's 揭露 Spotify 用廉價製作音樂填充 Deep Focus 等器樂歌單。YouTube Music 沒有同等報導，但官方歌單曲目會變動、藝人不可考，固定自己的 2 到 3 張專輯比追平台歌單可靠。", "引用衛生：本手冊不引用已撤稿的 Brooks 2016；引用 Brain.fm 的 Woods 2024 時附上利益衝突更正與 p=.048 的註記。", "研究限制：多位研究員的搜尋額度中途用罄，改用 DOI 與 Europe PMC 直查；Ohio State 2019（N=513）的遊戲音樂研究只讀到摘要；Cognito 的 40 Hz HOPE 試驗（n=670）預計 2026 年底公布，若通過要重新評估 40 Hz 這條。三位高手的第一手資料本輪是零。"];
+const SOURCES = [{"title": "Kämpfe, Sedlmeier & Renkewitz 2011 — The impact of background music on adult listeners: A meta-analysis", "url": "https://doi.org/10.1177/0305735610376261", "note": "整體效應為零；閱讀與記憶偏負、情緒與運動偏正；tempo 帶動動作速度。"}, {"title": "Vasilev, Kirkby & Angele 2018 — Auditory distraction during reading: A Bayesian meta-analysis", "url": "https://doi.org/10.1177/1745691617747398", "note": "有歌詞的音樂與聽得懂的人聲傷害最大（g≈−0.35）；純器樂接近零。"}, {"title": "Cheah, Wong, Spitzer & Coutinho 2022 — Background music and cognitive task performance: A systematic review", "url": "https://livrepository.liverpool.ac.uk/3166444/", "note": "95 篇、154 個實驗：音樂對記憶與語言類任務普遍有害，多數情況沒有可測得的效應，唯一正面效應來自純器樂。"}, {"title": "Gonzalez & Aiello 2019 — More than meets the ear: Investigating how music affects cognitive task performance", "url": "https://pubmed.ncbi.nlm.nih.gov/30688499/", "note": "音樂複雜度 × 任務複雜度 × 個人刺激偏好；「複雜器樂幫簡單任務」只來自這一篇，未重複。"}, {"title": "Thompson, Schellenberg & Letnic 2012 — Fast and loud background music disrupts reading comprehension", "url": "https://doi.org/10.1177/0305735611400173", "note": "只有「快且大聲」顯著低於安靜；慢或小聲的器樂沒差。"}, {"title": "Thompson, Schellenberg & Husain 2001 — Arousal, mood, and the Mozart effect", "url": "https://pubmed.ncbi.nlm.nih.gov/11437309/", "note": "控制喚醒度與心情後，Mozart 效應消失。"}, {"title": "Pietschnig, Voracek & Formann 2010 — Mozart effect–Shmozart effect: A meta-analysis", "url": "https://doi.org/10.1016/j.intell.2010.03.001", "note": "39 篇研究：效果小、有出版偏差、主要來自原始實驗室。"}, {"title": "Kiss & Linnell 2021 — The effect of preferred background music on task-focus in sustained attention", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8357712/", "note": "自選音樂減少走神（27%→18%），反應時間不變。"}, {"title": "Souza & Barbosa 2023 — Should we turn off the music? Music with lyrics interferes with cognitive tasks", "url": "https://journalofcognition.org/articles/10.5334/joc.273", "note": "唯一把 lo-fi 當獨立條件的 RCT：純器樂 lo-fi 與安靜無可信差異，有歌詞 d≈−0.3。"}, {"title": "Lesiuk 2005 — The effect of music listening on work performance", "url": "https://doi.org/10.1177/0305735605050650", "note": "56 位軟體開發者五週現場研究：沒音樂那週心情最差、自評品質最低；自評、無對照。"}, {"title": "Landay & Harms 2019 — Whistle while you work? A review of the effects of music in the workplace", "url": "https://doi.org/10.1016/j.hrmr.2018.06.003", "note": "職場音樂總回顧：走情緒路線；調節因子是外向性、任務複雜度、聆聽自主權。"}, {"title": "Oldham et al. 1995 — Listen while you work? Quasi-experimental relations between personal-stereo headset use and employee work responses", "url": "https://doi.org/10.1037/0021-9010.80.5.547", "note": "真實職場四週準實驗：自己決定聽不聽，績效與心情改善；工作越簡單受益越大。"}, {"title": "Haake 2011 — Individual music listening in workplace settings: An exploratory survey of offices in the UK", "url": "https://doi.org/10.1177/1029864911398065", "note": "295 位上班族：靈感、專注、正向分心、紓壓、用耳機隔開辦公室。"}, {"title": "Moster et al. 2022 — In the Zone: An analysis of the music practices of remote software developers", "url": "https://doi.org/10.1145/3544902.3546638", "note": "130 位遠距開發者問卷；本手冊「問問高手」的題目來源。"}, {"title": "Nigg et al. 2024 — Systematic review and meta-analysis: Do white noise or pink noise help with task performance in youth with ADHD?", "url": "https://doi.org/10.1016/j.jaac.2023.12.014", "note": "預註冊統合分析：ADHD g≈0.25、非 ADHD g≈−0.21；沒有棕噪音研究。"}, {"title": "Garcia-Argibay, Santed & Reales 2019 — Efficacy of binaural auditory beats in cognition, anxiety, and pain perception: A meta-analysis", "url": "https://doi.org/10.1007/s00426-018-1066-8", "note": "g≈0.45 是記憶、注意、焦慮、疼痛混算，未報告出版偏差。"}, {"title": "Ingendoh, Posny & Heine 2023 — Binaural beats to entrain the brain? A systematic review", "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0286023", "note": "多數 EEG 研究不支持腦波同步。"}, {"title": "Robison et al. 2022 — The effect of binaural beat stimulation on sustained attention", "url": "https://pubmed.ncbi.nlm.nih.gov/33978805/", "note": "三個實驗、Bayesian 分析：偏向 beta 頻段雙耳節拍不能增強持續注意力。"}, {"title": "Woods et al. 2024 — Rapid amplitude modulation of music enhances sustained attention (Brain.fm)", "url": "https://www.nature.com/articles/s42003-024-07026-3", "note": "廠商員工參與；主要效果是三向交互作用 p=.048，只在 ADHD 症狀高者；利益衝突聲明 2026 年 4 月更正。"}, {"title": "Mehta, Zhu & Cheema 2012 — Is noise always bad? Exploring the effects of ambient noise on creative cognition", "url": "https://doi.org/10.1086/665048", "note": "70 dB 助創意、85 dB 有害；測的是創意不是專注。"}, {"title": "WHO — Make Listening Safe（WHO-ITU H.870）", "url": "https://www.who.int/activities/making-listening-safe", "note": "成人每週 80 dB × 40 小時；每多 3 dB 可聽時間減半。"}, {"title": "Harper's 報導整理 — Spotify 用「幽靈藝人」填充情境歌單（Liz Pelly）", "url": "https://www.thefader.com/2024/12/19/report-spotify-is-populating-its-playlists-with-ghost-artists", "note": "Perfect Fit Content 計畫；Deep Focus、Ambient Relaxation 等器樂歌單受影響。"}, {"title": "PTT Soft_Job — 工程師寫 code 聽什麼音樂（2011、2016 討論串）", "url": "https://www.ptt.cc/bbs/Soft_Job/M.1455364311.A.4CD.html", "note": "台灣工程師自述：遊戲與電影配樂、純音樂、熟悉曲子為主流；有歌詞會分心、談話節目是大敵。"}, {"title": "Kiss, Szikora & Linnell 2024 — preferred background music in home-based sustained attention（Scientific Reports）", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11045806/", "note": "兩個線上實驗（n=106、77）：自選音樂反應時間略快約 8 ms、外部分心上升。"}, {"title": "Shih, Huang & Chiang 2012 — Background music: Effects on attention performance（Work，輔仁大學）", "url": "https://pubmed.ncbi.nlm.nih.gov/22523045/", "note": "台灣 RCT：有歌詞的背景音樂顯著拉低注意力測驗表現。"}, {"title": "Haapakangas et al. 2011 — Effects of five speech masking sounds on performance and acoustic satisfaction", "url": "https://doi.org/10.3813/aaa.918444", "note": "辦公室掩蔽聲比較：擋人聲比選音樂重要；恆定的水聲與 pseudo-random noise 效果最好。"}];
+
+const YTM = id => 'https://music.youtube.com/playlist?list=' + id;
+const ALB = id => 'https://music.youtube.com/browse/' + id;
+const YT = id => 'https://www.youtube.com/watch?v=' + id;
+
+// 任務鍵：code 寫熟的程式｜hard 除錯、資安分析、學新東西｜read 讀論文、看別人程式碼｜write 寫作｜chore 整理雜務｜create 創意發想｜memo 背誦｜warm 開工熱機｜rest 休息恢復
+const PLAYLISTS = [
+  { id:'mtf', name:'Minimal Techno Flow', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_lRr2S1Nmk-a4qeSFpU0WoLuVETphGyBP8'), rhythm:'強', lyrics:'幾乎無', verified:'實查', tasks:['code','chore'], note:'官方描述就是寫給長時間工作：rhythmic and stable minimal。穩定 4/4、中速、極少人聲。最接近「遊戲 BGM 式的節奏」，寫程式與資安分析的首選。' },
+  { id:'loft', name:'Lo-fi Loft', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_kb7EBi6y3GrtJri4_ZH56Ms786DFEimbM'), rhythm:'中', lyrics:'無', verified:'實查', tasks:['code','write','chore'], note:'Chillhop 系的標準 lo-fi hip hop，70 到 90 BPM。專注分類的第一順位，當入門款與錨點歌單都合適。' },
+  { id:'flow', name:'Lo-Fi 心流音樂', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_nZJzoZEBYRptA2XXskbxGTvKkevapT_F4'), rhythm:'中', lyrics:'無', verified:'實查', tasks:['code','write'], note:'官方描述「給深夜苦讀的你」。比 Lo-fi Loft 更暗、更慢，適合深夜與低張力的工作。' },
+  { id:'fg', name:'Focused Gaming', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_nPKG3faKyALfUXrqEe2vRJlrfefQo1B0s'), rhythm:'弱', lyrics:'無', verified:'實查', tasks:['read','write','hard'], note:'曲目是 Marconi Union 的 Weightless、Nujabes、Satie、C418 的 Aria Math 這類慢速無人聲曲。名字有 Gaming，內容其實是 lo-fi 加 ambient，是官方遊戲分類裡唯一以專注為目標的歌單。' },
+  { id:'idm', name:'提高專注力的電子音樂', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_nvRGXHpFzon8qbPTZhuoSq3WO4ccYvmHM'), rhythm:'中', lyrics:'無', verified:'實查', tasks:['code'], note:'Aphex Twin、Lorn、Christian Löffler 的 IDM 與 instrumental electronica。有節奏但質感偏暗、偶有突變，熟 IDM 的人才適合。' },
+  { id:'lrb', name:'左右腦的協調', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_k16Jz1rrCopbgWM2ajYI8KFyLHgbBVVMk'), rhythm:'強', lyrics:'少量', verified:'實查', tasks:['code','chore'], note:'歌單名是行銷用語，跟左右腦無關。內容是 Four Tet、George FitzGerald、Ben Böhmer 的 melodic house 與 techno，中速穩定；少數曲目有人聲（Strangers）。' },
+  { id:'hard', name:'努力工作', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_m50Vt6DvR0QUO6YQXcQlH9fMifwz9f_i0'), rhythm:'強', lyrics:'無', verified:'實查', tasks:['chore','warm'], note:'官方描述「德國電音幫到你」：Amelie Lens、Charlotte de Witte、Boris Brejcha 的硬派 techno，125 到 135 BPM。需要推進感的整理工作用，讀東西時不要。' },
+  { id:'cfw', name:'Classical for Working', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_mEgZl9zsBOcaP1iAdShTQpoRDeDpPRkyY'), rhythm:'弱', lyrics:'無', verified:'實查', tasks:['read','write'], note:'Mozart、Beethoven 田園、Fauré 加一些新古典。動態起伏中等，管弦樂段落音量變化會拉注意力，讀論文時音量壓低。' },
+  { id:'sg', name:'Strategy Gaming', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_nj8Xfhppkwo27QxZMxMTE7Py0Cf_Rnzgo'), rhythm:'弱', lyrics:'無', verified:'實查', tasks:['read','write','hard'], note:'名字是遊戲，內容是 Max Richter、Hania Rani、Martin Kohlstedt、Ólafsson 的新古典與極簡鋼琴。無人聲、節奏弱，思考型任務很合。' },
+  { id:'amb', name:'氛圍音樂（Ambient Focus）', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_lX29m3FBic7gGpiZ_4hhJWAzLu4Sz6OME'), rhythm:'無', lyrics:'無', verified:'驗證', tasks:['read','write','hard'], note:'13 小時的無節奏氛圍音樂，等於「安靜的替代品」。需要語言理解的工作、或燒腦的除錯，用這個或乾脆關掉。' },
+  { id:'camb', name:'Classic Ambient', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_nPaBlmfKLPFyzWF0NeUzb9XhJwpWT5p1I'), rhythm:'無', lyrics:'無', verified:'驗證', tasks:['read','hard'], note:'經典 ambient 曲目版，約 7 小時 40 分。' },
+  { id:'cfoc', name:'聚焦古典樂（Classical Focus）', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_n9hGvSNdO2TpX8jJuiThvnfrfIi1qNRnY'), rhythm:'弱', lyrics:'無', verified:'驗證', tasks:['read'], note:'不喜歡電子味時的替代。同系列還有 Classical for Reading 與溫柔鋼琴。' },
+  { id:'cfr', name:'Classical for Reading', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_kVXmNQjiBEKjCGifBWc3eTMg8Fwjc6K8M'), rhythm:'弱', lyrics:'無', verified:'驗證', tasks:['read','write'], note:'閱讀子區的第一順位，約 92 首。' },
+  { id:'piano', name:'溫柔鋼琴', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_ldooV6iHaoPy6VKyVuHDq0DT4lh-3tRqQ'), rhythm:'弱', lyrics:'無', verified:'驗證', tasks:['write','read'], note:'約 101 首鋼琴獨奏。寫作時的低資訊量選項。' },
+  { id:'jazz', name:'學習時聽的爵士樂（Jazzhop Study）', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_nVGlSRAJGpBoC9aVGFGOLC0aWnEFenoQs'), rhythm:'中', lyrics:'有（約三分之一）', verified:'實查', tasks:['code','chore'], note:'Nujabes 那一路的爵士取樣 lo-fi，但我開曲目看，前 12 首有 4 首人聲（Erykah Badu、Nujabes 的 Feather 有 rap）。寫熟的程式或整理可以，讀寫時跳過。' },
+  { id:'cine', name:'電影氛圍主題音樂（Cinematic Ambience）', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_kXvJt59314AsVv6QdJnFqHL7W75HkqtB4'), rhythm:'弱', lyrics:'無', verified:'驗證', tasks:['write','read'], note:'Interstellar、Arrival 那類配樂的現成合集，省得自己拼。' },
+  { id:'rain', name:'雨聲', cat:'噪音與自然聲', url:YTM('RDCLAK5uy_lQ2iiRFCsEvoxLRfTCOyVd6-tdZ75Gw-E'), rhythm:'無', lyrics:'無', verified:'驗證', tasks:['hard','memo','rest'], note:'當掩蔽聲用：蓋掉人聲、冷氣、鄰居。對專注本身沒有加成，但「聽得懂的人聲」是開放空間裡最傷專注的東西，蓋掉它就是幫助。' },
+  { id:'jlofi', name:'J-Lofi', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_lyevq8yYHBWApU2AKRwrLdcWFXaRk94kk'), rhythm:'中', lyrics:'無', verified:'實查', tasks:['code','write'], note:'日系 lo-fi 子集。' },
+  { id:'lhouse', name:'Lofi House', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_m75wuVWzZHOXuYkKH7YjxWxkxQFB_C4ME'), rhythm:'強', lyrics:'無', verified:'實查', tasks:['code','chore'], note:'lo-fi 的質感加上 house 的穩定四拍，要「跑起來」的段落用。' },
+  { id:'hi', name:'Hi-Scores', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_l6Q-gSZY2HaN4n4kTHYWa-bY2UuUiHJlA'), rhythm:'強', lyrics:'少量', verified:'實查', tasks:['warm'], skip:true, note:'God of War、Halo、Battlefield、Arkham City 的管弦主題曲，動態起伏大、有合唱。這是「打遊戲時的 BGM」不是「工作時的 BGM」，只拿來開工前 1 到 2 首熱機。' },
+  { id:'vgs', name:'Video Game Soundtracks', cat:'YouTube Music 官方', url:YTM('RDCLAK5uy_nebpZj-vRJ3W47DV1uCky0oAZkZFHuxWM'), rhythm:'強', lyrics:'少量', verified:'驗證', tasks:['warm','chore'], skip:true, note:'AAA 大作主題曲為主，同 Hi-Scores 的注意事項。' },
+  { id:'chrono', name:'Chrono Series（官方合輯）', cat:'遊戲 OST', url:YTM('RDCLAK5uy_nShleEbyK-5JU7DmyatrGQZMpvEDT6kEA'), rhythm:'中', lyrics:'少量', verified:'實查', tasks:['warm'], skip:true, note:'光田康典的探索曲（Wind Scene、Corridors of Time、Arni、Shore of Dreams）很適合工作，但合輯把 Boss Battle、Battle with Magus 和有人聲的 Radical Dreamers 混在一起。要用的話自己挑探索曲建歌單。' },
+  { id:'ff', name:'FINAL FANTASY Series（官方合輯）', cat:'遊戲 OST', url:YTM('RDCLAK5uy_kMpEC1mXvniFENRzBWOI6uWHRWsvDg6Dc'), rhythm:'強', lyrics:'有', verified:'實查', tasks:['warm'], skip:true, note:'One-Winged Angel 的合唱、Hollow 與 Somnus 的人聲、Let the Battles Begin 的戰鬥曲。這是「打遊戲時的 BGM」，懷舊與熱機用，工作時不要整張放。' },
+
+  { id:'lg', name:'Lofi Girl — lofi hip hop radio', cat:'直播台', url:YT('jfKfPfyJRdk'), rhythm:'中', lyrics:'無', verified:'驗證', tasks:['code','write','chore'], note:'24 小時不中斷、無廣告插播、不用選歌。2025 年 7 月的「畢業」是活動梗，主台沒停。它紅是因為產品設計，不是音樂療效；當「不想選歌時的預設鍵」。' },
+  { id:'sw', name:'Lofi Girl — synthwave radio', cat:'直播台', url:YT('4xDzrJKXOOY'), rhythm:'強', lyrics:'無', verified:'驗證', tasks:['code','chore','warm'], note:'比 lo-fi 更有推進感，正是高手描述的那種有節奏 BGM。讀論文時換掉。' },
+  { id:'lh', name:'Lofi Girl — lofi house radio', cat:'直播台', url:YT('3PFJ9SETS4M'), rhythm:'強', lyrics:'無', verified:'驗證', tasks:['code','chore'], note:'2026 年 9 月新上線，拍子穩定、變化少。' },
+  { id:'ch', name:'Chillhop Radio — jazzy & lofi hip hop', cat:'直播台', url:YT('5yx6BWlEVcY'), rhythm:'中', lyrics:'無', verified:'驗證', tasks:['code','write','chore'], note:'2017 年起的第一個 lo-fi 直播台，爵士味比 Lofi Girl 重。每季的 Chillhop Essentials 合輯都在 YouTube Music 上，想離線播就收專輯。' },
+  { id:'lgsleep', name:'Lofi Girl — 24/7 deep sleep music（ambient）', cat:'直播台', url:YT('nI725iVsyoQ'), rhythm:'無', lyrics:'無', verified:'驗證', tasks:['read','hard'], note:'標題是睡眠取向，內容就是無節奏氛圍音樂，拿來當「安靜的替代品」給需要語言理解的工作用；會想睡就換。' },
+  { id:'rwn', name:'Relaxing White Noise（10 小時白／粉紅／棕噪音）', cat:'噪音與自然聲', url:'https://www.youtube.com/@RelaxingWhiteNoise', rhythm:'無', lyrics:'無', verified:'驗證', tasks:['hard','memo'], note:'當掩蔽聲用，音量壓低（不高於對話聲）。注意力正常的人預設不需要；自覺注意力偏弱者可以試兩週、記錄分心次數。三種顏色沒有差異證據，選聽得舒服的。' },
+
+  { id:'c418', name:'C418 — Minecraft Volume Alpha / Beta', cat:'遊戲 OST', url:ALB('MPREb_2P1MWwMNdRk'), rhythm:'無', lyrics:'無', verified:'驗證', tasks:['read','write','hard'], note:'遊戲配樂裡最接近純氛圍的。作曲家自述追求「最少的音還能動人」，遊戲內本來就是曲間留 10 到 20 分鐘空白的設計，天生「在場但不干擾」。整張可用。' },
+  { id:'cel', name:'Lena Raine — Celeste OST', cat:'遊戲 OST', url:ALB('MPREb_Ae7OvsApdcM'), rhythm:'中', lyrics:'無', verified:'驗證', tasks:['code','chore'], note:'作曲者明說是為了「連放 20 分鐘不刺耳、還會自己刷新」寫的。First Steps、Resurrections 這類探索曲可用；Confronting Myself、Reach for the Summit 這類高潮曲跳過。' },
+  { id:'jou', name:'Austin Wintory — Journey OST', cat:'遊戲 OST', url:ALB('MPREb_3cqjeUSKpGP'), rhythm:'弱', lyrics:'無', verified:'驗證', tasks:['write','read'], note:'大提琴主奏的管弦探索音樂，整張平穩；只有終曲有人聲，跳過。' },
+  { id:'ow', name:'Andrew Prahlow — Outer Wilds OST', cat:'遊戲 OST', url:ALB('MPREb_G4uMGAWPHt7'), rhythm:'弱', lyrics:'無', verified:'驗證', tasks:['warm','create','write'], note:'民謠加氛圍，變化溫和。適合開工前與探索型工作。' },
+  { id:'hk', name:'Hollow Knight Piano Collections', cat:'遊戲 OST', url:ALB('MPREb_B5m5L5uLEHZ'), rhythm:'弱', lyrics:'無', verified:'驗證', tasks:['read','write'], note:'原聲帶本體在 YouTube Music 查不到，這張官方鋼琴版是替代，而且比原版更適合工作（原版的 Boss 曲是典型戰鬥曲）。' },
+  { id:'sdv', name:'ConcernedApe — Stardew Valley 1.5 OST', cat:'遊戲 OST', url:ALB('MPREb_1w4nTZJlG0q'), rhythm:'中', lyrics:'無', verified:'驗證', tasks:['chore','code'], note:'單一作曲者、風格一致、季節曲節奏穩定。2016 主原聲帶在 YouTube Music 查不到，只有 1.5 更新版。' },
+  { id:'hades', name:'Darren Korb — Hades OST', cat:'遊戲 OST', url:ALB('MPREb_sfzdCLEKV37'), rhythm:'強', lyrics:'少量', verified:'驗證', tasks:['warm'], skip:true, note:'金屬味的戰鬥節奏，Good Riddance、In the Blood 有歌詞。只適合機械性雜事或短衝刺。' },
+
+  { id:'tycho', name:'Tycho — Dive / Awake', cat:'電子', url:ALB('MPREb_rObD1Zo91l6'), rhythm:'中', lyrics:'無', verified:'驗證', tasks:['code','write'], note:'寫程式圈最常被點名的「有節奏但不搶戲」電子樂。Boards of Canada、Carbon Based Lifeforms 同路線。' },
+  { id:'boc', name:'Boards of Canada — Music Has the Right to Children', cat:'電子', url:ALB('MPREb_dTIxd1FI3QO'), rhythm:'中', lyrics:'無', verified:'驗證', tasks:['code'], note:'IDM 經典，節奏慢而穩，質感溫暖。' },
+  { id:'inter', name:'Hans Zimmer — Interstellar', cat:'電影配樂', url:ALB('MPREb_ubWVztfWvdp'), rhythm:'弱', lyrics:'無', verified:'驗證', tasks:['write','read'], note:'長、連貫、少驚喜，深夜寫東西的經典。Blade Runner 2049 與 Arrival 也在架上。' },
+  { id:'br', name:'Blade Runner 2049 OST', cat:'電影配樂', url:ALB('MPREb_0POX3qhl2pr'), rhythm:'弱', lyrics:'無', verified:'驗證', tasks:['write','hard'], note:'低頻合成器聲景，偏暗。' },
+
+  { id:'nuj', name:'Nujabes — Modal Soul', cat:'日系與台灣', url:ALB('MPREb_jsHyTISZ9XL'), rhythm:'中', lyrics:'少量', verified:'驗證', tasks:['code','write'], note:'lo-fi 的源頭之一。Luv(sic) 系列有 rap，要挑器樂曲。' },
+  { id:'jin', name:'jinsang — Life', cat:'日系與台灣', url:ALB('MPREb_6FwAVBCkX6P'), rhythm:'中', lyrics:'無', verified:'驗證', tasks:['code','write','chore'], note:'全器樂、節奏比 Nujabes 更輕。' },
+  { id:'his', name:'久石讓 — Spirited Away Soundtrack', cat:'日系與台灣', url:ALB('MPREb_X80BdVgk6eN'), rhythm:'弱', lyrics:'無', verified:'驗證', tasks:['write','rest'], note:'熟悉旋律加無歌詞。注意吉卜力配樂帶情緒記憶，會拉扯注意力；要嚴謹閱讀時換掉。' },
+  { id:'cic', name:'Cicada — 棲居在溪源之上', cat:'日系與台灣', url:ALB('MPREb_ciWELyrKpkn'), rhythm:'弱', lyrics:'無', verified:'驗證', tasks:['write','read'], note:'台灣純音樂裡最穩的選擇，鋼琴與弦樂室內樂，情緒平、無人聲。《走入有霧的森林》同樣適合。' },
+  { id:'mt', name:'Mong Tong 夢東 — Mystery 秘神', cat:'日系與台灣', url:ALB('MPREb_w8Sif4cMaZz'), rhythm:'中', lyrics:'無', verified:'驗證', tasks:['create'], note:'台灣迷幻氛圍電子，有東南亞與民俗取樣的怪異感。創意段用，嚴謹閱讀不適合。' },
+
+  { id:'mfp', name:'musicForProgramming()', cat:'工具型', url:'https://musicforprogramming.net/', rhythm:'弱', lyrics:'無', verified:'驗證', tasks:['code','hard'], note:'不在 YouTube Music 上。寫程式圈 15 年的老牌，每集約 1 小時：drone、環境錄音、無鼓無人聲。想完全沒有演算法推薦干擾時用。' },
+  { id:'soma', name:'SomaFM — Groove Salad / Drone Zone', cat:'工具型', url:'https://somafm.com/', rhythm:'弱', lyrics:'無', verified:'驗證', tasks:['code','read'], note:'Hacker News 討論串裡被點名最多的工作電台。長時間、低起伏、無人聲。' },
+];
+
+const TASKS = [
+  { key:'code', label:'寫程式（熟的）', ev:'weak', evnote:'只有開發者自評的田野研究，沒有客觀實驗', advice:'無歌詞、音量不大、節奏穩定的器樂。熟練的工作是音樂最不會扣分的地方；有一篇未重複的研究發現簡單任務配加鼓加 bass 的器樂會略好。注意：節奏帶動的是動作速度，不是思考速度。', avoid:'有歌詞的歌、有 rap 取樣的 lo-fi、風格跳來跳去的歌單、又快又大聲。', vol:'音量：聽得見鍵盤聲。' },
+  { key:'hard', label:'除錯、資安分析、學新工具', ev:'moderate', evnote:'由「複雜任務受害」推論，沒有直接研究', advice:'接近安靜：無節奏 ambient、或只用噪音蓋掉環境聲。困難或正在學的任務，音樂平均會扣一點分，效果小但方向一致；新手外科醫師的 RCT 顯示刺激型音樂有害、平靜器樂與安靜無差。', avoid:'所有有節奏、有旋律起伏的音樂。卡關時不要換歌，換歌本身就是分心。', vol:'音量：比平常再低一格，或直接關掉。' },
+  { key:'read', label:'讀論文、看別人的程式碼', ev:'strong', evnote:'閱讀干擾的統合分析，65 篇', advice:'無人聲、變化小：ambient、新古典鋼琴、慢速遊戲探索曲。語言任務最怕歌詞，純器樂平均是零。在吵的地方，恆定的水聲比器樂更能擋人聲。', avoid:'歌詞、Podcast、講話型影片、又快又大聲的器樂、管弦高潮。', vol:'音量：低。發現自己在回讀同一句，就是音樂在搶注意力。' },
+  { key:'write', label:'寫作、寫報告', ev:'strong', evnote:'語言任務同閱讀；寫作流暢度上器樂也會略拖慢', advice:'同讀論文：低資訊量的器樂或氛圍音樂。寫作時字數下降、停頓位置不在句子邊界，是音樂妨礙你的隱性徵兆。', avoid:'歌詞、你會想跟著哼的旋律。', vol:'音量：低。' },
+  { key:'chore', label:'整理雜務、重複性工作', ev:'moderate', evnote:'單調任務上自選音樂減少走神；職場準實驗簡單工作受益最大', advice:'可以上強節奏：techno、house、synthwave。單調任務配自選的背景音樂能減少走神、拉高情緒；這是音樂最明確有幫助的情境。', avoid:'沒有特別要避的，但音量別超過 80 dB。', vol:'音量：中。' },
+  { key:'create', label:'創意發想', ev:'contested', evnote:'發散與收斂的結果相反', advice:'研究互相打臉：快樂、高喚醒的器樂可能幫「發散」思考，但任何音樂都傷「收斂」式的洞察解題。發想階段可以開，要收斂時關掉。', avoid:'需要靈光一閃的解題時，關掉。', vol:'音量：中低。' },
+  { key:'memo', label:'背誦、記順序', ev:'strong', evnote:'序列回憶的經典實驗一致', advice:'不要音樂。要記順序的東西最怕「會變化的聲音」，喜歡或討厭的音樂一樣糟。真的需要蓋環境聲就用穩態噪音（風扇、粉紅噪音）。', avoid:'任何音樂。', vol:'噪音音量：低。' },
+  { key:'warm', label:'開工熱機（前 5 到 10 分鐘）', ev:'moderate', evnote:'「先聽再做」的喚醒效果有實證但只維持 10 到 15 分鐘', advice:'自選的高喚醒音樂 1 到 2 首（這時有歌詞也行），拉喚醒度與心情，然後切到穩定段或關掉。暖身歌不要出現在工作歌單裡。', avoid:'熱機完忘了切換。', vol:'音量：中。' },
+  { key:'rest', label:'休息恢復', ev:'moderate', evnote:'短暫自然聲恢復定向注意力', advice:'自然聲（鳥鳴、水聲）能恢復定向注意力，而且不是靠心情變好；最好是拿下耳機走一走。', avoid:'休息時繼續戴耳機聽同一份歌單。', vol:'拿下耳機。' },
+];
+
+const PROTOCOL = [
+  { step:'固定一個錨點歌單', detail:'挑一個無歌詞、節奏穩定、你覺得「還可以」的歌單，每天開工都用它，兩週內不換。老實說：「固定歌單變成條件反射」沒有直接實驗證據，熟悉度的研究也互相矛盾。但它成本是零、可預期的聲音較不會突然抓走注意力，而且讓你的自我實驗有固定變項。把它當習慣，不當科學。' },
+  { step:'前 5 到 10 分鐘可以高喚醒', detail:'想要「一按就進狀態」，開頭放 1 到 2 首你喜歡、節奏強的曲子拉喚醒度，然後讓歌單自己進入穩定段。先聽再做的效果約 10 到 15 分鐘就消退，所以它是開關，不是引擎。' },
+  { step:'選曲四條件', detail:'無歌詞（含 rap 取樣、合唱、擬聲）；熟悉到不會注意旋律；動態穩定不突變；不快又大聲。遊戲 OST 只取探索、城鎮、選單曲，剔除 Boss 戰與主題曲；專輯版常比遊戲內吵，試聽 30 秒再收。' },
+  { step:'照任務切換強度', detail:'寫熟的程式、整理資料：中到強節奏。讀論文、看別人的程式碼、除錯燒腦：降到 ambient 或關掉。準備兩份：慢工用的探索曲、衝刺用的節奏曲。這一步比選哪個歌單重要。' },
+  { step:'音量壓到聽得見鍵盤', detail:'快沒關係，快加大聲才傷。大約 45 到 60 dB，旁人叫你聽得到。iPhone 開「降低大聲音訊」設 75 到 80 dB，讓系統幫你擋。吵的環境用降噪耳機加低音量掩蔽聲，不要靠開大聲蓋人聲。' },
+  { step:'出現這些徵兆就關掉', detail:'回讀同一行、跟著哼、番茄鐘內換歌、typo 變多、任務變難覺得煩。身體比自評誠實：研究裡的學生與工程師都高估了器樂的好處。先把音量降一格，還是不行就關掉；換歌、滑歌單本身就是中斷。' },
+  { step:'每 60 分鐘拿下耳機 10 分鐘', detail:'聽力額度是每週 80 dB × 40 小時。休息時換自然聲或走出去，不要繼續戴著。音樂擋不住疲勞，撐不住就是該休息。' },
+  { step:'開會、對話、學新東西時關掉', detail:'對話本身就是語言任務；學新工具時音樂是干擾。這三種情境沒有「對的歌單」。' },
+  { step:'歌單維護', detail:'自建歌單、關掉自動播放與推薦（新歌等於新資訊）。同一份連用兩週再評估；長期可準備 2 到 3 份輪替，同一首反覆聽幾十次後喜好會下降。' },
+  { step:'兩週後再評估', detail:'用下面的自我實驗記四個數字，看你是「音樂幫我」還是「音樂讓我感覺好但表現沒變」。人會系統性高估音樂對自己的幫助。' },
+];
+
+const EXPERIMENT = [
+  { step:'挑一種任務當測試場', detail:'選你每天都會做、難度穩定的事，例如寫熟的程式或整理資料。不要拿除錯或新題目測，難度浮動會蓋掉音樂的效果。' },
+  { step:'定兩個條件', detail:'A 是安靜（或只有噪音），B 是你的錨點歌單。想比較兩個歌單就再加 C。每個工作段 25 到 50 分鐘。' },
+  { step:'ABAB 交替，每個條件至少 5 段', detail:'第一天上午 A 下午 B，第二天上午 B 下午 A，以此類推。這是 N-of-1 試驗的標準做法，避免「上午比較有精神」混進來。' },
+  { step:'每段結束記四個數字', detail:'完成度 1 到 5、中斷次數（含看手機）、主觀 Flow 1 到 5，以及事後回讀或改錯的次數。前三個用下面的記錄器，第四個記在心裡就好。' },
+  { step:'兩週後比平均', detail:'看每個條件的平均完成度與中斷次數。如果歌單條件的 Flow 分數高、但完成度和中斷沒變，代表音樂讓你「感覺好」而不是「做得好」，那它的價值是情緒管理，照用但別期待產能。' },
+];
+
+const ASK = [
+  { step:'最常放的 3 個歌單、專輯或頻道', detail:'貼連結，YouTube Music 或 Spotify 都可以。' },
+  { step:'有沒有人聲？', detail:'有的話，是聽得懂的語言，還是聽不懂的？' },
+  { step:'哪些任務會開、哪些會關？', detail:'例如回 email、寫熟的功能、debug、讀文件、寫報告、開會。' },
+  { step:'音量大約手機的幾 %？戴耳機還是外放？', detail:'為什麼這樣選？' },
+  { step:'一天聽幾小時？會整天開著嗎？', detail:'有沒有固定什麼時候關掉？' },
+  { step:'安靜的時候會不會坐不住？', detail:'這題在問「刺激需求」，是研究裡最大的個人差異變項。' },
+];
+
+// ---------- render helpers ----------
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LEVEL_LABEL = { strong:'證據強', moderate:'證據中等', weak:'證據弱', contested:'研究互相打臉' };
+const meter = lv => `<span class="meter" data-level="${lv}"><span class="bars"><i></i><i></i><i></i><i></i></span>${LEVEL_LABEL[lv] || lv}</span>`;
+const rhythmBar = r => `<span class="rhythm" data-r="${r}" title="節奏${r}"><i></i><i></i><i></i></span>`;
+const VERDICT_CLASS = v => /有效|成立/.test(v) ? 'ok' : /中性|有限|部分/.test(v) ? 'info' : /不確定|有爭議/.test(v) ? 'warn' : 'bad';
+
+function renderMech() {
+  $('#mech-cards').innerHTML = MECH.map(m => `
+    <div class="card">
+      <div class="ev"><h3>${esc(m.mechanism)}</h3>${meter(m.evidence_level)}</div>
+      <p>${esc(m.explanation)}</p>
+    </div>`).join('');
+}
+
+function renderClaims() {
+  $('#claims').innerHTML = CLAIMS.map(c => {
+    const votes = c.votes.map(v => `<span class="vote ${v.refuted ? 'refute' : 'keep'}">${v.refuted ? '✗' : '✓'} ${esc(v.lens)}</span>`).join('');
+    const cls = c.status === '成立' ? 'ok' : c.status === '有爭議' ? 'warn' : 'bad';
+    const notes = c.votes.map(v => `<div class="lens-note"><b>${esc(v.lens)}：</b>${esc(v.reasoning)}</div>`).join('');
+    return `
+    <div class="claim">
+      <div class="head"><span class="id">${esc(c.id)}</span><div class="text">${esc(c.claim)}</div></div>
+      <div class="votes"><span class="chip ${cls}">${esc(c.status)}</span>${votes}</div>
+      <details>
+        <summary>證據撐得住的版本與三位懷疑者的理由</summary>
+        <div class="corrected">${esc(c.corrected)}</div>
+        ${notes}
+      </details>
+    </div>`;
+  }).join('');
+}
+
+function renderSounds() {
+  $('#sounds-table tbody').innerHTML = SOUNDS.map(s => `
+    <tr>
+      <td class="nowrap"><b>${esc(s.audio_type)}</b></td>
+      <td class="nowrap"><span class="chip ${VERDICT_CLASS(s.verdict)}">${esc(s.verdict)}</span></td>
+      <td>${esc(s.best_for)}</td>
+      <td>${esc(s.avoid_for)}</td>
+      <td class="small muted">${esc(s.evidence)}</td>
+    </tr>`).join('');
+}
+
+function plItem(p) {
+  const openLabel = /music\.youtube\.com/.test(p.url) ? '在 YouTube Music 開啟' : /youtube\.com/.test(p.url) ? '在 YouTube 開啟' : '開啟網站';
+  return `
+  <div class="pl ${p.skip ? 'skip' : ''}" data-cat="${esc(p.cat)}" data-r="${esc(p.rhythm)}">
+    <div style="min-width:0">
+      <div class="name">${esc(p.name)}${p.skip ? ' <span class="chip bad">只限熱機</span>' : ''}</div>
+      <div class="tags">
+        <span class="chip">${esc(p.cat)}</span>
+        <span class="chip">${rhythmBar(p.rhythm)} 節奏${esc(p.rhythm)}</span>
+        <span class="chip ${p.lyrics === '無' ? 'ok' : p.lyrics === '幾乎無' ? 'ok' : 'warn'}">歌詞${esc(p.lyrics)}</span>
+        <span class="chip ${p.verified === '實查' ? 'accent' : ''}">${esc(p.verified)}</span>
+      </div>
+    </div>
+    <a class="open" href="${esc(p.url)}" target="_blank" rel="noopener">${openLabel} ↗</a>
+    <div class="note">${esc(p.note)}</div>
+  </div>`;
+}
+
+let activeTask = 'code';
+function renderTasks() {
+  $('#tasks').innerHTML = TASKS.map(t => `<button type="button" class="taskbtn" data-key="${t.key}" aria-pressed="${t.key === activeTask}">${esc(t.label)}</button>`).join('');
+  $('#tasks').querySelectorAll('.taskbtn').forEach(b => b.addEventListener('click', () => { activeTask = b.dataset.key; try { localStorage.setItem('bgm-task', activeTask); } catch (e) {} renderTasks(); renderPicker(); }));
+}
+function renderPicker() {
+  const t = TASKS.find(x => x.key === activeTask);
+  const list = PLAYLISTS.filter(p => p.tasks.includes(activeTask));
+  $('#picker-panel').innerHTML = `
+    <div class="advice"><div class="ev"><b>${esc(t.label)}</b>${meter(t.ev)}</div><p>${esc(t.advice)}</p><p class="small"><span class="chip bad">避開</span> ${esc(t.avoid)}</p><p class="small muted">${esc(t.vol)} ・ 證據：${esc(t.evnote)}</p></div>
+    ${list.length ? `<div class="pl-list">${list.map(plItem).join('')}</div>` : '<p class="muted">這種任務建議安靜，上面的雨聲只當掩蔽用。</p>'}`;
+}
+
+const catFilter = { cat: '全部', r: '全部' };
+function renderFilters() {
+  const cats = ['全部', ...new Set(PLAYLISTS.map(p => p.cat))];
+  const rs = ['全部', '無', '弱', '中', '強'];
+  $('#cat-filters').innerHTML = '<span class="label">分類</span>' + cats.map(c => `<button type="button" class="fbtn" data-cat="${esc(c)}" aria-pressed="${c === catFilter.cat}">${esc(c)}</button>`).join('');
+  $('#rhythm-filters').innerHTML = '<span class="label">節奏</span>' + rs.map(r => `<button type="button" class="fbtn" data-r="${esc(r)}" aria-pressed="${r === catFilter.r}">${esc(r)}</button>`).join('');
+  $('#cat-filters').querySelectorAll('.fbtn').forEach(b => b.addEventListener('click', () => { catFilter.cat = b.dataset.cat; renderFilters(); renderList(); }));
+  $('#rhythm-filters').querySelectorAll('.fbtn').forEach(b => b.addEventListener('click', () => { catFilter.r = b.dataset.r; renderFilters(); renderList(); }));
+}
+function renderList() {
+  const list = PLAYLISTS.filter(p => (catFilter.cat === '全部' || p.cat === catFilter.cat) && (catFilter.r === '全部' || p.rhythm === catFilter.r));
+  $('#pl-list').innerHTML = list.length ? list.map(plItem).join('') : '<p class="muted">這個組合沒有歌單。</p>';
+}
+
+function renderSteps(id, arr) {
+  $(id).innerHTML = arr.map(s => `<div class="step"><div><b>${esc(s.step)}</b><p>${esc(s.detail)}</p></div></div>`).join('');
+}
+function renderMyths() {
+  $('#myth-list').innerHTML = MYTHS.map(m => `<div class="myth"><div class="m">${esc(m.myth)}</div><div class="r">${esc(m.reality)}</div><div class="e">${esc(m.evidence)}</div></div>`).join('');
+}
+function renderCaveats() {
+  $('#caveats').innerHTML = '<b>讀這份手冊時要記得</b>' + CAVEATS.map(c => `<p>・${esc(c)}</p>`).join('');
+}
+function renderSources() {
+  $('#source-list').innerHTML = SOURCES.map(s => `<div class="src"><a class="t" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a><span class="n">${esc(s.note)}</span></div>`).join('');
+}
+
+// ---------- experiment logger (localStorage, per-viewer) ----------
+const LOG_KEY = 'bgm-log-v1';
+const EXAMPLE = [
+  { date:'2026-10-16', cond:'安靜', task:'寫程式', done:3, int:4, flow:2, example:true },
+  { date:'2026-10-16', cond:'歌單 A', task:'寫程式', done:4, int:2, flow:4, example:true },
+  { date:'2026-10-17', cond:'歌單 A', task:'寫程式', done:3, int:3, flow:4, example:true },
+];
+function loadLog() { try { const v = JSON.parse(localStorage.getItem(LOG_KEY) || 'null'); return Array.isArray(v) ? v : null; } catch (e) { return null; } }
+function saveLog(rows) { try { localStorage.setItem(LOG_KEY, JSON.stringify(rows)); return true; } catch (e) { return false; } }
+function renderLog() {
+  const real = loadLog();
+  const rows = real && real.length ? real : EXAMPLE;
+  const isExample = !(real && real.length);
+  $('#log-table tbody').innerHTML = rows.map((r, i) => `
+    <tr>
+      <td class="mono nowrap">${esc(r.date)}${r.example ? ' <span class="example-tag">範例</span>' : ''}</td>
+      <td>${esc(r.cond)}</td><td>${esc(r.task)}</td>
+      <td class="mono">${esc(r.done)}</td><td class="mono">${esc(r.int)}</td><td class="mono">${esc(r.flow)}</td>
+      <td>${r.example ? '' : `<button type="button" class="rowdel" data-i="${i}">刪除</button>`}</td>
+    </tr>`).join('');
+  $('#log-table').querySelectorAll('.rowdel').forEach(b => b.addEventListener('click', () => { const cur = loadLog() || []; cur.splice(Number(b.dataset.i), 1); saveLog(cur); renderLog(); }));
+  const by = {};
+  rows.forEach(r => { (by[r.cond] = by[r.cond] || []).push(r); });
+  const avg = (a, k) => (a.reduce((s, r) => s + Number(r[k] || 0), 0) / a.length).toFixed(1);
+  $('#log-summary').innerHTML = Object.entries(by).map(([k, a]) => `
+    <div class="sumcard"><div class="t">${esc(k)} ・ ${a.length} 段${isExample ? '（範例）' : ''}</div>
+      <div class="n">${avg(a, 'done')} <span class="t">完成度</span></div>
+      <div class="t">中斷 ${avg(a, 'int')} ・ Flow ${avg(a, 'flow')}</div></div>`).join('');
+}
+$('#logform').addEventListener('submit', e => {
+  e.preventDefault();
+  const row = { date: $('#f-date').value || new Date().toISOString().slice(0, 10), cond: $('#f-cond').value, task: $('#f-task').value, done: Number($('#f-done').value), int: Number($('#f-int').value), flow: Number($('#f-flow').value) };
+  const cur = loadLog() || [];
+  cur.push(row);
+  const ok = saveLog(cur);
+  $('#log-toast').textContent = ok ? `已記錄 ${row.date} ${row.cond}。` : '這個瀏覽器不允許儲存，這筆沒有存下來。';
+  renderLog();
+});
+
+// ---------- boot ----------
+try { const t = localStorage.getItem('bgm-task'); if (t && TASKS.some(x => x.key === t)) activeTask = t; } catch (e) {}
+try { $('#f-date').value = new Date().toISOString().slice(0, 10); } catch (e) {}
+renderMech(); renderClaims(); renderSounds(); renderTasks(); renderPicker(); renderFilters(); renderList();
+renderSteps('#protocol-steps', PROTOCOL); renderSteps('#experiment-steps', EXPERIMENT); renderSteps('#ask-steps', ASK);
+renderMyths(); renderCaveats(); renderSources(); renderLog();
+</script>
+</body>
+</html>
