@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>混淆矩陣 F1 計算機</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* 版面：左欄是能直接填數字的 2×2 混淆矩陣（桌機會黏住），右欄是結果卡；窄螢幕改成上下堆疊 */
+:root{
+  --bg:#f2f5f8;
+  --surface:#ffffff;
+  --surface-2:#eaf0f5;
+  --fg:#132130;
+  --muted:#566879;
+  --line:#d3dce5;
+  --accent:#1d5ea8;
+  --accent-soft:#dce9f7;
+  --on-accent:#ffffff;
+  --tp:#17785a; --tp-soft:#e0f2ea;
+  --tn:#3f6f78; --tn-soft:#e3eef0;
+  --fp:#9a5a06; --fp-soft:#fbefdc;
+  --fn:#b3263a; --fn-soft:#fbe5e8;
+  --font-body:"Noto Sans TC","PingFang TC","Heiti TC","Microsoft JhengHei",system-ui,sans-serif;
+  --font-num:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --radius:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d141b; --surface:#151f29; --surface-2:#1c2835;
+    --fg:#e3ebf3; --muted:#91a3b5; --line:#293848;
+    --accent:#72aaee; --accent-soft:#1a2c42; --on-accent:#0d141b;
+    --tp:#55c79d; --tp-soft:#13302a;
+    --tn:#7fb8c2; --tn-soft:#152b30;
+    --fp:#e8ac5a; --fp-soft:#34270f;
+    --fn:#f27f8d; --fn-soft:#3a1920;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d141b; --surface:#151f29; --surface-2:#1c2835;
+  --fg:#e3ebf3; --muted:#91a3b5; --line:#293848;
+  --accent:#72aaee; --accent-soft:#1a2c42; --on-accent:#0d141b;
+  --tp:#55c79d; --tp-soft:#13302a;
+  --tn:#7fb8c2; --tn-soft:#152b30;
+  --fp:#e8ac5a; --fp-soft:#34270f;
+  --fn:#f27f8d; --fn-soft:#3a1920;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15px;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:24px;padding-block:32px 56px}
+@media (max-width:480px){.wrap{padding-inline:16px;padding-block:20px 40px}}
+
+.top{display:grid;gap:6px;margin-bottom:24px}
+.eyebrow{margin:0;font-family:var(--font-num);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{margin:0;font-size:clamp(26px,4.2vw,34px);font-weight:900;line-height:1.25;text-wrap:balance}
+.lede{margin:0;color:var(--muted);max-width:60ch}
+
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:20px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+
+/* 矩陣區 */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:grid;gap:14px;min-width:0}
+@media (min-width:861px){.matrix-panel{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}}
+@media (max-width:480px){.panel{padding:16px}}
+.panel-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+h2{margin:0;font-size:17px;font-weight:700}
+.actions{display:flex;gap:8px}
+.btn{font:inherit;font-size:13px;line-height:1.4;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:6px;padding:6px 12px;cursor:pointer}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn-primary:hover{color:var(--on-accent);filter:brightness(1.08)}
+.btn:focus-visible,select:focus-visible,.metric:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.example-note{margin:0;font-size:13px;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:8px 10px}
+
+.matrix{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr);gap:8px}
+.col-h{font-size:13px;font-weight:500;color:var(--muted);text-align:center;letter-spacing:.06em}
+.row-h{font-size:13px;font-weight:500;color:var(--muted);writing-mode:vertical-rl;text-orientation:upright;letter-spacing:.12em;display:flex;align-items:center;justify-content:center;padding-inline:2px}
+.cell{--c:var(--accent);--soft:var(--surface-2);display:grid;gap:4px;align-content:start;padding:12px;border-radius:8px;background:var(--soft);border:1.5px solid transparent;transition:opacity .2s,border-color .2s;min-width:0}
+.c-tp{--c:var(--tp);--soft:var(--tp-soft)}
+.c-tn{--c:var(--tn);--soft:var(--tn-soft)}
+.c-fp{--c:var(--fp);--soft:var(--fp-soft)}
+.c-fn{--c:var(--fn);--soft:var(--fn-soft)}
+.cell label{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;cursor:text}
+.tag{font-family:var(--font-num);font-weight:600;font-size:15px;color:var(--c)}
+.cname{font-size:13px;font-weight:500}
+.cell input{width:100%;min-width:0;font-family:var(--font-num);font-size:clamp(22px,4.6vw,30px);font-weight:500;font-variant-numeric:tabular-nums;color:var(--fg);background:transparent;border:0;border-bottom:1.5px solid var(--line);border-radius:0;padding:2px 0 4px}
+.cell input:focus{outline:none;border-bottom-color:var(--c)}
+.cell input::placeholder{color:var(--muted);opacity:.5}
+.cell:focus-within{border-color:var(--c)}
+.cdesc{font-size:12px;color:var(--muted);line-height:1.45}
+.err{font-size:12px;color:var(--fn);font-weight:500}
+.cell.invalid{border-color:var(--fn)}
+.matrix.focus-mode .cell{opacity:.3}
+.matrix.focus-mode .cell.on{opacity:1;border-color:var(--c)}
+@media (max-width:400px){.cell{padding:10px}}
+
+.totals{margin:0;font-size:13px;color:var(--fg);font-variant-numeric:tabular-nums}
+.totals b{font-family:var(--font-num);font-weight:600}
+.hint,.convention{margin:0;font-size:12.5px;color:var(--muted);line-height:1.6}
+.convention code{font-family:var(--font-num);font-size:12px;background:var(--surface-2);border-radius:4px;padding:1px 5px;white-space:nowrap}
+
+/* 結果區 */
+.results{display:grid;gap:14px;min-width:0}
+.metric{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;display:grid;gap:8px;min-width:0;cursor:default}
+.metric.hero{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.m-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px}
+h3{margin:0;font-size:16px;font-weight:700}
+.m-en{font-family:var(--font-num);font-size:12px;color:var(--muted)}
+.m-value{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.num{font-family:var(--font-num);font-size:32px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+.hero .num{font-size:clamp(40px,7vw,52px);color:var(--accent)}
+.pct{font-family:var(--font-num);font-size:15px;color:var(--muted);font-variant-numeric:tabular-nums}
+.metric.na .num{color:var(--muted)}
+.bar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.bar span{display:block;height:100%;width:0;border-radius:3px;background:var(--accent);transition:width .35s ease}
+.formula{margin:0;font-family:var(--font-num);font-size:13px;line-height:1.85;background:var(--surface-2);border-radius:6px;padding:8px 10px;overflow-x:auto}
+.formula .ln{display:block;white-space:nowrap}
+.formula .ln.wrap{white-space:normal;font-family:var(--font-body);color:var(--muted)}
+.formula .alt{font-family:var(--font-body);color:var(--muted);font-size:12px}
+.t{font-weight:600}
+.t-tp{color:var(--tp)} .t-tn{color:var(--tn)} .t-fp{color:var(--fp)} .t-fn{color:var(--fn)}
+.meaning{margin:0;font-size:13.5px;color:var(--muted)}
+
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:560px){.pair{grid-template-columns:minmax(0,1fr)}}
+.group-label{margin:6px 0 -4px;font-size:13px;color:var(--muted)}
+.metric.mini{padding:14px 16px}
+.mini .num{font-size:24px}
+.mini .bar span{background:var(--tn)}
+
+.insight{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 18px;display:grid;gap:6px}
+.insight h3{font-size:15px}
+.insight ul{margin:0;padding-left:1.2em;display:grid;gap:4px;font-size:14px}
+.insight p{margin:0;font-size:14px;color:var(--muted)}
+
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:13px}
+.toolbar label{color:var(--muted)}
+select{font:inherit;font-size:16px;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:4px 8px}
+.status{color:var(--tp);font-size:13px}
+.copy-fallback{margin:0;font-family:var(--font-num);font-size:12.5px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;white-space:pre;overflow-x:auto}
+
+@media (prefers-reduced-motion: reduce){
+  .bar span,.cell{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Precision · Recall · F1-score</p>
+    <h1>混淆矩陣 F1 計算機</h1>
+    <p class="lede">把模型的 TP、FN、FP、TN 填進矩陣，精確率、召回率和 F1 會即時算好，連代入公式的過程一起列出來。</p>
+  </header>
+
+  <main class="grid">
+    <section class="panel matrix-panel" aria-labelledby="matrix-title">
+      <div class="panel-head">
+        <h2 id="matrix-title">填入混淆矩陣</h2>
+        <div class="actions">
+          <button type="button" class="btn" id="btn-example">載入範例</button>
+          <button type="button" class="btn" id="btn-clear">清空</button>
+        </div>
+      </div>
+
+      <p class="example-note" id="example-note">目前填的是範例：垃圾信過濾器檢查 1,000 封信。直接改數字，或按「清空」從頭填。</p>
+
+      <div class="matrix" id="matrix" role="group" aria-label="混淆矩陣：列是實際答案，欄是模型預測">
+        <div aria-hidden="true"></div>
+        <div class="col-h">預測是</div>
+        <div class="col-h">預測不是</div>
+
+        <div class="row-h">實際是</div>
+        <div class="cell c-tp" data-k="tp">
+          <label for="in-tp"><span class="tag">TP</span><span class="cname">真陽性</span></label>
+          <input id="in-tp" type="text" inputmode="numeric" autocomplete="off" placeholder="0" value="85" aria-describedby="d-tp err-tp">
+          <span class="cdesc" id="d-tp">判「是」，實際也是</span>
+          <span class="err" id="err-tp" hidden>請填 0 以上的整數</span>
+        </div>
+        <div class="cell c-fn" data-k="fn">
+          <label for="in-fn"><span class="tag">FN</span><span class="cname">偽陰性</span></label>
+          <input id="in-fn" type="text" inputmode="numeric" autocomplete="off" placeholder="0" value="10" aria-describedby="d-fn err-fn">
+          <span class="cdesc" id="d-fn">判「不是」，實際是（漏抓）</span>
+          <span class="err" id="err-fn" hidden>請填 0 以上的整數</span>
+        </div>
+
+        <div class="row-h">實際不是</div>
+        <div class="cell c-fp" data-k="fp">
+          <label for="in-fp"><span class="tag">FP</span><span class="cname">偽陽性</span></label>
+          <input id="in-fp" type="text" inputmode="numeric" autocomplete="off" placeholder="0" value="15" aria-describedby="d-fp err-fp">
+          <span class="cdesc" id="d-fp">判「是」，實際不是（誤報）</span>
+          <span class="err" id="err-fp" hidden>請填 0 以上的整數</span>
+        </div>
+        <div class="cell c-tn" data-k="tn">
+          <label for="in-tn"><span class="tag">TN</span><span class="cname">真陰性</span></label>
+          <input id="in-tn" type="text" inputmode="numeric" autocomplete="off" placeholder="0" value="890" aria-describedby="d-tn err-tn">
+          <span class="cdesc" id="d-tn">判「不是」，實際也不是</span>
+          <span class="err" id="err-tn" hidden>請填 0 以上的整數</span>
+        </div>
+      </div>
+
+      <p class="totals" id="totals"></p>
+      <p class="hint">指到或點一下結果卡，矩陣會亮出那個指標用到的格子。</p>
+      <p class="convention">排法是「列＝實際答案、欄＝模型預測」。scikit-learn 的 <code>confusion_matrix</code> 把負類排前面，輸出長這樣：<code>[[TN, FP], [FN, TP]]</code>，抄數字時記得對好位置。</p>
+    </section>
+
+    <section class="results" aria-label="計算結果" aria-live="polite">
+      <article class="metric hero" id="card-f1" data-uses="tp fp fn" tabindex="0">
+        <div class="m-head"><h3>F1-score</h3><span class="m-en">F1 分數</span></div>
+        <div class="m-value"><span class="num" id="v-f1">—</span><span class="pct" id="p-f1"></span></div>
+        <div class="bar"><span id="b-f1"></span></div>
+        <p class="formula" id="f-f1"></p>
+        <p class="meaning">精確率和召回率的調和平均。兩個都高 F1 才會高，其中一個偏低就會把 F1 拉下來。</p>
+      </article>
+
+      <div class="pair">
+        <article class="metric" id="card-precision" data-uses="tp fp" tabindex="0">
+          <div class="m-head"><h3>精確率</h3><span class="m-en">Precision</span></div>
+          <div class="m-value"><span class="num" id="v-precision">—</span><span class="pct" id="p-precision"></span></div>
+          <div class="bar"><span id="b-precision"></span></div>
+          <p class="formula" id="f-precision"></p>
+          <p class="meaning">模型判「是」的裡面，真的是「是」的比例。看抓得準不準，會被 FP（誤報）拖累。</p>
+        </article>
+        <article class="metric" id="card-recall" data-uses="tp fn" tabindex="0">
+          <div class="m-head"><h3>召回率</h3><span class="m-en">Recall</span></div>
+          <div class="m-value"><span class="num" id="v-recall">—</span><span class="pct" id="p-recall"></span></div>
+          <div class="bar"><span id="b-recall"></span></div>
+          <p class="formula" id="f-recall"></p>
+          <p class="meaning">實際是「是」的裡面，被模型找出來的比例。看抓得全不全，會被 FN（漏抓）拖累。</p>
+        </article>
+      </div>
+
+      <p class="group-label">TN 只會影響下面這兩個，精確率、召回率、F1 都用不到 TN。</p>
+      <div class="pair">
+        <article class="metric mini" id="card-accuracy" data-uses="tp fn fp tn" tabindex="0">
+          <div class="m-head"><h3>準確率</h3><span class="m-en">Accuracy</span></div>
+          <div class="m-value"><span class="num" id="v-accuracy">—</span><span class="pct" id="p-accuracy"></span></div>
+          <div class="bar"><span id="b-accuracy"></span></div>
+          <p class="formula" id="f-accuracy"></p>
+          <p class="meaning">全部樣本裡判對的比例。</p>
+        </article>
+        <article class="metric mini" id="card-specificity" data-uses="fp tn" tabindex="0">
+          <div class="m-head"><h3>特異度</h3><span class="m-en">Specificity</span></div>
+          <div class="m-value"><span class="num" id="v-specificity">—</span><span class="pct" id="p-specificity"></span></div>
+          <div class="bar"><span id="b-specificity"></span></div>
+          <p class="formula" id="f-specificity"></p>
+          <p class="meaning">實際是「不是」的裡面，被正確判成「不是」的比例。</p>
+        </article>
+      </div>
+
+      <div class="insight">
+        <h3>這組數字怎麼看</h3>
+        <ul id="insight-list"></ul>
+        <p id="insight-empty" hidden>填好數字後，這裡會用白話說明這組結果代表什麼。</p>
+      </div>
+
+      <div class="toolbar">
+        <label for="dp">小數位數</label>
+        <select id="dp">
+          <option value="2">2 位</option>
+          <option value="3">3 位</option>
+          <option value="4" selected>4 位</option>
+          <option value="6">6 位</option>
+        </select>
+        <button type="button" class="btn btn-primary" id="btn-copy">複製結果</button>
+        <span class="status" id="copy-status" role="status"></span>
+      </div>
+      <pre class="copy-fallback" id="copy-fallback" hidden></pre>
+    </section>
+  </main>
+</div>
+
+<script>
+(function () {
+  var KEYS = ['tp', 'fn', 'fp', 'tn'];
+  var EXAMPLE = { tp: 85, fn: 10, fp: 15, tn: 890 };
+  var NAMES = {
+    f1: 'F1-score',
+    precision: '精確率 Precision',
+    recall: '召回率 Recall',
+    accuracy: '準確率 Accuracy',
+    specificity: '特異度 Specificity'
+  };
+  var $ = function (id) { return document.getElementById(id); };
+  var inputs = {};
+  KEYS.forEach(function (k) { inputs[k] = $('in-' + k); });
+
+  var dp = 4;
+  try {
+    var saved = localStorage.getItem('f1calc-dp');
+    if (['2', '3', '4', '6'].indexOf(saved) !== -1) dp = Number(saved);
+  } catch (e) {}
+  $('dp').value = String(dp);
+
+  var isExample = true;
+  var last = null;
+
+  function nf(x) { return x.toLocaleString('en-US'); }
+  function fx(x) { return x.toFixed(dp); }
+  function pc(x) { return (x * 100).toFixed(2) + '%'; }
+  function chip(k) { return '<span class="t t-' + k + '">' + k.toUpperCase() + '</span>'; }
+
+  function read() {
+    var v = {};
+    KEYS.forEach(function (k) {
+      var raw = inputs[k].value
+        .replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+        .replace(/[\s,，]/g, '');
+      var bad = false;
+      if (raw === '') v[k] = null;
+      else if (/^\d+$/.test(raw)) v[k] = Number(raw);
+      else { v[k] = null; bad = true; }
+      inputs[k].closest('.cell').classList.toggle('invalid', bad);
+      inputs[k].setAttribute('aria-invalid', bad ? 'true' : 'false');
+      $('err-' + k).hidden = !bad;
+    });
+    return v;
+  }
+
+  // 先檢查需要的格子有沒有填，再交給各指標自己的算法
+  function metric(v, sym, keys, fn) {
+    var miss = keys.filter(function (k) { return v[k] === null; });
+    if (miss.length) {
+      return { sym: sym, why: '還差 ' + miss.map(function (k) { return k.toUpperCase(); }).join('、') + '，填好就會算。' };
+    }
+    var r = fn(v);
+    r.sym = sym;
+    return r;
+  }
+
+  function calc(v) {
+    var m = {};
+    m.precision = metric(v, chip('tp') + ' ÷ (' + chip('tp') + ' + ' + chip('fp') + ')', ['tp', 'fp'], function (v) {
+      var d = v.tp + v.fp;
+      if (d === 0) return { why: 'TP + FP = 0：模型一次都沒判「是」，精確率沒有定義。' };
+      return { value: v.tp / d, steps: ['= ' + nf(v.tp) + ' ÷ (' + nf(v.tp) + ' + ' + nf(v.fp) + ')', '= ' + nf(v.tp) + ' ÷ ' + nf(d)] };
+    });
+    m.recall = metric(v, chip('tp') + ' ÷ (' + chip('tp') + ' + ' + chip('fn') + ')', ['tp', 'fn'], function (v) {
+      var d = v.tp + v.fn;
+      if (d === 0) return { why: 'TP + FN = 0：資料裡沒有實際是「是」的樣本，召回率沒有定義。' };
+      return { value: v.tp / d, steps: ['= ' + nf(v.tp) + ' ÷ (' + nf(v.tp) + ' + ' + nf(v.fn) + ')', '= ' + nf(v.tp) + ' ÷ ' + nf(d)] };
+    });
+    m.f1 = metric(v, '2 × P × R ÷ (P + R)', ['tp', 'fp', 'fn'], function (v) {
+      var d = 2 * v.tp + v.fp + v.fn;
+      if (d === 0) return { why: 'TP、FP、FN 都是 0：資料裡沒有「是」，模型也沒判過「是」，F1 沒有定義。' };
+      var steps = [];
+      var P = m.precision.value, R = m.recall.value;
+      if (P != null && R != null && P + R > 0) {
+        steps.push('= 2 × ' + fx(P) + ' × ' + fx(R) + ' ÷ (' + fx(P) + ' + ' + fx(R) + ')');
+      }
+      steps.push('<span class="alt">用計數算：</span>2 × ' + chip('tp') + ' ÷ (2 × ' + chip('tp') + ' + ' + chip('fp') + ' + ' + chip('fn') + ')');
+      steps.push('= ' + nf(2 * v.tp) + ' ÷ (' + nf(2 * v.tp) + ' + ' + nf(v.fp) + ' + ' + nf(v.fn) + ')');
+      steps.push('= ' + nf(2 * v.tp) + ' ÷ ' + nf(d));
+      return { value: 2 * v.tp / d, steps: steps };
+    });
+    m.accuracy = metric(v, '(' + chip('tp') + ' + ' + chip('tn') + ') ÷ 全部', ['tp', 'fn', 'fp', 'tn'], function (v) {
+      var d = v.tp + v.fn + v.fp + v.tn;
+      if (d === 0) return { why: '四格都是 0，沒有樣本可以算。' };
+      return { value: (v.tp + v.tn) / d, steps: ['= ' + nf(v.tp + v.tn) + ' ÷ ' + nf(d)] };
+    });
+    m.specificity = metric(v, chip('tn') + ' ÷ (' + chip('tn') + ' + ' + chip('fp') + ')', ['tn', 'fp'], function (v) {
+      var d = v.tn + v.fp;
+      if (d === 0) return { why: 'TN + FP = 0：資料裡沒有實際是「不是」的樣本，特異度沒有定義。' };
+      return { value: v.tn / d, steps: ['= ' + nf(v.tn) + ' ÷ ' + nf(d)] };
+    });
+    return m;
+  }
+
+  function paint(id, r) {
+    var ok = r.value != null;
+    $('card-' + id).classList.toggle('na', !ok);
+    $('v-' + id).textContent = ok ? fx(r.value) : '—';
+    $('p-' + id).textContent = ok ? pc(r.value) : '';
+    $('b-' + id).style.width = ok ? (r.value * 100).toFixed(2) + '%' : '0%';
+    var lines = ['<span class="ln">' + r.sym + '</span>'];
+    if (ok) r.steps.forEach(function (s) { lines.push('<span class="ln">' + s + '</span>'); });
+    else lines.push('<span class="ln wrap">' + r.why + '</span>');
+    $('f-' + id).innerHTML = lines.join('');
+  }
+
+  function insights(v, m) {
+    var tips = [];
+    var P = m.precision.value, R = m.recall.value, F = m.f1.value, A = m.accuracy.value;
+    if (v.tp === 0 && (v.fp > 0 || v.fn > 0)) {
+      tips.push('TP 是 0：模型一個「是」都沒判對，F1 直接變 0。');
+    }
+    if (F != null && A != null && A - F >= 0.05) {
+      tips.push('準確率 ' + pc(A) + ' 比 F1 ' + pc(F) + ' 高不少，主因是 TN 佔了大多數。正負例比例懸殊時，F1 比準確率更能看出模型抓「是」的本事。');
+    }
+    if (P != null && R != null && v.tp > 0) {
+      var gap = P - R;
+      if (gap >= 0.1) tips.push('精確率明顯高於召回率：模型偏保守，判「是」時多半判對，但漏掉不少（FN 偏多）。想多抓一些，可以調低判斷門檻。');
+      else if (gap <= -0.1) tips.push('召回率明顯高於精確率：模型偏積極，該抓的大多抓到了，但誤報不少（FP 偏多）。想少一點誤報，可以調高判斷門檻。');
+      else tips.push('精確率和召回率差不到 10 個百分點，模型在「抓得準」和「抓得全」之間算平衡。');
+    }
+    var list = $('insight-list');
+    list.innerHTML = tips.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+    list.hidden = tips.length === 0;
+    $('insight-empty').hidden = tips.length !== 0;
+  }
+
+  function totals(v) {
+    var el = $('totals');
+    if (KEYS.some(function (k) { return v[k] === null; })) {
+      el.textContent = '四格都填好，這裡會列出總數和各列、各欄的合計。';
+      return;
+    }
+    var all = v.tp + v.fn + v.fp + v.tn;
+    el.innerHTML = '總共 <b>' + nf(all) + '</b> 筆　實際是 ' + nf(v.tp + v.fn) + '、實際不是 ' + nf(v.fp + v.tn) +
+      '　預測是 ' + nf(v.tp + v.fp) + '、預測不是 ' + nf(v.fn + v.tn);
+  }
+
+  function update() {
+    var v = read();
+    var m = calc(v);
+    ['f1', 'precision', 'recall', 'accuracy', 'specificity'].forEach(function (id) { paint(id, m[id]); });
+    insights(v, m);
+    totals(v);
+    last = { v: v, m: m };
+    $('copy-status').textContent = '';
+    $('copy-fallback').hidden = true;
+  }
+
+  function resultText() {
+    var v = last.v, m = last.m;
+    var show = function (k) { return v[k] === null ? '?' : v[k]; };
+    var out = ['混淆矩陣：TP=' + show('tp') + ', FP=' + show('fp') + ', FN=' + show('fn') + ', TN=' + show('tn')];
+    ['f1', 'precision', 'recall', 'accuracy', 'specificity'].forEach(function (id) {
+      var r = m[id];
+      out.push(NAMES[id] + '：' + (r.value != null ? fx(r.value) + '（' + pc(r.value) + '）' : '無法計算'));
+    });
+    return out.join('\n');
+  }
+
+  KEYS.forEach(function (k) {
+    inputs[k].addEventListener('input', function () {
+      if (isExample) { isExample = false; $('example-note').hidden = true; }
+      update();
+    });
+    inputs[k].addEventListener('focus', function () { inputs[k].select(); });
+  });
+
+  $('btn-example').addEventListener('click', function () {
+    KEYS.forEach(function (k) { inputs[k].value = EXAMPLE[k]; });
+    isExample = true;
+    $('example-note').hidden = false;
+    update();
+  });
+
+  $('btn-clear').addEventListener('click', function () {
+    KEYS.forEach(function (k) { inputs[k].value = ''; });
+    isExample = false;
+    $('example-note').hidden = true;
+    update();
+    inputs.tp.focus();
+  });
+
+  $('dp').addEventListener('change', function () {
+    dp = Number($('dp').value);
+    try { localStorage.setItem('f1calc-dp', String(dp)); } catch (e) {}
+    update();
+  });
+
+  $('btn-copy').addEventListener('click', function () {
+    var text = resultText();
+    var fallback = function () {
+      var pre = $('copy-fallback');
+      pre.textContent = text;
+      pre.hidden = false;
+      var range = document.createRange();
+      range.selectNodeContents(pre);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      $('copy-status').textContent = '沒辦法自動複製，下面的文字已選好，按 ⌘C 或 Ctrl+C 就行。';
+    };
+    try {
+      navigator.clipboard.writeText(text).then(function () {
+        $('copy-status').textContent = '已複製';
+      }, fallback);
+    } catch (e) { fallback(); }
+  });
+
+  // 指到結果卡時，矩陣只亮出那個指標用到的格子
+  var matrix = $('matrix');
+  document.querySelectorAll('.metric[data-uses]').forEach(function (card) {
+    var uses = card.getAttribute('data-uses').split(' ');
+    var on = function () {
+      matrix.classList.add('focus-mode');
+      matrix.querySelectorAll('.cell').forEach(function (c) {
+        c.classList.toggle('on', uses.indexOf(c.getAttribute('data-k')) !== -1);
+      });
+    };
+    var off = function () { matrix.classList.remove('focus-mode'); };
+    card.addEventListener('mouseenter', on);
+    card.addEventListener('mouseleave', off);
+    card.addEventListener('focus', on);
+    card.addEventListener('blur', off);
+  });
+
+  update();
+})();
+</script>
+</body>
+</html>
