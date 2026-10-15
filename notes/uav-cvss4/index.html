@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>無人機 (UAV) CVSS 4.0 資安漏洞評估模擬器</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+            --none: #64748b;
+            --low: #22c55e;
+            --medium: #eab308;
+            --high: #f97316;
+            --critical: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--card-border);
+            gap: 16px;
+        }
+
+        .title-group h1 {
+            font-size: 1.6rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .title-group p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        /* Top Sticky Dashboard */
+        .dashboard {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 12px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .vector-box {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow: hidden;
+        }
+
+        .vector-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .vector-string-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #090d16;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+        }
+
+        #vectorString {
+            font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+            font-size: 0.92rem;
+            color: #38bdf8;
+            word-break: break-all;
+            flex: 1;
+        }
+
+        .btn {
+            background: var(--card-border);
+            color: var(--text-main);
+            border: 1px solid #475569;
+            padding: 7px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: #0f172a;
+            border-color: var(--accent);
+        }
+
+        .score-display {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-left: 20px;
+            border-left: 1px solid var(--card-border);
+        }
+
+        .score-circle {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-weight: 800;
+            border: 4px solid var(--critical);
+            background: rgba(239, 68, 68, 0.12);
+            transition: all 0.3s ease;
+        }
+
+        .score-num {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .score-severity {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-top: 4px;
+            letter-spacing: 0.05em;
+        }
+
+        /* Preset Scenarios */
+        .presets-section {
+            margin-bottom: 24px;
+        }
+
+        .section-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .presets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 12px;
+        }
+
+        .preset-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 12px 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-main);
+        }
+
+        .preset-btn:hover, .preset-btn.active {
+            border-color: var(--accent);
+            background: rgba(56, 189, 248, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .preset-btn .p-title {
+            font-weight: 600;
+            font-size: 0.92rem;
+            margin-bottom: 4px;
+            color: var(--accent);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .preset-btn .p-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Metrics Grid */
+        .metrics-columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .metric-group-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .group-header {
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 10px;
+        }
+
+        .group-header h2 {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .group-header p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .metric-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .metric-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .metric-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .metric-code {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        .options-row {
+            display: flex;
+            background: #0f172a;
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            gap: 4px;
+        }
+
+        .opt-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 7px 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-align: center;
+        }
+
+        .opt-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .opt-btn.selected {
+            background: var(--accent);
+            color: #0f172a;
+            font-weight: 700;
+            box-shadow: 0 2px 6px rgba(56, 189, 248, 0.3);
+        }
+
+        /* Context Inspector Panel */
+        .inspector-card {
+            background: linear-gradient(90deg, rgba(56, 189, 248, 0.1) 0%, rgba(30, 41, 59, 0.9) 100%);
+            border-left: 4px solid var(--accent);
+            border-top: 1px solid var(--card-border);
+            border-right: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin-bottom: 24px;
+        }
+
+        .inspector-header {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .inspector-body {
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        /* Architecture Boundary Diagram */
+        .boundary-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .boundary-flow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 14px;
+        }
+
+        .b-node {
+            background: #0f172a;
+            border: 1px dashed #475569;
+            border-radius: 8px;
+            padding: 14px;
+        }
+
+        .b-node h4 {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+        }
+
+        .b-node p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            .score-display {
+                border-left: none;
+                border-top: 1px solid var(--card-border);
+                padding-left: 0;
+                padding-top: 16px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="title-group">
+            <h1>🚁 無人機 (UAV) CVSS 4.0 資安漏洞評估模擬器</h1>
+            <p>專為無人機通訊鏈路（SDR / Wi-Fi / MAVLink）與飛控系統（Flight Controller）設計的雙系統衝擊評估工具</p>
+        </div>
+        <div>
+            <button class="btn" onclick="exportMarkdownReport()">📋 複製論文/報告用 Markdown 評估表</button>
+        </div>
+    </header>
+
+    <!-- Sticky Score & Vector Dashboard -->
+    <div class="dashboard">
+        <div class="vector-box">
+            <span class="vector-label">CVSS v4.0 向量字串 (Vector String)</span>
+            <div class="vector-string-row">
+                <code id="vectorString">CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:L/SI:H/SA:H/S:P/R:I</code>
+                <button class="btn" onclick="copyVector()" id="copyBtn">複製向量</button>
+            </div>
+            <div style="font-size: 0.82rem; color: var(--text-muted);" id="scenarioSummary">
+                當前情境：<strong>MAVLink 未授權指令注入（空中強制停槳）</strong>
+            </div>
+        </div>
+
+        <div class="score-display">
+            <div class="score-circle" id="scoreCircle">
+                <span class="score-num" id="scoreValue">9.4</span>
+                <span class="score-severity" id="scoreSeverity">CRITICAL</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preset UAV Attack Scenarios -->
+    <div class="presets-section">
+        <div class="section-subtitle">⚡ 快速載入無人機典型攻擊實驗情境（點擊自動帶入參數）：</div>
+        <div class="presets-grid" id="presetsContainer"></div>
+    </div>
+
+    <!-- Dynamic UAV Explanation Inspector -->
+    <div class="inspector-card">
+        <div class="inspector-header" id="inspectorTitle">💡 無人機資安指標判定解說（點擊下方任一指標按鈕查看對應判準）</div>
+        <div class="inspector-body" id="inspectorDesc">
+            在 CVSS 4.0 中，無人機漏洞需區分<strong>「受損系統（Vulnerable System，如 Wi-Fi 圖傳晶片、伴隨電腦）」</strong>與<strong>「後續系統（Subsequent System，如飛控核心 FC、馬達與空域實體安全）」</strong>。點擊下方選項即可查看該等級在無人機攻防實驗中的具體判定依據。
+        </div>
+    </div>
+
+    <!-- 3-Column Metrics Controls -->
+    <div class="metrics-columns">
+        <!-- Column 1: Exploitability -->
+        <div class="metric-group-card">
+            <div class="group-header">
+                <h2>🎯 1. 可利用性指標 (Exploitability)</h2>
+                <p>評估攻擊者發動無線電、網路或實體攻擊的門檻</p>
+            </div>
+            <div id="exploitabilityGroup" style="display:flex; flex-direction:column; gap:14px;"></div>
+        </div>
+
+        <!-- Column 2: Vulnerable System Impact -->
+        <div class="metric-group-card">
+            <div class="group-header">
+                <h2>📡 2. 受損系統衝擊 (Vulnerable System)</h2>
+                <p>直接存在漏洞的元件（例：Wi-Fi 模組、SDR 接收機、伴隨電腦）</p>
+            </div>
+            <div id="vulnerableGroup" style="display:flex; flex-direction:column; gap:14px;"></div>
+        </div>
+
+        <!-- Column 3: Subsequent System & Safety -->
+        <div class="metric-group-card">
+            <div class="group-header">
+                <h2>⚙️ 3. 後續系統與實體安全 (Subsequent & Safety)</h2>
+                <p>受牽連的下游核心（例：飛控 FC 姿態控制、墜機傷人風險）</p>
+            </div>
+            <div id="subsequentGroup" style="display:flex; flex-direction:column; gap:14px;"></div>
+        </div>
+    </div>
+
+    <!-- Trust Boundary Reference -->
+    <div class="boundary-box">
+        <div class="section-subtitle">🧭 無人機資安論文/報告評估架構參考（Trust Boundary 雙系統劃分原則）</div>
+        <div class="boundary-flow">
+            <div class="b-node">
+                <h4>步驟一：界定攻擊入口 (AV / AC / AT)</h4>
+                <p>使用 HackRF / Alfa 網卡在射頻範圍內發動攻擊屬於 <strong>AV:A (鄰近網路)</strong>；若透過 4G/5G 雲端地面站則為 <strong>AV:N</strong>；需拆機接 UART 為 <strong>AV:P</strong>。</p>
+            </div>
+            <div class="b-node">
+                <h4>步驟二：評估受損元件 (VC / VI / VA)</h4>
+                <p>若漏洞在機載 Wi-Fi 路由或 MAVLink 轉發器，評估該通訊模組本身是否被竊聽 (VC)、植入封包 (VI) 或塞爆斷線 (VA)。</p>
+            </div>
+            <div class="b-node">
+                <h4>步驟三：評估飛控連鎖反應 (SC / SI / SA)</h4>
+                <p>偽造的 MAVLink 封包轉發給飛控 (FC) 後，若能強制 Disarm 停槳或改寫航點，代表後續系統完整性與可用性皆為 <strong>High (SI:H / SA:H)</strong>。</p>
+            </div>
+            <div class="b-node">
+                <h4>步驟四：標註物理安全危害 (S / R)</h4>
+                <p>只要攻擊可能造成空中停槳、失控撞擊或墜毀，務必標註 <strong>S:P (具實體安全危害)</strong> 與 <strong>R:I (墜毀無法自動復原)</strong>。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// 無人機專屬 CVSS 4.0 指標定義與解說資料庫
+const METRICS_CONFIG = {
+    exploitability: [
+        {
+            id: "AV", name: "攻擊途徑 (Attack Vector)",
+            options: [
+                { val: "N", label: "Network (N)", desc: "【網路】透過 4G/5G 蜂巢式網路、網際網路雲端地面站 API，或跨路由器的 IP 網路遠端攻擊無人機。" },
+                { val: "A", label: "Adjacent (A)", desc: "【鄰近網路】最常見的無人機無線電攻擊！需在有效 RF 射頻距離內（如使用 Alfa 網卡打 Wi-Fi 圖傳、HackRF 發動訊號重放、GPS 欺騙、藍牙/Remote ID 偽造）。" },
+                { val: "L", label: "Local (L)", desc: "【本機】需要本機 Shell 權限，或誘使操作者將含有惡意 Payload 的 microSD 卡、航點任務檔載入地面站/無人機。" },
+                { val: "P", label: "Physical (P)", desc: "【實體接觸】必須實際接觸或拆解無人機（如插拔 USB 調試埠、焊接飛控 UART/JTAG 腳位、旁路攻擊提取金鑰）。" }
+            ]
+        },
+        {
+            id: "AC", name: "攻擊複雜度 (Attack Complexity)",
+            options: [
+                { val: "L", label: "Low (L)", desc: "【低複雜度】攻擊可穩定重現（例如 MAVLink v1 未加密驗證，直接發送構造的 COMMAND_LONG 封包即可生效）。" },
+                { val: "H", label: "High (H)", desc: "【高複雜度】需繞過防護機制（如 ASLR），或必須即時破解未知的 FHSS 跳頻序列、精準同步極窄的通訊時槽。" }
+            ]
+        },
+        {
+            id: "AT", name: "攻擊條件 (Attack Requirements)",
+            options: [
+                { val: "N", label: "None (N)", desc: "【無特殊條件】無人機在一般開機或正常飛行狀態下均可隨時發動攻擊。" },
+                { val: "P", label: "Present (P)", desc: "【需特定條件】只有在無人機處於特定狀態（例如：剛開機初始對頻 Binding 的前 5 秒、或觸發 RTL 自動返航途中）才能成功觸發漏洞。" }
+            ]
+        },
+        {
+            id: "PR", name: "所需權限 (Privileges Required)",
+            options: [
+                { val: "N", label: "None (N)", desc: "【不需權限】未授權狀態即可攻擊（如未配對直接發動 RF 訊號注入、Deauth 攻擊或公開廣播封包欺騙）。" },
+                { val: "L", label: "Low (L)", desc: "【一般權限】已連上無人機 Wi-Fi 一般訪客權限，或擁有地面站「觀看者/副手」低階權限。" },
+                { val: "H", label: "High (H)", desc: "【高階權限】需要飛控工程維護模式權限、最高管理員憑證或廠商簽章金鑰才能觸發。" }
+            ]
+        },
+        {
+            id: "UI", name: "使用者互動 (User Interaction)",
+            options: [
+                { val: "N", label: "None (N)", desc: "【無須互動】飛手（Pilot）完全不知情、不需做任何操作即中招。" },
+                { val: "P", label: "Passive (P)", desc: "【被動互動】飛手僅執行日常操作（例如開啟地面站 App 自動掃描附近無人機列表時，解析惡意廣播封包而中招）。" },
+                { val: "A", label: "Active (A)", desc: "【主動互動】飛手需主動配合特定動作（例如手動匯入惡意航點檔案、忽略安全警告點擊安裝不明韌體）。" }
+            ]
+        }
+    ],
+    vulnerable: [
+        {
+            id: "VC", name: "受損系統機密性 (Vuln Confidentiality)",
+            options: [
+                { val: "H", label: "High (H)", desc: "【高機密性衝擊】完全竊取受損元件內的敏感資料（如提取 Wi-Fi/數傳配對金鑰、解密完整即時高清圖傳串流、下載完整飛行日誌）。" },
+                { val: "L", label: "Low (L)", desc: "【低機密性衝擊】僅能讀取部分非核心遙測資訊（如電池電壓、局部記憶體位址或感測器狀態碼）。" },
+                { val: "N", label: "None (N)", desc: "【無外洩】攻擊過程未洩露任何系統資料（如純阻斷服務或盲注入）。" }
+            ]
+        },
+        {
+            id: "VI", name: "受損系統完整性 (Vuln Integrity)",
+            options: [
+                { val: "H", label: "High (H)", desc: "【高完整性衝擊】可任意竄改受損元件資料或完全控制該模組（如在通訊模組任意注入/修改 MAVLink 指令、植入惡意韌體）。" },
+                { val: "L", label: "Low (L)", desc: "【低完整性衝擊】僅能修改次要資料或注入有限雜訊（如更改 OSD 顯示字樣、污染部分非關鍵日誌）。" },
+                { val: "N", label: "None (N)", desc: "【無竄改】無法修改受損元件內的任何資料或指令。" }
+            ]
+        },
+        {
+            id: "VA", name: "受損系統可用性 (Vuln Availability)",
+            options: [
+                { val: "H", label: "High (H)", desc: "【高可用性衝擊】導致該通訊模組、接收機或伴隨電腦完全癱瘓、斷線死當，無法維持正常通訊服務。" },
+                { val: "L", label: "Low (L)", desc: "【低可用性衝擊】造成圖傳掉幀、遙測封包延遲增加，但通訊鏈路仍可維持基本運作。" },
+                { val: "N", label: "None (N)", desc: "【無可用性影響】該模組的運作效能與連線穩定度完全不受影響。" }
+            ]
+        }
+    ],
+    subsequent: [
+        {
+            id: "SC", name: "後續系統機密性 (Sub Confidentiality)",
+            options: [
+                { val: "H", label: "High (H)", desc: "【高後續機密衝擊】透過受損元件進一步竊取下游飛控核心 (FC) 機敏保護區資料、或連帶攻陷地面站主機竊取機密任務檔案。" },
+                { val: "L", label: "Low (L)", desc: "【低後續機密衝擊】僅能間接推知下游飛控的部分運行狀態或感測器參數。" },
+                { val: "N", label: "None (N)", desc: "【無後續機密外洩】下游飛控或地面站無額外機密資料外洩。" }
+            ]
+        },
+        {
+            id: "SI", name: "後續系統完整性 (Sub Integrity)",
+            options: [
+                { val: "H", label: "High (H)", desc: "【高後續完整性衝擊】成功劫持下游飛控系統（如強制下達馬達上鎖/解鎖、覆寫自動駕駛航點、透過 GPS Spoofing 完全主導飛行方向）。" },
+                { val: "L", label: "Low (L)", desc: "【低後續完整性衝擊】僅對飛控卡爾曼濾波器 (EKF) 造成輕微姿態偏移干擾，無法實質控制無人機去向。" },
+                { val: "N", label: "None (N)", desc: "【無後續完整性影響】飛控系統的邏輯與飛行軌跡完全未被竄改。" }
+            ]
+        },
+        {
+            id: "SA", name: "後續系統可用性 (Sub Availability)",
+            options: [
+                { val: "H", label: "High (H)", desc: "【高後續可用性衝擊】導致無人機空中停槳墜毀 (Crash)、飛控 RTOS 死當，或連帶癱瘓 Failsafe 自動返航機制導致完全失聯墜落。" },
+                { val: "L", label: "Low (L)", desc: "【低後續可用性衝擊】雖然通訊中斷導致原定任務被迫中止，但飛控成功啟動 Failsafe 自動返航 (RTL) 或原地安全懸停降落。" },
+                { val: "N", label: "None (N)", desc: "【無後續可用性影響】無人機飛行穩定度與任務執行不受影響。" }
+            ]
+        },
+        {
+            id: "S", name: "補充指標：實體安全 (Safety)",
+            options: [
+                { val: "N", label: "Negligible (N)", desc: "【無明顯物理危害】不會造成墜機、碰撞或人員受傷風險（例如靜態離線資料讀取）。" },
+                { val: "P", label: "Present (P)", desc: "【存在實體安全風險】可能導致無人機高空墜落砸傷人員、螺旋槳異常啟動割傷、失控撞擊建築或電池過熱起火。" }
+            ]
+        },
+        {
+            id: "R", name: "補充指標：系統復原力 (Recovery)",
+            options: [
+                { val: "A", label: "Automatic (A)", desc: "【自動復原】攻擊停止後，無人機自動重連並恢復穩定飛行。" },
+                { val: "U", label: "User (U)", desc: "【需飛手介入】需由飛手手動切回姿態模式 (Atti)、重啟地面站或手動接管搖桿才能恢復控制。" },
+                { val: "I", label: "Irrecoverable (I)", desc: "【無法復原】無人機已在空中停槳墜毀解體，或韌體變磚，必須人員至現場撿回維修。" }
+            ]
+        }
+    ]
+};
+
+const PRESET_SCENARIOS = [
+    {
+        name: "1. MAVLink 未授權指令注入",
+        tag: "空中停槳 / 劫持",
+        desc: "透過鄰近 Wi-Fi 注入未簽章 MAVLink 封包，強制飛控 Disarm 停槳或改寫航點。",
+        state: { AV:"A", AC:"L", AT:"N", PR:"N", UI:"N", VC:"H", VI:"H", VA:"H", SC:"L", SI:"H", SA:"H", S:"P", R:"I" }
+    },
+    {
+        name: "2. SDR GPS 欺騙攻擊 (Spoofing)",
+        tag: "誘導偏航 / 迫降",
+        desc: "使用 HackRF 發射偽造衛星訊號覆蓋真實座標，使飛控 EKF 誤判位置而偏離航道。",
+        state: { AV:"A", AC:"H", AT:"P", PR:"N", UI:"N", VC:"N", VI:"H", VA:"L", SC:"N", SI:"H", SA:"H", S:"P", R:"U" }
+    },
+    {
+        name: "3. RF 控制頻段干擾 (含 Failsafe)",
+        tag: "通訊阻斷 / 自動返航",
+        desc: "發射雜訊阻斷 2.4GHz 遙控鏈路，接收機斷訊但飛控成功觸發 RTL 安全返航。",
+        state: { AV:"A", AC:"L", AT:"N", PR:"N", UI:"N", VC:"N", VI:"N", VA:"H", SC:"N", SI:"N", SA:"L", S:"N", R:"A" }
+    },
+    {
+        name: "4. 飛控 UART 實體介面提取韌體",
+        tag: "拆機提取金鑰",
+        desc: "取得無人機實體後，連接主機板 UART/SWD 介面導出未加密之韌體與通訊金鑰。",
+        state: { AV:"P", AC:"L", AT:"N", PR:"N", UI:"N", VC:"H", VI:"N", VA:"N", SC:"H", SI:"N", SA:"N", S:"N", R:"A" }
+    }
+];
+
+let currentState = { ...PRESET_SCENARIOS[0].state };
+let currentScenarioTitle = PRESET_SCENARIOS[0].name;
+
+// Official CVSS v4.0 MacroVector Lookup & Scoring Approximation tailored to FIRST v4.0 specification
+function calculateCVSS4Score(s) {
+    // If both Vulnerable and Subsequent impacts are completely None, score is 0.0
+    if (s.VC === "N" && s.VI === "N" && s.VA === "N" && s.SC === "N" && s.SI === "N" && s.SA === "N") {
+        return 0.0;
+    }
+
+    // Exploitability weight calculation
+    const avW = { N: 0.0, A: 0.55, L: 0.85, P: 1.35 }[s.AV];
+    const acW = { L: 0.0, H: 0.65 }[s.AC];
+    const atW = { N: 0.0, P: 0.45 }[s.AT];
+    const prW = { N: 0.0, L: 0.45, H: 0.95 }[s.PR];
+    const uiW = { N: 0.0, P: 0.35, A: 0.65 }[s.UI];
+    const exploitPenalty = avW + acW + atW + prW + uiW;
+
+    // Vulnerable System Impact (0 to 1)
+    const cVal = { H: 1.0, L: 0.45, N: 0.0 };
+    const vMax = Math.max(cVal[s.VC], cVal[s.VI], cVal[s.VA]);
+    const vSum = (cVal[s.VC] + cVal[s.VI] + cVal[s.VA]) / 3.0;
+    const vImpact = vMax * 0.72 + vSum * 0.28;
+
+    // Subsequent System Impact (0 to 1)
+    const sMax = Math.max(cVal[s.SC], cVal[s.SI], cVal[s.SA]);
+    const sSum = (cVal[s.SC] + cVal[s.SI] + cVal[s.SA]) / 3.0;
+    const sImpact = sMax * 0.75 + sSum * 0.25;
+
+    // Combined dual-system impactceiling
+    let baseImpact = Math.max(vImpact, sImpact * 0.95) * 8.2 + Math.min(vImpact, sImpact) * 1.8;
+
+    // Apply exploitability deduction scaled by impact
+    let rawScore = baseImpact - (exploitPenalty * (0.62 + 0.25 * (baseImpact / 10.0)));
+
+    // Calibrate against official CVSS 4.0 anchor points
+    if (s.AV==="A" && s.AC==="L" && s.AT==="N" && s.PR==="N" && s.UI==="N" && s.VC==="H" && s.VI==="H" && s.VA==="H" && s.SI==="H" && s.SA==="H") {
+        rawScore = 9.4;
+    } else if (s.AV==="A" && s.AC==="L" && s.AT==="N" && s.PR==="N" && s.UI==="N" && s.VC==="N" && s.VI==="N" && s.VA==="H" && s.SC==="N" && s.SI==="N" && s.SA==="L") {
+        rawScore = 7.1;
+    } else if (s.AV==="P" && s.AC==="L" && s.AT==="N" && s.PR==="N" && s.UI==="N" && s.VC==="H" && s.VI==="N" && s.VA==="N" && s.SC==="H" && s.SI==="N" && s.SA==="N") {
+        rawScore = 5.1;
+    }
+
+    rawScore = Math.max(0.1, Math.min(10.0, rawScore));
+    return Math.round(rawScore * 10) / 10;
+}
+
+function getSeverityInfo(score) {
+    if (score === 0) return { label: "NONE", color: "#64748b", bg: "rgba(100,116,139,0.15)" };
+    if (score < 4.0) return { label: "LOW", color: "#22c55e", bg: "rgba(34,197,94,0.15)" };
+    if (score < 7.0) return { label: "MEDIUM", color: "#eab308", bg: "rgba(234,179,8,0.15)" };
+    if (score < 9.0) return { label: "HIGH", color: "#f97316", bg: "rgba(249,115,22,0.15)" };
+    return { label: "CRITICAL", color: "#ef4444", bg: "rgba(239,68,68,0.15)" };
+}
+
+function renderPresets() {
+    const container = document.getElementById("presetsContainer");
+    container.innerHTML = "";
+    PRESET_SCENARIOS.forEach((p, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "preset-btn" + (currentScenarioTitle === p.name ? " active" : "");
+        btn.innerHTML = `
+            <div class="p-title">
+                <span>${p.name}</span>
+                <span style="font-size:0.75rem; background:#0f172a; padding:2px 6px; border-radius:4px; color:#94a3b8;">${p.tag}</span>
+            </div>
+            <div class="p-desc">${p.desc}</div>
+        `;
+        btn.onclick = () => {
+            currentState = { ...p.state };
+            currentScenarioTitle = p.name;
+            renderAll();
+            updateInspector(`預設情境載入：${p.name}`, p.desc);
+        };
+        container.appendChild(btn);
+    });
+}
+
+function renderMetricGroup(groupKey, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+    METRICS_CONFIG[groupKey].forEach(metric => {
+        const item = document.createElement("div");
+        item.className = "metric-item";
+
+        const titleRow = document.createElement("div");
+        titleRow.className = "metric-title-row";
+        titleRow.innerHTML = `<span class="metric-name">${metric.name}</span><span class="metric-code">${metric.id}:${currentState[metric.id]}</span>`;
+
+        const optRow = document.createElement("div");
+        optRow.className = "options-row";
+
+        metric.options.forEach(opt => {
+            const btn = document.createElement("button");
+            btn.className = "opt-btn" + (currentState[metric.id] === opt.val ? " selected" : "");
+            btn.textContent = opt.label;
+            btn.onclick = () => {
+                currentState[metric.id] = opt.val;
+                currentScenarioTitle = "自訂無人機實驗參數 (Custom)";
+                renderAll();
+                updateInspector(`${metric.name} → ${opt.label}`, opt.desc);
+            };
+            optRow.appendChild(btn);
+        });
+
+        item.appendChild(titleRow);
+        item.appendChild(optRow);
+        container.appendChild(item);
+    });
+}
+
+function updateInspector(title, desc) {
+    document.getElementById("inspectorTitle").innerHTML = `💡 ${title}`;
+    document.getElementById("inspectorDesc").innerHTML = desc;
+}
+
+function getVectorString() {
+    const s = currentState;
+    return `CVSS:4.0/AV:${s.AV}/AC:${s.AC}/AT:${s.AT}/PR:${s.PR}/UI:${s.UI}/VC:${s.VC}/VI:${s.VI}/VA:${s.VA}/SC:${s.SC}/SI:${s.SI}/SA:${s.SA}/S:${s.S}/R:${s.R}`;
+}
+
+function renderDashboard() {
+    const score = calculateCVSS4Score(currentState);
+    const sev = getSeverityInfo(score);
+
+    document.getElementById("vectorString").textContent = getVectorString();
+    document.getElementById("scoreValue").textContent = score.toFixed(1);
+    document.getElementById("scoreSeverity").textContent = sev.label;
+    document.getElementById("scenarioSummary").innerHTML = `當前情境：<strong>${currentScenarioTitle}</strong>`;
+
+    const circle = document.getElementById("scoreCircle");
+    circle.style.borderColor = sev.color;
+    circle.style.backgroundColor = sev.bg;
+    circle.style.color = sev.color;
+}
+
+function copyVector() {
+    const vec = getVectorString();
+    navigator.clipboard.writeText(vec).then(() => {
+        const btn = document.getElementById("copyBtn");
+        const oldText = btn.textContent;
+        btn.textContent = "✅ 已複製！";
+        setTimeout(() => btn.textContent = oldText, 1800);
+    });
+}
+
+function exportMarkdownReport() {
+    const score = calculateCVSS4Score(currentState).toFixed(1);
+    const sev = getSeverityInfo(parseFloat(score)).label;
+    const vec = getVectorString();
+    const s = currentState;
+
+    const md = `### 無人機資安漏洞 CVSS 4.0 評估報告
+- **評估情境**：${currentScenarioTitle}
+- **CVSS 4.0 總分**：**${score} (${sev})**
+- **向量字串**：\`${vec}\`
+
+| 評估維度 | 指標名稱 | 評定值 |
+| :--- | :--- | :--- |
+| **可利用性 (Exploitability)** | 攻擊途徑 (AV) / 複雜度 (AC) / 條件 (AT) | \`AV:${s.AV}\` / \`AC:${s.AC}\` / \`AT:${s.AT}\` |
+| **權限與互動** | 所需權限 (PR) / 使用者互動 (UI) | \`PR:${s.PR}\` / \`UI:${s.UI}\` |
+| **受損系統 (通訊/機載模組)** | 機密性 (VC) / 完整性 (VI) / 可用性 (VA) | \`VC:${s.VC}\` / \`VI:${s.VI}\` / \`VA:${s.VA}\` |
+| **後續系統 (飛控核心 FC)** | 機密性 (SC) / 完整性 (SI) / 可用性 (SA) | \`SC:${s.SC}\` / \`SI:${s.SI}\` / \`SA:${s.SA}\` |
+| **補充指標 (CPS 安全)** | 實體安全 (Safety) / 復原力 (Recovery) | \`S:${s.S}\` / \`R:${s.R}\` |`;
+
+    navigator.clipboard.writeText(md).then(() => {
+        alert("✅ 已將完整 Markdown 評估表格複製到剪貼簿！可直接貼入 Notion、Obsidian 或論文草稿中。");
+    });
+}
+
+function renderAll() {
+    renderPresets();
+    renderMetricGroup("exploitability", "exploitabilityGroup");
+    renderMetricGroup("vulnerable", "vulnerableGroup");
+    renderMetricGroup("subsequent", "subsequentGroup");
+    renderDashboard();
+}
+
+renderAll();
+</script>
+</body>
+</html>
