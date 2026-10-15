@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>互為貴人，同行至遠</title>
+<meta name="description" content="顏志展（JJ）學長在交大高階經理人培訓班第 40 屆的創業分享，依課堂筆記整理成簡報與逐字稿。">
+<style>
+:root{
+  --paper:#F6F1E7; --paper-2:#EFE7D8; --ink:#1C2733; --ink-2:#4A5765; --muted:#7B8794;
+  --gold:#B07D2B; --gold-2:#D9A84E; --navy:#14202D; --navy-2:#1E3042; --line:#DCCFB8;
+  --page:#E9E4DA; --panel:#FFFFFF; --panel-ink:#1C2733;
+  --font:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --page:#0F151C; --panel:#18212B; --panel-ink:#E6EBF0; }
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--page);color:var(--panel-ink);font-family:var(--font);-webkit-text-size-adjust:100%}
+body{min-height:100dvh;display:flex;flex-direction:column;align-items:center}
+.top{width:100%;max-width:1100px;padding:14px 16px 8px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;color:var(--muted)}
+.top b{color:var(--panel-ink);font-weight:600}
+.wrap{width:100%;max-width:1100px;padding:0 16px}
+.stage{position:relative;width:100%;aspect-ratio:16/9;container-type:inline-size;border-radius:14px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.18);background:var(--paper);touch-action:pan-y}
+.slide{position:absolute;inset:0;padding:6.5cqw 7.5cqw;display:none;flex-direction:column;justify-content:center;color:var(--ink);background:var(--paper)}
+.slide.on{display:flex}
+.slide .notes{display:none}
+.kicker{font-size:1.6cqw;letter-spacing:.3em;color:var(--gold);font-weight:600;margin-bottom:1.6cqw}
+h1{font-size:5.6cqw;line-height:1.25;margin:0 0 2cqw;font-weight:700;letter-spacing:.04em}
+h2{font-size:3.6cqw;line-height:1.3;margin:0 0 2.6cqw;font-weight:700}
+h2 em{font-style:normal;color:var(--gold)}
+p.lead{font-size:2.3cqw;line-height:1.7;color:var(--ink-2);margin:0}
+ul.pts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.5cqw}
+ul.pts li{font-size:2.15cqw;line-height:1.6;padding-left:2.6cqw;position:relative;color:var(--ink)}
+ul.pts li::before{content:"";position:absolute;left:0;top:.75em;width:1.1cqw;height:1.1cqw;border-radius:50%;background:var(--gold-2)}
+.take{margin-top:2.6cqw;padding:1.6cqw 2.2cqw;border-left:.5cqw solid var(--gold);background:var(--paper-2);font-size:2.1cqw;line-height:1.6;font-weight:600}
+.dark{background:var(--navy);color:#F3EEE3}
+.dark h1,.dark h2{color:#F3EEE3}
+.dark p.lead{color:#C9D2DC}
+.dark .kicker{color:var(--gold-2)}
+.cover .who{margin-top:4cqw;font-size:2cqw;line-height:1.7;color:#C9D2DC}
+.cover .who b{color:#F3EEE3;font-size:2.4cqw}
+.cover::after,.end::after{content:"";position:absolute;right:-8cqw;bottom:-14cqw;width:42cqw;height:42cqw;border-radius:50%;border:.35cqw solid rgba(217,168,78,.35)}
+.cover::before,.end::before{content:"";position:absolute;right:4cqw;bottom:-6cqw;width:24cqw;height:24cqw;border-radius:50%;border:.35cqw solid rgba(217,168,78,.2)}
+.path{display:flex;align-items:stretch;gap:1.2cqw;margin-top:1cqw}
+.path .step{flex:1;background:#fff;border:1px solid var(--line);border-radius:1.2cqw;padding:2cqw 1.6cqw;position:relative}
+.path .step .y{font-size:1.6cqw;color:var(--gold);font-weight:700;letter-spacing:.08em}
+.path .step .t{font-size:2.3cqw;font-weight:700;margin:.8cqw 0 .6cqw}
+.path .step .d{font-size:1.6cqw;line-height:1.55;color:var(--ink-2)}
+.path .arrow{align-self:center;font-size:2.4cqw;color:var(--gold)}
+.flow{display:flex;align-items:center;gap:1.4cqw;margin:1cqw 0 3cqw;flex-wrap:wrap}
+.flow span{font-size:2.3cqw;font-weight:700;padding:1cqw 2cqw;border-radius:5cqw;background:#fff;border:1px solid var(--line)}
+.flow span.hl{background:var(--gold);color:#fff;border-color:var(--gold)}
+.flow i{font-style:normal;color:var(--gold);font-size:2.2cqw}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6cqw}
+.col{background:#fff;border:1px solid var(--line);border-radius:1.2cqw;padding:2.2cqw 1.8cqw}
+.col .n{font-size:1.5cqw;color:var(--gold);font-weight:700;letter-spacing:.15em}
+.col h3{font-size:2.4cqw;margin:.8cqw 0 1.2cqw}
+.col p{font-size:1.65cqw;line-height:1.65;margin:0;color:var(--ink-2)}
+.quote{font-size:3.5cqw;line-height:1.6;font-weight:700;letter-spacing:.03em}
+.quote .src{display:block;margin-top:2.4cqw;font-size:1.8cqw;font-weight:400;color:var(--gold-2)}
+.grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4cqw}
+.grid6 div{background:#fff;border:1px solid var(--line);border-radius:1.2cqw;padding:1.8cqw;font-size:1.95cqw;line-height:1.5;font-weight:600}
+.grid6 div small{display:block;font-size:1.5cqw;font-weight:400;color:var(--muted);margin-top:.6cqw}
+.big{font-size:9cqw;font-weight:800;line-height:1;color:var(--gold);letter-spacing:.05em}
+.foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:2.6cqw;display:flex;justify-content:space-between;font-size:1.25cqw;color:var(--muted)}
+.dark .foot{color:#8796A6}
+.bar{width:100%;max-width:1100px;padding:12px 16px;display:flex;align-items:center;gap:10px}
+.bar button{font:inherit;font-size:15px;border:1px solid rgba(127,127,127,.35);background:var(--panel);color:var(--panel-ink);border-radius:999px;padding:9px 16px;cursor:pointer;min-height:42px}
+.bar button.primary{background:var(--gold);border-color:var(--gold);color:#fff}
+.bar .count{margin-left:auto;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.prog{height:3px;background:rgba(127,127,127,.2);width:100%;max-width:1068px;border-radius:3px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--gold);width:0;transition:width .25s}
+.script{width:100%;max-width:1100px;padding:4px 16px 40px}
+.script .box{background:var(--panel);border-radius:14px;padding:18px 20px;border:1px solid rgba(127,127,127,.2)}
+.script h4{margin:0 0 8px;font-size:14px;color:var(--gold);letter-spacing:.1em}
+.script p{margin:0 0 10px;font-size:16px;line-height:1.85}
+.script.hide{display:none}
+.rotate{display:none;font-size:13px;color:var(--muted);text-align:center;padding:6px 16px 0}
+@media (max-width:640px) and (orientation:portrait){.rotate{display:block}}
+.note{font-size:13px;color:var(--muted);margin:10px 2px 0;line-height:1.6}
+@media (max-width:640px){.top{font-size:13px}.bar button{padding:8px 12px;font-size:14px}}
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  body{background:#fff;display:block}
+  .top,.bar,.prog,.script{display:none!important}
+  .wrap{max-width:none;padding:0}
+  .stage{aspect-ratio:auto;box-shadow:none;border-radius:0;overflow:visible;background:none;container-type:normal}
+  .slide{position:relative;display:flex!important;width:277mm;height:155.8mm;container-type:inline-size;break-after:page;border:1px solid #ddd;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .slide .notes{display:block;position:absolute;top:100%;left:0;right:0;padding:4mm 0;font-size:10pt;line-height:1.6;color:#222;background:#fff}
+  .slide .notes p{margin:0 0 2mm}
+}
+</style>
+</head>
+<body>
+<div class="top"><span><b>互為貴人，同行至遠</b>　顏志展（JJ）創業分享</span><span>交大高階經理人培訓班 第 40 屆</span></div>
+<div class="wrap">
+<div class="stage" id="stage">
+
+<section class="slide dark cover">
+  <div class="kicker">2026.10.15　交大高階經理人培訓班 第 40 屆</div>
+  <h1>互為貴人，<br>同行至遠</h1>
+  <p class="lead">從曜鵬到意騰：兩次 IC 設計創業的經營心得</p>
+  <div class="who"><b>顏志展 JJ</b><br>意騰科技 董事長暨總經理｜交大電工 77 級</div>
+  <aside class="notes">
+    <p>大家好，我是顏志展，大家叫我 JJ 就好。今天沒有準備投影片，我想用比較輕鬆的方式，照時間順序跟大家聊我這二十多年在 IC 設計業的兩次創業。</p>
+    <p>今天的主題是「互為貴人，同行至遠」。前半段講經營公司踩過的坑，後半段講我怎麼看團隊、看貴人。</p>
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="kicker">我的路</div>
+  <h2>從影像到聲音，<em>跟著介面走</em></h2>
+  <div class="path">
+    <div class="step"><div class="y">2002</div><div class="t">曜鵬科技</div><div class="d">影像處理晶片，從 PC 相機做到手機與 IP Camera</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="y">2015</div><div class="t">併入聯發科集團</div><div class="d">第一家公司找到歸宿</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="y">2016</div><div class="t">意騰科技</div><div class="d">第二次創業，選擇 AI 聲學</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="y">2025</div><div class="t">上市掛牌</div><div class="d">IP 授權＋AI 晶片雙引擎</div></div>
+  </div>
+  <aside class="notes">
+    <p>我的路大概是這樣：一開始做 PC，接著做 camera 的影像科技，再到 IP camera，然後第二次創業轉到 AI 聲音。</p>
+    <p>2002 年創辦曜鵬做影像處理晶片，2015 年併入聯發科集團。2016 年我再出來創辦意騰，做 AI 聲學，2025 年上市。兩家公司加起來，剛好走過人機介面的好幾個世代。</p>
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="kicker">經營心法</div>
+  <h2>經營公司，就像<em>變色龍</em></h2>
+  <ul class="pts">
+    <li>跟著大環境改變自己</li>
+    <li>變化是壓力，也是必經的過程</li>
+    <li>選擇很重要：有些要堅持，有些要調整</li>
+  </ul>
+  <div class="take">不是自己強就好。自己做出更好的決定還不夠，要把團隊建立起來；有能力的時候，拉別人一把。</div>
+  <aside class="notes">
+    <p>我常說經營公司就像變色龍，要跟著大環境改變自己。變化一定有壓力，但那是必經的過程。</p>
+    <p>選擇很重要，但不是每件事都要堅持到底，有些要堅持，有些要調整。還有一點：不是自己很強就好，就算你自己能做出更好的決定，也不夠，要把團隊建立起來。等你有能力的時候，記得拉別人一把。</p>
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="kicker">第一課</div>
+  <h2>從創辦人到經理人：<em>不能事必躬親</em></h2>
+  <ul class="pts">
+    <li>剛開始什麼都自己來，每件事都等你下決定，你會累死</li>
+    <li>創辦人累死事小，公司因此長不大才是問題</li>
+    <li>公司要長大，決策要能分出去</li>
+  </ul>
+  <aside class="notes">
+    <p>第一個教訓是從創辦人變成經理人的過程。剛開始創業，什麼都自己來很正常。但如果一直事必躬親，所有事情都等你下決定，你會累死。</p>
+    <p>更大的問題是公司沒辦法長大。決策都卡在你一個人身上，公司的規模就是你一個人的極限。</p>
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="kicker">第二課</div>
+  <h2>只顧今天，<em>就會放棄明天</em></h2>
+  <ul class="pts">
+    <li>曜鵬時期效率很高，我什麼都參與，太雜太多，沒有餘力看兩三年後</li>
+    <li>大客戶的生意進來了，兩年後訂單卻消失，只能天天救火</li>
+    <li>沒提前想下一條產品線、下一個市場，就會被卡在原來的產品線</li>
+  </ul>
+  <div class="take">當時公司約 150 人。創辦人如果只關注今天的事，就等於放棄了明天。</div>
+  <aside class="notes">
+    <p>第二個教訓更痛。曜鵬那時候我們效率很高，我自己什麼都參與，參與得太雜太多，結果沒有多的精力去看兩三年後的未來。</p>
+    <p>手機的大生意進來了，看起來很好。但如果訂單不來了怎麼辦？兩年後訂單真的消失了，我們只能一直救火，同時才開始想下一個產品線、下一個前景。沒提前想，就會卡在原來的產品線上。那時公司大概 150 人。所以我的體會是：創辦人如果只關注今天的事情，就會放棄明天的事情。</p>
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="kicker">第三課</div>
+  <h2>再熟的夥伴，<em>也要白紙黑字</em></h2>
+  <ul class="pts">
+    <li>公司開始賺錢、走向資本市場，外界評價和股價都會改變人的處境</li>
+    <li>一起打拚的夥伴，人生規劃也會跟著變</li>
+    <li>權利義務事先用合約、信託講清楚，對公司和夥伴都是保護</li>
+  </ul>
+  <aside class="notes">
+    <p>第三個教訓跟夥伴有關。公司有了盈餘，開始走向資本市場、掛興櫃，外界的評價、股價都會讓每個人的處境改變。</p>
+    <p>一起創業的夥伴，人生規劃也會跟著變。我的心得是：不論再怎麼熟的朋友夥伴，都一樣要用合約、信託，白紙黑字把事情定義清楚。這不是不信任，而是對公司、也對夥伴的保護。</p>
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="kicker">第二次創業</div>
+  <h2>為什麼選 <em>AI 聲學</em></h2>
+  <div class="flow"><span>鍵盤</span><i>→</i><span>滑鼠</span><i>→</i><span>觸控</span><i>→</i><span class="hl">語音</span></div>
+  <ul class="pts">
+    <li>2015 年深度學習起來，我讀了很多論文，看見人機介面的下一步是語音</li>
+    <li>IC 設計比量不容易，要挑一個有一定市場和量的新題目</li>
+    <li>AI 在不同領域會長出不同應用，不容易被大公司壟斷，適合新創</li>
+  </ul>
+  <aside class="notes">
+    <p>第二次創業，我想用深度學習做點不一樣的事。IC 設計要拚量不容易，所以要挑一個有一定市場、有一定量的題目。</p>
+    <p>我看了很多論文，發現台灣幾代 IC 設計公司，幾乎都是跟著人機介面起來的：鍵盤、滑鼠、觸控。我判斷下一個介面是語音，誰掌握 AI 聲學，誰就有機會。AI 在不同領域會發展出不同應用，不容易被大公司壟斷，很適合新創投入。我是看了一篇 paper 之後決定跳下去的。</p>
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="kicker">低谷</div>
+  <h2>技術對了，<em>太早也是失敗</em></h2>
+  <ul class="pts">
+    <li>第一顆晶片解決了傳統 DSP 解決不了的降噪問題，還辦了很盛大的發表會</li>
+    <li>但手機客戶把它當噱頭，不是剛需，不想多花錢</li>
+    <li>第一支手機賣了約 20 萬顆，接下來兩年，出貨量是零</li>
+  </ul>
+  <div class="take">產品要好、技術要好，市場定位也要好。三個缺一個都不行。</div>
+  <aside class="notes">
+    <p>意騰的第一顆晶片，技術上是對的，它解決了傳統 DSP 解決不了的問題。我們辦了很大的發表會，在吵雜的環境裡也能把人聲留下來。</p>
+    <p>可是手機客戶的著眼點是噱頭，要的是新特色，不是剛需，也不想多花錢。第一支手機用了大約 20 萬顆，之後兩年，出貨量是零。技術對了，但太早、沒市場，一樣是失敗。所以產品要好、技術要好，市場定位也要好。</p>
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="kicker">轉彎</div>
+  <h2>2020 年的策略調整</h2>
+  <div class="cols">
+    <div class="col"><div class="n">一</div><h3>不只賣晶片</h3><p>把演算法做成 IP，嵌進客戶原本的晶片，降低導入門檻</p></div>
+    <div class="col"><div class="n">二</div><h3>換市場</h3><p>從價格敏感的客戶，轉向重視品質與差異化的歐美日品牌</p></div>
+    <div class="col"><div class="n">三</div><h3>換腦袋</h3><p>硬體工程師要做軟體，內外都有質疑，只能一步步調整</p></div>
+  </div>
+  <div class="take">經營者要堅持幫客戶解決問題。IC 設計技術再好，客戶賣不出去也沒有用。</div>
+  <aside class="notes">
+    <p>2020 年我們做了策略調整。第一，不只賣晶片，也賣演算法 IP，讓客戶不必多放一顆晶片。第二，市場從價格敏感的客戶，轉向重視品質和差異化的歐美日客戶。</p>
+    <p>第三最難：公司內部要轉型，硬體工程師要去做軟體，一定有很多批評和質疑，只能慢慢調整，原則就是公司的最大利益。這不是放棄 IC 設計，而是體會到經營者要堅持幫客戶解決問題。技術再好，客戶賣不出去也沒用。</p>
+  </aside>
+</section>
+
+<section class="slide dark">
+  <div class="kicker">創業者的心理素質</div>
+  <h2>凝視深淵</h2>
+  <p class="lead">創業沒有那麼有趣。你需要足夠的自我驅動力和耐力；你做的一個決策，就可能讓公司掉進深淵。</p>
+  <p class="lead" style="margin-top:2cqw">對自己的責任有要求，但也要<span style="color:var(--gold-2);font-weight:700">樂在其中</span>：給自己鼓勵，找到證明自己的方式。</p>
+  <aside class="notes">
+    <p>很多人以為創業很有趣，其實沒有那麼有趣。你要有足夠的自我驅動力，還有耐力，才能一直執行下去。</p>
+    <p>我常有「凝視深淵」的感覺：你做錯一個決策，公司就可能倒閉，隨時會掉進深淵。這是對自己責任的要求。但同時也要樂在其中，給自己鼓勵、有自己的觀點、證明自己，才走得下去。</p>
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="kicker">角色轉換</div>
+  <h2>創辦人要走過的<em>三個位置</em></h2>
+  <div class="cols">
+    <div class="col"><div class="n">階段一</div><h3>事必躬親</h3><p>技術、產品、市場、團隊、投資人，親自投入，說明方向怎麼做</p></div>
+    <div class="col"><div class="n">階段二</div><h3>總經理</h3><p>有了初步成果，新血加入，與元老難免衝突。原則是公司最大利益，把對的人放在對的位置</p></div>
+    <div class="col"><div class="n">階段三</div><h3>董事長</h3><p>不是解決今天的問題，是預判三年後。授權總經理、真的相信他，並維持長期溝通與共識</p></div>
+  </div>
+  <aside class="notes">
+    <p>回頭看，創辦人要走過三個位置。階段一是事必躬親，技術、產品、市場、團隊、投資人，都要親自投入。</p>
+    <p>階段二是總經理。公司有初步成果，新血會進來，早期夥伴跟新血一定會有衝突。處理元老問題，我的原則是公司最大利益，把對的人擺在對的位置。階段三是董事長，我必須提醒自己：董事長不是解決今天的問題，而是看三年後的遠景。把營運交給總經理之後，還要真的相信他，這很難，所以要長期溝通、建立長期合作的共識。</p>
+  </aside>
+</section>
+
+<section class="slide dark">
+  <div class="kicker">提醒</div>
+  <h2 style="font-size:4.4cqw;line-height:1.4">今天的成功，<br>不代表明天的競爭力。</h2>
+  <p class="lead">能讓公司走下去的，是一支強而有力、願意負責的團隊。</p>
+  <aside class="notes">
+    <p>今天的成功，不代表明天的競爭力。市場一直在變，能讓公司一直走下去的，是建立一支強而有力、負責任的團隊。</p>
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="kicker">互為貴人</div>
+  <h2>誰是你的<em>貴人</em>？</h2>
+  <div class="grid6">
+    <div>困難時給你幫助的人<small>給機會、給資源</small></div>
+    <div>願意相信你的客戶<small>相信，本身就是機會</small></div>
+    <div>初期願意跟著你的人<small>什麼都沒有時就來了</small></div>
+    <div>遇到困難不離開的人<small>低谷時還在</small></div>
+    <div>願意指出盲點的人<small>說真話、給啟發</small></div>
+    <div>連孩子也是貴人<small>讓你跨出舒適圈</small></div>
+  </div>
+  <aside class="notes">
+    <p>最後想跟大家聊貴人。什麼是貴人？有困難的時候給你幫助、給你機會和資源的人。客戶願意相信你，其實也是貴人。創業初期願意跟著你的人、遇到困難不願意離開的人，都是貴人。</p>
+    <p>願意指出你盲點、啟發你的人，也是貴人。對我來說，連小孩也是我的貴人，讓我願意跨出舒適圈。</p>
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="kicker">互為貴人</div>
+  <div class="big">互為</div>
+  <h2 style="margin-top:2.4cqw">這兩個字，<em>比貴人更重要</em></h2>
+  <ul class="pts">
+    <li>用產品和服務，回應別人給你的信任</li>
+    <li>客戶遇到難關時，團隊到現場、日夜一起解決</li>
+    <li>之後的合作，都建立在這份信任上，互相成就</li>
+  </ul>
+  <aside class="notes">
+    <p>不過我覺得「互為」這兩個字更重要。別人當你的貴人，你要用產品和服務去回應。</p>
+    <p>我們曾經有客戶的高層採用了我們的晶片，結果出了問題，壓力非常大。我們把團隊整個派到客戶那邊，睡行軍床，半夜也在 review，兩個禮拜把問題解決。之後再做專案，彼此就有了信任，互相成就。這就是互為貴人。</p>
+  </aside>
+</section>
+
+<section class="slide dark">
+  <div class="kicker">看人之長</div>
+  <div class="quote">看人之短，天下無一可交之人；<br>看人之長，世間一切盡是吾師。<span class="src">相傳為司馬懿語</span></div>
+  <aside class="notes">
+    <p>最後送大家一句話：「看人之短，天下無一可交之人；看人之長，世間一切盡是吾師。」</p>
+    <p>如果你一直盯著別人的缺點，身邊就沒有可以合作的人；懂得看別人的長處，每個人都是你的老師，也都可能成為你的貴人。</p>
+  </aside>
+</section>
+
+<section class="slide dark end">
+  <div class="kicker">謝謝</div>
+  <h1>互為貴人，同行至遠</h1>
+  <p class="lead">謝謝學長毫無保留的分享。</p>
+  <div class="who" style="margin-top:4cqw;font-size:1.8cqw;line-height:1.8;color:#C9D2DC">交大高階經理人培訓班 第 40 屆　成育典 整理<br>簡報與逐字稿依課堂筆記重建，非現場逐字紀錄；歡迎學長自由修改使用。</div>
+  <aside class="notes">
+    <p>今天就分享到這裡，謝謝大家。希望大家在自己的路上，都能遇到貴人，也成為別人的貴人。互為貴人，同行至遠。</p>
+  </aside>
+</section>
+
+</div>
+</div>
+<div class="rotate">手機橫放，投影片看得更清楚</div>
+<div class="bar">
+  <button id="prev" aria-label="上一頁">← 上一頁</button>
+  <button id="next" class="primary" aria-label="下一頁">下一頁 →</button>
+  <button id="toggle" aria-pressed="true">逐字稿</button>
+  <span class="count" id="count"></span>
+</div>
+<div class="prog"><i id="prog"></i></div>
+<div class="script" id="script"><div class="box"><h4 id="scriptTitle">逐字稿</h4><div id="scriptBody"></div></div>
+<p class="note">左右滑動或用方向鍵換頁。要存成 PDF：用瀏覽器列印，每頁會附上逐字稿。<br>本簡報依 2026-10-15 課堂筆記整理，逐字稿是重建稿，不是現場逐字紀錄。</p></div>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var i=0, n=slides.length;
+  var body=document.getElementById('scriptBody'), title=document.getElementById('scriptTitle');
+  var count=document.getElementById('count'), prog=document.getElementById('prog');
+  var m=location.hash.match(/^#(\d+)$/); if(m){i=Math.min(n-1,Math.max(0,parseInt(m[1],10)-1));}
+  function show(k){
+    i=Math.max(0,Math.min(n-1,k));
+    slides.forEach(function(s,j){s.classList.toggle('on',j===i);});
+    var notes=slides[i].querySelector('.notes');
+    body.innerHTML=notes?notes.innerHTML:'';
+    title.textContent='逐字稿　第 '+(i+1)+' 頁';
+    count.textContent=(i+1)+' / '+n;
+    prog.style.width=((i+1)/n*100)+'%';
+    try{history.replaceState(null,'','#'+(i+1));}catch(e){}
+  }
+  document.getElementById('prev').onclick=function(){show(i-1);};
+  document.getElementById('next').onclick=function(){show(i+1);};
+  var sc=document.getElementById('script'), tg=document.getElementById('toggle');
+  tg.onclick=function(){var h=sc.classList.toggle('hide');tg.setAttribute('aria-pressed',String(!h));};
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();show(i+1);}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(i-1);}
+  });
+  var st=document.getElementById('stage'), x0=null, y0=null;
+  st.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
+  st.addEventListener('touchend',function(e){
+    if(x0===null)return; var dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0;
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){show(i+(dx<0?1:-1));} x0=null;
+  });
+  st.addEventListener('click',function(e){var r=st.getBoundingClientRect();show(i+((e.clientX-r.left)>r.width/2?1:-1));});
+  show(i);
+})();
+</script>
+</body>
+</html>
