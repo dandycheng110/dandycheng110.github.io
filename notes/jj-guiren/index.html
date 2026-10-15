@@ -79,6 +79,13 @@ ul.pts li::before{content:"";position:absolute;left:0;top:.75em;width:1.1cqw;hei
 .script.hide{display:none}
 .rotate{display:none;font-size:13px;color:var(--muted);text-align:center;padding:6px 16px 0}
 @media (max-width:640px) and (orientation:portrait){.rotate{display:block}}
+.dl{width:100%;max-width:1100px;padding:0 16px 12px;display:flex;gap:10px;flex-wrap:wrap}
+.dl a{flex:1 1 220px;display:flex;align-items:center;gap:12px;text-decoration:none;background:var(--panel);color:var(--panel-ink);border:1px solid rgba(127,127,127,.25);border-radius:14px;padding:12px 16px;min-height:56px}
+.dl a b{display:block;font-size:15px}
+.dl a span{font-size:12.5px;color:var(--muted)}
+.dl a i{font-style:normal;flex:0 0 auto;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px}
+.dl a.ppt i{background:#C55A2B}.dl a.doc i{background:#2B5797}
+@media print{.dl{display:none!important}}
 .note{font-size:13px;color:var(--muted);margin:10px 2px 0;line-height:1.6}
 @media (max-width:640px){.top{font-size:13px}.bar button{padding:8px 12px;font-size:14px}}
 @media print{
@@ -95,6 +102,10 @@ ul.pts li::before{content:"";position:absolute;left:0;top:.75em;width:1.1cqw;hei
 </head>
 <body>
 <div class="top"><span><b>互為貴人，同行至遠</b>　顏志展（JJ）創業分享</span><span>交大高階經理人培訓班 第 40 屆</span></div>
+<div class="dl">
+  <a class="ppt" href="jj-guiren.pptx" download="互為貴人簡報.pptx"><i>PPT</i><div><b>下載 PowerPoint 簡報</b><span>16 頁，逐字稿在每頁的備忘稿</span></div></a>
+  <a class="doc" href="jj-guiren-script.docx" download="互為貴人_逐字稿.docx"><i>DOC</i><div><b>下載 Word 逐字稿</b><span>每段對應一頁投影片，可直接修改</span></div></a>
+</div>
 <div class="wrap">
 <div class="stage" id="stage">
 
