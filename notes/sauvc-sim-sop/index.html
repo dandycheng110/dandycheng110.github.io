@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>SAUVC 模擬遠端操作 SOP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root { --bg:#E4EAEC; --surface:#F6F8F9; --ink:#0E2233; --muted:#4F6271; --rule:#C9D4D9; --accent:#B4430E;
+        --code-bg:#0E2233; --code-ink:#E3ECEF; --tint:rgba(180,67,14,.08); color-scheme:light; }
+@media (prefers-color-scheme: dark) { :root { --bg:#0A1319; --surface:#122029; --ink:#E3ECEF; --muted:#93A5AC; --rule:#22343D;
+        --accent:#FF8A4C; --code-bg:#050B0F; --code-ink:#E3ECEF; --tint:rgba(255,138,76,.10); color-scheme:dark; } }
+* { box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; line-height:1.75; }
+.wrap { max-width:860px; margin:0 auto; padding-inline:16px; padding-block:28px 72px; display:grid; gap:28px; }
+header.top { display:grid; gap:10px; }
+.back { color:var(--muted); font-size:14px; text-decoration:none; }
+.back:hover { color:var(--accent); }
+h1.title { margin:0; font-size:clamp(26px,5vw,36px); line-height:1.25; font-weight:900; text-wrap:balance; }
+.meta { margin:0; color:var(--muted); font-size:14px; }
+.lede { margin:0; line-height:1.8; max-width:62ch; }
+nav.toc { display:flex; flex-wrap:wrap; gap:8px; }
+nav.toc a { font-size:14px; color:var(--ink); text-decoration:none; border:1px solid var(--rule); border-radius:999px; padding:4px 12px; background:var(--surface); }
+nav.toc a:hover { border-color:var(--accent); color:var(--accent); }
+section { display:grid; gap:14px; min-width:0; }
+h2 { margin:0; font-size:22px; font-weight:700; padding-bottom:8px; border-bottom:2px solid var(--accent); scroll-margin-top:16px; }
+h3 { margin:6px 0 0; font-size:16px; font-weight:700; }
+p { margin:0; }
+ul, ol { margin:0; padding-left:1.4em; display:grid; gap:4px; }
+strong { font-weight:700; }
+code { font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace; font-size:.86em; background:var(--tint); padding:1px 5px; border-radius:4px; overflow-wrap:anywhere; }
+.cmd { position:relative; background:var(--code-bg); color:var(--code-ink); border-radius:10px; }
+.cmd pre { margin:0; padding:14px 16px; padding-right:72px; overflow-x:auto; font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace; font-size:13.5px; line-height:1.6; }
+.cmd pre code { background:none; padding:0; font-size:inherit; overflow-wrap:normal; }
+.copy { position:absolute; top:8px; right:8px; font:inherit; font-size:12px; padding:4px 10px; border-radius:6px; border:1px solid rgba(255,255,255,.25); background:transparent; color:var(--code-ink); cursor:pointer; }
+.copy:hover { border-color:var(--accent); }
+.copy:focus-visible, nav.toc a:focus-visible, .back:focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+.step { display:grid; gap:10px; background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:16px; }
+.step .n { font-weight:900; color:var(--accent); margin-right:6px; }
+.tbl { overflow-x:auto; border:1px solid var(--rule); border-radius:10px; background:var(--surface); }
+table { border-collapse:collapse; width:100%; font-size:15px; }
+th, td { text-align:left; vertical-align:top; padding:9px 12px; border-bottom:1px solid var(--rule); }
+th { font-size:13px; color:var(--muted); font-weight:500; white-space:nowrap; }
+tr:last-child td { border-bottom:0; }
+td:first-child { white-space:nowrap; }
+.wide td:first-child { white-space:normal; min-width:9em; }
+.note { border-left:3px solid var(--accent); padding:4px 0 4px 12px; font-size:15px; }
+.figure { background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:12px; overflow-x:auto; }
+.figure svg { display:block; width:100%; min-width:560px; height:auto; }
+.rules li strong { color:var(--accent); }
+footer { color:var(--muted); font-size:13px; border-top:1px solid var(--rule); padding-top:14px; }
+@media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <a class="back" href="/notes/">← 筆記站</a>
+    <h1 class="title">SAUVC 模擬遠端操作 SOP</h1>
+    <p class="meta">2026-10-19 · 給要從 Mac 操作新竹桌機模擬環境的隊友</p>
+    <p class="lede">從 Mac 打一行指令就能在新竹桌機啟動模擬，用瀏覽器開兩個網址操作，用完再一行關掉。所有程式都跑在桌機的容器裡，SSH 斷線不影響模擬，log 會自動留存。</p>
+    <nav class="toc" aria-label="目錄">
+      <a href="#arch">連線架構</a><a href="#setup">第一次準備</a><a href="#start">開啟</a><a href="#use">使用</a><a href="#stop">關閉</a><a href="#ops">維護與排錯</a><a href="#rules">不能做的事</a>
+    </nav>
+  </header>
+
+  <section id="arch" aria-labelledby="h-arch">
+    <h2 id="h-arch">連線架構</h2>
+    <div class="figure">
+      <svg viewBox="0 0 760 388" role="img" aria-label="程式都跑在桌機的容器裡，SSH 斷線也不會停" font-size="13" font-family="Noto Sans TC, PingFang TC, Microsoft JhengHei, sans-serif">
+        <defs><marker id="net-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--muted)"/></marker></defs>
+        <g style="fill:var(--ink)">
+          <text x="24" y="34" font-size="15" font-weight="700">程式都跑在桌機的容器裡，SSH 斷線也不會停</text>
+        </g>
+        <g fill="none" style="stroke:var(--muted)" stroke-width="1.25">
+          <rect x="24" y="64" width="232" height="240" rx="8"/>
+          <rect x="40" y="104" width="200" height="72" rx="8"/>
+          <rect x="40" y="200" width="200" height="88" rx="8"/>
+          <rect x="328" y="64" width="408" height="300" rx="8"/>
+          <rect x="344" y="104" width="376" height="56" rx="8"/>
+        </g>
+        <rect x="344" y="176" width="376" height="172" rx="8" stroke-width="2" style="fill:var(--tint);stroke:var(--accent)"/>
+        <rect x="360" y="216" width="168" height="88" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--muted)"/>
+        <rect x="536" y="216" width="168" height="88" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--muted)"/>
+        <g fill="none" style="stroke:var(--muted)" stroke-width="1.25">
+          <path d="M240 140H292V132H344" marker-end="url(#net-arrow)"/>
+          <path d="M240 244H344" marker-end="url(#net-arrow)"/>
+          <path d="M532 160V176" marker-end="url(#net-arrow)"/>
+        </g>
+        <g style="fill:var(--ink)" font-weight="700">
+          <text x="40" y="88">同學的 Mac</text>
+          <text x="56" y="128">終端機</text>
+          <text x="56" y="224">瀏覽器</text>
+          <text x="344" y="88">新竹桌機</text>
+          <text x="360" y="128">Windows（sshd，預設 PowerShell）</text>
+          <text x="360" y="200">WSL Ubuntu-22.04（Docker）</text>
+          <text x="376" y="240">orca-sim</text>
+          <text x="552" y="240">orca-control</text>
+        </g>
+        <g style="fill:var(--muted)" font-size="11.5">
+          <text x="56" y="146">ssh sauvc-win</text>
+          <text x="56" y="162">.\sauvc-sim.cmd start / stop</text>
+          <text x="56" y="242">localhost:16080  Gazebo</text>
+          <text x="56" y="258">localhost:18080  Web GUI</text>
+          <text x="56" y="274">localhost:18081  相機</text>
+          <text x="360" y="146">sauvc-sim.cmd 轉叫 WSL 裡的 sauvc-sim</text>
+          <text x="376" y="258">Gazebo（ogre1）</text>
+          <text x="376" y="274">感測器 bridge</text>
+          <text x="376" y="290">noVNC :6080</text>
+          <text x="552" y="258">Web GUI :80</text>
+          <text x="552" y="274">相機串流 :8080</text>
+          <text x="552" y="290">控制節點</text>
+          <text x="360" y="334">log 存在 ~/logs/sauvc/</text>
+          <text x="292" y="108" text-anchor="middle">SSH</text>
+          <text x="292" y="122" text-anchor="middle">Tailscale</text>
+          <text x="292" y="266" text-anchor="middle">SSH 通道</text>
+          <text x="292" y="282" text-anchor="middle">-L 三個埠</text>
+        </g>
+      </svg>
+    </div>
+    <p>Mac 用 SSH 叫桌機啟動或關閉模擬，再用 SSH 通道把桌機的 6080、80、8080 轉到 Mac 的 16080、18080、18081。</p>
+  </section>
+
+  <section id="setup" aria-labelledby="h-setup">
+    <h2 id="h-setup">第一次使用前的準備</h2>
+    <p>準備只要做一次。同學自己產生金鑰，再由機器主人把桌機開放給同學。</p>
+    <div class="tbl"><table class="wide">
+      <thead><tr><th>步驟</th><th>誰做</th><th>做什麼</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>同學</td><td>在 Mac 裝 Tailscale 並登入。</td></tr>
+        <tr><td>2</td><td>同學</td><td>產生專用金鑰：<code>ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_sauvc</code>，把 <code>~/.ssh/id_ed25519_sauvc.pub</code> 的內容傳給機器主人。只傳 <code>.pub</code>，另一個檔案絕對不給。</td></tr>
+        <tr><td>3</td><td>機器主人</td><td>在 Tailscale 後台把桌機分享給同學的帳號。</td></tr>
+        <tr><td>4</td><td>機器主人</td><td>把同學的公鑰加進桌機的 <code>C:\ProgramData\ssh\administrators_authorized_keys</code>，一行一把。</td></tr>
+        <tr><td>5</td><td>同學</td><td>在 Mac 的 <code>~/.ssh/config</code> 加入下面的設定，然後執行 <code>ssh sauvc-win</code> 測試。看到 PowerShell 提示字元就是成功。</td></tr>
+      </tbody>
+    </table></div>
+    <div class="cmd"><pre><code>Host sauvc-win
+    HostName &lt;桌機的 Tailscale 名稱，問機器主人&gt;
+    User &lt;桌機的 Windows 帳號，問機器主人&gt;
+    IdentityFile ~/.ssh/id_ed25519_sauvc
+    IdentitiesOnly yes</code></pre></div>
+    <ul>
+      <li>第 4 步給的是<strong>系統管理員等級的權限</strong>，同學能操作整台桌機。所以只開放給信任的人；不用了就把那一行刪掉。</li>
+      <li>如果 <code>ssh sauvc-win</code> 要求輸入密碼，代表金鑰沒對上。<strong>不要猜密碼</strong>，桌機是微軟帳號，連錯幾次就可能被鎖住。這時請找機器主人檢查第 4、5 步。</li>
+    </ul>
+  </section>
+
+  <section id="start" aria-labelledby="h-start">
+    <h2 id="h-start">開啟</h2>
+    <p>在 Mac 開兩個終端機視窗：一個用來啟動模擬，另一個開通道並一直保持開著。</p>
+    <div class="step">
+      <p><span class="n">步驟 1</span><strong>啟動模擬</strong>（在第一個視窗執行，大約要 30 秒）</p>
+      <div class="cmd"><pre><code>ssh sauvc-win .\sauvc-sim.cmd start</code></pre></div>
+      <p>最後會印出狀態表。每一行都正常的樣子是：Gazebo server、Gazebo 視窗、感測器 bridge、Web GUI 節點<strong>各 1 個</strong>，三個埠<strong>都有回應</strong>。</p>
+    </div>
+    <div class="step">
+      <p><span class="n">步驟 2</span><strong>開通道</strong>（在第二個視窗執行）</p>
+      <div class="cmd"><pre><code>ssh -N -L 16080:localhost:6080 -L 18080:localhost:80 -L 18081:localhost:8080 sauvc-win</code></pre></div>
+      <p>這個指令執行後不會有任何輸出，這是正常的。使用期間不要關掉這個視窗。</p>
+    </div>
+    <div class="step">
+      <p><span class="n">步驟 3</span><strong>用瀏覽器打開</strong></p>
+      <div class="tbl"><table>
+        <thead><tr><th>畫面</th><th>網址</th></tr></thead>
+        <tbody>
+          <tr><td>Gazebo 畫面</td><td><code>http://localhost:16080/vnc.html?autoconnect=true&amp;resize=scale</code></td></tr>
+          <tr><td>Web GUI</td><td><code>http://localhost:18080/?camera_port=18081</code></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <p>Mac 上只會用到 16080、18080、18081 三個埠，不影響你自己的 80、8080 網頁開發。如果模擬本來就在跑，第 1 步可以跳過，直接開通道就好。</p>
+  </section>
+
+  <section id="use" aria-labelledby="h-use">
+    <h2 id="h-use">使用</h2>
+    <p>Gazebo 畫面是用來<strong>看</strong>的，控制潛航器要在 <strong>Web GUI</strong> 操作。模擬一啟動就在跑，不用按播放。</p>
+    <h3>Gazebo 畫面</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>動作</th><th>滑鼠操作</th></tr></thead>
+      <tbody>
+        <tr><td>平移視角</td><td>左鍵拖曳</td></tr>
+        <tr><td>旋轉視角</td><td>中鍵拖曳，或 Shift + 左鍵拖曳</td></tr>
+        <tr><td>縮放</td><td>滾輪，或右鍵拖曳</td></tr>
+        <tr><td>放大視窗</td><td>雙擊 Gazebo 視窗的標題列</td></tr>
+        <tr><td>找潛航器</td><td>右邊 Entity Tree 的 <code>orca_auv</code> 按右鍵 → Move to</td></tr>
+      </tbody>
+    </table></div>
+    <p>畫面全黑或沒有反應時，先重新整理網頁。還是不行就看「維護與排錯」。</p>
+    <h3>Web GUI</h3>
+    <ul>
+      <li><code>http://localhost:18080/?camera_port=18081</code> 是儀表板，可以看深度、模式和相機畫面。</li>
+      <li><code>http://localhost:18080/controller?camera_port=18081</code> 是手動操控頁。</li>
+      <li>頁面上的連線燈是綠的就代表連上了。如果顯示 Link down，就檢查通道視窗是不是還開著。</li>
+      <li>網址裡的 <code>?camera_port=18081</code> 一定要加。沒加的話，相機會去連 Mac 自己的 8080，結果顯示 No stream。</li>
+    </ul>
+    <p class="note">自主任務（YOLO 辨識和行為樹）還不能跑。它用的是隊上的私有 image，要機器主人先登入 ghcr.io 才能下載。</p>
+  </section>
+
+  <section id="stop" aria-labelledby="h-stop">
+    <h2 id="h-stop">關閉</h2>
+    <p>用完請關掉模擬。Gazebo 會一直佔用桌機的顯示卡。</p>
+    <ol>
+      <li>在通道視窗按 <code>Ctrl-C</code>。</li>
+      <li>停掉模擬：</li>
+    </ol>
+    <div class="cmd"><pre><code>ssh sauvc-win .\sauvc-sim.cmd stop</code></pre></div>
+    <p><code>stop</code> 會先把這次的 log 存到桌機的 <code>~/logs/sauvc/&lt;日期-時間&gt;/</code>，再停掉所有程式。容器會保留，所以下次 <code>start</code> 比較快。如果要連容器一起關掉，改用 <code>down</code>。</p>
+  </section>
+
+  <section id="ops" aria-labelledby="h-ops">
+    <h2 id="h-ops">維護與排錯</h2>
+    <p>下面所有指令都從 Mac 執行，格式是 <code>ssh sauvc-win .\sauvc-sim.cmd &lt;指令&gt;</code>。要看持續輸出的 log 時，<code>ssh</code> 要加 <code>-t</code>。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>指令</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td><code>status</code></td><td>看各元件有沒有在跑，有問題先跑這個</td></tr>
+        <tr><td><code>logs sim</code></td><td>即時看 Gazebo 與 bridge 的 log（<code>ssh -t</code>，<code>Ctrl-C</code> 離開）</td></tr>
+        <tr><td><code>logs control</code></td><td>即時看 Web GUI、控制器的 log</td></tr>
+        <tr><td><code>logs gui</code></td><td>即時看 Gazebo 視窗的 log</td></tr>
+        <tr><td><code>logs vnc</code></td><td>即時看 noVNC 的 log</td></tr>
+        <tr><td><code>restart</code></td><td>stop 再 start，大部分問題重啟就好</td></tr>
+        <tr><td><code>build sim</code><br><code>build control</code></td><td>改了程式後重新編譯，編完要 <code>restart</code></td></tr>
+        <tr><td><code>save-logs</code></td><td>不停程式，只把目前的 log 存一份</td></tr>
+        <tr><td><code>down</code></td><td>關掉模擬，連 orca-sim、orca-control 兩個容器一起關</td></tr>
+      </tbody>
+    </table></div>
+    <p>存下來的 log 放在桌機 WSL 的 <code>~/logs/sauvc/</code>。從 Mac 要這樣看：</p>
+    <div class="cmd"><pre><code>ssh sauvc-win wsl -d Ubuntu-22.04 --cd ~ -- ls logs/sauvc
+ssh sauvc-win wsl -d Ubuntu-22.04 --cd ~ -- tail -n 50 logs/sauvc/&lt;資料夾&gt;/sim.log</code></pre></div>
+    <h3>常見問題</h3>
+    <div class="tbl"><table class="wide">
+      <thead><tr><th>症狀</th><th>原因</th><th>處理</th></tr></thead>
+      <tbody>
+        <tr><td>Web GUI 顯示 Link down</td><td>通道斷了，或 control 沒在跑</td><td>重開通道；<code>status</code> 看 Web GUI 節點是不是 1 個</td></tr>
+        <tr><td>相機顯示 No stream</td><td>網址沒加 <code>?camera_port=18081</code></td><td>用開啟步驟 3 的完整網址</td></tr>
+        <tr><td>狀態表「感測器 bridge」超過 1 個</td><td>上次的 bridge 沒關乾淨，感測器頻率會翻倍</td><td><code>restart</code></td></tr>
+        <tr><td><code>start</code> 卡在「等感測器資料」後失敗</td><td>Gazebo 沒起來</td><td><code>logs sim</code> 看錯誤，再 <code>restart</code></td></tr>
+        <tr><td>提示「找不到容器」或「沒有 Xvfb/noVNC」</td><td>容器被重建過，需要重新下載套件</td><td>找機器主人，不要自己裝</td></tr>
+        <tr><td><code>ssh sauvc-win</code> 要求密碼</td><td>金鑰沒對上</td><td>不要猜密碼，找機器主人</td></tr>
+        <tr><td>連不上桌機</td><td>桌機關機或 Tailscale 斷線</td><td>確認 Mac 的 Tailscale 有連上，再問機器主人</td></tr>
+      </tbody>
+    </table></div>
+    <p>正常的感測器頻率：IMU 與深度計 100 Hz、前方相機約 12.6 Hz、下方相機約 15 Hz、深度影像約 30 Hz。</p>
+  </section>
+
+  <section id="rules" aria-labelledby="h-rules">
+    <h2 id="h-rules">不能做的事</h2>
+    <p>這台桌機同時是機器主人的碩論環境，下面幾件事不能做。</p>
+    <ul class="rules">
+      <li><strong>不要動其他容器。</strong>名稱含 <code>damn-vulnerable-drone</code>、<code>-lite</code> 的容器是碩論實驗，不要停、不要刪。<code>sauvc-sim</code> 只會動 orca-sim 和 orca-control。</li>
+      <li><strong>不要自己下載或安裝東西</strong>，包括 apt、pip、docker pull、git clone。需要的話先問機器主人。</li>
+      <li><strong>不要 push 到隊上的 repo</strong>（NCTU-AUV）。程式改動要推到自己的 fork，再發 PR。</li>
+      <li><strong>不要把 80、8080、6080 開放給區網</strong>，也不要改 WSL 的網路模式。只用 SSH 通道看。</li>
+      <li><strong>不要猜 Windows 密碼。</strong>那是微軟帳號，連錯幾次就可能被鎖住。</li>
+    </ul>
+  </section>
+
+  <footer>NYCU AUV · SAUVC 模擬環境 · 最後更新 2026-10-19</footer>
+</main>
+<script>
+// 每個指令區塊加「複製」按鈕
+document.querySelectorAll('.cmd').forEach(function (box) {
+  var btn = document.createElement('button');
+  btn.type = 'button'; btn.className = 'copy'; btn.textContent = '複製';
+  btn.addEventListener('click', function () {
+    var text = box.querySelector('code').textContent;
+    var done = function () { btn.textContent = '已複製'; setTimeout(function () { btn.textContent = '複製'; }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { btn.textContent = '請手動選取'; });
+    } else { btn.textContent = '請手動選取'; }
+  });
+  box.appendChild(btn);
+});
+</script>
+</body>
+</html>
