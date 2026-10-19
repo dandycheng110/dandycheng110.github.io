@@ -17,6 +17,7 @@
 * { box-sizing:border-box; }
 html { -webkit-text-size-adjust:100%; }
 body { margin:0; background:var(--bg); color:var(--ink); font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; line-height:1.75; }
+.wrap > * { min-width:0; }
 .wrap { max-width:860px; margin:0 auto; padding-inline:16px; padding-block:28px 72px; display:grid; gap:28px; }
 header.top { display:grid; gap:10px; }
 .back { color:var(--muted); font-size:14px; text-decoration:none; }
@@ -40,7 +41,8 @@ code { font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace; font-
 .copy { position:absolute; top:8px; right:8px; font:inherit; font-size:12px; padding:4px 10px; border-radius:6px; border:1px solid rgba(255,255,255,.25); background:transparent; color:var(--code-ink); cursor:pointer; }
 .copy:hover { border-color:var(--accent); }
 .copy:focus-visible, nav.toc a:focus-visible, .back:focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
-.step { display:grid; gap:10px; background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:16px; }
+.step > * { min-width:0; }
+.step { min-width:0; display:grid; gap:10px; background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:16px; }
 .step .n { font-weight:900; color:var(--accent); margin-right:6px; }
 .tbl { overflow-x:auto; border:1px solid var(--rule); border-radius:10px; background:var(--surface); }
 table { border-collapse:collapse; width:100%; font-size:15px; }
@@ -49,6 +51,7 @@ th { font-size:13px; color:var(--muted); font-weight:500; white-space:nowrap; }
 tr:last-child td { border-bottom:0; }
 td:first-child { white-space:nowrap; }
 .wide td:first-child { white-space:normal; min-width:9em; }
+.who td:nth-child(2) { white-space:nowrap; }
 .note { border-left:3px solid var(--accent); padding:4px 0 4px 12px; font-size:15px; }
 .figure { background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:12px; overflow-x:auto; }
 .figure svg { display:block; width:100%; min-width:560px; height:auto; }
@@ -129,7 +132,7 @@ footer { color:var(--muted); font-size:13px; border-top:1px solid var(--rule); p
   <section id="setup" aria-labelledby="h-setup">
     <h2 id="h-setup">第一次使用前的準備</h2>
     <p>準備只要做一次。同學自己產生金鑰，再由機器主人把桌機開放給同學。</p>
-    <div class="tbl"><table class="wide">
+    <div class="tbl"><table class="who">
       <thead><tr><th>步驟</th><th>誰做</th><th>做什麼</th></tr></thead>
       <tbody>
         <tr><td>1</td><td>同學</td><td>在 Mac 裝 Tailscale 並登入。</td></tr>
