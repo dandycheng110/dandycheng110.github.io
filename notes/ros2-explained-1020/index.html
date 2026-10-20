@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ROS 2 是不是機器人語言？｜白話入門</title>
+<meta name="description" content="ROS 2 不是程式語言，也不是作業系統。用三層比喻、5 個基本元件、訂閱／發布程式對照，加上一個可以切換發布者的小實驗，白話講清楚 ROS 2 是什麼，附官方原文出處。">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ROS 2 是不是機器人語言？｜白話入門">
+<meta property="og:description" content="不是。它是機器人內部的收發室＋工具箱：三層比喻、5 個基本元件、切換發布者的小實驗。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%96%3C/text%3E%3C/svg%3E">
+<script>
+  try { var t = localStorage.getItem('ros2-explained.theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<style>
+:root{
+  --bg:#f3f6f7; --surface:#ffffff; --surface-2:#eaf0f2; --fg:#14212b; --muted:#56656f; --line:#d5dfe4;
+  --accent:#0d7382; --accent-soft:#dcf0f2; --on-accent:#ffffff;
+  --ok:#1d7a3e; --ok-soft:#e1f3e7; --warn:#a85600; --warn-soft:#fdeedd; --bad:#b3261e; --bad-soft:#fbe4e2;
+  --sim:#6a4fc4; --sim-soft:#ece7fb; --real:#0d7382; --real-soft:#dcf0f2;
+  --code-bg:#e9eff2;
+  --font-body:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b1317; --surface:#111c22; --surface-2:#172730; --fg:#e1eaee; --muted:#93a5af; --line:#24353e;
+    --accent:#52c2d0; --accent-soft:#123139; --on-accent:#0b1317;
+    --ok:#62d08c; --ok-soft:#12301f; --warn:#f0a24a; --warn-soft:#352410; --bad:#ff8a80; --bad-soft:#3a1714;
+    --sim:#b39dff; --sim-soft:#2a2346; --real:#52c2d0; --real-soft:#123139;
+    --code-bg:#0e191f;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b1317; --surface:#111c22; --surface-2:#172730; --fg:#e1eaee; --muted:#93a5af; --line:#24353e;
+  --accent:#52c2d0; --accent-soft:#123139; --on-accent:#0b1317;
+  --ok:#62d08c; --ok-soft:#12301f; --warn:#f0a24a; --warn-soft:#352410; --bad:#ff8a80; --bad-soft:#3a1714;
+  --sim:#b39dff; --sim-soft:#2a2346; --real:#52c2d0; --real-soft:#123139;
+  --code-bg:#0e191f;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.75}
+a{color:var(--accent)}
+code{font-family:var(--font-mono);font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:5px;overflow-wrap:anywhere}
+b,strong{font-weight:700}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 56px}
+@media (min-width:640px){.wrap{padding:28px 24px 72px}}
+
+/* 頁首 */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}
+.back{font-size:14px;text-decoration:none;color:var(--muted)}
+.back:hover{color:var(--accent)}
+.theme{font:inherit;font-size:13px;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;min-height:36px}
+.eyebrow{margin:0 0 6px;font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--accent)}
+.nb{white-space:nowrap}
+h1{margin:0 0 16px;font-size:clamp(28px,6vw,40px);line-height:1.3;letter-spacing:.01em}
+.answer{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:var(--radius);padding:16px 18px}
+.answer .big{margin:0 0 4px;font-size:26px;font-weight:800;color:var(--accent);line-height:1.4}
+.answer p{margin:0}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.toc a{display:inline-block;font-size:14px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+
+/* 段落 */
+section{scroll-margin-top:16px}
+h2{display:flex;align-items:baseline;gap:10px;margin:44px 0 12px;font-size:22px;line-height:1.4}
+h2 .num{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--accent)}
+p{margin:0 0 12px}
+.note{color:var(--muted);font-size:15px}
+.points{margin:0 0 12px;padding-left:22px}
+.points li{margin:4px 0}
+
+/* 表格 */
+.tbl{margin:10px 0 18px;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.6}
+caption{caption-side:top;text-align:left;padding:12px 14px 10px;font-weight:700;border-bottom:1px solid var(--line)}
+caption .tno{display:inline-block;font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--on-accent);background:var(--accent);border-radius:6px;padding:1px 7px;margin-right:8px;vertical-align:2px}
+th,td{text-align:left;vertical-align:top;padding:10px 14px}
+th{background:var(--surface-2);font-size:14px;font-weight:700;white-space:nowrap}
+td{border-top:1px solid var(--line)}
+tbody tr:first-child td{border-top:0}
+td small{display:block;margin-top:3px;font-size:13px;line-height:1.55;color:var(--muted)}
+td .en{display:block;font-weight:700}
+td .zh{display:block;font-size:14px;color:var(--muted)}
+td code.line{display:block;white-space:pre-wrap;padding:6px 8px;margin:2px 0}
+@media (max-width:600px){
+  table{font-size:14.5px}
+  th,td{padding:9px 11px}
+  table.stack, table.stack caption, table.stack tbody, table.stack tr, table.stack td{display:block;width:100%}
+  table.stack thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  table.stack tr{border-top:1px solid var(--line);padding:6px 0}
+  table.stack tbody tr:first-child{border-top:0}
+  table.stack td{border:0;padding:5px 12px}
+  table.stack td::before{content:attr(data-label);display:block;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+}
+
+/* 互動小實驗 */
+.demo{display:grid;gap:12px;grid-template-columns:minmax(0,1fr);padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+@media (min-width:700px){.demo{grid-template-columns:minmax(0,1fr) auto minmax(0,1.15fr);align-items:center;padding:18px}}
+.pubs{display:grid;gap:10px}
+.node-tag{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.pub{--c:var(--accent);--c-soft:var(--accent-soft);display:grid;grid-template-columns:1fr auto;grid-template-areas:"tag state" "name state";align-items:center;column-gap:10px;width:100%;text-align:left;font:inherit;color:var(--fg);background:var(--surface-2);border:2px solid var(--line);border-radius:12px;padding:10px 14px;cursor:pointer;min-height:60px;transition:border-color .15s,background-color .15s}
+.pub .node-tag{grid-area:tag}
+.pub-name{grid-area:name;font-weight:700;line-height:1.4}
+.pub-state{grid-area:state;font-size:13px;font-weight:700;border-radius:999px;padding:4px 10px;background:var(--surface);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.pub[aria-pressed="true"]{border-color:var(--c);background:var(--c-soft)}
+.pub[aria-pressed="true"] .pub-state{background:var(--c);border-color:var(--c);color:var(--on-accent)}
+.pub:focus-visible,.theme:focus-visible,.reveal input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+#pubSim{--c:var(--sim);--c-soft:var(--sim-soft)}
+#pubReal{--c:var(--real);--c-soft:var(--real-soft)}
+.topic{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted)}
+.topic::before,.topic::after{content:"↓";font-size:20px;line-height:1}
+@media (min-width:700px){.topic{flex-direction:row;gap:6px}.topic::before,.topic::after{content:"→"}}
+.topic-pill{font-family:var(--font-mono);font-weight:700;font-size:15px;color:var(--fg);text-align:center;padding:8px 14px;border-radius:999px;border:2px dashed var(--accent);background:var(--accent-soft);line-height:1.3}
+.topic-pill small{display:block;font-size:11px;font-weight:600;color:var(--muted)}
+.topic-pill.blink{animation:blink .4s ease-out}
+@keyframes blink{from{box-shadow:0 0 0 0 var(--accent)}to{box-shadow:0 0 0 12px rgba(0,0,0,0)}}
+.sub{border:2px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--surface-2);transition:border-color .2s}
+.sub[data-state="one"]{border-color:var(--ok)}
+.sub[data-state="none"]{border-color:var(--warn)}
+.sub[data-state="two"]{border-color:var(--bad)}
+.sub-name{font-weight:700}
+.reading{font-family:var(--font-mono);font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.3;margin:2px 0}
+.sub-status{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.sub-status::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--muted);flex:none}
+.sub[data-state="one"] .sub-status{color:var(--ok)}
+.sub[data-state="one"] .sub-status::before{background:var(--ok)}
+.sub[data-state="none"] .sub-status{color:var(--warn)}
+.sub[data-state="none"] .sub-status::before{background:var(--warn)}
+.sub[data-state="two"] .sub-status{color:var(--bad)}
+.sub[data-state="two"] .sub-status::before{background:var(--bad)}
+#waitSecs{font-weight:500;color:var(--muted)}
+.log{list-style:none;margin:10px 0 0;padding:8px 0 0;border-top:1px dashed var(--line);font-family:var(--font-mono);font-size:13px;line-height:1.7;min-height:calc(6 * 1.7em + 8px)}
+.log li{display:flex;gap:10px;align-items:baseline}
+.log .seq{color:var(--muted);min-width:3.4em}
+.log .v{min-width:4.6em;font-variant-numeric:tabular-nums}
+.log .src{color:var(--muted)}
+.log .src-sim{color:var(--sim);font-weight:700}
+.log .src-real{color:var(--real);font-weight:700}
+.reveal{display:flex;align-items:center;gap:8px;margin:12px 0 0;font-size:15px;cursor:pointer;min-height:40px}
+.reveal input{width:20px;height:20px;accent-color:var(--accent)}
+.callout{margin:10px 0 14px;padding:12px 16px;border-radius:12px;border:1px solid var(--line);border-left:5px solid var(--muted);background:var(--surface)}
+.callout[data-state="one"]{border-left-color:var(--ok);background:var(--ok-soft)}
+.callout[data-state="none"]{border-left-color:var(--warn);background:var(--warn-soft)}
+.callout[data-state="two"]{border-left-color:var(--bad);background:var(--bad-soft)}
+.callout p{margin:0}
+.cli{margin:0 0 16px;padding:12px 14px;border-radius:12px;background:var(--code-bg);border:1px solid var(--line);font-family:var(--font-mono);font-size:13.5px;line-height:1.6;overflow-x:auto;white-space:pre}
+.cli .prompt{color:var(--accent);user-select:none}
+.cli b{color:var(--accent)}
+@media (prefers-reduced-motion: reduce){.topic-pill.blink{animation:none}.pub,.sub{transition:none}}
+
+/* 出處與頁尾 */
+.sources{padding-left:22px;margin:0 0 12px}
+.sources li{margin:6px 0}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+footer a{text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="topbar">
+    <a class="back" href="../">← 筆記列表</a>
+    <button class="theme" id="themeBtn" type="button" aria-label="切換深色或淺色">☾ 深色</button>
+  </div>
+  <p class="eyebrow">ROS 2 白話入門 · 2026-10-20</p>
+  <h1>ROS 2 是不是<span class="nb">機器人語言？</span></h1>
+  <div class="answer">
+    <p class="big">不是。</p>
+    <p>ROS 2 不是程式語言；全名雖然叫 Robot Operating System，它也不是 Windows、macOS 那種作業系統。官方文件說它是 <b>middleware（中介軟體）</b>：夾在作業系統和你寫的程式中間，讓機器人裡的各支程式互相傳資料，另外附一整套工具。真正寫邏輯的，還是 Python 或 C++。</p>
+  </div>
+  <ul class="toc" aria-label="本頁目錄">
+    <li><a href="#layers">三層比喻</a></li>
+    <li><a href="#parts">5 個元件</a></li>
+    <li><a href="#code">程式長相</a></li>
+    <li><a href="#demo">切切看</a></li>
+    <li><a href="#family">MAVLink 一家</a></li>
+    <li><a href="#language">機器人語言</a></li>
+    <li><a href="#try">動手學</a></li>
+    <li><a href="#sources">原文出處</a></li>
+  </ul>
+</header>
+
+<main>
+
+<section id="layers">
+  <h2><span class="num">01</span>先分三層看</h2>
+  <p>很多人卡在「ROS 2 到底是哪一種東西」。把機器人的軟體想成一間公司，就分得出來：</p>
+  <div class="tbl">
+    <table>
+      <caption><span class="tno">表 1</span>三層各管什麼</caption>
+      <colgroup><col style="width:30%"><col style="width:26%"><col style="width:44%"></colgroup>
+      <thead><tr><th>這一層</th><th>比喻</th><th>負責什麼</th></tr></thead>
+      <tbody>
+        <tr><td><span class="en">作業系統</span><span class="zh">Linux（主場是 Ubuntu）</span></td><td>辦公大樓</td><td>管硬體、檔案、網路，讓程式有地方跑</td></tr>
+        <tr><td><span class="en">程式語言</span><span class="zh">Python、C++</span></td><td>員工的腦袋</td><td>每支程式怎麼判斷、怎麼做事</td></tr>
+        <tr><td><span class="en">ROS 2</span><span class="zh">中介軟體 middleware</span></td><td>收發室＋群組＋公文格式</td><td>程式之間怎麼傳話、資料長怎樣、怎麼找到彼此</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">所以 ROS 2 要裝在作業系統上。在 Mac 上跑 ROS 2，通常要先開一台 Linux 虛擬機或容器，等於先蓋一棟 Linux 大樓給它住。</p>
+  <p class="note">也因為大家用同一間收發室、填同一種表單，Python 寫的程式和 C++ 寫的程式可以直接互傳資料。</p>
+</section>
+
+<section id="parts">
+  <h2><span class="num">02</span>ROS 2 裡面的 5 個基本元件</h2>
+  <p>官方文件把「哪些程式、透過哪些頻道連在一起」這整張網路叫做 <b>ROS graph</b>。這張網路由下面 5 種東西組成：</p>
+  <div class="tbl">
+    <table>
+      <caption><span class="tno">表 2</span>5 個基本元件</caption>
+      <colgroup><col style="width:22%"><col style="width:44%"><col style="width:34%"></colgroup>
+      <thead><tr><th>名詞</th><th>白話</th><th>比喻</th></tr></thead>
+      <tbody>
+        <tr><td><span class="en">node</span><span class="zh">節點</span></td><td>各管一件事的小程式<small>例：深度感測程式、監督程式</small></td><td>一位員工</td></tr>
+        <tr><td><span class="en">topic</span><span class="zh">話題</span></td><td>持續廣播的資料頻道<small>用在：感測器數值、相機畫面這種一直來的資料</small></td><td>LINE 群組：發的人不知道誰在看，看的人也不知道是誰發的</td></tr>
+        <tr><td><span class="en">message</span><span class="zh">訊息</span></td><td>頻道裡資料的固定格式<small>例：<code>Float32</code>＝一個小數</small></td><td>公文表單</td></tr>
+        <tr><td><span class="en">service</span><span class="zh">服務</span></td><td>一問一答<small>用在：偶爾查一次、要馬上拿到答案</small></td><td>打電話問「電量剩多少？」</td></tr>
+        <tr><td><span class="en">action</span><span class="zh">動作</span></td><td>要花時間的任務，途中回報進度、可以取消<small>例：「下潛到 2 公尺」</small></td><td>叫外送：下單 →「還有 5 分鐘」→ 送達</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="code">
+  <h2><span class="num">03</span>程式長什麼樣？</h2>
+  <p>拿水下機器人當例子：深度感測程式把深度發布到 <code>depth</code> 這個頻道，監督程式訂閱它，深度不對就喊停。兩支程式裡跟 ROS 2 有關的，各只有一兩行：</p>
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 3</span>訂閱和發布各是哪一行</caption>
+      <thead><tr><th>角色</th><th>關鍵那一行（Python）</th><th>白話</th></tr></thead>
+      <tbody>
+        <tr>
+          <td data-label="角色"><span class="en">監督程式</span><span class="zh">訂閱者 subscriber</span></td>
+          <td data-label="關鍵那一行（Python）"><code class="line">self.create_subscription(Float32, 'depth', self.on_depth, 10)</code></td>
+          <td data-label="白話">加入 <code>depth</code> 群組，收到新訊息就交給 <code>on_depth</code> 處理</td>
+        </tr>
+        <tr>
+          <td data-label="角色"><span class="en">深度感測程式</span><span class="zh">發布者 publisher</span></td>
+          <td data-label="關鍵那一行（Python）"><code class="line">self.pub = self.create_publisher(Float32, 'depth', 10)
+self.pub.publish(msg)</code></td>
+          <td data-label="白話">在 <code>depth</code> 群組發一張「一個小數」格式的表單</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ul class="points">
+    <li>這兩支都是 Python 程式。<code>create_subscription</code>、<code>create_publisher</code> 是 ROS 2 給 Python 用的函式庫 <b>rclpy</b> 提供的功能；C++ 版叫 <b>rclcpp</b>。</li>
+    <li>兩邊只靠頻道名稱 <code>depth</code> 和表單格式 <code>Float32</code> 對上，彼此不用知道對方是誰。</li>
+    <li>最後那個 <code>10</code> 是排隊上限：來不及處理的時候，最多先留 10 則。</li>
+  </ul>
+</section>
+
+<section id="demo">
+  <h2><span class="num">04</span>切切看：誰在發布 depth？</h2>
+  <p>左邊兩個發布者可以開關，右邊的監督程式只看得到數字。試試 0 個、1 個、2 個發布者時，各會發生什麼事。</p>
+
+  <div class="demo">
+    <div class="pubs" role="group" aria-label="發布者開關">
+      <button class="pub" id="pubSim" type="button" aria-pressed="true">
+        <span class="node-tag">node · 發布者</span>
+        <span class="pub-name">模擬器</span>
+        <span class="pub-state">發布中</span>
+      </button>
+      <button class="pub" id="pubReal" type="button" aria-pressed="false">
+        <span class="node-tag">node · 發布者</span>
+        <span class="pub-name">實機深度感測器</span>
+        <span class="pub-state">已停止</span>
+      </button>
+    </div>
+    <div class="topic" aria-hidden="true"><span class="topic-pill" id="pill">/depth<small>Float32</small></span></div>
+    <div class="sub" id="subCard" data-state="one">
+      <span class="node-tag">node · 訂閱者</span>
+      <div class="sub-name">監督程式</div>
+      <div class="reading" id="reading">— m</div>
+      <div class="sub-status"><span id="subStatus" aria-live="polite">正常收到</span><span id="waitSecs"></span></div>
+      <ol class="log" id="log" aria-label="最近收到的訊息"></ol>
+    </div>
+  </div>
+
+  <label class="reveal"><input type="checkbox" id="reveal"> 顯示每則訊息是誰發的（上帝視角）</label>
+
+  <div class="callout" id="explain" data-state="one"><p></p></div>
+
+  <pre class="cli" aria-label="ros2 topic info 指令的輸出"><span class="prompt">$ </span>ros2 topic info /depth
+Type: std_msgs/msg/Float32
+Publisher count: <b id="cliCount">1</b>
+Subscription count: 1</pre>
+
+  <div class="tbl">
+    <table>
+      <caption><span class="tno">表 4</span>發布者數量和結果</caption>
+      <colgroup><col style="width:17%"><col style="width:39%"><col style="width:44%"></colgroup>
+      <thead><tr><th>發布者</th><th>監督程式看到什麼</th><th>代表什麼</th></tr></thead>
+      <tbody>
+        <tr><td>0 個</td><td>一直等不到資料，ROS 2 也不報錯</td><td>一個頻道本來就允許沒人發布。實機少了一支發布程式時，最容易卡在這裡</td></tr>
+        <tr><td>1 個</td><td>正常收到深度，不知道也不在乎是誰發的</td><td>這就是匿名（anonymous）的好處：從模擬換到實機，監督程式不用改</td></tr>
+        <tr><td>2 個</td><td>兩個來源的數字交錯出現，分不出誰是誰</td><td>模擬器和實機同時開著時要小心</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="family">
+  <h2><span class="num">05</span>跟 MAVLink 那一家擺一起</h2>
+  <p>做無人機、無人船、水下機器人，常會同時碰到下面這幾個名字：</p>
+  <div class="tbl">
+    <table>
+      <caption><span class="tno">表 5</span>常跟 ROS 2 一起出現的名詞</caption>
+      <colgroup><col style="width:26%"><col style="width:44%"><col style="width:30%"></colgroup>
+      <thead><tr><th>名詞</th><th>是什麼</th><th>比喻</th></tr></thead>
+      <tbody>
+        <tr><td><span class="en">MAVLink</span></td><td>飛控和地面站之間的通訊規格，無人機、無人船、水下機器人很常用</td><td>飛控專用的無線電用語</td></tr>
+        <tr><td><span class="en">ROS 2</span></td><td>整台機器人內部的收發室＋工具箱</td><td>公司內部的收發室</td></tr>
+        <tr><td><span class="en">MAVROS</span></td><td>把 MAVLink 和 ROS 2 互相翻譯的程式</td><td>翻譯官</td></tr>
+        <tr><td><span class="en">pymavlink</span></td><td>用 Python 直接講 MAVLink 的函式庫，可以不經過 MAVROS</td><td>自己學會無線電用語</td></tr>
+        <tr><td><span class="en">micro-ROS</span></td><td>塞得進微控制器（例如 STM32）的迷你版 ROS 2</td><td>接進同一間收發室的小分機</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="language">
+  <h2><span class="num">06</span>那什麼才叫「機器人語言」？</h2>
+  <p>比較貼切的是工業機械手臂廠牌自己的程式語言：</p>
+  <div class="tbl">
+    <table>
+      <caption><span class="tno">表 6</span>工業手臂廠牌的程式語言</caption>
+      <thead><tr><th>廠牌</th><th>語言</th></tr></thead>
+      <tbody>
+        <tr><td>ABB</td><td>RAPID</td></tr>
+        <tr><td>KUKA</td><td>KRL（KUKA Robot Language）</td></tr>
+        <tr><td>FANUC</td><td>KAREL、TP（教導盒程式）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>有人說 ROS 2 是「機器人界的共通語言」，意思是大家都靠它溝通，這是比喻，不是程式語言。想看懂 ROS 2 程式，順序是先會 Python（或 C++），再學表 2 那 5 個元件。</p>
+</section>
+
+<section id="try">
+  <h2><span class="num">07</span>想動手按按看</h2>
+  <p>官方入門教學從 <b>turtlesim</b> 開始：視窗裡有一隻小烏龜，用鍵盤開著牠走。接著〈Understanding topics〉那篇會開 <b>rqt_graph</b>，把節點和頻道畫成一張圖；開或關一支程式，圖上的連線就跟著變，跟上面的小實驗是同一件事。</p>
+  <div class="tbl">
+    <table>
+      <caption><span class="tno">表 7</span>新手最常用的三個指令</caption>
+      <thead><tr><th>指令</th><th>做什麼</th></tr></thead>
+      <tbody>
+        <tr><td><code>ros2 topic list</code></td><td>列出現在所有頻道</td></tr>
+        <tr><td><code>ros2 topic echo /depth</code></td><td>即時看這個頻道收到的每一則訊息</td></tr>
+        <tr><td><code>ros2 topic info /depth</code></td><td>看這個頻道有幾個發布者、幾個訂閱者</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="sources">
+  <h2><span class="num">08</span>原文出處</h2>
+  <ul class="sources">
+    <li><a href="https://docs.ros.org/en/kilted/Concepts/Basic.html">Basic Concepts</a>（ROS 2 官方文件）：開頭說 ROS 2 是 middleware，建立在發布／訂閱機制上</li>
+    <li><a href="https://docs.ros.org/en/rolling/Concepts/Basic/About-Topics.html">Topics</a>（ROS 2 官方文件）：匿名發布、一個頻道可以有 0 個以上的發布者和訂閱者</li>
+    <li><a href="https://docs.ros.org/en/rolling/Tutorials/Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html">Using turtlesim, ros2, and rqt</a>（官方入門教學）：從小烏龜開始的第一課</li>
+  </ul>
+  <p class="note">表 5、表 6 是整理常見知識，細節以各專案和廠牌的官方文件為準。</p>
+</section>
+
+</main>
+
+<footer>
+  <a href="../">← 回筆記列表</a>
+  <span>2026-10-20 整理 · 和 Claude 協作</span>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  // 深淺色切換：沒選過就跟系統
+  var KEY = 'ros2-explained.theme', root = document.documentElement, btn = document.getElementById('themeBtn');
+  var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  function current() { var t = root.getAttribute('data-theme'); return t || (mq && mq.matches ? 'dark' : 'light'); }
+  function label() { btn.textContent = current() === 'dark' ? '☀ 淺色' : '☾ 深色'; }
+  btn.addEventListener('click', function () {
+    var next = current() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem(KEY, next); } catch (e) {}
+    label();
+  });
+  if (mq && mq.addEventListener) mq.addEventListener('change', label);
+  label();
+})();
+
+(function () {
+  // 小實驗：兩個發布者往 /depth 發數字，監督程式只看得到數字
+  var pubs = {
+    sim:  { on: true,  period: 800,  base: 1.20, jitter: 0.01, last: -1e9, name: '模擬器',     el: document.getElementById('pubSim') },
+    real: { on: false, period: 1100, base: 1.48, jitter: 0.03, last: -1e9, name: '實機感測器', el: document.getElementById('pubReal') }
+  };
+  var logEl = document.getElementById('log'), readingEl = document.getElementById('reading');
+  var statusEl = document.getElementById('subStatus'), waitEl = document.getElementById('waitSecs');
+  var explainEl = document.getElementById('explain'), cliEl = document.getElementById('cliCount');
+  var pill = document.getElementById('pill'), subCard = document.getElementById('subCard'), reveal = document.getElementById('reveal');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var log = [], seq = 0, lastRx = -1e9, mode = '';
+
+  var TEXT = {
+    none: { status: '等不到資料',
+            explain: '<b>0 個發布者：</b>ROS 2 不會報錯，因為一個頻道本來就允許沒人發布。監督程式只會一直等，分不出是「還沒來」還是「根本沒人發」。實機少了一支發布程式時，最容易卡在這裡。' },
+    one:  { status: '正常收到',
+            explain: '<b>1 個發布者：</b>監督程式收得到深度，但不知道、也不在乎是誰發的，官方文件叫它 anonymous（匿名）。好處是從模擬換到實機，監督程式不用改。' },
+    two:  { status: '數字在跳',
+            explain: '<b>2 個發布者：</b>兩邊的數字交錯送進來，監督程式自己分不出誰是誰，深度看起來就在亂跳。模擬器和實機同時開著時要小心。勾上面的「顯示每則訊息是誰發的」就看得出來。' }
+  };
+
+  function count() { return (pubs.sim.on ? 1 : 0) + (pubs.real.on ? 1 : 0); }
+
+  function renderLog() {
+    logEl.innerHTML = log.map(function (m) {
+      var src = reveal.checked
+        ? '<span class="src src-' + m.src + '">' + pubs[m.src].name + '</span>'
+        : '<span class="src">來源：？</span>';
+      return '<li><span class="seq">#' + m.seq + '</span><span class="v">' + m.v.toFixed(2) + ' m</span>' + src + '</li>';
+    }).join('');
+  }
+
+  function setMode() {
+    var c = count(), m = c === 0 ? 'none' : (c === 1 ? 'one' : 'two');
+    cliEl.textContent = String(c);
+    if (m === mode) return;
+    mode = m;
+    subCard.setAttribute('data-state', m);
+    explainEl.setAttribute('data-state', m);
+    explainEl.firstElementChild.innerHTML = TEXT[m].explain;
+    statusEl.textContent = TEXT[m].status;
+    waitEl.textContent = '';
+  }
+
+  function publish(key, now) {
+    var p = pubs[key];
+    var v = p.base + (Math.random() * 2 - 1) * p.jitter;
+    seq += 1;
+    log.unshift({ v: v, src: key, seq: seq });
+    if (log.length > 6) log.pop();
+    lastRx = now;
+    readingEl.textContent = v.toFixed(2) + ' m';
+    renderLog();
+    if (!reduce) { pill.classList.remove('blink'); void pill.offsetWidth; pill.classList.add('blink'); }
+  }
+
+  function tick() {
+    if (document.hidden) return;
+    var now = performance.now();
+    ['sim', 'real'].forEach(function (k) {
+      var p = pubs[k];
+      if (p.on && now - p.last >= p.period) { p.last = now; publish(k, now); }
+    });
+    if (mode === 'none') {
+      var idle = now - lastRx;
+      if (idle > 1500) {
+        readingEl.textContent = '— m';
+        waitEl.textContent = '（已經 ' + Math.floor(idle / 1000) + ' 秒）';
+      }
+    }
+  }
+
+  Object.keys(pubs).forEach(function (k) {
+    var p = pubs[k];
+    p.el.addEventListener('click', function () {
+      p.on = !p.on;
+      p.last = performance.now() - p.period + 250;  // 打開後很快送出第一則
+      p.el.setAttribute('aria-pressed', String(p.on));
+      p.el.querySelector('.pub-state').textContent = p.on ? '發布中' : '已停止';
+      setMode();
+    });
+  });
+  reveal.addEventListener('change', renderLog);
+
+  setMode();
+  setInterval(tick, 100);
+})();
+</script>
+</body>
+</html>
