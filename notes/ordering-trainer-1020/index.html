@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>點餐句型訓練器</title>
+<meta name="description" content="英文點餐、提議、想試、投票五種講法的六階自學頁：句型卡、組句機、朗讀、填空練習、救援句。">
+<meta name="referrer" content="no-referrer">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one 720px column, a sticky rung-nav, six ladder steps (階) from vocabulary up to real-world practice. */
+:root{
+  --bg:#F5F8F3; --surface:#FFFFFF; --fg:#1B241F; --muted:#5F6C65; --line:#D8E0D9;
+  --accent:#2C7A4E; --accent-ink:#FFFFFF; --accent-soft:#E2F0E7;
+  --amber:#B06E1A; --amber-soft:#F8ECD9;
+  --font-display:"Bricolage Grotesque","PingFang TC","Noto Sans TC",system-ui,sans-serif;
+  --font-body:"Source Sans 3","PingFang TC","Noto Sans TC",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10150F; --surface:#182019; --fg:#E6ECE6; --muted:#9BA89F; --line:#2A352C;
+    --accent:#63C18B; --accent-ink:#0E1A12; --accent-soft:#1D3326;
+    --amber:#DDA552; --amber-soft:#3A2C15; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10150F; --surface:#182019; --fg:#E6ECE6; --muted:#9BA89F; --line:#2A352C;
+  --accent:#63C18B; --accent-ink:#0E1A12; --accent-soft:#1D3326;
+  --amber:#DDA552; --amber-soft:#3A2C15; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+.wrap{max-width:720px;margin:0 auto}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,6vw,40px);font-weight:700}
+h2{font-size:22px;font-weight:700}
+h3{font-size:17px;font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+button{font:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.muted{color:var(--muted)}
+
+header.hero{padding-block:36px 20px;display:grid;gap:12px}
+.hero .lede{max-width:60ch;color:var(--muted)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.switch{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:14px}
+.switch input{accent-color:var(--accent);margin:0}
+
+nav.rungs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+nav.rungs ol{list-style:none;margin:0;padding:0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+nav.rungs ol::-webkit-scrollbar{display:none}
+nav.rungs a{display:block;white-space:nowrap;padding:6px 12px;border-radius:999px;font-size:14px;text-decoration:none;color:var(--fg);border:1px solid var(--line);background:var(--surface)}
+nav.rungs a:hover{border-color:var(--accent)}
+
+section.step{padding-block:32px 8px;display:grid;gap:16px}
+.step-head{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start}
+.rung{width:44px;height:44px;border-radius:10px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:18px;position:relative}
+.rung small{font-size:10px;position:absolute;top:4px;left:0;right:0;text-align:center;font-weight:600;opacity:.8}
+.rung b{margin-top:8px}
+.step-head p{color:var(--muted);max-width:60ch;margin-top:4px}
+
+.group{display:grid;gap:10px}
+.group-title{display:flex;align-items:baseline;gap:10px;margin-top:8px}
+.group-title .zh{color:var(--muted);font-size:14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;display:grid;gap:6px;min-width:0}
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card .en{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.01em}
+.card .ex{font-size:15px}
+.card .ex b{color:var(--accent);font-weight:600}
+.card .note{font-size:13px;color:var(--muted)}
+.tone{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-top:4px}
+.tone .dots{display:inline-flex;gap:3px}
+.tone .dots i{width:8px;height:8px;border-radius:50%;background:var(--line);display:inline-block}
+.tone .dots i.on{background:var(--amber)}
+.spk{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;width:34px;height:34px;display:inline-grid;place-items:center;flex:none}
+.spk:hover{border-color:var(--accent);color:var(--accent)}
+.spk svg{width:18px;height:18px;fill:currentColor}
+.spk.small{width:28px;height:28px}
+.spk.small svg{width:14px;height:14px}
+
+.builder{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:12px}
+.builder .fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.field{display:grid;gap:4px;min-width:0}
+.field label{font-size:12px;color:var(--muted);font-weight:600}
+.field select{font:inherit;font-size:15px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);width:100%}
+.formula{font-family:var(--font-mono);font-size:13px;color:var(--muted);overflow-x:auto;white-space:nowrap}
+.formula span{color:var(--accent)}
+.output{display:grid;gap:8px;padding:14px;border-radius:10px;background:var(--accent-soft)}
+.output .sentence{font-family:var(--font-display);font-size:clamp(18px,3.4vw,22px);font-weight:700;line-height:1.3}
+.output .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:600;display:inline-flex;gap:6px;align-items:center}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.05)}
+.btn svg{width:16px;height:16px;fill:currentColor}
+
+.tricks{display:grid;gap:10px}
+.trick{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:8px;min-width:0}
+.trick .pair{display:grid;gap:6px}
+.trick .line{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.trick .line .txt{font-size:16px}
+.trick .line .tag{font-size:11px;padding:2px 8px;border-radius:999px;background:var(--amber-soft);color:var(--amber);font-weight:600;letter-spacing:.04em}
+.trick .line .tag.good{background:var(--accent-soft);color:var(--accent)}
+.stress{font-weight:700;color:var(--accent);letter-spacing:.02em}
+
+.drill{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:14px}
+.drill-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.progress{height:6px;border-radius:999px;background:var(--line);overflow:hidden;flex:1 1 160px}
+.progress i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.drill .prompt{font-size:20px;font-weight:600;font-family:var(--font-display)}
+.drill .hint{font-size:13px;color:var(--muted)}
+.answer{display:grid;gap:8px;padding:12px;border-radius:10px;background:var(--accent-soft)}
+.answer .a{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:17px}
+.answer .a .alt{font-size:12px;color:var(--muted)}
+.drill .actions{display:flex;gap:8px;flex-wrap:wrap}
+.drill .done{display:grid;gap:8px;padding:14px;border-radius:10px;background:var(--amber-soft)}
+.drill .done .stat{font-family:var(--font-display);font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+
+table{border-collapse:collapse;width:100%;font-size:15px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td .en{font-weight:600}
+td .cell{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+.route{display:grid;gap:10px}
+.route-step{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;min-width:0}
+.route-step .n{width:28px;height:28px;border-radius:50%;background:var(--amber-soft);color:var(--amber);display:grid;place-items:center;font-weight:700;font-size:14px;font-family:var(--font-display)}
+.route-step .body{display:grid;gap:6px;min-width:0}
+.route-step .body .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+code{font-family:var(--font-mono);font-size:13px;background:var(--bg);padding:2px 6px;border-radius:6px;border:1px solid var(--line);word-break:break-all}
+.callout{padding:12px 14px;border-left:3px solid var(--amber);background:var(--amber-soft);border-radius:0 10px 10px 0;font-size:15px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+footer{padding-block:28px 0;font-size:13px;color:var(--muted);max-width:60ch}
+.zh-off .zh{display:none!important}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="hero">
+  <p class="eyebrow">English · 自學版 · 一次只爬一階</p>
+  <h1>點餐句型訓練器</h1>
+  <p class="lede">活動要你貼一份菜單、留言投票。這一頁把「我想要／提議／想試／同意／不同意」五種講法拆成六階，例句全用我記帳表裡真的吃過的東西：便當、煎包、酸辣米線、臭臭鍋、紅茶、珍奶。</p>
+  <div class="controls">
+    <label class="switch"><input type="checkbox" id="zhToggle"> 隱藏中文（只看英文）</label>
+    <label class="switch"><input type="checkbox" id="slowToggle"> 慢速朗讀</label>
+    <span class="muted" id="ttsNote" style="font-size:13px"></span>
+  </div>
+</header>
+
+<nav class="rungs" aria-label="六階">
+  <ol>
+    <li><a href="#s1">1 句型卡</a></li>
+    <li><a href="#s2">2 組句機</a></li>
+    <li><a href="#s3">3 秘法</a></li>
+    <li><a href="#s4">4 練習</a></li>
+    <li><a href="#s5">5 救援句</a></li>
+    <li><a href="#s6">6 摩登家庭</a></li>
+  </ol>
+</nav>
+
+<section class="step" id="s1">
+  <div class="step-head">
+    <div class="rung"><small>階</small><b>1</b></div>
+    <div><h2>句型卡：五種功能、每種四到六句</h2><p>每張卡右上角可以念給你聽。橘點越多越隨便，一個點是最客氣。先把每組的第一句背熟就夠用，其他是加分。</p></div>
+  </div>
+  <div id="groups"></div>
+</section>
+
+<section class="step" id="s2">
+  <div class="step-head">
+    <div class="rung"><small>階</small><b>2</b></div>
+    <div><h2>組句機：選五格，句子自己長出來</h2><p>活動貼文就是這一句。換句型、換菜，看句子怎麼跟著變，變幾次就懂公式了。</p></div>
+  </div>
+  <div class="builder">
+    <p class="formula">For <span>場合</span>, <span>句型</span> <span>主食</span>, <span>配菜</span>, and <span>飲料</span>.</p>
+    <div class="fields">
+      <div class="field"><label for="fSit">場合 Situation</label><select id="fSit"></select></div>
+      <div class="field"><label for="fPat">句型 Pattern</label><select id="fPat"></select></div>
+      <div class="field"><label for="fMain">主食 Main dish</label><select id="fMain"></select></div>
+      <div class="field"><label for="fSide">配菜 Side dish</label><select id="fSide"></select></div>
+      <div class="field"><label for="fDrink">飲料 Drink</label><select id="fDrink"></select></div>
+    </div>
+    <div class="output">
+      <p class="sentence" id="outSentence"></p>
+      <p class="zh" id="outZh" style="font-size:14px;color:var(--muted)"></p>
+      <div class="row">
+        <button class="btn primary" id="outSpeak"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg> 念給我聽</button>
+        <button class="btn" id="outCopy">複製這句</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="step" id="s3">
+  <div class="step-head">
+    <div class="rung"><small>階</small><b>3</b></div>
+    <div><h2>秘法：五個讓你不像在念課本的小動作</h2><p>每個秘法都有「課本版」和「真人版」，兩個都按一下聽，差別就在那裡。</p></div>
+  </div>
+  <div class="tricks" id="tricks"></div>
+</section>
+
+<section class="step" id="s4">
+  <div class="step-head">
+    <div class="rung"><small>階</small><b>4</b></div>
+    <div><h2>練習：看中文情境，先講出來再看答案</h2><p>十二題。講得出來按「會了」，講不出來按「再練」，下次只練還不會的。進度存在這台裝置的瀏覽器裡。</p></div>
+  </div>
+  <div class="drill" id="drill">
+    <div class="drill-top">
+      <span class="muted" id="drillCount" style="font-size:14px;font-variant-numeric:tabular-nums"></span>
+      <div class="progress"><i id="drillBar"></i></div>
+      <label class="switch" style="font-size:13px"><input type="checkbox" id="onlyWeak"> 只練還不會的</label>
+    </div>
+    <div id="drillBody"></div>
+  </div>
+</section>
+
+<section class="step" id="s5">
+  <div class="step-head">
+    <div class="rung"><small>階</small><b>5</b></div>
+    <div><h2>救援句：卡住的那一秒要講什麼</h2><p>這是給我自己的，不是給組員的。卡在哪一格，就講那一句，講完再回到上面的句型。</p></div>
+  </div>
+  <div class="tablewrap"><table id="rescue"><thead><tr><th>情況</th><th>讓自己說</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<section class="step" id="s6">
+  <div class="step-head">
+    <div class="rung"><small>階</small><b>6</b></div>
+    <div><h2>摩登家庭：去聽真人怎麼講這些句子</h2><p>第 1 階的句子是材料，這一階是去影集裡找「同一句話真人怎麼講」，然後跟著唸。</p></div>
+  </div>
+  <div class="route" id="route"></div>
+  <div class="callout">地雷：Language Reactor 這個雙字幕外掛只支援 Netflix 和 YouTube，不支援 Disney+。摩登家庭在台灣是 Disney+ 在播，所以走 PlayPhrase.me 或逐字稿比較實際。</div>
+</section>
+
+<footer>素材來源：我的 Google 試算表「記帳」2026 年 4 月到 10 月的消費備註。朗讀用的是瀏覽器內建的英文語音，Mac 和 iPhone 上 Safari、Chrome 都有；聲音不同台裝置會不一樣。</footer>
+</div>
+<div class="toast" id="toast">已複製</div>
+
+<script>
+(function(){
+  var SPK='<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+
+  /* ---------- speech ---------- */
+  var slow=false, voice=null, hasTTS=('speechSynthesis' in window);
+  function pickVoice(){
+    if(!hasTTS) return;
+    var vs=speechSynthesis.getVoices(); if(!vs.length) return;
+    var pref=['Samantha','Google US English','Microsoft Aria','Alex','Karen','Daniel'];
+    for(var i=0;i<pref.length;i++){ var m=vs.filter(function(v){return v.name.indexOf(pref[i])===0;})[0]; if(m){voice=m;return;} }
+    voice=vs.filter(function(v){return v.lang==='en-US';})[0]||vs.filter(function(v){return v.lang.indexOf('en')===0;})[0]||null;
+  }
+  if(hasTTS){ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }
+  else { document.getElementById('ttsNote').textContent='這個瀏覽器沒有朗讀功能，喇叭鍵不會出聲。'; }
+  function speak(t){
+    if(!hasTTS) return;
+    try{
+      speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t); u.lang='en-US'; u.rate=slow?0.72:0.95; if(voice) u.voice=voice;
+      speechSynthesis.speak(u);
+    }catch(e){}
+  }
+  function spkBtn(text, small){
+    var b=document.createElement('button'); b.className='spk'+(small?' small':''); b.type='button'; b.title='念給我聽'; b.setAttribute('aria-label','念：'+text);
+    b.innerHTML=SPK; b.addEventListener('click',function(){speak(text);}); return b;
+  }
+  document.getElementById('slowToggle').addEventListener('change',function(e){slow=e.target.checked;});
+  document.addEventListener('click',function(e){ var el=e.target.closest('[data-say]'); if(el) speak(el.getAttribute('data-say')); });
+
+  /* ---------- zh toggle ---------- */
+  var zhT=document.getElementById('zhToggle');
+  try{ if(localStorage.getItem('trainer.zhoff')==='1'){ zhT.checked=true; document.documentElement.classList.add('zh-off'); } }catch(e){}
+  zhT.addEventListener('change',function(){ document.documentElement.classList.toggle('zh-off',zhT.checked); try{localStorage.setItem('trainer.zhoff',zhT.checked?'1':'0');}catch(e){} });
+
+  /* ---------- toast / copy ---------- */
+  var toastT; function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(function(){t.classList.remove('show');},1400); }
+  function copyText(s){
+    var done=function(){toast('已複製');};
+    var fallback=function(){ var ta=document.createElement('textarea'); ta.value=s; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy'); done();}catch(e){toast('請手動選取複製');} document.body.removeChild(ta); };
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(s).then(done,fallback); } else fallback();
+  }
+
+  /* ---------- step 1: cards ---------- */
+  var GROUPS=[
+    {title:'說你想吃什麼',zh:'想吃',items:[
+      {en:"I'd like …",zh:'我想要…',tone:1,ex:"I'd like a lunch box with rice and vegetables.",exZh:'我想要一個有飯有菜的便當。',note:"課本寫 I would like，母語者幾乎只講 I'd like，d 要黏在 I 後面。"},
+      {en:"I'll have …",zh:'我要一份…',tone:2,ex:"I'll have the hot and sour rice noodles.",exZh:'我要酸辣米線。',note:'點餐最常用的一句，服務生問 What can I get you? 就接這句。'},
+      {en:'Can I get …?',zh:'可以給我…嗎？',tone:2,ex:'Can I get a black tea, no sugar?',exZh:'可以給我一杯無糖紅茶嗎？',note:'美式快餐店標配。no sugar、less ice 直接接在後面。'},
+      {en:"I'm in the mood for …",zh:'我今天想吃…',tone:3,ex:"I'm in the mood for stinky tofu hot pot.",exZh:'我今天想吃臭臭鍋。',note:'朋友之間聊今天想吃什麼。mood 是心情，「心情想吃」。'},
+      {en:'I feel like having …',zh:'我想吃…',tone:3,ex:'I feel like having a sandwich.',exZh:'我想吃三明治。',note:'feel like 後面接 -ing 或名詞，不是「感覺像」。'},
+      {en:'I could go for …',zh:'來個…也不錯',tone:4,ex:'I could go for some potstickers.',exZh:'來點鍋貼也不錯。',note:'最隨性，帶一點「要不要都行」的口氣。'}
+    ]},
+    {title:'提議',zh:'建議大家',items:[
+      {en:'Why not …?',zh:'何不…？',tone:2,ex:'Why not add some boiled vegetables?',exZh:'何不加點燙青菜？',note:'後面接原形動詞：add、get、have。老師給的三句型之一。'},
+      {en:'How about …?',zh:'…怎麼樣？',tone:3,ex:'How about bubble milk tea?',exZh:'珍奶怎麼樣？',note:'最萬用，接名詞或 -ing。What about 完全一樣。'},
+      {en:"Why don't we …?",zh:'我們何不…？',tone:2,ex:"Why don't we get pan-fried buns?",exZh:'我們何不買煎包？',note:'主詞是「我們」，把大家拉進來。'},
+      {en:"Let's …",zh:'我們…吧',tone:3,ex:"Let's go with the lunch box.",exZh:'我們就選便當吧。',note:'已經有共識、要拍板時用。go with 就是「選」。'},
+      {en:'We could …',zh:'我們可以…',tone:2,ex:'We could try the night market.',exZh:'我們可以去夜市試試。',note:'最軟，給對方留退路。'}
+    ]},
+    {title:'想嘗試',zh:'沒吃過、想試',items:[
+      {en:'I want to try …',zh:'我想試試…',tone:3,ex:'I want to try the beef noodle soup.',exZh:'我想試試牛肉麵。',note:'老師給的三句型之一，投票留言直接用。'},
+      {en:"I'd love to try …",zh:'我很想試…',tone:2,ex:"I'd love to try your menu.",exZh:'我很想試試你們的菜單。',note:'對別組講最好用，比 want 熱情。'},
+      {en:"I've never had …",zh:'我沒吃過…',tone:3,ex:"I've never had candied cherry tomatoes.",exZh:'我沒吃過糖葫蘆番茄。',note:'had 在這裡是「吃過」。說明為什麼想試，很自然。'},
+      {en:"I've always wanted to try …",zh:'我一直想試…',tone:2,ex:"I've always wanted to try Colombian food.",exZh:'我一直想試哥倫比亞菜。',note:'摩登家庭裡 Gloria 的家鄉菜。'},
+      {en:'Let me try …',zh:'讓我試一下…',tone:4,ex:'Let me try a bite.',exZh:'讓我吃一口。',note:'現場要夾一口時。a bite 是「一口」。'}
+    ]},
+    {title:'投票同意',zh:'VOTE 用',items:[
+      {en:'Sounds good.',zh:'聽起來不錯。',tone:3,ex:"Sounds good. Let's do that.",exZh:'不錯，就這樣。',note:'一句就夠，不用主詞。'},
+      {en:"I'm in.",zh:'算我一份。',tone:4,ex:"I'm in. Count me in.",exZh:'算我一份。',note:'Count me in 一樣意思。'},
+      {en:'That works for me.',zh:'我可以。',tone:2,ex:'Office lunch? That works for me.',exZh:'上班午餐？我可以。',note:'比 OK 客氣一點。'},
+      {en:'My vote is for …',zh:'我投給…',tone:2,ex:'My vote is for the beef noodle soup.',exZh:'我投給牛肉麵。',note:'VOTE 這一步直接用。'},
+      {en:'Good call.',zh:'選得好。',tone:4,ex:'Green tea? Good call.',exZh:'綠茶？選得好。',note:'稱讚別人的選擇。'}
+    ]},
+    {title:'委婉不同意',zh:'不說 No',items:[
+      {en:"I'm not a big fan of …",zh:'我不太愛…',tone:2,ex:"I'm not a big fan of stinky tofu.",exZh:'我不太愛臭豆腐。',note:"不說 I don't like，軟很多。"},
+      {en:"I'd rather have …",zh:'我寧願吃…',tone:2,ex:"I'd rather have the rice noodles.",exZh:'我寧願吃米線。',note:'rather 後面接原形動詞。'},
+      {en:'Maybe something lighter?',zh:'要不要清淡一點的？',tone:3,ex:'Hot pot again? Maybe something lighter?',exZh:'又吃鍋？要不要清淡一點的？',note:'用問句提出反對，最不傷人。'},
+      {en:'Can we skip the …?',zh:'可以不要…嗎？',tone:3,ex:'Can we skip the bubble tea?',exZh:'可以不要珍奶嗎？',note:'skip = 跳過。'}
+    ]}
+  ];
+  var gHost=document.getElementById('groups');
+  GROUPS.forEach(function(g){
+    var sec=document.createElement('div'); sec.className='group';
+    var h=document.createElement('div'); h.className='group-title'; h.innerHTML='<h3>'+g.title+'</h3><span class="zh">'+g.zh+'</span>'; sec.appendChild(h);
+    var grid=document.createElement('div'); grid.className='cards';
+    g.items.forEach(function(it){
+      var c=document.createElement('article'); c.className='card';
+      var top=document.createElement('div'); top.className='card-top';
+      var en=document.createElement('span'); en.className='en'; en.textContent=it.en; top.appendChild(en); top.appendChild(spkBtn(it.ex)); c.appendChild(top);
+      var zh=document.createElement('p'); zh.className='zh muted'; zh.textContent=it.zh; c.appendChild(zh);
+      var ex=document.createElement('p'); ex.className='ex'; ex.textContent=it.ex; c.appendChild(ex);
+      var exZh=document.createElement('p'); exZh.className='zh note'; exZh.textContent=it.exZh; c.appendChild(exZh);
+      var note=document.createElement('p'); note.className='note zh'; note.textContent=it.note; c.appendChild(note);
+      var tone=document.createElement('div'); tone.className='tone'; var dots=''; for(var i=1;i<=5;i++){dots+='<i class="'+(i<=it.tone?'on':'')+'"></i>';}
+      tone.innerHTML='<span>客氣</span><span class="dots">'+dots+'</span><span>隨便</span>'; c.appendChild(tone);
+      grid.appendChild(c);
+    });
+    sec.appendChild(grid); gHost.appendChild(sec);
+  });
+
+  /* ---------- step 2: builder ---------- */
+  var SIT=[['office lunch','上班午餐'],['family dinner','家庭晚餐'],['a friend gathering','朋友聚會']];
+  var PAT=[
+    ["I'd like",'我想要',function(x){return "I'd like "+x+".";},'我想要'],
+    ["I'll have",'我要一份',function(x){return "I'll have "+x+".";},'我要'],
+    ['Why not have',"何不（老師句型）",function(x){return 'why not have '+x+'?';},'何不來'],
+    ['How about','…怎麼樣',function(x){return 'how about '+x+'?';},'…怎麼樣'],
+    ['I want to try','我想試試（老師句型）',function(x){return 'I want to try '+x+'.';},'我想試試'],
+    ["I've always wanted to try",'我一直想試',function(x){return "I've always wanted to try "+x+'.';},'我一直想試']
+  ];
+  var MAIN=[['a lunch box with rice and vegetables','有飯有菜的便當'],['hot and sour rice noodles','酸辣米線'],['stinky tofu hot pot','臭臭鍋'],['potstickers','鍋貼'],['beef noodle soup','牛肉麵'],['braised pork rice','滷肉飯']];
+  var SIDE=[['two pan-fried buns','兩顆煎包'],['a sandwich','三明治'],['candied cherry tomatoes','糖葫蘆番茄'],['boiled vegetables','燙青菜'],['cucumber salad','涼拌小黃瓜']];
+  var DRINK=[['black tea','紅茶'],['bubble milk tea','珍奶'],['green tea','綠茶'],['soy milk','豆漿'],['winter melon tea','冬瓜茶']];
+  function fill(id,arr){ var s=document.getElementById(id); arr.forEach(function(a,i){ var o=document.createElement('option'); o.value=i; o.textContent=a[0]+'　'+a[1]; s.appendChild(o); }); s.addEventListener('change',build); }
+  fill('fSit',SIT); fill('fPat',PAT); fill('fMain',MAIN); fill('fSide',SIDE); fill('fDrink',DRINK);
+  var outS=document.getElementById('outSentence'), outZ=document.getElementById('outZh'), current='';
+  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+  function build(){
+    var sit=SIT[document.getElementById('fSit').value], pat=PAT[document.getElementById('fPat').value];
+    var m=MAIN[document.getElementById('fMain').value], sd=SIDE[document.getElementById('fSide').value], d=DRINK[document.getElementById('fDrink').value];
+    var list=m[0]+', '+sd[0]+', and '+d[0];
+    current='For '+sit[0]+', '+pat[2](list);
+    outS.textContent=current;
+    outZ.textContent=sit[1]+'的話，'+pat[3]+m[1]+'、'+sd[1]+'，再加一杯'+d[1]+'。';
+  }
+  build();
+  document.getElementById('outSpeak').addEventListener('click',function(){speak(current);});
+  document.getElementById('outCopy').addEventListener('click',function(){copyText(current);});
+
+  /* ---------- step 3: tricks ---------- */
+  var TRICKS=[
+    {t:'縮寫要黏在一起',d:"I would like 在真人嘴裡是 I'd like，d 幾乎聽不到，像「愛的 like」。would 整個念出來會像在朗讀。",a:['課本版','I would like a lunch box.'],b:['真人版',"I'd like a lunch box."]},
+    {t:'重音放在食物上',d:'句型是跑道，食物才是重點。整句平平念出去，對方抓不到你要什麼；把菜名念重、念慢一點就清楚了。',a:['平平念',"I'd like the beef noodle soup."],b:['重音版',"I'd like the BEEF NOODLE SOUP."],stress:["I'd like the ",'beef noodle soup','.']},
+    {t:'加一個 because',d:'多半句理由，馬上從「背句子」變成「在聊天」。理由不用深：快、便宜、好吃、每天吃，都行。',a:['單句',"I'd like the lunch box."],b:['加理由',"I'd like the lunch box because it's quick."]},
+    {t:'一個句型配三個情境',d:'How about 不只用在菜單。今天用在菜、明天用在約時間、後天用在提案，練一次賺三次，腦袋就會把它當成萬用工具。',a:['菜單','How about green tea?'],b:['約時間','How about Friday at seven?'],c:['提案','How about we split the work?']},
+    {t:'影子跟讀',d:'勾上面的「慢速朗讀」，按喇叭，慢 0.1 秒跟著唸，連上揚下降的語調一起抄。一句唸五次，第五次通常就順了。',a:['慢速跟讀',"For office lunch, I'd like a lunch box, two pan-fried buns, and black tea."]}
+  ];
+  var tHost=document.getElementById('tricks');
+  TRICKS.forEach(function(tr,i){
+    var el=document.createElement('article'); el.className='trick';
+    var h=document.createElement('h3'); h.textContent=(i+1)+'. '+tr.t; el.appendChild(h);
+    var d=document.createElement('p'); d.className='zh note'; d.style.fontSize='14px'; d.textContent=tr.d; el.appendChild(d);
+    var pair=document.createElement('div'); pair.className='pair';
+    [tr.a,tr.b,tr.c].forEach(function(ln,j){
+      if(!ln) return;
+      var line=document.createElement('div'); line.className='line';
+      var tag=document.createElement('span'); tag.className='tag'+(j>0?' good':''); tag.textContent=ln[0]; line.appendChild(tag);
+      var txt=document.createElement('span'); txt.className='txt';
+      if(tr.stress&&j===1){ txt.innerHTML=tr.stress[0]+'<span class="stress">'+tr.stress[1]+'</span>'+tr.stress[2]; } else { txt.textContent=ln[1]; }
+      line.appendChild(txt); line.appendChild(spkBtn(ln[1].replace(/BEEF NOODLE SOUP/,'beef noodle soup'),true)); pair.appendChild(line);
+    });
+    el.appendChild(pair); tHost.appendChild(el);
+  });
+
+  /* ---------- step 4: drill ---------- */
+  var DRILL=[
+    {zh:'客氣地說你想要一個便當',hint:"想吃 · 第 1 句",a:["I'd like a lunch box."],alt:["I'll have a lunch box."]},
+    {zh:'提議加一點燙青菜',hint:'提議 · 老師句型',a:['Why not add some boiled vegetables?'],alt:['How about some boiled vegetables?']},
+    {zh:'說你沒吃過臭臭鍋',hint:'想嘗試 · had = 吃過',a:["I've never had stinky tofu hot pot."],alt:[]},
+    {zh:'同意組員剛剛的提議',hint:'投票同意 · 不用主詞',a:['Sounds good.'],alt:["I'm in.",'That works for me.']},
+    {zh:'委婉說你不太愛珍奶',hint:"委婉不同意 · 不說 don't like",a:["I'm not a big fan of bubble milk tea."],alt:[]},
+    {zh:'在快餐店點一杯紅茶',hint:'想吃 · 美式點餐',a:['Can I get a black tea?'],alt:["I'll have a black tea."]},
+    {zh:'說你今天想吃酸辣米線',hint:'想吃 · 心情想吃',a:["I'm in the mood for hot and sour rice noodles."],alt:['I feel like having hot and sour rice noodles.']},
+    {zh:'投票給牛肉麵',hint:'投票同意 · VOTE 用',a:['My vote is for the beef noodle soup.'],alt:['I want to try the beef noodle soup.']},
+    {zh:'拍板：「我們就選上班午餐吧」',hint:'提議 · go with = 選',a:["Let's go with office lunch."],alt:[]},
+    {zh:'說你寧願吃米線',hint:'委婉不同意 · rather + 原形',a:["I'd rather have the rice noodles."],alt:[]},
+    {zh:'請對方讓你吃一口',hint:'想嘗試 · a bite',a:['Let me try a bite.'],alt:[]},
+    {zh:'說想要便當，並補一句理由「因為快」',hint:'秘法 3 · because',a:["I'd like the lunch box because it's quick."],alt:[]}
+  ];
+  var mastered={}; try{ mastered=JSON.parse(localStorage.getItem('trainer.mastered')||'{}')||{}; }catch(e){ mastered={}; }
+  function saveM(){ try{localStorage.setItem('trainer.mastered',JSON.stringify(mastered));}catch(e){} }
+  var onlyWeak=document.getElementById('onlyWeak'), body=document.getElementById('drillBody'), cnt=document.getElementById('drillCount'), bar=document.getElementById('drillBar');
+  var queue=[], qi=0, revealed=false;
+  function mCount(){ return Object.keys(mastered).filter(function(k){return mastered[k];}).length; }
+  function makeQueue(){ queue=[]; DRILL.forEach(function(d,i){ if(!onlyWeak.checked||!mastered[i]) queue.push(i); }); qi=0; revealed=false; }
+  function renderTop(){ var m=mCount(); cnt.textContent='會了 '+m+' / '+DRILL.length+' 題'; bar.style.width=(m/DRILL.length*100)+'%'; }
+  function render(){
+    renderTop(); body.innerHTML='';
+    if(!queue.length){ var dn=document.createElement('div'); dn.className='done'; dn.innerHTML='<p class="stat">12 / 12 都會了</p><p>把「只練還不會的」取消，再全部跑一輪；或去第 6 階找真人版來跟讀。</p>'; var rb=document.createElement('button'); rb.className='btn'; rb.textContent='重設進度'; rb.addEventListener('click',function(){ mastered={}; saveM(); makeQueue(); render(); }); dn.appendChild(rb); body.appendChild(dn); return; }
+    if(qi>=queue.length){ var d2=document.createElement('div'); d2.className='done'; d2.innerHTML='<p class="stat">這一輪跑完了</p><p>目前會了 '+mCount()+' 題。按下面再來一輪。</p>'; var ab=document.createElement('button'); ab.className='btn primary'; ab.textContent='再來一輪'; ab.addEventListener('click',function(){ makeQueue(); render(); }); d2.appendChild(ab); body.appendChild(d2); return; }
+    var it=DRILL[queue[qi]], idx=queue[qi];
+    var wrap=document.createElement('div'); wrap.style.display='grid'; wrap.style.gap='12px';
+    var pr=document.createElement('p'); pr.className='prompt'; pr.textContent='第 '+(qi+1)+' / '+queue.length+' 題：'+it.zh; wrap.appendChild(pr);
+    var ht=document.createElement('p'); ht.className='hint'; ht.textContent='提示：'+it.hint+(mastered[idx]?'　（上次：會了）':''); wrap.appendChild(ht);
+    var act=document.createElement('div'); act.className='actions';
+    if(!revealed){
+      var show=document.createElement('button'); show.className='btn primary'; show.textContent='先講出來，再看答案'; show.addEventListener('click',function(){ revealed=true; render(); }); act.appendChild(show);
+      var listen=document.createElement('button'); listen.className='btn'; listen.textContent='先聽一次'; listen.addEventListener('click',function(){ speak(it.a[0]); }); act.appendChild(listen);
+      wrap.appendChild(act);
+    } else {
+      var ans=document.createElement('div'); ans.className='answer';
+      it.a.concat(it.alt).forEach(function(s,j){ var row=document.createElement('div'); row.className='a'; var sp=document.createElement('span'); sp.textContent=s; row.appendChild(sp); row.appendChild(spkBtn(s,true)); if(j>0){ var al=document.createElement('span'); al.className='alt'; al.textContent='也可以'; row.appendChild(al);} ans.appendChild(row); });
+      wrap.appendChild(ans);
+      var ok=document.createElement('button'); ok.className='btn primary'; ok.textContent='會了'; ok.addEventListener('click',function(){ mastered[idx]=true; saveM(); qi++; revealed=false; render(); }); act.appendChild(ok);
+      var again=document.createElement('button'); again.className='btn'; again.textContent='再練'; again.addEventListener('click',function(){ mastered[idx]=false; saveM(); qi++; revealed=false; render(); }); act.appendChild(again);
+      wrap.appendChild(act);
+    }
+    body.appendChild(wrap);
+  }
+  onlyWeak.addEventListener('change',function(){ makeQueue(); render(); });
+  makeQueue(); render();
+
+  /* ---------- step 5: rescue ---------- */
+  var RESCUE=[
+    ['沒聽清楚老師或組員說什麼','Sorry, could you say that again?','不好意思，可以再說一次嗎？'],
+    ['需要幾秒想一下','Give me a second.','給我幾秒。'],
+    ['不知道某個字的英文','How do you say 便當 in English?','便當英文怎麼說？'],
+    ['不確定但還是想講',"I'm not sure, but I think it's a lunch box.",'我不確定，但我想是便當。'],
+    ['輪到你報告菜單','Our menu is for office lunch. We have a lunch box, two pan-fried buns, and black tea.','我們的菜單是上班午餐：便當、兩顆煎包、紅茶。'],
+    ['被問為什麼選這些','Because I eat them every week.','因為我每週都吃。'],
+    ['要請別人幫忙','Can you help me with this one?','這題可以幫我一下嗎？'],
+    ['講完了',"That's it. Thank you.",'講完了，謝謝。']
+  ];
+  var rb=document.querySelector('#rescue tbody');
+  RESCUE.forEach(function(r){
+    var tr=document.createElement('tr'); var td1=document.createElement('td'); td1.textContent=r[0]; var td2=document.createElement('td');
+    var cell=document.createElement('div'); cell.className='cell'; var en=document.createElement('span'); en.className='en'; en.textContent=r[1]; cell.appendChild(en); cell.appendChild(spkBtn(r[1],true)); td2.appendChild(cell);
+    var zh=document.createElement('div'); zh.className='zh note'; zh.textContent=r[2]; td2.appendChild(zh);
+    tr.appendChild(td1); tr.appendChild(td2); rb.appendChild(tr);
+  });
+
+  /* ---------- step 6: route ---------- */
+  var ROUTE=[
+    {t:'從第 1 階挑三句',d:'建議：I\'d like、How about、I\'ve never had。每組挑一句，不要貪多。'},
+    {t:'丟進 PlayPhrase.me 看真人講',d:'打開網站，搜尋框輸入那一句，它會跳出影集和電影裡講這句的片段。免費版一次給 5 個片段，夠用。',link:['https://www.playphrase.me','打開 PlayPhrase.me'],copy:["I'd like to try","複製搜尋句"]},
+    {t:'找摩登家庭的逐字稿',d:'用這個搜尋字串找整集文字稿，開頁面後 Ctrl+F 找句型，看前後文怎麼接。',link:['https://www.google.com/search?q=%22Modern+Family%22+transcript+%22how+about%22','用 Google 搜'],copy:['"Modern Family" transcript "how about"','複製搜尋字串']},
+    {t:'先看這兩集',d:'S6E8「Three Turkeys」：Phil 帶 Luke 煮感恩節大餐，Claire 偷做備用火雞，整集都在廚房和餐桌。S8E7「Thanksgiving Jamboree」：Cam 辦超浮誇的感恩節。兩集都是 family dinner 場合。'},
+    {t:'影子跟讀五次',d:'找到片段後，照第 3 階秘法 5 的做法，跟著唸五次。下次小組討論把這三句用出來，才算真的爬上這一階。'}
+  ];
+  var rHost=document.getElementById('route');
+  ROUTE.forEach(function(s,i){
+    var el=document.createElement('div'); el.className='route-step';
+    var n=document.createElement('div'); n.className='n'; n.textContent=i+1; el.appendChild(n);
+    var b=document.createElement('div'); b.className='body';
+    var h=document.createElement('h3'); h.textContent=s.t; b.appendChild(h);
+    var d=document.createElement('p'); d.style.fontSize='15px'; d.textContent=s.d; b.appendChild(d);
+    if(s.link||s.copy){ var row=document.createElement('div'); row.className='row';
+      if(s.copy){ var c=document.createElement('code'); c.textContent=s.copy[0]; row.appendChild(c); var cb=document.createElement('button'); cb.className='btn'; cb.textContent=s.copy[1]; cb.addEventListener('click',function(){copyText(s.copy[0]);}); row.appendChild(cb); }
+      if(s.link){ var a=document.createElement('a'); a.className='btn'; a.href=s.link[0]; a.target='_blank'; a.rel='noopener'; a.textContent=s.link[1]; row.appendChild(a); }
+      b.appendChild(row); }
+    el.appendChild(b); rHost.appendChild(el);
+  });
+})();
+</script>
+</body>
+</html>
