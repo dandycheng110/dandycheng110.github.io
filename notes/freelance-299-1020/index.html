@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>299 元接案拆解</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
+<style>
+/* Layout: wide hero (headline + receipt) over a reading column; the table of contents sits beside the text on wide screens and above it on phones */
+:root {
+  --bg: #F1F4F6;
+  --surface: #FFFFFF;
+  --ink: #14222D;
+  --muted: #5B6A76;
+  --rule: #D3DBE1;
+  --accent: #0D6784;
+  --accent-soft: #DCEDF3;
+  --risk: #AE3D2A;
+  --mark: #FAE6A0;
+  --font-display: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Heiti TC", sans-serif;
+  --font-mono: "IBM Plex Mono", "Noto Sans TC", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0C161D;
+    --surface: #13202A;
+    --ink: #E2EAEF;
+    --muted: #94A4B0;
+    --rule: #263742;
+    --accent: #63C4E0;
+    --accent-soft: #11303C;
+    --risk: #EF846D;
+    --mark: rgba(250, 212, 102, 0.24);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0C161D;
+  --surface: #13202A;
+  --ink: #E2EAEF;
+  --muted: #94A4B0;
+  --rule: #263742;
+  --accent: #63C4E0;
+  --accent-soft: #11303C;
+  --risk: #EF846D;
+  --mark: rgba(250, 212, 102, 0.24);
+  color-scheme: dark;
+}
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.85;
+  -webkit-text-size-adjust: 100%;
+}
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 72px;
+}
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+strong { font-weight: 700; background-image: linear-gradient(transparent 62%, var(--mark) 62%); }
+
+.back { display: inline-block; margin: 0 0 1.25rem; font-size: .85rem; color: var(--muted); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+/* Hero */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+  padding-bottom: 40px;
+  border-bottom: 2px solid var(--ink);
+}
+@media (min-width: 880px) {
+  .hero { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 56px; align-items: start; }
+}
+.hero-text { min-width: 0; }
+.eyebrow { margin: 0 0 .5rem; font-size: .78rem; font-weight: 700; letter-spacing: .14em; color: var(--accent); }
+h1 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.2rem, 7.5vw, 4rem);
+  line-height: 1.15;
+  letter-spacing: .02em;
+  margin: 0 0 1.1rem;
+  text-wrap: balance;
+}
+.dek { font-size: 1.12rem; line-height: 1.8; margin: 0 0 1rem; max-width: 34em; }
+.meta { font-size: .85rem; color: var(--muted); margin: 0 0 1.25rem; }
+
+.post { max-width: 34em; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.post summary {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .7rem 0;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 500;
+  color: var(--accent);
+}
+.post summary::-webkit-details-marker { display: none; }
+.post summary::before { content: "＋"; font-family: var(--font-mono); }
+.post[open] summary::before { content: "－"; }
+.post-body { white-space: pre-line; font-size: .95rem; line-height: 1.75; padding: 0 0 1rem; }
+.post-source { display: block; margin-top: .75rem; font-size: .8rem; color: var(--muted); white-space: normal; }
+
+/* Receipt: the post's own figures, printed like the shop's 出貨單 */
+.receipt {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  max-width: 380px;
+  justify-self: center;
+  padding: 30px 22px 26px;
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: .9rem;
+  line-height: 1.6;
+}
+@media (min-width: 880px) { .receipt { justify-self: end; margin-top: 8px; } }
+.receipt::before,
+.receipt::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background-repeat: repeat-x;
+  background-size: 12px 8px;
+}
+.receipt::before { top: 0; background-image: radial-gradient(circle at 6px 0, var(--bg) 4px, transparent 4.5px); }
+.receipt::after { bottom: 0; background-image: radial-gradient(circle at 6px 8px, var(--bg) 4px, transparent 4.5px); }
+.r-head { text-align: center; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px dashed var(--muted); }
+.r-title { display: block; font-size: 1rem; font-weight: 600; letter-spacing: .18em; }
+.r-sub { display: block; font-size: .78rem; color: var(--muted); }
+.r-lines { display: grid; gap: 4px; margin: 0; }
+.r-lines div {
+  display: flex;
+  align-items: baseline;
+  background-image: linear-gradient(to right, var(--muted) 30%, transparent 0);
+  background-size: 5px 1px;
+  background-repeat: repeat-x;
+  background-position: 0 calc(100% - .45em);
+}
+.r-lines dt, .r-lines dd { margin: 0; background: var(--surface); }
+.r-lines dt { padding-right: .4em; }
+.r-lines dd { margin-left: auto; padding-left: .4em; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.r-lines .low dd { color: var(--risk); }
+.r-cut { border: 0; border-top: 1px dashed var(--muted); margin: 12px 0; }
+.r-note { margin: 12px 0 14px; font-size: .74rem; line-height: 1.5; color: var(--muted); }
+.r-barcode {
+  height: 34px;
+  background: repeating-linear-gradient(90deg,
+    var(--ink) 0 2px, transparent 2px 4px,
+    var(--ink) 4px 5px, transparent 5px 8px,
+    var(--ink) 8px 11px, transparent 11px 12px,
+    var(--ink) 12px 13px, transparent 13px 17px);
+  opacity: .85;
+}
+
+/* Contents + article */
+.layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding-top: 28px; }
+@media (min-width: 1000px) {
+  .layout { grid-template-columns: 190px minmax(0, 1fr); gap: 56px; }
+  .toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; }
+}
+.toc-title { margin: 0 0 .5rem; font-size: .78rem; font-weight: 700; letter-spacing: .14em; color: var(--muted); }
+.toc ul { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.toc a {
+  display: inline-block;
+  padding: 3px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: .88rem;
+  text-decoration: none;
+}
+.toc a:hover { border-color: var(--accent); color: var(--accent); }
+@media (min-width: 1000px) {
+  .toc ul { flex-direction: column; gap: 2px; }
+  .toc a { padding: 4px 0 4px 12px; border: 0; border-left: 2px solid var(--rule); border-radius: 0; background: none; }
+  .toc a:hover { border-left-color: var(--accent); }
+}
+
+.article { min-width: 0; max-width: 44em; }
+.article > section {
+  margin-top: 2.25rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid var(--rule);
+  scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 16px);
+}
+.article > section:first-child { margin-top: 0; padding-top: 1rem; border-top: 0; }
+.article h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.45rem, 4.2vw, 1.95rem);
+  line-height: 1.4;
+  margin: 0 0 1.1rem;
+  text-wrap: balance;
+}
+.article h3 { font-size: 1.12rem; font-weight: 700; line-height: 1.5; margin: 2.1rem 0 .6rem; text-wrap: balance; }
+.article p { margin: 0 0 1.1em; }
+.cite { font-size: .76em; color: var(--muted); }
+.cite a { color: inherit; text-decoration-style: dotted; }
+.cite a:hover { color: var(--accent); }
+
+.findings { display: grid; gap: 14px; list-style: none; margin: 0 0 1.25rem; padding: 0; }
+.findings li { position: relative; padding-left: 1.3em; }
+.findings li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .72em;
+  width: .5em;
+  height: .5em;
+  background: var(--accent);
+}
+.caveat { margin: 0; padding: .8rem 1rem; border-radius: 6px; background: var(--accent-soft); font-size: .9rem; color: var(--ink); }
+
+.table-wrap { overflow-x: auto; margin: 1.4rem 0 1.6rem; -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; font-size: .92rem; line-height: 1.6; font-variant-numeric: tabular-nums; }
+th {
+  padding: .5rem .6rem;
+  border-bottom: 2px solid var(--ink);
+  text-align: left;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+td { padding: .65rem .6rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+td:first-child { font-weight: 500; }
+.chip {
+  display: inline-block;
+  padding: 0 .55rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: .82rem;
+  white-space: nowrap;
+  background: none;
+}
+.chip-dev { color: var(--risk); }
+.chip-shop { color: var(--accent); }
+.chip-both { color: var(--ink); }
+
+.article > section.foot { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--ink); font-size: .9rem; color: var(--muted); }
+.foot h2.foot-title { font-family: var(--font-body); font-size: 1rem; font-weight: 700; color: var(--ink); margin: 0 0 .6rem; }
+.foot ul { margin: 0 0 1rem; padding-left: 1.2em; }
+.foot li { margin-bottom: .35rem; }
+.foot p { margin: 0; }
+</style>
+</head>
+<body>
+<div class="page" lang="zh-Hant-TW">
+  <header class="hero">
+    <div class="hero-text">
+      <a class="back" href="/notes/">← 筆記站</a>
+      <p class="eyebrow">Threads 創業貼文拆解</p>
+      <h1>用 299 元換客戶</h1>
+      <p class="dek">一位接案者在 Threads 公布：30 天接了 19 個客戶、進帳 29,280 元，還在一週內幫 LINE 群組開團的海鮮小店做出整套接單系統。這頁拆解他怎麼做到、帳算不算得通、風險在哪，以及想複製的人該學什麼。</p>
+      <p class="meta">整理日期 2026 年 10 月 19 日・貼文數字皆為作者自述</p>
+      <details class="post" id="post">
+        <summary>看原貼文全文</summary>
+        <div class="post-body">別人報價 5 萬 我收 299 起｜創業 Day 31
+
+今天又進帳 5000
+30 天 19 個客戶 29280
+
+一直有人說便宜沒好貨
+那我直接拿今天手上的案子給你看
+
+一間在 LINE 群組開團賣海鮮的小店
+一個月幾百單
+原本用別人的 App 想換自己的網站
+
+一個禮拜我做了
+購物車 會員 優惠碼 購物金
+7-11 冷凍到店 全家 宅配 面交
+轉帳對末五碼 取貨付款
+揀貨單 出貨單 賣貨便一鍵匯出
+掃條碼進貨 庫存 毛利報表
+群組打「菜單」自動跳商品
+AI 直接把群組訂單整理成一張一張
+
+今天整天在抓跟錢有關的 bug
+改單會不會吃掉訂金
+退款購物金有沒有還回去
+光金額就測了 35 種情況
+
+一週改了 73 次 每次都測過才上
+
+我便宜是因應市場變化
+不是因為廉價
+說實在的
+有些錢我真的不敢漫天喊價
+因為實際真的沒做什麼
+看看市場的報價
+我真的覺得
+好吧 願打願挨
+但下次可以先找我比價~
+
+Day 31 戰報：客戶 19 進帳 29280<span class="post-source">來源：Threads 貼文；原文連結未能找到。</span></div>
+      </details>
+    </div>
+
+    <figure class="receipt" aria-label="用貼文公布的數字試算的 Day 31 對帳單">
+      <div class="r-head">
+        <span class="r-title">DAY 31 對帳單</span>
+        <span class="r-sub">用貼文公布的數字試算</span>
+      </div>
+      <dl class="r-lines">
+        <div><dt>客戶</dt><dd>19 位</dd></div>
+        <div><dt>進帳</dt><dd>NT$29,280</dd></div>
+        <div><dt>平均客單</dt><dd>NT$1,541</dd></div>
+        <div><dt>若全部只收 299</dt><dd>NT$5,681</dd></div>
+        <div><dt>來自 299 以上的收入</dt><dd>≥ 80.6%</dd></div>
+      </dl>
+      <hr class="r-cut">
+      <dl class="r-lines">
+        <div><dt>進帳 ÷ 2026 最低月薪</dt><dd>99.3%</dd></div>
+        <div class="low"><dt>海鮮店案時薪 *</dt><dd>NT$60–89</dd></div>
+        <div><dt>法定最低時薪</dt><dd>NT$196</dd></div>
+      </dl>
+      <p class="r-note">* 假設該案收 5,000 元、做 7 天、每天 8–12 小時。2026 最低月薪 29,500 元。</p>
+      <div class="r-barcode" aria-hidden="true"></div>
+    </figure>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="目錄">
+      <p class="toc-title">目錄</p>
+      <ul>
+        <li><a href="#summary">先看重點</a></li>
+        <li><a href="#money">單位經濟</a></li>
+        <li><a href="#tech">技術做法</a></li>
+        <li><a href="#copywriting">行銷與文案</a></li>
+        <li><a href="#market">市場行情</a></li>
+        <li><a href="#risk">風險與合規</a></li>
+        <li><a href="#replicate">怎麼複製</a></li>
+        <li><a href="#conclusion">結論</a></li>
+        <li><a href="#method">研究限制</a></li>
+      </ul>
+    </nav>
+
+    <main class="article">
+      <section id="summary">
+        <p class="eyebrow">摘要</p>
+        <h2>先看重點</h2>
+        <ul class="findings">
+          <li><strong>「299 起」是門票。</strong>19 位客戶平均客單 1,541 元，至少八成營收來自 299 以上的加購或較大的案子。</li>
+          <li><strong>一週做完，靠的是現成模板加 AI 寫程式工具。</strong>改自有模板約 25–48 小時，從零做約 72–130 小時。功能本身都有成熟做法，難的是金額邏輯、測試和合規。</li>
+          <li><strong>Threads「創業 Day N」日更就是獲客管道。</strong>每個案子變成隔天的貼文，連續日更和精確數字讓人比較不會懷疑是詐騙。</li>
+          <li><strong>帳算得通，但不太賺。</strong>29,280 元毛收入約等於 2026 年最低月薪；若海鮮店案收 5,000 元、做滿一週，時薪約 60–89 元，不到最低時薪一半。</li>
+          <li><strong>「別人報價 5 萬」是正常行情。</strong>一位工程師做一週的市價約 3.2–6.4 萬元。他真正的對手是月費 800–4,500 元的 +1 團購工具。</li>
+          <li><strong>最大的風險在錢和資料。</strong>開發者代收貨款可能觸法；多家店共用系統，一次漏洞就是所有店的會員資料外洩；店家用個人帳戶收款可能被列為警示帳戶；沒有合約，原始碼預設不屬於店家。</li>
+          <li><strong>想複製，學結構、不學價格。</strong>鎖定一個垂直市場，做一套可重複用的核心，把建置費當獲客成本，靠維護月費和功能模組賺回來。</li>
+        </ul>
+        <p class="caveat">原貼文和作者的價目表都找不到，頁面上關於作者的數字都是他自己公布的；每個試算都標明了假設。</p>
+      </section>
+
+<section id="money">
+<p class="eyebrow">單位經濟</p>
+<h2>帳算得通，但 29,280 元只等於一份最低工資</h2>
+<p>先看作者自己給的數字能推出什麼。29,280 元除以 19 位客戶，<strong>平均每位 1,541 元</strong>，是 299 元的 5.2 倍；就算 19 位都只付 299，也只有 5,681 元，所以至少 <strong>80.6% 的營收來自 299 以上的加購或較大的案子</strong>。「起」這個字扛下了幾乎所有定價彈性：標題的對比是 5 萬比 299（約 167 倍），實際平均是 5 萬比 1,541（約 32 倍），差距仍大，但划算感被放大了五倍。</p>
+<p>貼文還有一處沒講清楚：開頭寫「30 天 19 個客戶 29280」，結尾寫「Day 31 戰報：客戶 19 進帳 29280」。如果今天的 5,000 元已算進總額、客戶數卻沒增加，代表這筆錢來自舊客戶，例如海鮮店的尾款或加購，這本身就是「低價入口、舊客追加」的證據；如果還沒算進去，累計就是 34,280 元、20 位客戶、平均 1,714 元。原文無法判斷。</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">指標</th><th scope="col">數字</th><th scope="col">算法與意義</th></tr></thead>
+<tbody>
+<tr><td>平均客單</td><td>1,541 元</td><td>29,280 ÷ 19</td></tr>
+<tr><td>全部只收 299 的話</td><td>5,681 元</td><td>實收是它的 5.2 倍</td></tr>
+<tr><td>日均進帳</td><td>976 元</td><td>今天的 5,000 元約是平常的 5 倍</td></tr>
+<tr><td>對 2026 最低月薪</td><td>99.3%</td><td>29,280 ÷ 29,500，而且是毛收入</td></tr>
+<tr><td>年化營收</td><td>約 35.1 萬元</td><td>約軟體工程類年薪中位數的 32–36%</td></tr>
+<tr><td>海鮮店案時薪</td><td>60–89 元</td><td>假設收 5,000 元、7 天 × 每天 8–12 小時</td></tr>
+<tr><td>達到最低時薪的工時上限</td><td>25.5 小時</td><td>5,000 ÷ 196</td></tr>
+</tbody></table></div>
+<p>拿薪資基準來比，畫面更清楚。2026 年最低工資是月薪 <strong>29,500 元、時薪 196 元</strong><span class="cite">（<a href="https://www.mol.gov.tw/1607/1632/1633/84947/post" target="_blank" rel="noopener">勞動部</a>）</span>；2027 年已由審議會在 2026 年 9 月 24 日決議調到月薪 30,900 元、時薪 205 元，待行政院核定<span class="cite">（<a href="https://www.mol.gov.tw/1607/1632/1633/99195/post" target="_blank" rel="noopener">勞動部</a>）</span>，29,280 元只有它的 94.8%。104 的 2025 科技業報告中，軟體／工程類年薪中位數約 <strong>96.6–110.8 萬元</strong><span class="cite">（<a href="https://www.businesstoday.com.tw/article/category/183030/post/202505150035/" target="_blank" rel="noopener">今周刊</a>）</span>，年化 35 萬約只有三分之一。這些還都是營收：AI 寫程式工具本身就要錢，Claude Code 的 Pro 方案每月 20 美元、Max 方案 100 或 200 美元<span class="cite">（<a href="https://www.superblocks.com/blog/claude-code-pricing" target="_blank" rel="noopener">Superblocks</a>）</span>，再加上主機、網域、所得稅和職業工會勞健保。</p>
+<p>最值得細看的是海鮮店這一案。貼文的排列方式暗示它就是今天那筆 5,000 元，但沒有明說。假設是，一週做 7 天、每天 8 到 12 小時，<strong>實質時薪只有 60–89 元，是最低時薪的 30–46%</strong>；要達到最低時薪，整套系統得在 25.5 小時、約三個工作天內完成。換個角度，開發商公開的台灣工程師人天參考價是 <strong>4,600–9,200 元</strong><span class="cite">（<a href="https://actgsys.com/zh/blog/custom-system-development-cost-guide-2026" target="_blank" rel="noopener">actgsys</a>）</span>，一位工程師做一週等於 <strong>32,200–64,400 元</strong>。「別人報價 5 萬」正好落在這個區間，是一週工的正常市價，談不上漫天喊價。</p>
+<p>所以帳「算得通」只代表數字前後一致，不代表賺錢。這門生意要成立，有三種可能，彼此不互斥。第一，AI 加現成模板讓實際工時遠少於一週；下一節估計改模板約 25–48 小時，換算時薪約 104–200 元，仍在最低時薪上下。第二，作者拿低於市價的工時換案例、換曝光，「創業 Day 31」連載本身就是獲客管道，19 個案子同時也是 19 篇內容素材。第三，有貼文沒寫的經常性收入，例如維護月費、代管或加購。作者自己說「有些錢我真的不敢漫天喊價，因為實際真的沒做什麼」，加上平均客單只有一千五，多數客戶應該是小修改或模板頁，海鮮店這種完整系統是少數大案。能不能長久，取決於小案的真實工時和有沒有月費，而這兩件事貼文都沒揭露。</p>
+</section>
+<section id="tech">
+<p class="eyebrow">技術做法</p>
+<h2>一週做完靠的是現成模板，AI 負責改造和寫測試</h2>
+<p>一個人一週做出從購物車到 AI 整單的整套系統，前提幾乎一定是<strong>手上已經有一套可重複用的電商核心</strong>：商品、購物車、訂單、會員、優惠碼、後台權限。AI 寫程式代理（如 Claude Code、Cursor）主要負責兩件事：把模板改成這家店的流程，以及大量產生測試。依各元件逐項推估（AI 輔助、一人開發），<strong>從零做約 72–130 小時，改自有模板約 25–48 小時</strong>；就算一週拚到 70–85 小時，從零做完也非常吃緊。最可能的技術組合是 Next.js 或 React 搭 Postgres（例如 Supabase），部署在 Vercel 或 Cloudflare，LINE 用官方 SDK、AI 整單呼叫雲端模型 API。這些都是推測，作者沒有公開工具和架構。</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">功能</th><th scope="col">最可能的做法</th><th scope="col">改模板工時</th></tr></thead>
+<tbody>
+<tr><td>購物車、會員、優惠碼、購物金</td><td>模板既有功能；購物金用只能新增的帳本</td><td>6–11 小時</td></tr>
+<tr><td>四種物流、末五碼、取貨付款</td><td>運費規則＋門市欄位，先不串物流 API；付款回報＋人工對帳</td><td>4–7 小時</td></tr>
+<tr><td>揀貨單、出貨單、賣貨便匯出</td><td>列印版面＋產生官方匯入用 Excel</td><td>1.5–3 小時</td></tr>
+<tr><td>掃條碼進貨、庫存、毛利</td><td>鍵盤式掃描槍＋庫存異動流水帳</td><td>3–5 小時</td></tr>
+<tr><td>群組「菜單」、AI 整單</td><td>LINE 回覆商品輪播；AI 出草稿、店家確認</td><td>4–8 小時</td></tr>
+<tr><td>金額測試</td><td>表格化測試＋自動產生測資</td><td>4–8 小時</td></tr>
+<tr><td>後台、部署、舊資料搬遷</td><td>自動測試、預覽環境、匯入舊 App 資料</td><td>3–6 小時</td></tr>
+</tbody></table></div>
+<p>工時是推估，不含和店家溝通、申請金流物流的等待時間。AI 到底能加速多少，證據其實分歧。METR 在 2025 年的隨機對照實驗中，16 位資深開源開發者在自己熟悉的大型專案上用 AI，<strong>完成時間反而多了約 19%</strong>，而且他們事後仍自認快了 20%<span class="cite">（<a href="https://getcoai.com/news/study-ai-coding-tools-slow-down-experienced-developers-by-19/" target="_blank" rel="noopener">CO/AI</a>）</span>；2026 年的追蹤實驗傾向「有加速」，但信賴區間跨過零，統計上不顯著<span class="cite">（<a href="https://devs-group.ch/en/blog/ai-productivity-studies-2026/" target="_blank" rel="noopener">devs-group</a>）</span>。METR 測的是大型成熟程式庫；小店電商這種從零開始、規格明確、以 CRUD 為主的案子，才是 AI 代理最能發揮的場景。這是推論，不是研究結論。</p>
+<h3>LINE 群組機器人：回覆免費，推播按人頭計費</h3>
+<p>「群組打菜單自動跳商品」做得到，而且可以不花訊息費。官方帳號在開發者後台打開「允許加入群組」（預設關閉）後，就能被邀進群組並收到群組訊息；但<strong>一個群組同時只能有一個官方帳號</strong>，換系統前得先把舊 App 的機器人移出群組<span class="cite">（<a href="https://developers.line.biz/en/docs/messaging-api/group-chats/" target="_blank" rel="noopener">LINE Developers</a>）</span>。回覆（reply）<strong>不計入方案則數</strong>；主動推播（push）則<strong>按收件人數計算</strong>，對 300 人的群組推一則就算 300 則<span class="cite">（<a href="https://developers.line.biz/en/tips/2026/05/28/how-to-count-messages/" target="_blank" rel="noopener">LINE Developers</a>）</span>。</p>
+<p>免費的輕用量每月只有 200 則，連一次群組推播都不夠。中用量從 <strong>2026 年 11 月 1 日起由 800 元調為 1,000 元</strong>（3,000 則），高用量由 1,200 元調為 1,400 元<span class="cite">（<a href="https://tw.linebiz.com/column/LINEOA-2026-Price-Plan/" target="_blank" rel="noopener">LINE Biz-Solutions</a>）</span>。還有一個前提要先確認：機器人進不了 <strong>LINE 社群（OpenChat）</strong><span class="cite">（<a href="https://weken.news/articles/line-openchat-bot-messaging-api-not-supported" target="_blank" rel="noopener">weken</a>）</span>，如果店家是在社群而不是群組開團，這個功能根本做不起來。</p>
+<h3>AI 整單很便宜，難的是聽懂「同上」和「幫我媽 +2」</h3>
+<p>技術上已經成熟。「結構化輸出」可以強制模型吐出符合指定格式的訂單資料，OpenAI 的官方測試中，新模型對複雜格式的符合率達 100%<span class="cite">（<a href="https://openai.com/index/introducing-structured-outputs-in-the-api/" target="_blank" rel="noopener">OpenAI</a>）</span>。以 Claude Haiku 5.5 每百萬 token 輸入 0.10、輸出 0.50 美元計<span class="cite">（<a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener">Claude Docs</a>）</span>，依本報告的用量假設，每 1,000 則群組訊息約 0.2 美元，一家店一個月幾乎不用錢。</p>
+<p>難的是語意：「蝦蝦」是哪一品、「兩盒」「半斤」怎麼換算、「同上」指哪一團、「幫我媽 +2」算誰的、「剛剛那個取消」取消哪筆。務實的設計是常見句型先用規則抓、其餘交給模型，模型沒把握的、改單和取消都進人工佇列，<strong>讓 AI 出草稿、店家按確認</strong>，而不是全自動成單。LINE 的「編輯」與「收回」訊息事件可以用來偵測改單<span class="cite">（<a href="https://techblog.lycorp.co.jp/zh-hant/linebot-msg-edit-unsend" target="_blank" rel="noopener">LY Corp Tech Blog</a>）</span>，但編輯功能還在 LINE Labs 試用，不能當唯一依據。</p>
+<h3>物流與對帳：一週版本靠匯出檔，不是串 API</h3>
+<p>正式串物流 API 要先申請特約商店，B2C 超商物流每個類型還要把實體標籤寄到物流中心「測標」，通過才能建單<span class="cite">（<a href="https://developers.ecpay.com.tw/10102/" target="_blank" rel="noopener">綠界</a>）</span>；PAYUNi 統一金流則要求設定 API 來源 IP 白名單<span class="cite">（<a href="https://docs.payuni.com.tw/web/" target="_blank" rel="noopener">PAYUNi</a>）</span>，而 Vercel 這類無伺服器平台預設沒有固定 IP。這些前置作業很難塞進一週，所以「賣貨便一鍵匯出」最可能是把訂單轉成官方批次匯入範本。交貨便官方匯入頁寫明<strong>單次上限 100 筆、只支援 Windows 版 Excel</strong><span class="cite">（<a href="https://myship2.7-11.com.tw/C2C/Import" target="_blank" rel="noopener">7-ELEVEN 交貨便</a>）</span>；另一個賣貨便頁面註明訂單匯入<strong>目前僅開放取貨付款</strong><span class="cite">（<a href="https://myship.7-11.com.tw/seller/profile/GM1910250481581" target="_blank" rel="noopener">賣貨便</a>）</span>，代表已經轉帳付清的訂單可能走不了這條路，需要實測。</p>
+<p>「對末五碼」就是拿客人回報的帳號末五碼、金額、時間去比網銀明細，常見失誤包括網路轉帳明細少一碼、金融卡號和帳號搞混<span class="cite">（<a href="https://jillpunk.pixnet.net/blog/posts/13210958651" target="_blank" rel="noopener">Jill 部落格</a>）</span>。改用綠界 ATM 虛擬帳號可以自動銷帳，但費率約 1%、每筆最低 15 元<span class="cite">（<a href="https://site-now.app/ecpay-review/" target="_blank" rel="noopener">site-now</a>）</span>，單量不大時繼續人工對帳是合理選擇。掃條碼進貨也有坑：iOS Safari 的 BarcodeDetector 至今預設停用<span class="cite">（<a href="https://caniuse.com/mdn-api_barcodedetector" target="_blank" rel="noopener">caniuse</a>）</span>，最穩的是像鍵盤一樣直接輸入的 USB 掃描槍<span class="cite">（<a href="https://imrchnt.screenstepslive.com/s/17626/a/835522-wedge-scanners" target="_blank" rel="noopener">iMerchant</a>）</span>；秤重分裝的冷凍海鮮常常沒有原廠條碼，還得自印店內碼。</p>
+<h3>35 種金額情況和 73 次部署，才是真正的工程量</h3>
+<p>貼文舉的兩個 bug，「改單會不會吃掉訂金」和「退款購物金有沒有還回去」，正好是「訂金 × 改單」「購物金 × 退款」的交叉情境。把運費門檻、優惠碼、購物金、訂金改單、退款、付款對帳六類交叉起來，湊出 35 種並不誇張。可靠的做法是金額一律用整數元；購物金用只能新增、錯了就沖銷的帳本；所有金流與 LINE 通知都用事件 ID 去重，同一通知重送也不會重複入帳，LINE 官方也建議用 webhookEventId 去重<span class="cite">（<a href="https://developers.line.biz/en/docs/messaging-api/receiving-messages/" target="_blank" rel="noopener">LINE Developers</a>）</span>；再用自動產生測資的性質測試，驗證「應付金額不為負」「付款減退款等於訂單淨額」這類規則<span class="cite">（<a href="https://fast-check.dev/docs/introduction/" target="_blank" rel="noopener">fast-check</a>）</span>。</p>
+<p>一週改 73 次，約等於每天部署 10 次。DORA 2025 報告發現 AI 讓交付量上升，但缺乏自動化測試和快速回饋時，也伴隨更高的不穩定<span class="cite">（<a href="https://dora.dev/insights/balancing-ai-tensions/" target="_blank" rel="noopener">DORA</a>）</span>；Stack Overflow 2025 調查中，<strong>66% 開發者最大的困擾是 AI 給的程式「差一點對、但不完全對」</strong>，45% 說除錯 AI 寫的程式更花時間<span class="cite">（<a href="https://stackoverflow.blog/2025/07/29/developers-remain-willing-but-reluctant-to-use-ai-the-2025-developer-survey-results-are-here/" target="_blank" rel="noopener">Stack Overflow</a>）</span>，而金額邏輯正是最不能「差一點對」的地方。「每次都測過才上」若是真的，代表他有自動測試和預覽環境；若是手測，73 次就很難每次都測完整。</p>
+<h3>多店共用才撐得起 299 元，但也最怕權限漏洞</h3>
+<p>安全是 AI 不會自動處理好的部分。Veracode 測試 100 多個模型，約 <strong>45% 的 AI 產出沒通過 OWASP Top 10 安全測試</strong><span class="cite">（<a href="https://www.veracode.com/blog/genai-code-security-report/" target="_blank" rel="noopener">Veracode</a>）</span>；AI 建站工具 Lovable 被掃出 1,645 個專案中有 170 個資料庫權限設定不足，外洩了 email、電話和付款狀態<span class="cite">（<a href="https://wolfgangsol.com/blog/lovable-cve-2025-48757-vibe-coding-security" target="_blank" rel="noopener">Wolfgangsol</a>）</span>。一個人同時托管多家店，「A 店看到 B 店的訂單」是最嚴重的事故。</p>
+<p>成本上，依本報告估算，多家店共用一套部署時，每家店每月的主機、資料庫、AI 費用約 <strong>150–250 元</strong>；每家店各自一套則約 400–600 元起。Vercel 免費方案禁止商業用途<span class="cite">（<a href="https://makerkit.dev/blog/saas/vercel-cost" target="_blank" rel="noopener">MakerKit</a>）</span>，Supabase 免費方案一週沒活動就會暫停<span class="cite">（<a href="https://supabase.com/pricing" target="_blank" rel="noopener">Supabase</a>）</span>，正式營運都得付費。換句話說，299 元這種價格，只有在共用基礎設施、LINE 盡量只用回覆、官方帳號月費由店家自付時才有道理。</p>
+</section>
+<section id="copywriting">
+<p class="eyebrow">行銷與文案</p>
+<h2>文案每一句都在拆「便宜沒好貨」的心防</h2>
+<p>選 Threads 不是偶然。Threads 產品副總裁曾點名印度、日本、台灣是全球最活躍的前三個市場<span class="cite">（<a href="https://www.verse.com.tw/article/threads-popular-in-taiwan" target="_blank" rel="noopener">VERSE</a>）</span>，QSearch 2026 年統計台灣佔 Threads 全球流量 <strong>21.08%，排名第一</strong><span class="cite">（<a href="https://www.qsearch.cc/blog/2026/03/threads-stats-2026-taiwan/" target="_blank" rel="noopener">QSearch</a>）</span>；不過 Meta 從未公布台灣用戶數，網傳的「9,486 萬個帳號」已證實是誤算<span class="cite">（<a href="https://newtalk.tw/news/view/2026-05-06/1033636" target="_blank" rel="noopener">新頭殼</a>）</span>。演算法方面，Meta 沒有公開權重，多數第三方整理認為「回覆」是最強的互動訊號，並引述 Mosseri 說回覆比按讚重要，同時 Meta 也在降權「nice post」這類低品質的灌水回覆<span class="cite">（<a href="https://postory.io/blog/threads-algorithm" target="_blank" rel="noopener">Postory</a>）</span>。「別人 5 萬、我 299」會同時引來「求私訊」和「破壞行情」兩種回覆，兩種都是互動，爭議反而幫忙擴散；這是推論，沒有官方證據說爭議本身會被獎勵。在接案生態裡，Threads 比較像漏斗頂端，曝光和信任在這裡建立，成交多半移到私訊或 LINE<span class="cite">（<a href="https://yofish.site/blog/threads-monetize-sales-funnel-2026/" target="_blank" rel="noopener">yofish</a>）</span>。</p>
+<p>「創業 Day 31」是國外「build in public」（公開營收與進度）的台灣版本，從 Buffer 的透明文化、Baremetrics 帶頭的「Open Startups」，到 Pieter Levels 公開營收一路流行<span class="cite">（<a href="https://collectednotes.com/levygaston/open-startups-english-version" target="_blank" rel="noopener">Collected Notes</a>）</span>。它建立信任的方式有三層。連續 31 天不斷更，很難憑空捏造。29,280、35 種、73 次這種精確數字比「很多客戶」更像真的：研究發現精確的開價會讓對方的調整幅度比整數小<span class="cite">（<a href="https://www.psychologicalscience.org/news/releases/pricing-and-the-brain-why-things-cost-19-95.html" target="_blank" rel="noopener">APS</a>）</span>，但精確只有在說話者被認為可信時才有說服力<span class="cite">（<a href="https://dornsife.usc.edu/norbert-schwarz/wp-content/uploads/sites/231/2023/11/13_jesp_zhang___schwarz_precise_numbers.pdf" target="_blank" rel="noopener">Zhang &amp; Schwarz</a>）</span>。而 29,280 元不是炫富等級，反而降低了「割韭菜、賣課」的聯想。</p>
+<p>在台灣 Threads 的環境裡，透明還有額外作用：2026 年 7 月有報導指出，詐騙集團在 Threads 假扮投顧發文再把人導去 LINE，AI 傀儡帳號第一週「絕對不談錢」<span class="cite">（<a href="https://www.chinatimes.com/realtimenews/20260713000846-260412" target="_blank" rel="noopener">中時新聞網</a>）</span>，公開價格、公開個案、天天更新，正好是反向的「我不是詐騙」訊號。</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">原文</th><th scope="col">用的機制</th><th scope="col">可能的反效果</th></tr></thead>
+<tbody>
+<tr><td>別人報價 5 萬 我收 299 起</td><td>極端錨點、尾數定價、「起」價</td><td>觸發「便宜沒好貨」；實際平均 1,541 元</td></tr>
+<tr><td>一直有人說便宜沒好貨</td><td>先替讀者說出疑慮</td><td>沒想到的人也開始懷疑</td></tr>
+<tr><td>一個禮拜我做了＋功能清單</td><td>價值堆疊</td><td>客戶以為 299 也包含這些</td></tr>
+<tr><td>金額測 35 種、一週改 73 次</td><td>讓人看見工作量</td><td>同業讀成「沒有修改上限」</td></tr>
+<tr><td>實際真的沒做什麼</td><td>坦白式雙面訊息</td><td>暗指同業浮報，最容易引戰</td></tr>
+<tr><td>下次可以先找我比價</td><td>低門檻行動呼籲</td><td>吸來最在意價格的客人</td></tr>
+</tbody></table></div>
+<p>這些機制都有研究支撐，也都有邊界。「讓人看見工作量」來自 Buell 與 Norton 2011 年的「勞動錯覺」研究：結果相同時，看得到背後努力的服務被評價更高，旅遊搜尋實驗中整體價值高約 8%，但這個效果只會放大既有印象、不會扭轉<span class="cite">（<a href="https://ideas.repec.org/a/inm/ormnsc/v57y2011i9p1564-1579.html" target="_blank" rel="noopener">RePEc</a>）</span>，對已經認定「AI 拼裝便宜貨」的人，「改 73 次」只會被讀成需求失控。坦白自己的限制屬於「雙面訊息」，研究顯示它透過提高可信度增加購買意願，但只對本來就懷疑廣告的消費者有效<span class="cite">（<a href="https://edisciplinas.usp.br/pluginfile.php/7947675/mod_resource/content/1/2022%20Int%20J%20Consumer%20Studies%20When%20transparency%20pays%20off%20Enticing%20sceptical%20consumers%20with%20two%E2%80%90sided.pdf" target="_blank" rel="noopener">IJCS 2022</a>）</span>。</p>
+<p>「299 起」是拆分定價，先報基本價、其餘另加<span class="cite">（<a href="https://www.msi.org/working-papers/divide-and-prosper-effects-of-partitioned-prices-on-consumers-price-recall-and-demand/" target="_blank" rel="noopener">MSI</a>）</span>，消費者常低估總價、也更容易成交<span class="cite">（<a href="https://www.commerce.senate.gov/services/files/31CC9415-0371-476F-9041-992CEE3A217F" target="_blank" rel="noopener">美國參議院商業委員會</a>）</span>。「便宜沒好貨」本身也有實證，價格與知覺品質確實正相關<span class="cite">（<a href="https://carlsonschool.umn.edu/sites/carlsonschool.umn.edu/files/2024-06/Rao%20and%20Monroe%201989.pdf" target="_blank" rel="noopener">Rao &amp; Monroe</a>）</span>，只是後續統合分析發現這個效果在減弱<span class="cite">（<a href="https://hal-normandie-univ.archives-ouvertes.fr/hal-02990424" target="_blank" rel="noopener">HAL</a>）</span>；加上「AI 讓簡單網站變便宜」已成公共認知，2026 年說「便宜但不廉價」比過去容易被接受。</p>
+<p>和行銷圈常引用的 Hormozi「Grand Slam Offer」對照，差別一目了然：Hormozi 用價值堆疊撐起<strong>高價、附保證、無法和別人比較</strong>的方案<span class="cite">（<a href="https://www.supersummary.com/100m-offers/summary/" target="_blank" rel="noopener">SuperSummary</a>）</span>，這篇則用價值堆疊撐起<strong>超低入口價，還主動邀請比價</strong>。前者篩出高意願客人，後者把漏斗頂端撐大，但吸進來的多是價格敏感的客人；已有設計師在 2026 年寫到，客戶砍價最常說的就是「我都能自己叫 AI 做了」<span class="cite">（<a href="https://blog.akanelee.me/2026/06/02/ai-design-value-gap/" target="_blank" rel="noopener">嫁給 RD 的 UI Designer</a>）</span>。</p>
+<p>整個模式是一個飛輪：接案、寫成戰報、帶來曝光、再接案。弱點也很明顯：公開利基等於邀請同業抄，國外已有一批曾高調公開營收的獨立開發者為了防抄襲轉為不公開<span class="cite">（<a href="https://www.indiehackers.com/post/is-this-the-end-of-build-in-public-heres-why-top-indie-hackers-are-suddenly-disappearing-IhSJQBnXNuNwSuNTuz4t" target="_blank" rel="noopener">Indie Hackers</a>）</span>；Threads 上也已出現「199 元做網站」的更低價方案<span class="cite">（<a href="https://www.youtube.com/watch?v=6M0TBCIyzR4" target="_blank" rel="noopener">YouTube</a>）</span>，而自己喊出的低價錨點，日後想漲價時會反過來綁住自己。</p>
+</section>
+<section id="market">
+<p class="eyebrow">市場行情</p>
+<h2>真正的對手是月費 800 元的 +1 工具，不是 5 萬元的工作室</h2>
+<h3>5 萬是一週工的正常價，完整功能其實更貴</h3>
+<p>PRO360 的價格頁列出一頁式網站 1–5 萬元<span class="cite">（<a href="https://www.pro360.com.tw/price/one_page_web" target="_blank" rel="noopener">PRO360</a>）</span>、購物網站 3–30 萬元以上，功能模組另計，例如折價券每項 1.5–4 萬、金物流串接每項 1–2.5 萬<span class="cite">（<a href="https://www.pro360.com.tw/price/shopping_web" target="_blank" rel="noopener">PRO360</a>）</span>；出任務 Tasker 的 2026 指南列形象網站 4–7 萬、購物網站 6–8 萬<span class="cite">（<a href="https://www.tasker.com.tw/articles/detail/1374" target="_blank" rel="noopener">Tasker</a>）</span>；客製 LINE Bot 單一功能一次性約 5–15 萬<span class="cite">（<a href="https://actgsys.com/zh/blog/line-bot-development-cost-guide-2026" target="_blank" rel="noopener">actgsys</a>）</span>。把海鮮店的功能逐項取市場下限硬加，粗估約 <strong>15.5 萬元</strong>（可能重複計算，只能看量級），「別人報價 5 萬」對這個範圍甚至偏保守。主流價格指南最便宜的一頁式仍是 1 萬元起，299 元大約只等於 1.5 小時最低時薪。</p>
+<p>「我便宜是因應市場變化」方向說得通，但沒有數據顯示行情已經掉到幾百元。業者承認網頁生成的邊際成本已接近零<span class="cite">（<a href="https://www.e7way.com.tw/article-info.asp?id=181" target="_blank" rel="noopener">e7way</a>）</span>，104 資料也顯示 2026 年 1 月軟體／工程類職缺比前一年再少 5%<span class="cite">（<a href="https://www.bnext.com.tw/article/90804/taiwan-tech-jobs-shift-from-software-to-chip-design-and-ai" target="_blank" rel="noopener">數位時代</a>）</span>，接案供給增加、低價案變多是合理推論。但這比較像價格分化，作者是極端低價的個案，不能拿來證明整體行情崩盤。</p>
+<h3>店家不找工程師的替代方案，每月 0 到 1 萬元</h3>
+<p>真正該比的是店家不找人做網站時會用什麼。以每月 300 單、客單 1,200 元（月營業額 36 萬，假設值）試算：</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">方案</th><th scope="col">每月約</th><th scope="col">特點</th></tr></thead>
+<tbody>
+<tr><td>SHOPLINE 入門方案</td><td>10,500 元</td><td>年費 4 萬＋2% 流量費，另收開通費 5,000 元</td></tr>
+<tr><td>CYBERBIZ 專業版+</td><td>5,850 元</td><td>年費 2.7 萬＋1% 抽成</td></tr>
+<tr><td>OrderPally 進階</td><td>4,500 元</td><td>含 LINE 群組 +1 收單</td></tr>
+<tr><td>WACA 商務成長版</td><td>3,099 元</td><td>0 抽成，ATM 虛擬帳號每筆 17–20 元</td></tr>
+<tr><td>EasyStore 標準版</td><td>1,399 元</td><td>0 抽成，金流另計</td></tr>
+<tr><td>飛比+1</td><td>799–1,099 元</td><td>免費版每月只到 30 單</td></tr>
+<tr><td>賣貨便／好賣+</td><td>0 元</td><td>只付運費，沒有會員和報表</td></tr>
+</tbody></table></div>
+<p>價格出處：SHOPLINE<span class="cite">（<a href="https://www.timtech.tw/news/ecommerce-platform-cost" target="_blank" rel="noopener">提昇科技</a>）</span>、CYBERBIZ<span class="cite">（<a href="https://hotels.com.tw/cyberbiz-review-guide/" target="_blank" rel="noopener">hotels.com.tw</a>）</span>、OrderPally<span class="cite">（<a href="https://orderpally.com/pricing/" target="_blank" rel="noopener">OrderPally</a>）</span>、WACA<span class="cite">（<a href="https://www.waca.net/pricing/online-store" target="_blank" rel="noopener">WACA</a>）</span>、EasyStore<span class="cite">（<a href="https://hotels.com.tw/easystore-review-pricing-plans/" target="_blank" rel="noopener">hotels.com.tw</a>）</span>、飛比+1<span class="cite">（<a href="https://one.feebee.com.tw/" target="_blank" rel="noopener">飛比+1</a>）</span>、好賣+<span class="cite">（<a href="https://famistore.famiport.com.tw/faq/detail?tabs=tab2&amp;id1=4&amp;id2=1" target="_blank" rel="noopener">好賣+</a>）</span>。多數為第三方整理，報價前應回官網核對。</p>
+<p>對照之下，作者填的是一條縫。開店平台的 LINE 功能是<strong>連結式下單</strong>，不會去解析群組裡的「+1」或自由文字<span class="cite">（<a href="https://blog.shopline.tw/product-article-message-center-order-form/" target="_blank" rel="noopener">SHOPLINE</a>）</span>；+1 整單工具會抓「+1」，但多半要求固定格式，揀貨單、進銷存要升級或加購。找不到任何單一現成產品同時做到群組自由文字 AI 整單、賣貨便冷凍批次匯出、末五碼對帳、條碼進貨加毛利報表，而且不抽成。</p>
+<p>這些功能正好對到團購主的痛：LINE 官方早就觀察到團主常漏看 +1、算錯錢<span class="cite">（<a href="https://www.linecorp.com/tw/pr/news/tw/2021/3858" target="_blank" rel="noopener">LINE</a>）</span>，海鮮團更常遇到臨時售罄、現貨和預購混在一起<span class="cite">（<a href="https://content.iplusonego.com/846/" target="_blank" rel="noopener">愛+1</a>）</span>；現成工具的綁定也是換系統的動機，例如 OrderPally 的 LINE 群組收單綁定後無法解除<span class="cite">（<a href="https://orderpally.com/linegroup/" target="_blank" rel="noopener">OrderPally</a>）</span>。「原本用別人的 App」最可能就是這類每月 800 到 4,500 元的 +1 工具；若海鮮店那案真的一次收 5,000 元，還不到飛比+1 標準版一年的訂閱費（年繳約 9,600 元）。</p>
+<p>這條縫不會一直空著。愛+1 已推出年費 30,476 元的「進階 AI」方案<span class="cite">（<a href="https://web.iplusonego.com/solutions/" target="_blank" rel="noopener">愛+1</a>）</span>，jidou.ai 在做 B2B 的群組 AI 接單<span class="cite">（<a href="https://jidou.ai/blog/2026-09-07-line-order-system-comparison" target="_blank" rel="noopener">jidou</a>）</span>，LINE 自己也規劃能讀群組對話、整理採購清單的 AI 購物助手<span class="cite">（<a href="https://www.bnext.com.tw/article/92615/line-converge-2026-agentic-ai" target="_blank" rel="noopener">數位時代</a>）</span>。「AI 整單」這個賣點的護城河很淺。</p>
+<h3>冷凍運費才是店家最大的帳單</h3>
+<p>2026 年 10 月，賣貨便的 7-11 冷凍店取優惠價 <strong>129 元</strong>（原價 200）<span class="cite">（<a href="https://www.onion-net.com.tw/news_detail/711-myship-free-shipping" target="_blank" rel="noopener">onion-net</a>）</span>，好賣+ 全家冷凍優惠 <strong>99 元</strong>（原價 180）<span class="cite">（<a href="https://famistore.famiport.com.tw/faq/detail?tabs=tab2&amp;id1=4&amp;id2=1" target="_blank" rel="noopener">好賣+</a>）</span>，黑貓低溫宅急便 60 公分 160 元（2023 年資料）<span class="cite">（<a href="https://www.lalamove.com/zh-tw/blog/2023-frozen-delivery-comparison" target="_blank" rel="noopener">Lalamove</a>）</span>。每月 300 件冷凍包裹，運費就是 <strong>2.97–4.8 萬元</strong>，比任何開店平台月費都高；就算運費多半轉嫁買家，每單差 30–60 元仍會影響下單意願。客製系統的真正價值，是讓店家繼續用最便宜的 C2C 冷凍通路，不必申請 B2C 大宗寄倉、預儲點數，並用末五碼對帳省下每筆十幾元的虛擬帳號手續費。對一個月幾百單的店，一年省下的錢很可能遠超過作者收的費用，這也說明 299 元的定價大幅低估了自己提供的價值。</p>
+</section>
+<section id="risk">
+<p class="eyebrow">風險與合規</p>
+<h2>最大的雷是經手貨款、個資外洩和沒寫下來的合約</h2>
+<p>這個模式的風險一半落在開發者身上，一半被交給了店家。最高風險集中在下面六件事，多數只要「系統預設就合規、一份像樣的合約、持牌金流」就能大幅降低。法條以全國法規資料庫現行條文為準，本文不構成法律意見。</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">風險</th><th scope="col">誰承擔</th><th scope="col">怎麼避</th></tr></thead>
+<tbody>
+<tr><td>開發者代收貨款再轉給店家</td><td><span class="chip chip-dev">開發者（刑責）</span></td><td>永不經手資金，店家自己申請金流特店</td></tr>
+<tr><td>多店共用系統個資外洩</td><td><span class="chip chip-both">雙方</span></td><td>伺服器端隔離各店資料、後台雙重驗證、事故 24 小時內通知店家</td></tr>
+<tr><td>個人帳戶加末五碼收款</td><td><span class="chip chip-shop">店家</span></td><td>營業帳戶分開，量大改虛擬帳號</td></tr>
+<tr><td>生鮮未事先告知排除 7 天解除權</td><td><span class="chip chip-shop">店家</span></td><td>結帳頁勾選告知，訂單頁可保存</td></tr>
+<tr><td>退款只給購物金</td><td><span class="chip chip-shop">店家（系統設計）</span></td><td>預設原路退款，購物金只當選項</td></tr>
+<tr><td>沒有合約、原始碼歸屬不明</td><td><span class="chip chip-shop">店家</span></td><td>寫清範圍、驗收、保固、資料匯出與原始碼授權</td></tr>
+</tbody></table></div>
+<h3>開發者的紅線：不碰貨款，守住多店共用的個資</h3>
+<p>如果系統讓消費者先把錢付到開發者帳戶、再定期撥給店家，就是「代理收付實質交易款項」，屬於電子支付機構的許可業務<span class="cite">（<a href="https://www.leeandli.com/TW/Newsletters/5343.htm" target="_blank" rel="noopener">理律</a>）</span>；電子支付機構必須是股份有限公司，只做代理收付的最低實收資本就要 <strong>1 億元</strong><span class="cite">（<a href="https://homepage.ntu.edu.tw/~yitingli/file/Money%20and%20Banking/e_payment_2023.pdf" target="_blank" rel="noopener">臺大講義</a>）</span>，還可能碰到銀行法的匯兌規定，違者處 <strong>3 到 10 年有期徒刑</strong><span class="cite">（<a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0380001&amp;flno=125" target="_blank" rel="noopener">全國法規資料庫</a>）</span>。正確做法是錢直接進店家自己的帳戶，或由店家以自己名義向合規金流商申請特店，開發者只負責串接。</p>
+<p>個資方面，店家蒐集會員姓名、電話、地址、LINE ID，是個資的控制者；開發者若代管這些資料，在受託範圍內「視同委託機關」，同受安全維護與賠償規範<span class="cite">（<a href="https://laws.gov.taipei/Law/Interpretation/Content/FE253678" target="_blank" rel="noopener">臺北市法規查詢系統</a>）</span>。數位部 2023 年的辦法把網路零售業者全部納管，<strong>不設規模門檻</strong>，要訂安全維護計畫、重大事故 <strong>72 小時內通報</strong>、紀錄保存 5 年<span class="cite">（<a href="https://ec.ltn.com.tw/article/breakingnews/4459610" target="_blank" rel="noopener">自由時報</a>；<a href="https://www.ctee.com.tw/news/20231226700106-439901" target="_blank" rel="noopener">工商時報</a>）</span>；違反安全維護義務可罰 2 萬到 200 萬元，情節重大 15 萬到 1,500 萬元<span class="cite">（<a href="https://www.ndc.gov.tw/nc_27_36901" target="_blank" rel="noopener">國發會</a>）</span>。民事上，被害人難證明損害時，每人每事件可求償 <strong>500 到 2 萬元</strong><span class="cite">（<a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=I0050021&amp;flno=28" target="_blank" rel="noopener">全國法規資料庫</a>）</span>。一個人托管多家店，一次權限漏洞就是所有店同時出事，1 萬名會員乘以 500 元就是 500 萬元的潛在曝險，遠超過 299 元方案的營收。</p>
+<p>2025 年 11 月公布的個資法修正（「知悉」外洩即須通知當事人、向個資會通報）施行日期仍待行政院另定<span class="cite">（<a href="https://www.pdpc.gov.tw/News_Content/20/1001/" target="_blank" rel="noopener">個資會籌備處</a>）</span>，到 2026 年 3 月的資料仍寫待定<span class="cite">（<a href="https://www.aplawjapan.com/application/files/9217/7339/1552/TW_Newsletter_TWN_005.pdf" target="_blank" rel="noopener">Atsumi &amp; Sakai</a>）</span>，之後是否已訂出施行日期，本報告未能確認，但方向很明確。另外，「AI 把群組訂單整理成一張一張」若把含姓名、電話、地址的訊息送到境外模型 API，等於再委託第三方處理並跨境傳輸，應在隱私權政策揭露、先遮罩再送，並選擇不保留資料的 API 設定；群組機器人也會收到沒加入會員的成員訊息，只該保存與下單有關的內容。</p>
+<h3>店家的義務：生鮮告知、原路退款、登錄字號與稅籍</h3>
+<p>這些義務在法律上屬於店家，實際上卻取決於系統怎麼設計。透過網站或 LINE 賣海鮮屬於通訊交易，生鮮可以排除 7 天解除權，但<strong>前提是事先告知</strong>，沒告知的話消費者仍可主張解除<span class="cite">（<a href="https://www.ey.gov.tw/Page/8F51FEE53AB45EA9/36663b43-67df-4bdb-b8f7-d6a649b95223" target="_blank" rel="noopener">行政院消保處</a>）</span>。退款不能強迫消費者只拿購物金，違反網路交易定型化契約規定可罰 <strong>3 萬到 30 萬元</strong><span class="cite">（<a href="https://www.legis-pedia.com/QA/question/475" target="_blank" rel="noopener">法律百科</a>）</span>；如果購物金是消費者付錢儲值的，還可能被當成禮券，要有履約保障、不能設使用期限<span class="cite">（<a href="https://www.ey.gov.tw/Page/8F51FEE53AB45EA9/64c44490-ce73-407c-acd0-61c616b92227" target="_blank" rel="noopener">行政院消保處</a>）</span>。貼文說整天在抓「退款購物金有沒有還回去」，正好踩在這條線上。</p>
+<p>食品與稅務方面，辦了商業登記的食品販售業者，即使只在網路賣，也要做食品業者登錄並在網頁揭露登錄字號，未登錄經限期仍未改正可罰 3 萬到 300 萬元<span class="cite">（<a href="https://mohw.gov.tw/cp-2704-20548-1.html" target="_blank" rel="noopener">衛福部</a>）</span>；冷凍食品要維持攝氏零下 18 度以下<span class="cite">（<a href="https://mohw.gov.tw/cp-2621-9228-1.html" target="_blank" rel="noopener">衛福部</a>）</span>。2025 年起，網路賣貨月銷售額達 <strong>10 萬元</strong>就要辦稅籍登記<span class="cite">（<a href="https://udn.com/news/story/7243/8922512" target="_blank" rel="noopener">聯合新聞網</a>）</span>，多帳號、多平台合併計算<span class="cite">（<a href="https://udn.com/news/story/7243/9528203" target="_blank" rel="noopener">聯合新聞網</a>）</span>，網頁也要揭露營業人名稱與統一編號<span class="cite">（<a href="https://www.etax.nat.gov.tw/etwmain/tax-info/network-transaction-taxtation-area/press/gDqWW2g" target="_blank" rel="noopener">財政部</a>）</span>；一個月幾百單的海鮮店很可能早已超過門檻。</p>
+<p>最容易被忽略的是<strong>個人帳戶加末五碼</strong>這種收款方式。網路賣家是三方詐騙的高風險族群，詐團會讓被害人把錢匯進賣家帳戶<span class="cite">（<a href="https://news.tvbs.com.tw/money/3075354" target="_blank" rel="noopener">TVBS</a>）</span>，帳戶一旦被列為警示帳戶，存提款與匯款功能全部暫停<span class="cite">（<a href="https://www.legis-pedia.com/dictionary/4863" target="_blank" rel="noopener">法律百科</a>）</span>，解除往往要等偵查或審理結束<span class="cite">（<a href="https://www.businessweekly.com.tw/career/blog/3018915" target="_blank" rel="noopener">商業周刊</a>）</span>，整家店的現金流會一起卡住。</p>
+<h3>合約與依賴：原始碼預設不屬於店家</h3>
+<p>網站建置在法律上屬於承攬，交付後一年內發現瑕疵，店家可以要求修補、減少報酬、解約或賠償，故意或重大過失的責任也不能事先排除<span class="cite">（<a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=B0000001" target="_blank" rel="noopener">全國法規資料庫</a>）</span>。著作權法則預設<strong>受聘者才是著作財產權人</strong>，出資的店家只有利用權<span class="cite">（<a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=J0070017&amp;flno=12" target="_blank" rel="noopener">全國法規資料庫</a>）</span>；沒寫清楚的話，店家日後很難換人維護或拿回原始碼。一人開發者同時服務 19 家店，本身就是單點故障，他生病或失聯，多家店的接單、會員、對帳會同時停擺。平台依賴也是真實風險，LINE Notify 在 2025 年 3 月底說停就停<span class="cite">（<a href="https://developers.line.biz/en/news/tags/end-of-life" target="_blank" rel="noopener">LINE Developers</a>）</span>，官方帳號也會調價；OWASP 2025 年版仍把「存取控制失效」列為第一大風險，並新增「軟體供應鏈失效」<span class="cite">（<a href="https://www.theregister.com/2025/11/11/new_owasp_top_ten_broken/" target="_blank" rel="noopener">The Register</a>）</span>，正好是多店共用、大量依賴套件、快速迭代的一人系統最常見的破口。</p>
+</section>
+<section id="replicate">
+<p class="eyebrow">怎麼複製</p>
+<h2>要複製，就把建置費當獲客成本、把維護費當主業</h2>
+<p>先從想賺多少倒推價格，而不是看別人報多少；接案者常被提醒，報價單還要把工具訂閱和修改次數寫進去<span class="cite">（<a href="https://vocus.cc/article/6ab37381fd89780001fd3e41" target="_blank" rel="noopener">夜羽凌</a>）</span>。用作者的平均客單 1,541 元，以及業者整理的個人接案維護月費下緣 1,500 元<span class="cite">（<a href="https://www.ozchamp.com/insights/custom-website-maintenance-cost" target="_blank" rel="noopener">元伸</a>）</span> 來算，每月需要的客戶數如下（都是毛收入，未扣成本；月薪中位數出自 <a href="https://blog.104.com.tw/2025-taiwan-salary/" target="_blank" rel="noopener">104 職場力</a>）：</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">每月收入目標</th><th scope="col">純靠建置（客單 1,541 元）</th><th scope="col">純靠維護（每戶 1,500 元）</th></tr></thead>
+<tbody>
+<tr><td>2026 最低月薪 29,500 元</td><td>約 19 位新客戶</td><td>約 20 個維護戶</td></tr>
+<tr><td>2025 受僱者月薪中位數 38,406 元</td><td>約 25 位新客戶</td><td>約 26 個維護戶</td></tr>
+<tr><td>軟體類年薪中位數月均約 8.05 萬元</td><td>約 52 位新客戶</td><td>約 54 個維護戶</td></tr>
+</tbody></table></div>
+<p>兩欄數字接近，差別在於建置客戶每個月都要重新找，維護戶會累積。一個維護戶一年 18,000 元，等於 11.7 位平均建置客戶；而每個案子若都要「一週改 73 次」，一個月接 52 案在人力上不可能。可複製的版本是：299 元只賣定義清楚的小東西，例如改文字、加欄位、一個按鈕；完整系統拆成有標價的模組，例如 AI 整單、賣貨便匯出、條碼庫存、冷凍物流設定；再加上包含主機、備份、安全更新的維護月費。「起」字後面要有公開價目表，否則容易被看成釣魚價。</p>
+<p>產品面，先做一套可重複用、多店共用的核心再開始行銷，並鎖定一個垂直市場，例如 LINE 團購的食品小賣家，需求才會一再重複，新客戶只要開關功能、調整設定。技術上照前面的原則：LINE 盡量只用回覆，AI 整單只出草稿，金額用帳本加自動測試，有預覽環境和一鍵回滾，資料權限在伺服器端隔離每家店。更聰明的是把合規做成預設功能並拿來定價：生鮮告知勾選、原路退款、食品登錄字號與統編欄位、透過金流商自動開電子發票。這些對店家是法律義務，對開發者則是能收錢、也最難被 199 元方案比下去的功能。</p>
+<p>合約面，就算只收幾千元也要有書面約定：功能清單和「不含」項目、修改次數上限與變更計價、以金額測試案例當驗收標準、保固期內只修瑕疵不加需求、網域與 LINE 官方帳號和金流特店一律用店家名義申請、資料可隨時匯出、原始碼授權或託管條件、資安事故 24 小時內通知店家（讓店家趕得上 72 小時通報），以及以已收費用為上限的責任限制（重大過失仍不能免責）。已有免費的接案報價單與合約產生器，可以勾選付款比例、智財、保固與違約條款<span class="cite">（<a href="https://make9.tw/marketing/tool/vibe-coding-%E5%85%8D%E8%B2%BB%E7%B7%9A%E4%B8%8A%E5%A0%B1%E5%83%B9%E5%96%AE%E7%94%A2%E7%94%9F%E5%99%A8-%E6%8E%A5%E6%A1%88%E5%BF%85%E5%82%99/" target="_blank" rel="noopener">造九頑五</a>）</span>。</p>
+<p>稅務上，以程式設計師身分接案屬執行業務所得，原則不課營業稅<span class="cite">（<a href="https://www.ctee.com.tw/news/20240219701125-430103" target="_blank" rel="noopener">工商時報</a>）</span>；但若長成對多家店收月費的標準化服務，可能被認定為銷售勞務，月收達 5 萬元就要辦稅籍登記<span class="cite">（<a href="https://udn.com/news/story/7243/8922512" target="_blank" rel="noopener">聯合新聞網</a>）</span>。客戶若是已登記的營業人、單筆付款達 2 萬元，對方會先扣 10% 稅款<span class="cite">（<a href="https://roo.cash/blog/freelance-tax-return" target="_blank" rel="noopener">Roo.Cash</a>）</span> 和 2.11% 二代健保補充保費<span class="cite">（<a href="https://www.nhi.gov.tw/ch/dl-85340-4e58804757e24feda5bf27f429fbbdbc-1.pdf" target="_blank" rel="noopener">健保署</a>）</span>，報價時要算進現金流；轉型收月費前最好先問會計師。</p>
+<p>內容面，Day N 戰報可以照做，但要修正三件事。個案曝光前先取得店家同意。數字照實、固定格式，停滯時也照貼，才撐得住可信度。不要把同業說成「沒做什麼還收 5 萬」，這會把你定位成削價者，也趕走中高預算的客人。累積幾個案例後，與其邀請比價，不如改講結果：幫店家每月省下多少運費、手續費和對帳時間。這種說法讓人無法直接比價，也才是脫離 299 元價格戰的出口。</p>
+</section>
+<section id="conclusion">
+<h2>結論</h2>
+<p>這篇貼文最被低估的地方，是它其實在賣兩樣東西：給店家的系統，和給 Threads 讀者的故事。以目前的數字，作者等於用低於最低工資的工時，換到案例、受眾和一套越磨越成熟的模板；這筆投資值不值得，要看接下來幾個月能不能轉成維護月費或更高單價，而不是看 Day 31 的戰報。AI 確實把「寫程式」的成本壓到接近零，但 5 萬元的報價本來就不主要在買程式碼，而是在買金額邏輯的測試、合規、資安，以及出事時有人負責。299 元並沒有讓這些成本消失，只是把它們挪到開發者沒算錢的工時，和店家未來的風險裡。</p>
+<p>對想複製的人，該複製的是結構，不是價格：一個垂直利基、一套可重複用的核心、一個把每個案子變成內容的飛輪，再加上能累積的經常性收入。價格的底已經被 199 元方案踩穿，+1 工具廠商和 LINE 自己都在補上 AI 整單，「最便宜」守不住；「最懂 LINE 團購食品賣家，而且系統一裝好就合規」，才是有機會守住的位置。</p>
+</section>
+
+      <section id="method" class="foot">
+        <h2 class="foot-title">研究方法與限制</h2>
+        <ul>
+          <li>這份拆解整合五條平行研究：接案報價行情、開店平台與團購工具、技術做法、行銷與文案、風險與合規。</li>
+          <li>研究環境無法直接開啟多數網頁原文，引用多半來自搜尋結果摘要。價格和方案常變動，報價前請回各官方頁面核對。</li>
+          <li>法條引用請以全國法規資料庫現行條文為準。本頁不構成法律或稅務意見。</li>
+          <li>找不到原貼文、作者的價目表和貼文互動數據；所有關於作者的數字都是他自己公布的。</li>
+        </ul>
+        <p>整理日期：2026 年 10 月 19 日</p>
+      </section>
+    </main>
+  </div>
+</div>
+</body>
+</html>
