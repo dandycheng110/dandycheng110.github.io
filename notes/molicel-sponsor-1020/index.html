@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Molicel 電芯贊助試算</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: sticky readout bar → answer hero → [inputs | rotation timeline + basis] → email draft → team playbook → sources */
+:root {
+  --bg: #EDF2F3;
+  --surface: #FFFFFF;
+  --ink: #102530;
+  --muted: #55696F;
+  --line: #CCD9DD;
+  --accent: #0A7680;        /* pool water: in-use bars, the answer */
+  --accent-soft: #D9EDEF;
+  --on-accent: #FFFFFF;
+  --charge: #BF7612;        /* charger LED amber */
+  --ok: #2A7849;
+  --ok-soft: #DCEFE2;
+  --warn: #AE520B;
+  --warn-soft: #F7E3D1;
+  --bad: #B0261E;
+  --bad-soft: #F6DCDA;
+  --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-num: "Barlow Condensed", "Noto Sans TC", "Arial Narrow", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B151A; --surface: #13212A; --ink: #E2EBEE; --muted: #93A7AF; --line: #263943;
+    --accent: #47B8C1; --accent-soft: #11313A; --on-accent: #041A1D;
+    --charge: #E09E3E;
+    --ok: #62C48D; --ok-soft: #142F1F; --warn: #EF954A; --warn-soft: #3A2412; --bad: #EF8A82; --bad-soft: #3B1A18;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B151A; --surface: #13212A; --ink: #E2EBEE; --muted: #93A7AF; --line: #263943;
+  --accent: #47B8C1; --accent-soft: #11313A; --on-accent: #041A1D;
+  --charge: #E09E3E;
+  --ok: #62C48D; --ok-soft: #142F1F; --warn: #EF954A; --warn-soft: #3A2412; --bad: #EF8A82; --bad-soft: #3B1A18;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+a { color: var(--accent); text-underline-offset: 2px; }
+.mono { font-family: var(--font-mono); font-size: .9em; overflow-wrap: anywhere; }
+.btn:focus-visible, a:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* sticky readout bar */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.bar-in, .wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.bar-in { padding-block: 9px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.bar-title { font-weight: 700; font-size: 14px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chip { flex: none; display: inline-flex; align-items: baseline; gap: 4px; padding: 3px 11px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: 13px; font-weight: 500; }
+.chip b { font-family: var(--font-num); font-size: 20px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+
+.wrap { padding-block: 0 56px; display: flex; flex-direction: column; gap: 44px; }
+
+/* hero: the answer */
+.hero { padding-top: 26px; display: flex; flex-direction: column; gap: 14px; }
+.eyebrow { margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); }
+h1 { margin: 0; font-size: clamp(25px, 5.4vw, 36px); line-height: 1.25; font-weight: 700; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 40em; }
+.pill { align-self: flex-start; display: inline-flex; align-items: center; padding: 3px 12px; border-radius: 999px; font-size: 13px; font-weight: 500; border: 1px dashed var(--muted); color: var(--muted); }
+.pill.live { border-style: solid; border-color: var(--accent); color: var(--accent); }
+.answer { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 6px 22px; }
+.answer-num { display: flex; align-items: baseline; gap: 6px; color: var(--accent); font-family: var(--font-num); font-weight: 600; line-height: .86; }
+#totalCells { font-size: clamp(84px, 22vw, 132px); font-variant-numeric: tabular-nums; }
+.unit-big { font-family: var(--font-body); font-size: 26px; font-weight: 700; }
+.answer-meta { display: flex; flex-direction: column; gap: 3px; padding-bottom: 8px; min-width: 0; }
+.model { font-family: var(--font-mono); font-weight: 600; font-size: 15px; overflow-wrap: anywhere; }
+.formula { color: var(--muted); font-size: 14px; }
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 13px 16px; display: grid; grid-template-areas: "k" "v" "s"; gap: 1px; min-width: 0; }
+.tile-k { grid-area: k; font-size: 13px; color: var(--muted); font-weight: 500; }
+.tile-v { grid-area: v; font-family: var(--font-num); font-weight: 600; font-size: 36px; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.tile-v small { font-family: var(--font-body); font-size: 15px; font-weight: 700; margin-left: 4px; }
+.tile-s { grid-area: s; font-size: 13px; color: var(--muted); }
+@media (max-width: 560px) {
+  .tiles { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .tile { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "k v" "s v"; align-items: center; column-gap: 12px; }
+}
+
+/* main grid */
+h2 { margin: 0; font-size: 19px; line-height: 1.35; font-weight: 700; text-wrap: balance; }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "results" "inputs"; gap: 32px; }
+.results { grid-area: results; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.inputs { grid-area: inputs; min-width: 0; }
+@media (min-width: 860px) {
+  .grid { grid-template-columns: minmax(0, 380px) minmax(0, 1fr); grid-template-areas: "inputs results"; align-items: start; gap: 36px; }
+}
+.caption { margin: 0; color: var(--muted); font-size: 14px; }
+.sub-h { margin-top: 14px; }
+
+/* rotation timeline */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 16px; height: 10px; border-radius: 2px; display: inline-block; }
+.sw.use { background: var(--accent); }
+.sw.charge { background: var(--charge); }
+.sw.wait { background: repeating-linear-gradient(135deg, var(--muted) 0 2px, transparent 2px 5px); }
+.sw.spare { border: 1px dashed var(--muted); }
+.tl { --lab: 30px; display: flex; flex-direction: column; gap: 6px; }
+.tl-row { display: grid; grid-template-columns: var(--lab) minmax(0, 1fr); align-items: center; gap: 8px; }
+.tl-label { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); text-align: right; }
+.tl-track { position: relative; height: 22px; border-radius: 5px; background-color: var(--surface); border: 1px solid var(--line); overflow: hidden;
+  background-image: repeating-linear-gradient(to right, transparent 0, transparent calc(var(--step) - 1px), var(--line) calc(var(--step) - 1px), var(--line) var(--step)); }
+.seg { position: absolute; top: 3px; bottom: 3px; border-radius: 3px; }
+.seg.use { background: var(--accent); }
+.seg.charge { background: var(--charge); }
+.seg.wait { background: repeating-linear-gradient(135deg, var(--muted) 0 2px, transparent 2px 6px); opacity: .6; }
+.tl-track.spare { background: transparent; background-image: none; border: 1px dashed var(--muted); display: flex; align-items: center; padding-left: 8px; font-size: 12px; color: var(--muted); }
+.tl-axis { position: relative; height: 18px; margin-left: calc(var(--lab) + 8px); font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); }
+.tl-axis span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tl-axis span:first-child { transform: none; }
+.tl-axis span:last-child { transform: translateX(-100%); }
+.tl-more { margin: 0 0 0 calc(var(--lab) + 8px); font-size: 13px; color: var(--muted); }
+.tl-empty { margin: 0; font-size: 14px; color: var(--muted); }
+
+/* basis + checks */
+.basis { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 18px; margin: 0; font-size: 14.5px; }
+.basis dt { color: var(--muted); }
+.basis dd { margin: 0; min-width: 0; font-variant-numeric: tabular-nums; }
+@media (max-width: 420px) { .basis { grid-template-columns: minmax(0, 1fr); gap: 0; } .basis dd { margin-bottom: 9px; } }
+.badge { display: inline-flex; align-items: center; padding: 0 8px; margin-left: 6px; border-radius: 999px; font-size: 12px; font-weight: 700; line-height: 1.7; white-space: nowrap; vertical-align: 1px; }
+.badge.ok { background: var(--ok-soft); color: var(--ok); }
+.badge.warn { background: var(--warn-soft); color: var(--warn); }
+.badge.bad { background: var(--bad-soft); color: var(--bad); }
+.badge.tip { background: var(--accent-soft); color: var(--accent); }
+.notes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.notes li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; font-size: 14px; line-height: 1.6; }
+.notes .badge { margin: 2px 0 0; }
+
+/* inputs panel */
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 16px; }
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+form { margin: 0; display: flex; flex-direction: column; gap: 20px; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+legend { padding: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; color: var(--accent); font-weight: 600; }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; margin-top: 8px; }
+.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.field.wide { grid-column: 1 / -1; }
+.field > label, .field > .lab { font-size: 13.5px; font-weight: 500; }
+.ctl { display: flex; align-items: center; height: 42px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); padding-right: 10px; }
+.ctl:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.ctl.invalid { border-color: var(--bad); }
+.ctl input, .ctl select { flex: 1; min-width: 0; height: 100%; border: 0; background: transparent; color: var(--ink); padding: 0 0 0 12px; font: 500 16px var(--font-mono); outline: none; }
+.ctl input[type="text"] { font-family: var(--font-body); font-weight: 400; font-size: 15px; }
+.ctl .u { flex: none; font-size: 13px; color: var(--muted); margin-left: 6px; }
+.hint { margin: 0; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.err { margin: 0; font-size: 12.5px; color: var(--bad); line-height: 1.5; }
+.seg-ctl { display: flex; height: 42px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--bg); }
+.seg-ctl label { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 8px; font-size: 13.5px; text-align: center; cursor: pointer; position: relative; }
+.seg-ctl label + label { border-left: 1px solid var(--line); }
+.seg-ctl input { position: absolute; opacity: 0; pointer-events: none; }
+.seg-ctl label.on { background: var(--accent); color: var(--on-accent); font-weight: 700; }
+.seg-ctl label:focus-within { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* buttons */
+.btn { appearance: none; border: 1px solid var(--accent); background: var(--accent); color: var(--on-accent); font: 700 14px var(--font-body); padding: 7px 14px; border-radius: 8px; cursor: pointer; white-space: nowrap; }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.small { padding: 4px 12px; font-size: 13px; }
+
+/* email */
+.email { display: flex; flex-direction: column; gap: 14px; }
+.mail-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+@media (min-width: 860px) { .mail-grid { grid-template-columns: minmax(0, 380px) minmax(0, 1fr); align-items: start; gap: 36px; } }
+.mail-fields { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 16px; }
+.mail-fields .fields { grid-template-columns: minmax(0, 1fr); margin-top: 0; }
+.checks { display: flex; flex-direction: column; gap: 8px; }
+.checks legend { margin-bottom: 8px; }
+.checks label { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; cursor: pointer; }
+.checks input { margin: 2px 0 0; accent-color: var(--accent); width: 17px; height: 17px; flex: none; }
+textarea { width: 100%; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: 400 15px/1.6 var(--font-body); padding: 10px 12px; resize: vertical; }
+textarea:focus, #subject:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.paper { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.out-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.out-row label { font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; color: var(--accent); font-weight: 600; }
+#subject { width: 100%; height: 42px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); padding: 0 12px; font: 500 15px var(--font-body); }
+#body { min-height: 320px; line-height: 1.8; padding: 14px; }
+
+/* playbook */
+.playbook { display: flex; flex-direction: column; gap: 16px; }
+.play-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 26px 30px; }
+.play { min-width: 0; display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--line); padding-top: 14px; }
+.play h3 { margin: 0; font-size: 16px; font-weight: 700; }
+.play ul { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 9px; font-size: 14.5px; }
+.agree { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 9px 12px; font-size: 14.5px; }
+.agree dt { font-weight: 700; color: var(--accent); }
+.agree dd { margin: 0; min-width: 0; }
+
+/* sources */
+.sources { display: flex; flex-direction: column; gap: 10px; }
+.sources ol { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; color: var(--muted); }
+.sources a { overflow-wrap: anywhere; }
+.foot { margin: 0; font-size: 12.5px; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<header class="bar" lang="zh-Hant-TW">
+  <div class="bar-in">
+    <span class="bar-title">Molicel 電芯贊助試算</span>
+    <span class="chip" aria-live="polite">申請 <b id="barTotal">48</b> 顆・<span id="barModel">P45B</span></span>
+  </div>
+</header>
+
+<main class="wrap" lang="zh-Hant-TW">
+
+  <section class="hero" aria-labelledby="q">
+    <p class="eyebrow">陽明交大水下無人機隊・贊助準備</p>
+    <h1 id="q">這次要跟能元申請幾顆 21700？</h1>
+    <p class="lede">填入 ROV 的實測數字，算出一個回合、連續測試、加上備援各要幾顆。結果會自動帶進下方的贊助信，複製就能用。</p>
+    <span class="pill" id="statusPill">示範假設值，請換成你們的實測數字</span>
+    <div class="answer">
+      <div class="answer-num"><span id="totalCells">48</span><span class="unit-big">顆</span></div>
+      <div class="answer-meta">
+        <div class="model" id="totalModel">Molicel INR-21700-P45B</div>
+        <div class="formula" id="formula">（4 組輪替 ＋ 2 組備援）× 每組 8 顆</div>
+      </div>
+    </div>
+    <div class="tiles">
+      <div class="tile"><span class="tile-k">一個回合</span><span class="tile-v" id="tRound">8<small>顆</small></span><span class="tile-s" id="tRoundSub">1 組 4S2P・每組約 31 分鐘</span></div>
+      <div class="tile"><span class="tile-k" id="tSessionK">連續測試 3 小時</span><span class="tile-v" id="tSession">4<small>組</small></span><span class="tile-s" id="tSessionSub">邊用邊充・32 顆</span></div>
+      <div class="tile"><span class="tile-k">備援</span><span class="tile-v" id="tSpare">+2<small>組</small></span><span class="tile-s" id="tSpareSub">16 顆</span></div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="results" aria-labelledby="h-tl">
+      <h2 id="h-tl">輪替時間軸</h2>
+      <p class="caption" id="tlCaption">每組約用 31 分鐘，換下後充電 1.5 小時。</p>
+      <div class="legend" aria-hidden="true">
+        <span><i class="sw use"></i>使用中</span>
+        <span><i class="sw charge"></i>充電中</span>
+        <span><i class="sw wait"></i>排隊等充電器</span>
+        <span><i class="sw spare"></i>備用</span>
+      </div>
+      <div class="tl" id="timeline" role="img" aria-label="電池輪替時間軸"></div>
+
+      <h2 class="sub-h" id="h-basis">計算依據</h2>
+      <dl class="basis" id="basis"></dl>
+      <ul class="notes" id="notes"></ul>
+    </section>
+
+    <section class="inputs panel" aria-labelledby="h-in">
+      <div class="panel-head">
+        <h2 id="h-in">輸入規格</h2>
+        <button type="button" class="btn ghost small" id="resetBtn">恢復示範值</button>
+      </div>
+      <form id="calcForm" novalidate>
+        <fieldset>
+          <legend>電芯</legend>
+          <div class="fields">
+            <div class="field wide">
+              <label for="model">型號</label>
+              <div class="ctl"><select id="model">
+                <option value="P45B">INR-21700-P45B</option>
+                <option value="P50B">INR-21700-P50B</option>
+                <option value="P42A">INR-21700-P42A</option>
+                <option value="CUSTOM">其他型號（自己填規格）</option>
+              </select></div>
+              <p class="hint" id="modelNote">4.5 Ah・連續放電 45 A・標準充電約 1.5 小時（原廠規格書）</p>
+            </div>
+          </div>
+          <div class="fields" id="customBox" hidden>
+            <div class="field wide">
+              <label for="nameCustom">型號名稱</label>
+              <div class="ctl"><input id="nameCustom" type="text" autocomplete="off"></div>
+            </div>
+            <div class="field">
+              <label for="capCustom">典型容量</label>
+              <div class="ctl"><input id="capCustom" type="number" inputmode="decimal" step="any"><span class="u">Ah</span></div>
+              <p class="err" id="capCustom-err" hidden></p>
+            </div>
+            <div class="field">
+              <label for="imaxCustom">連續放電</label>
+              <div class="ctl"><input id="imaxCustom" type="number" inputmode="decimal" step="any"><span class="u">A</span></div>
+              <p class="err" id="imaxCustom-err" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>電池組</legend>
+          <div class="fields">
+            <div class="field">
+              <label for="s">串數 S</label>
+              <div class="ctl"><input id="s" type="number" inputmode="numeric" step="1"><span class="u">串</span></div>
+              <p class="hint">每串標稱 3.6 V，4S ≈ 14.4 V</p>
+              <p class="err" id="s-err" hidden></p>
+            </div>
+            <div class="field">
+              <label for="p">並聯數 P</label>
+              <div class="ctl"><input id="p" type="number" inputmode="numeric" step="1"><span class="u">並</span></div>
+              <p class="hint">並越多，容量與可放電流越大</p>
+              <p class="err" id="p-err" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>使用情境</legend>
+          <div class="fields">
+            <div class="field">
+              <label for="watt">測試時平均耗電</label>
+              <div class="ctl"><input id="watt" type="number" inputmode="decimal" step="any"><span class="u">W</span></div>
+              <p class="hint">推進器加電子艙，水池實測最準</p>
+              <p class="err" id="watt-err" hidden></p>
+            </div>
+            <div class="field">
+              <label for="peak">全推力峰值電流</label>
+              <div class="ctl"><input id="peak" type="number" inputmode="decimal" step="any"><span class="u">A</span></div>
+              <p class="hint">整組電流，用來檢查每顆有沒有超標</p>
+              <p class="err" id="peak-err" hidden></p>
+            </div>
+            <div class="field">
+              <label for="dod">可用容量</label>
+              <div class="ctl"><input id="dod" type="number" inputmode="decimal" step="any"><span class="u">%</span></div>
+              <p class="hint">不放到底，延長壽命，也避免低電壓保護提早斷電</p>
+              <p class="err" id="dod-err" hidden></p>
+            </div>
+            <div class="field">
+              <label for="round">一回合時間</label>
+              <div class="ctl"><input id="round" type="number" inputmode="decimal" step="any"><span class="u">分鐘</span></div>
+              <p class="hint">比賽一回合或一次下水</p>
+              <p class="err" id="round-err" hidden></p>
+            </div>
+            <div class="field">
+              <label for="session">連續測試時間</label>
+              <div class="ctl"><input id="session" type="number" inputmode="decimal" step="any"><span class="u">小時</span></div>
+              <p class="hint">從下水到收工</p>
+              <p class="err" id="session-err" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>充電與備援</legend>
+          <div class="fields">
+            <div class="field">
+              <label for="charge">單組充電時間</label>
+              <div class="ctl"><input id="charge" type="number" inputmode="decimal" step="any"><span class="u">小時</span></div>
+              <p class="hint">規格書標準充電約 1.5 小時，充電器功率不夠會更久</p>
+              <p class="err" id="charge-err" hidden></p>
+            </div>
+            <div class="field">
+              <label for="chargers">充電器</label>
+              <div class="ctl"><input id="chargers" type="number" inputmode="numeric" step="1"><span class="u">台</span></div>
+              <p class="hint">可同時充幾組，填 0 代表現場不能充電</p>
+              <p class="err" id="chargers-err" hidden></p>
+            </div>
+            <div class="field wide">
+              <span class="lab" id="spareModeLab">「備援 ×2」怎麼算</span>
+              <div class="seg-ctl" role="radiogroup" aria-labelledby="spareModeLab">
+                <label id="lbPack"><input type="radio" name="spareMode" id="spareModePack" value="pack">另加幾組</label>
+                <label id="lbSet"><input type="radio" name="spareMode" id="spareModeSet" value="set">整套乘幾倍</label>
+              </div>
+              <p class="hint">兩種讀法差很多，開會時先確認是哪一種</p>
+            </div>
+            <div class="field">
+              <label for="spare" id="spareLabel">備援組數</label>
+              <div class="ctl"><input id="spare" type="number" inputmode="numeric" step="1"><span class="u" id="spareUnit">組</span></div>
+              <p class="err" id="spare-err" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+  </div>
+
+  <section class="email" aria-labelledby="h-mail">
+    <h2 id="h-mail">贊助信草稿</h2>
+    <p class="caption">數字跟著上方試算更新。勾選要承諾的回饋，【　】內的文字換成實際內容再寄出。</p>
+    <div class="mail-grid">
+      <form id="mailForm" class="mail-fields" novalidate>
+        <div class="fields">
+          <div class="field">
+            <label for="team">團隊名稱</label>
+            <div class="ctl"><input id="team" type="text" autocomplete="off"></div>
+          </div>
+          <div class="field">
+            <label for="event">比賽或用途</label>
+            <div class="ctl"><input id="event" type="text" autocomplete="off"></div>
+          </div>
+          <div class="field">
+            <label for="signature">署名</label>
+            <textarea id="signature" rows="3"></textarea>
+          </div>
+        </div>
+        <fieldset class="checks">
+          <legend>要承諾的回饋（只勾做得到的）</legend>
+          <label><input type="checkbox" id="fb1">Logo 露出：載具、團隊服、簡報與社群</label>
+          <label><input type="checkbox" id="fb2">分享水下使用紀錄：電流、溫度、循環次數</label>
+          <label><input type="checkbox" id="fb3">測試與比賽的影片、照片授權</label>
+          <label><input type="checkbox" id="fb4">到能元分享，或協助轉發校園徵才</label>
+        </fieldset>
+        <fieldset class="checks">
+          <legend>信件段落</legend>
+          <label><input type="checkbox" id="hook">提到能元贊助過海洋機器人「湛鬥機」</label>
+          <label><input type="checkbox" id="fallback">附上備案：部分贊助或學生價</label>
+        </fieldset>
+      </form>
+
+      <div class="paper">
+        <div class="out-row">
+          <label for="subject">主旨</label>
+          <button type="button" class="btn small" id="copySubject" aria-live="polite">複製主旨</button>
+        </div>
+        <input id="subject" type="text" readonly>
+        <div class="out-row">
+          <label for="body">內文</label>
+          <button type="button" class="btn small" id="copyBody" aria-live="polite">複製內文</button>
+        </div>
+        <textarea id="body" readonly></textarea>
+      </div>
+    </div>
+  </section>
+
+  <section class="playbook" aria-labelledby="h-play">
+    <h2 id="h-play">隊內討論重點</h2>
+    <div class="play-grid">
+      <div class="play">
+        <h3>為什麼找能元有機會</h3>
+        <ul>
+          <li><b>我們本來就是用戶。</b>這次已經買了 Molicel 21700，信裡講得出為什麼選它。</li>
+          <li><b>有海洋專案的前例。</b>能元曾贊助台東海洋清潔機器人「湛鬥機」價值數十萬元的高階電池。起點是台泥董事長看到團隊的影片，總經理派人談過一兩次就決定提供。</li>
+          <li><b>有學生車隊的前例。</b>能元官網新聞室收錄了清大賽車工廠第三代電動賽車的報導。</li>
+          <li><b>題目接得上。</b>P45B 在全球 eVTOL 電芯市占居首，P50B 用在 KULR 的無人機電池系統。水下無人載具同樣是高功率的無人載具。</li>
+        </ul>
+      </div>
+      <div class="play">
+        <h3>開會先對齊五件事</h3>
+        <dl class="agree">
+          <dt>要什麼</dt><dd>型號、顆數、需要的日期。用這頁的數字，附上計算依據。備案是部分贊助或學生價。</dd>
+          <dt>給什麼</dt><dd>只寫做得到的回饋，在上方信件裡勾選。</dd>
+          <dt>誰出面</dt><dd>一家廠商一位主窗口，其他人認領別家廠商，每個人都有機會練。</dd>
+          <dt>怎麼接觸</dt><dd>先找人引薦，例如這次購買的通路業務，或向清大賽車工廠請教當時的窗口（他們的對外信箱 <span class="mono">contact@nthuracing.tw</span>）。再寄能元的官方信箱 <span class="mono">service@molicel.com</span>（規格書所列）。</dd>
+          <dt>附什麼</dt><dd>一頁式企劃書，加一支 30 秒的水池測試影片。湛鬥機就是先被影片看見。</dd>
+        </dl>
+      </div>
+      <div class="play">
+        <h3>寄信前注意</h3>
+        <ul>
+          <li><b>寫「台灣品牌」，別寫「純台灣製」。</b>2025 年高雄三元廠火災後，能元規劃把部分第一代產品交給東南亞夥伴代工，手上這批的產地不一定能確定。</li>
+          <li><b>數字精準，不灌水。</b>火災前訂單就已排到 2026 年，火災又讓產能受挫。需求小而有依據，比大數字容易過關。</li>
+          <li><b>交代電池安全。</b>寫清楚充電、保護與收納的做法。電池廠很在意品牌風險，這段會加分。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sources" aria-labelledby="h-src">
+    <h2 id="h-src">資料來源</h2>
+    <ol>
+      <li><a href="https://www.imrbatteries.com/content/molicel_p45b.pdf" target="_blank" rel="noopener">Molicel INR-21700-P45B 規格書</a>：容量、連續放電、標準充電時間、聯絡信箱</li>
+      <li><a href="https://www.fsaeonline.com/content/Molicel-TDS--INR-21700-P50B-80122.pdf" target="_blank" rel="noopener">Molicel INR-21700-P50B 規格書</a></li>
+      <li><a href="https://www.18650batterystore.com/21700-p/molicel-p42a.htm" target="_blank" rel="noopener">Molicel P42A 規格整理（18650 Battery Store）</a></li>
+      <li><a href="https://www.molicel.com/cn/newsroom/%E5%8F%B0%E6%9D%B1%E5%A5%B3%E5%85%92%E7%9A%84%E3%80%8C%E5%90%B8%E5%A1%B5%E5%99%A8%E3%80%8D%EF%BC%8C%E7%82%BA%E4%BD%95%E5%90%B8%E5%BC%95%E5%8F%B0%E6%B3%A5%E5%BC%B5%E5%AE%89%E5%B9%B3%E8%B4%8A%E5%8A%A9/" target="_blank" rel="noopener">能元科技新聞室：台東女兒的「吸塵器」，為何吸引台泥張安平贊助？</a></li>
+      <li><a href="https://www.molicel.com/cn/newsroom/category/product-release/" target="_blank" rel="noopener">能元科技新聞室：產品類（含清大賽車工廠報導）</a></li>
+      <li><a href="https://www.ctee.com.tw/news/20241217701466-430503" target="_blank" rel="noopener">工商時報：能元取得 AS9100 認證，P45B 在 eVTOL 市占居首</a></li>
+      <li><a href="https://uanalyze.com.tw/articles/8209229863" target="_blank" rel="noopener">優分析：高雄廠火災與 KULR 無人機電池合作</a></li>
+      <li><a href="https://technews.tw/2025/08/14/battery-cell-business/" target="_blank" rel="noopener">科技新報：火災後規劃由東南亞夥伴代工第一代產品</a></li>
+      <li><a href="https://www.facebook.com/NTHU.Racing/" target="_blank" rel="noopener">清大賽車工廠粉絲專頁（贊助合作信箱）</a></li>
+    </ol>
+    <p class="foot">試算僅供討論，實際以水池實測耗電為準。規格與報導整理於 2026 年 10 月。</p>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  try { document.documentElement.lang = 'zh-Hant-TW'; } catch (e) {}
+
+  // CALC-START
+  var MAX_PACKS = 120;
+
+  // Simulate a continuous session of T minutes with n packs. Each pack runs R minutes,
+  // then queues for one of k chargers and takes C minutes to charge. k = 0 means no charging on site.
+  function simulateRotation(n, R, C, k, T) {
+    var ready = [], chargerFree = [], events = [], i, t = 0, guard = 0;
+    for (i = 0; i < n; i++) ready.push(0);
+    for (i = 0; i < k; i++) chargerFree.push(0);
+    while (t < T - 1e-9) {
+      if (++guard > 20000) return { ok: false, events: events };
+      var idx = -1;
+      for (i = 0; i < n; i++) {
+        if (ready[i] <= t + 1e-9 && (idx === -1 || ready[i] < ready[idx])) idx = i;
+      }
+      if (idx === -1) return { ok: false, events: events, gapAt: t };
+      var end = Math.min(t + R, T);
+      events.push({ pack: idx, type: 'use', start: t, end: end });
+      if (end < T - 1e-9 && k > 0) {
+        var j = 0;
+        for (i = 1; i < k; i++) if (chargerFree[i] < chargerFree[j]) j = i;
+        var cs = Math.max(end, chargerFree[j]);
+        if (cs > end + 1e-9) events.push({ pack: idx, type: 'wait', start: end, end: cs });
+        var ce = cs + C;
+        events.push({ pack: idx, type: 'charge', start: cs, end: ce });
+        chargerFree[j] = ce;
+        ready[idx] = ce;
+      } else {
+        ready[idx] = Infinity;
+      }
+      t = end;
+    }
+    return { ok: true, events: events };
+  }
+
+  function minRotation(R, C, k, T) {
+    var noCharge = Math.max(1, Math.ceil(T / R - 1e-9));
+    if (noCharge > MAX_PACKS) return { n: null, noCharge: noCharge, sim: null };
+    for (var n = 1; n <= noCharge; n++) {
+      var r = simulateRotation(n, R, C, k, T);
+      if (r.ok) return { n: n, noCharge: noCharge, sim: r };
+    }
+    return { n: noCharge, noCharge: noCharge, sim: simulateRotation(noCharge, R, C, k, T) };
+  }
+
+  function planBattery(x) {
+    var cellsPerPack = x.s * x.p;
+    var vNom = x.s * 3.6;
+    var vFull = x.s * 4.2;
+    var packWh = cellsPerPack * 3.6 * x.cap;
+    var usableWh = packWh * x.dod / 100;
+    var runtimeMin = usableWh / x.watt * 60;
+    var packsPerRound = Math.max(1, Math.ceil(x.round / runtimeMin - 1e-9));
+    var sessionMin = x.session * 60;
+    var chargeMin = x.charge * 60;
+    var rot = minRotation(runtimeMin, chargeMin, x.chargers, sessionMin);
+    if (rot.n === null) {
+      return { error: 'too-many', cellsPerPack: cellsPerPack, runtimeMin: runtimeMin, noCharge: rot.noCharge, sessionMin: sessionMin };
+    }
+    var rotation = Math.max(rot.n, packsPerRound);
+    var totalPacks = x.spareMode === 'set' ? rotation * Math.max(1, x.spare) : rotation + x.spare;
+    var waits = rot.sim.events.some(function (e) { return e.type === 'wait' && e.start < sessionMin - 1e-9; });
+    var withExtraCharger = null;
+    if (x.chargers > 0 && waits) {
+      var r2 = minRotation(runtimeMin, chargeMin, x.chargers + 1, sessionMin);
+      var n2 = Math.max(r2.n, packsPerRound);
+      if (r2.n !== null && n2 < rotation) withExtraCharger = n2;
+    }
+    var perCellPeak = x.peak / x.p;
+    return {
+      cellsPerPack: cellsPerPack, vNom: vNom, vFull: vFull, packWh: packWh, usableWh: usableWh,
+      runtimeMin: runtimeMin, packsPerRound: packsPerRound, cellsPerRound: packsPerRound * cellsPerPack,
+      sessionMin: sessionMin, chargeMin: chargeMin, noCharge: rot.noCharge, rotation: rotation,
+      events: rot.sim.events, totalPacks: totalPacks, sparePacks: totalPacks - rotation,
+      totalCells: totalPacks * cellsPerPack, waits: waits, withExtraCharger: withExtraCharger,
+      perCellPeak: perCellPeak, peakRatio: perCellPeak / x.imax, perCellAvg: x.watt / vNom / x.p,
+      chargeA: x.p * x.cap, chargerW: vFull * x.p * x.cap
+    };
+  }
+  // CALC-END
+
+  var MODELS = {
+    P45B: { name: 'INR-21700-P45B', cap: 4.5, imax: 45, note: '4.5 Ah・連續放電 45 A・標準充電約 1.5 小時（原廠規格書）' },
+    P50B: { name: 'INR-21700-P50B', cap: 5.0, imax: 60, note: '5.0 Ah・連續放電 60 A・標準充電約 1.5 小時（原廠規格書）' },
+    P42A: { name: 'INR-21700-P42A', cap: 4.2, imax: 45, note: '4.2 Ah・連續放電 45 A・標準充電約 1.5 小時' },
+    CUSTOM: { name: '', cap: null, imax: null, note: '填入規格書上的典型容量與連續放電電流' }
+  };
+  var DEFAULTS = {
+    model: 'P45B', nameCustom: '', capCustom: 4.5, imaxCustom: 45,
+    s: 4, p: 2, watt: 200, peak: 60, dod: 80, round: 15, session: 3,
+    charge: 1.5, chargers: 2, spare: 2, spareMode: 'pack',
+    team: '國立陽明交通大學水下無人機團隊', event: '【比賽名稱】（【日期】）',
+    signature: '【姓名】\n國立陽明交通大學水下無人機團隊　【職稱】\n【手機】｜【Email】',
+    fb1: true, fb2: true, fb3: true, fb4: false, hook: true, fallback: true
+  };
+  var CALC_KEYS = ['model', 'nameCustom', 'capCustom', 'imaxCustom', 's', 'p', 'watt', 'peak', 'dod', 'round', 'session', 'charge', 'chargers', 'spare', 'spareMode'];
+  var LIMITS = { capCustom: [0.5, 20], imaxCustom: [1, 500], s: [1, 24], p: [1, 20], watt: [1, 100000], peak: [0, 5000], dod: [10, 100], round: [1, 600], session: [0.25, 24], charge: [0.1, 24], chargers: [0, 20], spare: [0, 20] };
+  var INTS = { s: true, p: true, chargers: true, spare: true };
+  var FB = {
+    fb1: '載具機身、團隊服與比賽簡報放上 Molicel 標誌，社群貼文標註貴公司',
+    fb2: '分享電芯在水下高負載使用的紀錄（電流、溫度、循環次數），作為應用回饋',
+    fb3: '比賽與測試的影片、照片授權貴公司使用',
+    fb4: '歡迎安排團隊到貴公司分享，或協助轉發校園徵才資訊'
+  };
+  var STORE_KEY = 'molicel-sponsor-v1';
+
+  function $(id) { return document.getElementById(id); }
+  function fmt(v, d) {
+    d = d || 0;
+    var p = Math.pow(10, d);
+    return (Math.round(v * p) / p).toLocaleString('zh-TW', { maximumFractionDigits: d });
+  }
+  function fmtRuntime(min) {
+    if (min >= 10) return String(Math.floor(min));
+    return (Math.floor(min * 10) / 10).toLocaleString('zh-TW', { maximumFractionDigits: 1 });
+  }
+
+  function load() { try { var s = localStorage.getItem(STORE_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
+  function save(st) { try { localStorage.setItem(STORE_KEY, JSON.stringify(st)); } catch (e) {} }
+
+  function getState() {
+    var st = {};
+    Object.keys(DEFAULTS).forEach(function (k) {
+      if (k === 'spareMode') { st[k] = $('spareModeSet').checked ? 'set' : 'pack'; return; }
+      var el = $(k);
+      if (!el) return;
+      st[k] = el.type === 'checkbox' ? el.checked : el.value;
+    });
+    return st;
+  }
+  function setState(st) {
+    Object.keys(DEFAULTS).forEach(function (k) {
+      var v = (st && st[k] !== undefined && st[k] !== null) ? st[k] : DEFAULTS[k];
+      if (k === 'spareMode') {
+        $('spareModeSet').checked = v === 'set';
+        $('spareModePack').checked = v !== 'set';
+        return;
+      }
+      var el = $(k);
+      if (!el) return;
+      if (el.type === 'checkbox') el.checked = !!v; else el.value = v;
+    });
+  }
+  function isDemo(st) {
+    return CALC_KEYS.every(function (k) {
+      if ((k === 'nameCustom' || k === 'capCustom' || k === 'imaxCustom') && st.model !== 'CUSTOM') return true;
+      var d = DEFAULTS[k];
+      if (typeof d === 'number') return parseFloat(st[k]) === d;
+      return st[k] === d;
+    });
+  }
+
+  function setErr(id, msg) {
+    var el = $(id), err = $(id + '-err');
+    if (el) {
+      el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      var ctl = el.closest('.ctl');
+      if (ctl) ctl.classList.toggle('invalid', !!msg);
+    }
+    if (err) { err.textContent = msg || ''; err.hidden = !msg; }
+  }
+  function readNum(id) {
+    var lim = LIMITS[id], lo = lim[0], hi = lim[1];
+    var raw = parseFloat($(id).value);
+    var bad = !isFinite(raw) || raw < lo || raw > hi || (INTS[id] && !Number.isInteger(raw));
+    var v = isFinite(raw) ? raw : DEFAULTS[id];
+    v = Math.min(hi, Math.max(lo, v));
+    if (INTS[id]) v = Math.round(v);
+    setErr(id, bad ? '請填 ' + lo + '–' + hi + (INTS[id] ? ' 的整數' : '') + '，暫以 ' + v + ' 計算' : '');
+    return v;
+  }
+
+  function collect() {
+    var model = MODELS.hasOwnProperty($('model').value) ? $('model').value : 'P45B';
+    var x = { model: model, spareMode: $('spareModeSet').checked ? 'set' : 'pack', nameCustom: $('nameCustom').value };
+    ['s', 'p', 'watt', 'peak', 'dod', 'round', 'session', 'charge', 'chargers', 'spare'].forEach(function (k) { x[k] = readNum(k); });
+    if (model === 'CUSTOM') {
+      x.cap = readNum('capCustom');
+      x.imax = readNum('imaxCustom');
+    } else {
+      x.cap = MODELS[model].cap;
+      x.imax = MODELS[model].imax;
+      setErr('capCustom', '');
+      setErr('imaxCustom', '');
+    }
+    if (x.spareMode === 'set' && x.spare < 1) {
+      setErr('spare', '整套倍數至少為 1，暫以 1 計算');
+      x.spare = 1;
+    }
+    return x;
+  }
+
+  function badgeFor(ratio) {
+    if (ratio > 1) return '<span class="badge bad">超過額定</span>';
+    if (ratio > 0.8) return '<span class="badge warn">接近上限</span>';
+    return '<span class="badge ok">在額定內</span>';
+  }
+
+  function renderTimeline(plan, x) {
+    var T = plan.sessionMin;
+    var step = T <= 60 ? 10 : T <= 180 ? 30 : T <= 360 ? 60 : 120;
+    var box = $('timeline');
+    box.style.setProperty('--step', (step / T * 100) + '%');
+    var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var maxRows = 12, shown = 0, html = '', i;
+    for (i = 0; i < plan.rotation && shown < maxRows; i++, shown++) {
+      var inner = '';
+      plan.events.forEach(function (e) {
+        if (e.pack !== i || e.start >= T - 1e-9) return;
+        var left = e.start / T * 100, width = (Math.min(e.end, T) - e.start) / T * 100;
+        if (width <= 0) return;
+        inner += '<span class="seg ' + e.type + '" style="left:' + left.toFixed(3) + '%;width:' + width.toFixed(3) + '%"></span>';
+      });
+      html += '<div class="tl-row"><span class="tl-label">' + (letters[i] || (i + 1)) + '</span><div class="tl-track">' + inner + '</div></div>';
+    }
+    for (i = 0; i < plan.sparePacks && shown < maxRows; i++, shown++) {
+      var idx = plan.rotation + i;
+      html += '<div class="tl-row"><span class="tl-label">' + (letters[idx] || (idx + 1)) + '</span><div class="tl-track spare">備用，不排入輪替</div></div>';
+    }
+    var hiddenRows = plan.rotation + plan.sparePacks - shown;
+    if (hiddenRows > 0) html += '<p class="tl-more">另有 ' + hiddenRows + ' 組未畫出</p>';
+    var ticks = [];
+    for (var m = 0; m <= T + 1e-9; m += step) ticks.push(m);
+    var last = ticks[ticks.length - 1];
+    if (last < T - 1e-9) {
+      if (T - last < step * 0.6 && ticks.length > 1) ticks.pop();
+      ticks.push(T);
+    }
+    html += '<div class="tl-axis" aria-hidden="true">' + ticks.map(function (mm, ix) {
+      return '<span style="left:' + (mm / T * 100).toFixed(3) + '%">' + fmt(mm, 0) + '</span>';
+    }).join('') + '</div>';
+    box.innerHTML = html;
+    box.setAttribute('aria-label', plan.rotation + ' 組電池在 ' + fmt(x.session, 2) + ' 小時內輪替使用，另有 ' + plan.sparePacks + ' 組備援。');
+  }
+
+  function buildEmail(plan, x, st, modelName) {
+    var team = (st.team || '').trim() || '【團隊名稱】';
+    var event = (st.event || '').trim() || '【比賽名稱】';
+    var sig = (st.signature || '').trim() || '【署名】';
+    var cpp = plan.cellsPerPack;
+    var subject = '【' + team + '】Molicel 電芯贊助洽詢｜' + modelName + ' × ' + plan.totalCells + ' 顆';
+    var chargeLine = x.chargers > 0
+      ? '用完即換、換下即充（' + x.chargers + ' 台充電器），需 ' + plan.rotation + ' 組輪替'
+      : '現場無法充電，需 ' + plan.rotation + ' 組';
+    var spareLine = plan.sparePacks === 0 ? '無'
+      : (x.spareMode === 'set' ? '整套 × ' + x.spare + '，多備 ' : '另備 ') + plan.sparePacks + ' 組（' + (plan.sparePacks * cpp) + ' 顆）';
+    var items = ['fb1', 'fb2', 'fb3', 'fb4'].filter(function (k) { return st[k]; }).map(function (k, i) { return (i + 1) + '. ' + FB[k]; });
+    var L = [];
+    L.push('能元科技 您好：', '');
+    L.push('我們是' + team + '，成員以電機系學生為主，正在為' + event + '打造水下遙控載具（ROV）。團隊這次採購的動力電芯就是貴公司的 Molicel ' + modelName + '，看重它的高放電能力與穩定性，也很高興能用台灣品牌的電芯參賽。');
+    if (st.hook) {
+      L.push('', '我們注意到貴公司曾支持台東的海洋清潔機器人「湛鬥機」。水下無人載具同樣要在水中長時間、高負載運作，希望能透過我們的測試，替 Molicel 電芯在水下的應用留下一份紀錄。');
+    }
+    L.push('', '依載具目前的耗電估算，需求如下：');
+    L.push('・電池組配置：' + x.s + 'S' + x.p + 'P，每組 ' + cpp + ' 顆（標稱 ' + fmt(plan.vNom, 1) + ' V／' + fmt(plan.packWh, 1) + ' Wh），單組約可運行 ' + fmtRuntime(plan.runtimeMin) + ' 分鐘');
+    L.push('・每一回合：' + plan.packsPerRound + ' 組，共 ' + plan.cellsPerRound + ' 顆');
+    L.push('・連續測試 ' + fmt(x.session, 2) + ' 小時：' + chargeLine);
+    L.push('・備援：' + spareLine);
+    L.push('合計需求：Molicel ' + modelName + ' 共 ' + plan.totalCells + ' 顆（' + plan.totalPacks + ' 組 × ' + cpp + ' 顆）');
+    L.push('', '懇請貴公司考慮以電芯實物贊助本團隊。' + (st.fallback ? '若全額贊助不便，部分贊助或以學生價購買，對我們也是很大的幫助。' : ''));
+    L.push('', '我們能提供的回饋：');
+    if (items.length) items.forEach(function (s) { L.push(s); }); else L.push('【請在左側勾選至少一項回饋】');
+    L.push('', '電池安全方面，【請寫上實際做法，例如平衡充電器充電、BMS 保護、防火收納、專人記錄充放電】。');
+    L.push('', '隨信附上團隊簡介與水池測試影片。若您方便，希望能約 15 分鐘電話或線上會議，向您說明團隊與需求。謝謝您撥冗閱讀。');
+    L.push('', '敬祝　商祺', '', sig);
+    return { subject: subject, body: L.join('\n') };
+  }
+
+  function sizeBody() {
+    var ta = $('body');
+    ta.style.height = 'auto';
+    ta.style.height = (ta.scrollHeight + 2) + 'px';
+  }
+
+  function render() {
+    var x = collect();
+    var st = getState();
+    save(st);
+
+    var demo = isDemo(st);
+    var pill = $('statusPill');
+    pill.textContent = demo ? '示範假設值，請換成你們的實測數字' : '依目前輸入的數字計算';
+    pill.classList.toggle('live', !demo);
+    $('customBox').hidden = x.model !== 'CUSTOM';
+    $('modelNote').textContent = MODELS[x.model].note;
+    $('lbPack').classList.toggle('on', x.spareMode !== 'set');
+    $('lbSet').classList.toggle('on', x.spareMode === 'set');
+    $('spareLabel').textContent = x.spareMode === 'set' ? '整套倍數' : '備援組數';
+    $('spareUnit').textContent = x.spareMode === 'set' ? '倍' : '組';
+
+    var customName = (x.nameCustom || '').trim() || '自訂型號';
+    var modelName = x.model === 'CUSTOM' ? customName : MODELS[x.model].name;
+    var shortName = x.model === 'CUSTOM' ? customName : x.model;
+    $('barModel').textContent = shortName;
+    $('totalModel').textContent = 'Molicel ' + modelName;
+
+    var plan = planBattery(x);
+    var rt = fmtRuntime(plan.runtimeMin);
+
+    if (plan.error) {
+      $('totalCells').textContent = '—';
+      $('barTotal').textContent = '—';
+      $('formula').textContent = '單組只撐約 ' + rt + ' 分鐘，需要超過 ' + MAX_PACKS + ' 組，請檢查耗電或並聯數';
+      ['tRound', 'tSession', 'tSpare'].forEach(function (id) { $(id).textContent = '—'; });
+      ['tRoundSub', 'tSessionSub', 'tSpareSub'].forEach(function (id) { $(id).textContent = ''; });
+      $('tlCaption').textContent = '';
+      $('timeline').innerHTML = '<p class="tl-empty">數字超出可排的範圍，修正輸入後會畫出時間軸。</p>';
+      $('basis').innerHTML = '';
+      $('notes').innerHTML = '<li><span class="badge bad">請修正</span><span>單組可用時間約 ' + rt + ' 分鐘，太短了。請確認平均耗電的單位是瓦（W），或增加並聯數。</span></li>';
+      $('subject').value = '';
+      $('body').value = '請先修正上方的數字。';
+      sizeBody();
+      return;
+    }
+
+    var cpp = plan.cellsPerPack;
+    var hours = fmt(x.session, 2);
+    $('totalCells').textContent = plan.totalCells;
+    $('barTotal').textContent = plan.totalCells;
+    $('formula').textContent = plan.sparePacks > 0
+      ? '（' + plan.rotation + ' 組輪替 ＋ ' + plan.sparePacks + ' 組備援）× 每組 ' + cpp + ' 顆'
+      : plan.rotation + ' 組輪替 × 每組 ' + cpp + ' 顆';
+
+    $('tRound').innerHTML = plan.cellsPerRound + '<small>顆</small>';
+    $('tRoundSub').textContent = plan.packsPerRound + ' 組 ' + x.s + 'S' + x.p + 'P・每組約 ' + rt + ' 分鐘';
+    $('tSessionK').textContent = '連續測試 ' + hours + ' 小時';
+    $('tSession').innerHTML = plan.rotation + '<small>組</small>';
+    $('tSessionSub').textContent = (x.chargers > 0 ? '邊用邊充・' : '現場不充電・') + (plan.rotation * cpp) + ' 顆';
+    $('tSpare').innerHTML = (plan.sparePacks > 0 ? '+' + plan.sparePacks : '0') + '<small>組</small>';
+    $('tSpareSub').textContent = (x.spareMode === 'set' ? '整套 × ' + x.spare + '・' : '') + (plan.sparePacks * cpp) + ' 顆';
+
+    $('tlCaption').textContent = x.chargers > 0
+      ? '每組約用 ' + rt + ' 分鐘，換下後充電 ' + fmt(x.charge, 2) + ' 小時，' + x.chargers + ' 台充電器輪流充。下方刻度單位為分鐘。'
+      : '現場不能充電，每組用完就換下一組。下方刻度單位為分鐘。';
+    renderTimeline(plan, x);
+
+    var rows = [
+      ['電池組', x.s + 'S' + x.p + 'P・每組 ' + cpp + ' 顆・標稱 ' + fmt(plan.vNom, 1) + ' V（滿電 ' + fmt(plan.vFull, 1) + ' V）'],
+      ['單組能量', fmt(plan.packWh, 1) + ' Wh，可用 ' + fmt(plan.usableWh, 1) + ' Wh（' + fmt(x.dod, 1) + '%）'],
+      ['單組可用時間', '約 ' + rt + ' 分鐘（平均 ' + fmt(x.watt, 1) + ' W）'],
+      ['一回合 ' + fmt(x.round, 1) + ' 分鐘', plan.packsPerRound + ' 組・' + plan.cellsPerRound + ' 顆'],
+      [hours + ' 小時不充電', plan.noCharge + ' 組・' + (plan.noCharge * cpp) + ' 顆'],
+      [hours + ' 小時邊用邊充', x.chargers > 0 ? plan.rotation + ' 組（充電 ' + fmt(x.charge, 2) + ' 小時，' + x.chargers + ' 台充電器）' : '現場不能充電，同上'],
+      ['備援', plan.sparePacks > 0 ? (x.spareMode === 'set' ? '整套 × ' + x.spare + '，多 ' : '另加 ') + plan.sparePacks + ' 組・' + (plan.sparePacks * cpp) + ' 顆' : '無'],
+      ['平均放電', '每顆約 ' + fmt(plan.perCellAvg, 1) + ' A'],
+      ['峰值放電', x.peak > 0 ? '每顆 ' + fmt(plan.perCellPeak, 1) + ' A／額定 ' + fmt(x.imax, 1) + ' A（' + fmt(plan.peakRatio * 100, 0) + '%）' + badgeFor(plan.peakRatio) : '未填'],
+      ['1C 充電', '每組約 ' + fmt(plan.chargeA, 1) + ' A、' + fmt(plan.chargerW, 0) + ' W']
+    ];
+    $('basis').innerHTML = rows.map(function (r) { return '<dt>' + r[0] + '</dt><dd>' + r[1] + '</dd>'; }).join('');
+
+    var notes = [];
+    if (plan.runtimeMin < x.round - 1e-9) {
+      notes.push(['bad', '注意', '一組只撐約 ' + rt + ' 分鐘，不夠一回合 ' + fmt(x.round, 1) + ' 分鐘。水下不方便中途換電，建議加大並聯數或降低耗電。']);
+    }
+    if (x.peak > 0 && plan.peakRatio > 1) {
+      notes.push(['bad', '注意', '全推力時每顆 ' + fmt(plan.perCellPeak, 1) + ' A，超過連續放電額定 ' + fmt(x.imax, 1) + ' A，請增加並聯數。']);
+    } else if (x.peak > 0 && plan.peakRatio > 0.8) {
+      notes.push(['warn', '留意', '全推力時每顆用到額定的 ' + fmt(plan.peakRatio * 100, 0) + '%。規格書的連續放電值以 80°C 截止為條件，密封艙散熱差，建議再加並聯或限流。']);
+    }
+    if (x.chargers > 0 && x.charge < 1.5 - 1e-9) {
+      notes.push(['warn', '留意', '充電時間短於規格書標準的 1.5 小時，代表要用快充電流，請確認充電器與電芯規格都允許。']);
+    }
+    if (plan.withExtraCharger !== null) {
+      notes.push(['tip', '建議', '有電池在排隊等充電器。多 1 台充電器，輪替可以從 ' + plan.rotation + ' 組降到 ' + plan.withExtraCharger + ' 組。']);
+    }
+    if (!notes.length) notes.push(['ok', '沒問題', '放電與續航都在規格內。']);
+    $('notes').innerHTML = notes.map(function (n) {
+      return '<li><span class="badge ' + n[0] + '">' + n[1] + '</span><span>' + n[2] + '</span></li>';
+    }).join('');
+
+    var mail = buildEmail(plan, x, st, modelName);
+    $('subject').value = mail.subject;
+    $('body').value = mail.body;
+    sizeBody();
+  }
+
+  function flash(btn, msg) {
+    var label = btn.getAttribute('data-label') || btn.textContent;
+    btn.setAttribute('data-label', label);
+    btn.textContent = msg;
+    clearTimeout(btn._t);
+    btn._t = setTimeout(function () { btn.textContent = label; }, 1800);
+  }
+  function copyField(field, btn) {
+    function fallback() {
+      try { field.focus(); field.select(); } catch (e) {}
+      flash(btn, '已選取，請手動複製');
+    }
+    try {
+      if (!navigator.clipboard || !navigator.clipboard.writeText) { fallback(); return; }
+      navigator.clipboard.writeText(field.value).then(function () { flash(btn, '已複製'); }, fallback);
+    } catch (e) { fallback(); }
+  }
+
+  ['calcForm', 'mailForm'].forEach(function (id) {
+    var f = $(id);
+    f.addEventListener('input', render);
+    f.addEventListener('change', render);
+    f.addEventListener('submit', function (e) { e.preventDefault(); });
+  });
+  $('resetBtn').addEventListener('click', function () {
+    var st = getState();
+    CALC_KEYS.forEach(function (k) { st[k] = DEFAULTS[k]; });
+    setState(st);
+    render();
+  });
+  $('copySubject').addEventListener('click', function () { copyField($('subject'), $('copySubject')); });
+  $('copyBody').addEventListener('click', function () { copyField($('body'), $('copyBody')); });
+  window.addEventListener('resize', sizeBody);
+
+  setState(load());
+  render();
+})();
+</script>
+</body>
+</html>
