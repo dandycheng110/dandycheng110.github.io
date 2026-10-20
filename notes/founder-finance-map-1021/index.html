@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>會計 × 新創財務 × 總經 學習地圖｜硬體新創創辦人版</title>
+<meta name="description" content="以「台灣硬體新創創辦人夠用」為標準的會計、新創財務預算、總體經濟學習地圖：中文資源表、EAS／營業稅／暫繳 6 件事、SBIR 與青創貸款、33 個學習與實務的坑、3 個月與 6 個月學習路徑、一頁速查。2026 年 10 月版。">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="會計 × 新創財務 × 總經 學習地圖｜硬體新創創辦人版">
+<meta property="og:description" content="先學現金，再學分錄。資源表、台灣制度速查、政府資金、33 個坑、學習路徑與一頁速查。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%92%3C/text%3E%3C/svg%3E">
+<script>
+  try { var t = localStorage.getItem('founder-finance-map.theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<style>
+:root{
+  --bg:#f5f4f0; --surface:#ffffff; --surface-2:#edeae2; --fg:#1d1a14; --muted:#625c50; --line:#d9d3c6;
+  --accent:#8a5a14; --accent-soft:#f4e7d0; --on-accent:#ffffff;
+  --ok:#1d7a3e; --ok-soft:#e1f3e7; --warn:#a85600; --warn-soft:#fdeedd; --bad:#b3261e; --bad-soft:#fbe4e2;
+  --code-bg:#ebe7dd;
+  --font-body:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15130f; --surface:#1e1b15; --surface-2:#2a261d; --fg:#ebe6da; --muted:#a69e8c; --line:#3a3528;
+    --accent:#e0b062; --accent-soft:#3a2d12; --on-accent:#15130f;
+    --ok:#62d08c; --ok-soft:#12301f; --warn:#f0a24a; --warn-soft:#352410; --bad:#ff8a80; --bad-soft:#3a1714;
+    --code-bg:#12100c;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15130f; --surface:#1e1b15; --surface-2:#2a261d; --fg:#ebe6da; --muted:#a69e8c; --line:#3a3528;
+  --accent:#e0b062; --accent-soft:#3a2d12; --on-accent:#15130f;
+  --ok:#62d08c; --ok-soft:#12301f; --warn:#f0a24a; --warn-soft:#352410; --bad:#ff8a80; --bad-soft:#3a1714;
+  --code-bg:#12100c;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.75}
+a{color:var(--accent)}
+code{font-family:var(--font-mono);font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:5px;overflow-wrap:anywhere}
+b,strong{font-weight:700}
+.wrap{max-width:900px;margin:0 auto;padding:20px 16px 56px}
+@media (min-width:640px){.wrap{padding:28px 24px 72px}}
+
+/* 頁首 */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}
+.back{font-size:14px;text-decoration:none;color:var(--muted)}
+.back:hover{color:var(--accent)}
+.theme{font:inherit;font-size:13px;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;min-height:36px}
+.eyebrow{margin:0 0 6px;font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--accent)}
+.nb{white-space:nowrap}
+h1{margin:0 0 16px;font-size:clamp(26px,6vw,38px);line-height:1.3;letter-spacing:.01em}
+.answer{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:var(--radius);padding:16px 18px}
+.answer .big{margin:0 0 4px;font-size:24px;font-weight:800;color:var(--accent);line-height:1.4}
+.answer p{margin:0}
+.answer p+p{margin-top:8px}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.toc a{display:inline-block;font-size:14px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+
+/* 段落 */
+section{scroll-margin-top:16px}
+h2{display:flex;align-items:baseline;gap:10px;margin:44px 0 12px;font-size:22px;line-height:1.4}
+h2 .num{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--accent)}
+h3{margin:22px 0 8px;font-size:17px;line-height:1.45}
+p{margin:0 0 12px}
+.note{color:var(--muted);font-size:15px}
+.points{margin:0 0 12px;padding-left:22px}
+.points li{margin:4px 0}
+.points li+li{margin-top:6px}
+
+/* 重點框 */
+.grid{display:grid;gap:12px;grid-template-columns:minmax(0,1fr);margin:12px 0 16px}
+@media (min-width:700px){.grid.cols3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.cols2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.box{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--surface)}
+.box h3{margin:0 0 6px;font-size:16px}
+.box p{margin:0;font-size:15px}
+.box.warn{border-left:4px solid var(--warn)}
+.box.ok{border-left:4px solid var(--ok)}
+.box.bad{border-left:4px solid var(--bad)}
+.box.accent{border-left:4px solid var(--accent)}
+.kf{margin:0 0 12px;padding-left:22px}
+.kf li{margin:0 0 10px}
+
+/* 標籤 */
+.pri{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 7px;white-space:nowrap;line-height:1.6}
+.pri.must{background:var(--accent);color:var(--on-accent)}
+.pri.opt{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.pri.care{background:var(--warn-soft);color:var(--warn)}
+.pri.tool{background:var(--ok-soft);color:var(--ok)}
+
+/* 表格 */
+.tbl{margin:10px 0 18px;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.6}
+caption{caption-side:top;text-align:left;padding:12px 14px 10px;font-weight:700;border-bottom:1px solid var(--line)}
+caption .tno{display:inline-block;font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--on-accent);background:var(--accent);border-radius:6px;padding:1px 7px;margin-right:8px;vertical-align:2px}
+th,td{text-align:left;vertical-align:top;padding:10px 14px}
+th{background:var(--surface-2);font-size:14px;font-weight:700;white-space:nowrap}
+td{border-top:1px solid var(--line)}
+tbody tr:first-child td{border-top:0}
+td small{display:block;margin-top:3px;font-size:13px;line-height:1.55;color:var(--muted)}
+td .en{display:block;font-weight:700}
+td .zh{display:block;font-size:14px;color:var(--muted)}
+td.id{font-family:var(--font-mono);font-weight:700;color:var(--accent);white-space:nowrap}
+@media (max-width:640px){
+  table{font-size:14.5px}
+  th,td{padding:9px 11px}
+  table.stack, table.stack caption, table.stack tbody, table.stack tr, table.stack td{display:block;width:100%}
+  table.stack thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  table.stack tr{border-top:1px solid var(--line);padding:6px 0}
+  table.stack tbody tr:first-child{border-top:0}
+  table.stack td{border:0;padding:5px 12px}
+  table.stack td::before{content:attr(data-label);display:block;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+  table.stack td.id::before{display:inline;margin-right:6px}
+}
+
+/* 出處 */
+.sources{margin:0 0 12px;padding-left:22px;font-size:15px}
+.sources li{margin:4px 0}
+details{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:10px 14px;margin:10px 0 16px}
+summary{cursor:pointer;font-weight:700}
+.srcgrid{columns:2;column-gap:20px;margin:10px 0 0;padding-left:20px;font-size:14px;line-height:1.6}
+.srcgrid li{break-inside:avoid;margin:2px 0;overflow-wrap:anywhere}
+@media (max-width:640px){.srcgrid{columns:1}}
+
+footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:14px;color:var(--muted)}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--accent)}
+.theme:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media print{.topbar,.toc,footer a{display:none}.wrap{max-width:none;padding:0}.tbl{overflow:visible}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="topbar">
+    <a class="back" href="../">← 筆記列表</a>
+    <button class="theme" id="themeBtn" type="button" aria-label="切換深色或淺色">☾ 深色</button>
+  </div>
+  <p class="eyebrow">新創財務學習地圖 · 硬體新創創辦人版 · 2026-10-21</p>
+  <h1>會計 × 新創財務 × 總經：<span class="nb">創辦人夠用就好</span></h1>
+  <div class="answer">
+    <p class="big">先學現金，再學分錄。</p>
+    <p>一句話版本：用兩本中文財報書加台大免費課把三大報表的邏輯打通；接著自己做出 12 個月現金流預測；總體經濟每月只看 30 分鐘，把景氣燈號、PMI、利率與匯率轉成採購、定價與募資的假設就夠了。</p>
+    <p>本頁以「台灣硬體新創創辦人夠用」為標準，不走考試與會計專業路線；假設零基礎起步，中文資源為主、英文補充。</p>
+  </div>
+  <ul class="toc" aria-label="本頁目錄">
+    <li><a href="#tldr">先看結論</a></li>
+    <li><a href="#acct">會計資源</a></li>
+    <li><a href="#tw">台灣制度 6 件事</a></li>
+    <li><a href="#concepts">新創財務觀念</a></li>
+    <li><a href="#finres">模板與資源</a></li>
+    <li><a href="#gov">政府資金</a></li>
+    <li><a href="#eas21">補助的會計處理</a></li>
+    <li><a href="#hardware">硬體特有議題</a></li>
+    <li><a href="#macro">總體經濟</a></li>
+    <li><a href="#indicators">指標→決策</a></li>
+    <li><a href="#pits-learn">學習的坑</a></li>
+    <li><a href="#pits-practice">實務的坑</a></li>
+    <li><a href="#path">學習路徑</a></li>
+    <li><a href="#caveats">注意事項</a></li>
+    <li><a href="#cheat">一頁速查</a></li>
+    <li><a href="#sources">資料來源</a></li>
+  </ul>
+</header>
+
+<main>
+
+<section id="tldr">
+  <h2><span class="num">01</span>先看結論</h2>
+  <div class="grid cols3">
+    <div class="box accent">
+      <h3>最該先學的是「現金」，不是「分錄」</h3>
+      <p>硬體新創最常見的死法是帳上獲利、銀行沒錢。原因有三：存貨、模具、供應鏈預付款會先吃掉現金；應收帳款收得慢；補助款要先墊後撥。先用《用生活常識就能看懂財務報表》（林明樟，商周，2025 年十周年版）和台大 OCW〈初級會計學一～三〉建立三表觀念，接著馬上動手做 12 個月現金流預測。</p>
+    </div>
+    <div class="box ok">
+      <h3>台灣制度只要抓住幾條主線</h3>
+      <p>非公開發行公司適用 EAS（企業會計準則），上市櫃與公開發行公司才強制 IFRS。資本額沒有最低限制，但依公司法第 7 條必須經會計師查核簽證。營業稅 5%、單數月 15 日前申報；營所稅 20%，5 月結算、9 月暫繳。日常記帳交給記帳士，驗資、簽證與技術作價找會計師。</p>
+    </div>
+    <div class="box bad">
+      <h3>最危險的坑是台灣在地與硬體特有的那幾個</h3>
+      <p>公私帳不分、把募資款或貸款當收入、SBIR 補助核銷與自籌款沒算進現金流、技術作價入股沒申請產創條例 12-1／12-2 緩課、大學衍生新創的技轉授權金與持股安排沒先談清楚，以及把景氣燈號當成預測水晶球。</p>
+    </div>
+  </div>
+
+  <h3>四個關鍵判斷</h3>
+  <ol class="kf">
+    <li><b>中文資源已經足以撐起「創辦人程度」，英文只當補充。</b>台大 OCW〈初級會計學一：會計循環與收入認列〉（陳坤志，2025 年 2 月授課，7 講）在 OCW 網站可免費看。它同時上架 Coursera，但 Coursera 自 2025 年 8 月起改為「預覽」模式，只能免費看第一單元，所以直接到台大 OCW 或其 YouTube 頻道看就好。</li>
+    <li><b>很多「財報課」其實是投資選股課。</b>例如 Hahow 豹投資《小資必學財報課：輕鬆看懂台美股》，課程頁明寫教的是法人用財報挑股的思維。這類課可以幫你看懂報表，但教不了你編預算、管現金，這是本頁點名的第一個學習錯位坑。</li>
+    <li><b>政府資源對無人機新創特別有利，但都附帶財務紀律要求。</b>SBIR 自 2026 年起把 Phase 1 上限調到 150 萬元（6 個月），Phase 2 最高 1,200 萬元，Phase 2+ 600 萬元；經濟部中企署 2025 年 12 月 30 日宣布 2026 年度鎖定「無人載具應用」「AI 智慧應用」「淨零應用」三大核心領域。不過補助款不得超過計畫總經費 50%，另一半必須自籌。青年創業貸款 2025 年 7 月改制：週轉性支出最高 600 萬元、資本性支出最高 1,200 萬元，利率為郵政 2 年期定儲機動利率加 0.575%；依市場先生 2026/1/27 更新的算法，即 1.720%＋0.575%＝2.295%。</li>
+    <li><b>總經不需要學到學術程度。</b>每月花 30 分鐘看四件事：國發會景氣對策信號（2026 年 9 月 29 日公布：8 月 41 分，與上月持平，連續第 9 顆紅燈，追平 2021 年 2 月至 10 月連九紅的最長紀錄）、中經院 PMI（2026 年 8 月 62.5%，連續 11 個月擴張；9 月續揚至 63.4）、央行利率決議、新台幣匯率。重點是把它們轉換成「採購備料要不要提前」「美元報價要不要避險」「現在是不是募資好時機」這類決策假設。</li>
+  </ol>
+</section>
+
+<section id="acct">
+  <h2><span class="num">02</span>會計學基礎：資源表</h2>
+  <p>標籤說明：<span class="pri must">必讀／必修</span> 先做這些就夠；<span class="pri opt">選讀／選修</span> 有時間再碰或當字典；<span class="pri tool">必用</span> 遇到問題時查的工具；<span class="pri care">謹慎選</span> 定位和創辦人需求有落差。</p>
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 1</span>財務會計資源（中文為主）</caption>
+      <colgroup><col style="width:11%"><col style="width:25%"><col style="width:12%"><col style="width:8%"><col style="width:13%"><col style="width:31%"></colgroup>
+      <thead><tr><th>優先級</th><th>資源</th><th>類型 · 語言</th><th>難度</th><th>費用</th><th>推薦理由／對應需求</th></tr></thead>
+      <tbody>
+        <tr><td data-label="優先級"><span class="pri must">必讀</span></td><td data-label="資源">《用生活常識就能看懂財務報表【十周年暢銷紀念版】》林明樟（MJ），商周出版，2025-12-30</td><td data-label="類型">書 · 中文</td><td data-label="難度">零基礎</td><td data-label="費用">定價 420 元（城邦優惠約 332 元）；2016 年舊版二手市場仍買得到</td><td data-label="推薦理由">用 A＝D＋E（資產＝負債＋權益）帶你自己做出三大報表，案例包含新創資金週轉，兼顧「經營者」與「投資人」兩種視角。<b>看懂三表最快的入口。</b></td></tr>
+        <tr><td data-label="優先級"><span class="pri must">必修</span></td><td data-label="資源"><a href="https://ocw.aca.ntu.edu.tw/courses/mooc0066">台大 OCW〈初級會計學一：會計循環與收入認列〉</a>、〈二：資產與負債〉、〈三：股東權益與現金流量〉陳坤志</td><td data-label="類型">線上課程（影片）· 中文</td><td data-label="難度">零基礎→初階</td><td data-label="費用">OCW 免費；Coursera 版只免費預覽第一單元</td><td data-label="推薦理由">台大會計系授課，以 IFRS 為主軸，系統性建立會計循環、收入認列、應收帳款、存貨、現金流量表等觀念。<b>和會計師講同一套語言的地基。</b></td></tr>
+        <tr><td data-label="優先級"><span class="pri must">必讀</span></td><td data-label="資源">《財報就像一本故事書【20週年與時俱進增訂版】》劉順仁，時報出版，2025-11-04（ISBN 9786264198493）</td><td data-label="類型">書 · 中文</td><td data-label="難度">初階</td><td data-label="費用">約 300–400 元</td><td data-label="推薦理由">台大會計系教授所寫，講五大報表的原理與「問責」思維，並收錄台積電財務長章節。適合在 MJ 那本之後讀，補上<b>資產品質、盈餘品質</b>的判斷力。2018 年版仍有電子書。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">選讀（教科書）</span></td><td data-label="資源">《會計學原理與應用》上下冊（第十五版）鄭丁旺、汪泱若、黃金發，鄭丁旺自行出版，2020-08</td><td data-label="類型">教科書 · 中文</td><td data-label="難度">初階</td><td data-label="費用">每冊約 500–600 元，另有作業解答</td><td data-label="推薦理由">台灣大學初會最常見的用書之一，依 IFRS 編寫。只建議<b>當字典查</b>，不必從頭讀。舊名《初級會計學》是 1990 年代版本，已經過時。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">選讀（進階）</span></td><td data-label="資源">《中級會計學》上下冊（第十五版）鄭丁旺，2020-09／2021-03</td><td data-label="類型">教科書 · 中文</td><td data-label="難度">進階</td><td data-label="費用">每冊約 600–700 元</td><td data-label="推薦理由">創辦人<b>不需要</b>讀。只有遇到政府補助、股份基礎給付（員工認股）等特定議題時才查。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">選修</span></td><td data-label="資源"><a href="http://ocw.lib.ntnu.edu.tw">臺師大開放式課程〈會計學〉</a>陳慧玲</td><td data-label="類型">線上課程 · 中文</td><td data-label="難度">零基礎</td><td data-label="費用">免費</td><td data-label="推薦理由">台大課聽不習慣時的替代選項，被列為臺師大 OCW 熱門課程第 2 名，內容涵蓋報表、分錄與過帳。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">選修</span></td><td data-label="資源"><a href="https://www.yottau.com.tw/course/intro/96">YOTTA《一小時搞懂會計入門》</a></td><td data-label="類型">線上課程 · 中文</td><td data-label="難度">零基礎</td><td data-label="費用">約 299 元</td><td data-label="推薦理由">適合當暖身。<b>注意</b>：YOTTA 有不少課程標示「暫停販售」，平台更新也停滯，購買前請確認仍可觀看。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">選修</span></td><td data-label="資源"><a href="https://www.yottau.com.tw/course/intro/1307">YOTTA《投資、金融、財務工作者必備！從財報分析打造數據決策力》</a>翔泰學校</td><td data-label="類型">線上課程 · 中文</td><td data-label="難度">初階</td><td data-label="費用">1,480 元</td><td data-label="推薦理由">偏財報分析與決策，可當進階補充，但非必要。</td></tr>
+        <tr><td data-label="優先級"><span class="pri care">謹慎選</span></td><td data-label="資源"><a href="https://hahow.in/courses/602cb8934d67c5c890cd50aa">Hahow《小資必學財報課：輕鬆看懂台美股》</a>豹投資</td><td data-label="類型">線上課程 · 中文</td><td data-label="難度">零基礎</td><td data-label="費用">付費，售價請以頁面為準</td><td data-label="推薦理由">仍在上架（約 3 小時 24 分）。這是<b>投資選股取向</b>的課，只適合用來練習「看別人的財報」，不能拿來學經營。Hahow 原本的《看懂財務報表》課程已下架。</td></tr>
+        <tr><td data-label="優先級"><span class="pri tool">必用（工具）</span></td><td data-label="資源"><a href="https://accounting.sme.gov.tw">經濟部中小及新創企業署「中小企業財會諮詢服務網」</a></td><td data-label="類型">網站／論壇 · 中文</td><td data-label="難度">初階</td><td data-label="費用">免費</td><td data-label="推薦理由">有榮譽會計師回答實務問題，例如「該用 IFRS 還是 EAS」。遇到台灣特有的會計稅務問題時，先來這裡搜尋。</td></tr>
+        <tr><td data-label="優先級"><span class="pri tool">必用（工具）</span></td><td data-label="資源"><a href="https://www.etax.nat.gov.tw">財政部稅務入口網「新創事業」專區</a></td><td data-label="類型">網站 · 中文</td><td data-label="難度">零基礎</td><td data-label="費用">免費</td><td data-label="推薦理由">官方說明新創營所稅申報時程、暫繳等規定，是<b>報稅時程的權威來源</b>。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">補充</span></td><td data-label="資源">臺大開放式課程 Podcast（Apple Podcasts）</td><td data-label="類型">Podcast · 中文</td><td data-label="難度">零基礎</td><td data-label="費用">免費</td><td data-label="推薦理由">通勤時可聽通識與講座，但沒有專門的會計 Podcast。坦白說，沒找到品質夠好、又以創辦人為對象的中文會計 Podcast，這部分不建議花時間找。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">英文補充</span></td><td data-label="資源"><i>Financial Intelligence for Entrepreneurs</i>，Karen Berman &amp; Joe Knight，Harvard Business Review Press，2008，304 頁</td><td data-label="類型">書 · 英文（HBR 標示有繁中授權版）</td><td data-label="難度">初階</td><td data-label="費用">英文電子書約 US$20–30</td><td data-label="推薦理由">專為創業經理人而寫，講三表、比率、投資報酬，以及「財務數字背後的假設」。HBR 官網列出有繁體中文版，但未查到繁中書名與出版社。簡中版《财务智慧》（商务印书馆，2010）譯的是<b>經理人版</b>，不是創業者版。</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="tw">
+  <h2><span class="num">03</span>台灣制度脈絡：創辦人必懂的 6 件事</h2>
+
+  <h3>1. IFRS 與 EAS 的分工</h3>
+  <ul class="points">
+    <li>公開發行公司（含上市櫃）、信用合作社、信用卡公司強制使用 IFRS。</li>
+    <li>非公開發行公司自 2016 年 1 月 1 日起適用「企業會計準則（Enterprise Accounting Standards, EAS）」。EAS 以 IFRS 為架構、依國內實務簡化。</li>
+    <li>例外：如果投資你的是採權益法認列投資的公發公司，對方可能會要求你另外提供 IFRS 報表。</li>
+    <li><b>你的新創幾乎一定是 EAS。</b>但若規劃被上市櫃公司策略投資，或未來要 IPO，就要預留轉換 IFRS 的成本。</li>
+  </ul>
+
+  <h3>2. 公司設立與資本額</h3>
+  <ul class="points">
+    <li>公司法自 2009 年起廢除最低資本額，但依公司法第 7 條，<b>設立與增減資都必須經會計師查核簽證（驗資）</b>。銀行存款餘額證明不能取代會計師簽證，記帳士也不能做。</li>
+    <li>驗資服務費約 3,000–5,000 元。登記規費為實收資本額每 4,000 元收 1 元，最低 1,000 元。</li>
+    <li>實務上，資本額建議至少 10 萬元；要申請貸款或補助時，建議 50–100 萬元；科技新創若準備接觸創投，常見設定在 100–300 萬元。</li>
+    <li>驗資完的資金可以動用，但每筆支出都要有正當用途與憑證，否則可能被認定為虛增資本。</li>
+  </ul>
+
+  <h3>3. 營業稅與統一發票</h3>
+  <ul class="points">
+    <li>公司只能開立統一發票，營業稅率 5%。</li>
+    <li>應納稅額＝銷項稅額－進項稅額，每兩個月於<b>單數月 15 日前</b>申報（401 申報書）。</li>
+    <li>進項發票要能扣抵，必須打統編、寫公司全名、內容與業務相關；交際費不能扣抵。</li>
+    <li><b>沒有營收也要申報（零申報）。</b></li>
+  </ul>
+
+  <h3>4. 營利事業所得稅與暫繳</h3>
+  <ul class="points">
+    <li>營所稅率 20%，另有未分配盈餘稅 5%。</li>
+    <li>曆年制公司於每年 <b>5 月 1 日至 5 月 31 日</b>辦理上一年度結算申報。</li>
+    <li>每年 <b>9 月</b>辦理暫繳，一般按上年度應納稅額的 1/2 計算。帳證完備、使用藍色申報書或經會計師查核簽證者，可以改用前 6 個月實績試算。</li>
+    <li>年營業額 3,000 萬元以下可以選擇「擴大書審」，這是很多小公司的做法。</li>
+  </ul>
+
+  <h3>5. 記帳士與會計師的分工</h3>
+  <ul class="points">
+    <li>記帳士（專技普考）可以辦理記帳、營業稅與營所稅申報、商號登記。<b>不能</b>做財務簽證、稅務簽證、驗資，也不能代理稅務行政救濟。</li>
+    <li>會計師（專技高考）以上都能做，另外包括技術作價鑑價相關查核、募資盡職調查配合等。</li>
+    <li>行情參考：委外記帳約每月 1,500–6,000 元，多數事務所一年收 14 個月（含 5 月結算）。政府公告的收入標準為：代為記帳者每家每月直轄市及市 2,500 元、縣 2,000 元。</li>
+    <li><b>建議做法</b>：日常帳務與報稅找記帳士，驗資、技術作價、第一次募資前的財報整理找會計師。若預計一兩年內募資，直接找一家有新創經驗的會計師事務所包辦，可以省去日後換手重整帳務的成本。</li>
+  </ul>
+
+  <h3>6. 創業初期要不要自己記帳？</h3>
+  <div class="box accent">
+    <p><b>建議：不要自己做「報稅帳」，但一定要自己做「管理帳」。</b></p>
+    <p>營業稅自行申報門檻低，可以學。但營所稅結算與 EAS 帳務容易出錯，罰則又重，建議委外。創辦人自己要每週用 Google Sheets 記錄現金進出、應收應付與在途採購，這是現金流預測的原料。記帳士交給你的報表只是「過去」，現金流預測才是「未來」。</p>
+  </div>
+</section>
+
+<section id="concepts">
+  <h2><span class="num">04</span>新創財務：六個核心觀念（創辦人版）</h2>
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 2</span>看懂這六個，就能跟投資人和會計師對話</caption>
+      <colgroup><col style="width:26%"><col style="width:74%"></colgroup>
+      <thead><tr><th>觀念</th><th>定義、算法與硬體新創要注意的地方</th></tr></thead>
+      <tbody>
+        <tr><td data-label="觀念"><span class="en">Burn rate</span><span class="zh">燒錢率</span></td><td data-label="說明">YC 財務長 Kirsty Nathoo 的定義最直接：burn 就是「流入的錢減流出的錢」，可以直接從銀行對帳單算出。例如月支出 25k、營收 10k，burn 就是 15k。</td></tr>
+        <tr><td data-label="觀念"><span class="en">Runway</span><span class="zh">跑道</span></td><td data-label="說明">銀行存款除以平均 burn。150k 除以 15k，等於 10 個月。Nathoo 特別提醒：把 15k 假裝成 10k，只是在騙自己，錢還是會在同一天燒完。</td></tr>
+        <tr><td data-label="觀念"><span class="en">Default alive／default dead</span><span class="zh">預設活著／預設死亡</span></td><td data-label="說明">出自 Paul Graham 的文章。假設支出不變、營收照過去幾個月的成長率走，用現有的錢能不能撐到獲利？撐得到就是 default alive，撐不到就是 default dead。</td></tr>
+        <tr><td data-label="觀念"><span class="en">Break-even</span><span class="zh">損益兩平</span></td><td data-label="說明">固定成本 ÷（單價－單位變動成本）。硬體的「單位變動成本」要算到 BOM、組裝、測試、包裝、運費、保固備品與通路抽成，不能只算料。</td></tr>
+        <tr><td data-label="觀念"><span class="en">Unit economics</span><span class="zh">單位經濟</span></td><td data-label="說明">每台毛利、客戶取得成本（CAC）、回收期。無人機若走「硬體＋軟體／服務訂閱」，要把一次性硬體毛利和經常性收入分開計算。</td></tr>
+        <tr><td data-label="觀念"><span class="en">Pre-money / post-money / cap table</span><span class="zh">募資與稀釋</span></td><td data-label="說明">pre-money 是投前估值，post-money 是投後估值，等於 pre-money 加上本輪投資額。投資人持股＝投資額 ÷ post-money。每一輪都要更新 cap table（股權結構表），並預留員工選擇權池。</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="finres">
+  <h2><span class="num">05</span>新創財務：資源與模板</h2>
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 3</span>預算、現金流、財務模型與募資資源</caption>
+      <colgroup><col style="width:11%"><col style="width:25%"><col style="width:12%"><col style="width:8%"><col style="width:13%"><col style="width:31%"></colgroup>
+      <thead><tr><th>優先級</th><th>資源</th><th>類型 · 語言</th><th>難度</th><th>費用</th><th>推薦理由／對應需求</th></tr></thead>
+      <tbody>
+        <tr><td data-label="優先級"><span class="pri must">必看</span></td><td data-label="資源"><a href="https://www.ycombinator.com/library/8I-managing-startup-finances">YC Startup Library〈Managing startup finances〉</a>Kirsty Nathoo</td><td data-label="類型">影片＋逐字稿 · 英（YouTube 可開自動翻譯字幕）</td><td data-label="難度">零基礎</td><td data-label="費用">免費</td><td data-label="推薦理由">二十多分鐘講完 burn、runway、成長率與 default alive，附逐字稿，英文程度普通也能對照閱讀。<b>現金流預測的思考框架。</b></td></tr>
+        <tr><td data-label="優先級"><span class="pri must">必看</span></td><td data-label="資源"><a href="https://www.youtube.com/watch?v=0OVSTWozvfY">YC〈Dalton &amp; Michael: Save your startup during an economic downturn〉</a></td><td data-label="類型">影片 · 英</td><td data-label="難度">初階</td><td data-label="費用">免費</td><td data-label="推薦理由">講如何降低 burn、延長 runway。YC 在 2022 年 5 月寄給所投資公司創辦人的信（TechCrunch 2022-05-19 取得全文）建議在接下來 30 天內砍成本、拉長跑道，目標是達到 default alive。對應<b>情境分析與危機預算</b>。</td></tr>
+        <tr><td data-label="優先級"><span class="pri tool">必用（模板）</span></td><td data-label="資源"><a href="https://foresight.is/ecommerce-financial-model">Foresight〈Standard Financial Model〉</a>Taylor Davidson</td><td data-label="類型">Excel／Google Sheets 模板 · 英</td><td data-label="難度">初階→進階</td><td data-label="費用">開源（Apache 2.0），可免費下載</td><td data-label="推薦理由">5 年期三表連動模型（損益、資產負債、現金流量），19 個工作表，官方註明適用 hardware 與 manufacturing，公式全部開放、沒有巨集，已有 5,485 次下載。<b>最適合硬體新創。</b></td></tr>
+        <tr><td data-label="優先級"><span class="pri tool">必用（入門模板）</span></td><td data-label="資源"><a href="https://www.smartsheet.com/content/financial-projections-templates">Smartsheet〈12-Month Financial Projection Template〉等</a></td><td data-label="類型">Excel／Google Sheets · 英</td><td data-label="難度">零基礎</td><td data-label="費用">免費</td><td data-label="推薦理由">結構比 Foresight 簡單，第一次做 12 個月預測時用這份，熟了再換 Foresight。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">選用（模板）</span></td><td data-label="資源"><a href="https://slidebean.com/free-startup-financial-model-template">Slidebean 免費財務模型</a></td><td data-label="類型">Google Sheets · 英</td><td data-label="難度">初階</td><td data-label="費用">免費</td><td data-label="推薦理由">有獨立的 WK＋CAPEX（營運資金與資本支出）分頁，附折舊計算，可以參考它的分頁設計。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">選用（模板）</span></td><td data-label="資源"><a href="https://www.forecastr.co/templates">Forecastr 免費模板</a></td><td data-label="類型">Google Sheets · 英</td><td data-label="難度">初階</td><td data-label="費用">免費（需留 email）</td><td data-label="推薦理由">依商業模式分類，可預測 60 個月，但偏 SaaS 與 App。</td></tr>
+        <tr><td data-label="優先級"><span class="pri must">必讀</span></td><td data-label="資源">《創業投資聖經：Startup募資、天使投資人、投資契約、談判策略全方位教戰法則》（<i>Venture Deals</i> 中譯）Brad Feld、Jason Mendelson 著，陳鴻旻譯，野人出版，2016-09-07</td><td data-label="類型">書 · 中文</td><td data-label="難度">初階→進階</td><td data-label="費用">約 400–450 元</td><td data-label="推薦理由">中譯本每章都加了之初創投合夥人詹德弘撰寫的「台灣在地觀點」，AppWorks 林之晨建議創業 CEO 讀完。<b>注意</b>：原文已有更新版本，中譯本依早期版本翻譯，SAFE 等新工具的內容會比較少。對應 term sheet、cap table、談判。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">選讀</span></td><td data-label="資源"><i>Financial Intelligence for Entrepreneurs</i>（見表 1）</td><td data-label="類型">書 · 英</td><td data-label="難度">初階</td><td data-label="費用">付費</td><td data-label="推薦理由">補充比率分析與「數字背後的假設」。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">選修</span></td><td data-label="資源">台大 OCW〈財務管理〉陳明賢</td><td data-label="類型">線上課程 · 中文</td><td data-label="難度">進階</td><td data-label="費用">免費</td><td data-label="推薦理由">涵蓋資本預算、營運資金決策。只建議挑「營運資金」與「資本預算／NPV」兩章看。</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="gov">
+  <h2><span class="num">06</span>台灣在地資源與政府資金</h2>
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 4</span>免費諮詢、貸款、補助，以及它們對財務規劃與會計的影響</caption>
+      <colgroup><col style="width:10%"><col style="width:22%"><col style="width:38%"><col style="width:30%"></colgroup>
+      <thead><tr><th>優先級</th><th>資源</th><th>重點事實</th><th>對財務規劃與會計的影響</th></tr></thead>
+      <tbody>
+        <tr><td data-label="優先級"><span class="pri tool">必用</span></td><td data-label="資源"><a href="https://startup.sme.gov.tw/home/modules/talk/">新創圓夢網免費一對一創業諮詢</a></td><td data-label="重點事實">免付費專線 0800-589-168 轉分機 3。每位創業者最多申請 2 次，每次最長 1.5 小時。</td><td data-label="影響">2 次機會要省著用：<b>第一次問公司型態、資本額與稅務，第二次帶著你的 12 個月現金流預測去問。</b></td></tr>
+        <tr><td data-label="優先級"><span class="pri must">必修</span></td><td data-label="資源"><a href="https://www.smelearning.org.tw/skill-map.php">中小企業網路大學校「創業基礎先修課程」</a></td><td data-label="重點事實">頁面寫明：修完即符合完成 20 小時的申請資格，可用來申請青年創業貸款。</td><td data-label="影響">同時補財務基礎，又能取得貸款資格，一舉兩得。勞動部微型創業鳳凰網、臺北 e 大的課程也可以採認。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">選用</span></td><td data-label="資源"><a href="https://startup.sme.gov.tw">新創圓夢網「近期活動」與〈創業補給站〉文章</a></td><td data-label="重點事實">各單位的免費實體課程（會標示是否為創業貸款認證課程），以及營業稅、營所稅、書審與查帳的比較文章。</td><td data-label="影響">活動多為單場，常常已經結束，需要定期回去看。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">視需要</span></td><td data-label="資源">青年創業貸款（2025 年 7 月新制）</td><td data-label="重點事實">公司設立未滿 8 年；負責人 18–45 歲，出資占實收資本額 20% 以上，3 年內受過 20 小時創業課程。週轉性支出最高 600 萬元（最長 6 年，含 2 年寬限期）；資本性支出最高 1,200 萬元（機器設備最長 7 年，含 3 年寬限期）。利率為郵政 2 年期定儲機動利率加 0.575%，依市場先生 2026/1/27 更新為 1.720%＋0.575%＝2.295%（新創圓夢網整理頁同為 2.295%）。100 萬元以下原則上免保證人。利息補貼的說法不一：市場先生指經濟部青創貸款本身無利息補貼，但地方政府另有加碼，例如新北市青年局 2025-01-02 公告提供 5 年利息全額補貼，以 200 萬元額度計算可省下近 15 萬元利息。</td><td data-label="影響"><b>貸款是負債，不是收入。</b>寬限期結束後，每月本金攤還會突然拉高現金流出，一定要排進現金流預測。利率隨郵局定儲機動調整，要做升息情境。舊制的「準備金及開辦費」項目已在新制中取消。</td></tr>
+        <tr><td data-label="優先級"><span class="pri must">強烈建議</span></td><td data-label="資源">SBIR 小型企業創新研發計畫（中小及新創企業署）</td><td data-label="重點事實">2026 年起，Phase 1 先期研究上限 150 萬元、6 個月，申請改用簡報取代計畫書；Phase 2 最高 1,200 萬元（每年 600 萬元）；Phase 2+ 最高 600 萬元。新增專利申請費補助。補助款不得超過總經費 50%。3 年內欠繳稅捐者不得申請。<b>中企署 2025-12-30 宣布 2026 年度鎖定「無人載具應用」「AI 智慧應用」「淨零應用」三大核心領域</b>；中企署 2026 年成果記者會另指出，2026 年核定金額較 2025 年同期翻倍、件數增加 44%。</td><td data-label="影響"><b>自籌款至少一半要你先準備好</b>，而且通常是先支出、再依期程撥款，現金流上必須先墊。有第三方統計指出，歷年核定金額的中位數約 80 萬元，遠低於上限；這是非官方統計，但足以提醒你：預算要用保守值。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">視需要</span></td><td data-label="資源">產業創新條例第 10 條研發投資抵減</td><td data-label="重點事實">研發支出可以抵減營所稅，但與第 12-1 條的研發支出加倍減除只能擇一適用。</td><td data-label="影響">新創前幾年多半虧損，抵減的實益有限，但研發支出的帳務分類要從第一天就做對。</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="eas21">
+  <h2><span class="num">07</span>政府補助的會計處理（EAS 第 21 號公報）</h2>
+  <ul class="points">
+    <li><b>認列條件</b>：必須「可合理確信」兩件事同時成立，才能認列補助：公司會遵循補助所附條件，而且將可收到補助。核定函到手不等於可以認列，提前認列會虛增收入。</li>
+    <li><b>認列時點</b>：補助在其「意圖補償之相關成本認列為費用的期間」內，依有系統的基礎認列為損益。補償已發生費用的補助，或沒有未來相關成本的補助，則在可收取時認列。</li>
+    <li><b>與資產有關的補助</b>（例如用補助款買測試設備）：有兩種表達方式，一是認列為遞延收益，在耐用年限內分期轉入損益；二是直接減少資產的帳面金額。</li>
+    <li><b>需要返還時</b>：依會計估計變動處理。驗收不過、核銷被剔除時就會遇到，所以要預留「可能返還」的情境。</li>
+  </ul>
+  <div class="box warn">
+    <p><b>對創辦人的意義：</b>SBIR 的帳要「專款專帳」。每筆人事費、材料費、委外費都要保留憑證與工時紀錄，否則核銷時會被剔除，等於自籌比例被迫提高。</p>
+  </div>
+</section>
+
+<section id="hardware">
+  <h2><span class="num">08</span>硬體新創特有的財務議題</h2>
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 5</span>每一項都是「損益表看不到、現金已經流出」的時間差</caption>
+      <colgroup><col style="width:22%"><col style="width:40%"><col style="width:38%"></colgroup>
+      <thead><tr><th>議題</th><th>你必須懂的程度</th><th>現金流陷阱</th></tr></thead>
+      <tbody>
+        <tr><td data-label="議題"><b>存貨與銷貨成本（COGS）</b></td><td data-label="必須懂的程度">料件買進來時是「存貨」（資產），賣出時才轉成銷貨成本。存貨計價常見先進先出或加權平均，請記帳士依 EAS 處理。</td><td data-label="現金流陷阱">買料當下現金就流出了，損益表上卻還看不到費用。損益看起來好看，現金卻已經沒了。</td></tr>
+        <tr><td data-label="議題"><b>研發支出：費用化或資本化</b></td><td data-label="必須懂的程度">IFRS 與 EAS 對無形資產的處理原則相同：研究階段一律費用化；發展階段要符合技術可行、有意圖且有能力完成等條件，才可能資本化。早期新創<b>多半直接費用化</b>最單純，也最不會被投資人質疑美化財報。</td><td data-label="現金流陷阱">資本化不會讓現金變多，只會讓損益「看起來」比較好。</td></tr>
+        <tr><td data-label="議題"><b>資本支出（CAPEX）與折舊</b></td><td data-label="必須懂的程度">測試設備、治具、無人機實驗機隊屬於不動產、廠房及設備，要分年提列折舊。</td><td data-label="現金流陷阱">現金一次付清，費用卻分好幾年攤，所以現金流預測要直接列支出金額，不能只看折舊。</td></tr>
+        <tr><td data-label="議題"><b>模具與量產前缺口</b></td><td data-label="必須懂的程度">模具（射出、壓鑄）通常要預付訂金，驗收後才付尾款；首批量產還有最低訂購量（MOQ）的要求。</td><td data-label="現金流陷阱">這是硬體新創最大的「死亡之谷」：模具加首批料件加認證測試，常常發生在營收出現之前好幾個月。</td></tr>
+        <tr><td data-label="議題"><b>應收帳款與付款條件</b></td><td data-label="必須懂的程度">B2B 與政府、法人客戶常見月結 60–120 天。</td><td data-label="現金流陷阱">出貨後認列營收，錢卻幾個月後才進來，營收成長越快，現金越緊。</td></tr>
+        <tr><td data-label="議題"><b>供應鏈預付款</b></td><td data-label="必須懂的程度">關鍵料件（電池、馬達、飛控晶片、影像模組）在缺貨期常被要求預付甚至全額付款。</td><td data-label="現金流陷阱">預付款在帳上是資產（預付貨款），現金卻已經付出去了。</td></tr>
+        <tr><td data-label="議題"><b>匯率</b></td><td data-label="必須懂的程度">零件多以美元計價，海外客戶也多以美元報價。</td><td data-label="現金流陷阱">新台幣升值會壓縮出口毛利，貶值則墊高進料成本。要做匯率敏感度分析。</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="macro">
+  <h2><span class="num">09</span>總體經濟：學到哪裡就夠</h2>
+  <div class="box ok">
+    <p><b>夠用的標準</b>：能用一句話向投資人或董事說明「目前景氣在循環的哪個位置、利率與匯率往哪走、這對我們的採購、定價與募資時機代表什麼」。<b>不需要</b>會推導 IS-LM，也不需要自己預測 GDP。</p>
+  </div>
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 6</span>總體經濟資源（創辦人需要的程度）</caption>
+      <colgroup><col style="width:11%"><col style="width:25%"><col style="width:12%"><col style="width:8%"><col style="width:13%"><col style="width:31%"></colgroup>
+      <thead><tr><th>優先級</th><th>資源</th><th>類型 · 語言</th><th>難度</th><th>費用</th><th>推薦理由／對應需求</th></tr></thead>
+      <tbody>
+        <tr><td data-label="優先級"><span class="pri must">必讀（只讀總經部分）</span></td><td data-label="資源">《經濟學 9/e》Mankiw 著，王銘正譯，東華書局，2020-03（528 頁，定價 750 元）</td><td data-label="類型">教科書（一學期精簡版）· 中文</td><td data-label="難度">初階</td><td data-label="費用">750 元</td><td data-label="推薦理由">比完整版《經濟學原理》精簡，刪掉部分章節，並<b>補充台灣的國民所得、貨幣總計數、失業率、CPI、基本工資資料</b>。建議只讀國民所得、生活成本、貨幣與通膨、開放經濟（匯率）、景氣波動等章。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">選讀</span></td><td data-label="資源">《經濟學原理 10/e》Mankiw 著，王銘正譯，東華書局，2023-07-07（9/e 為 776 頁、定價 890 元）</td><td data-label="類型">教科書（完整版）· 中文</td><td data-label="難度">初階→進階</td><td data-label="費用">約 900 元</td><td data-label="推薦理由">第 10 版新增 COVID-19 相關內容，內容最新但太厚。創辦人用 9/e 精簡版就夠了。</td></tr>
+        <tr><td data-label="優先級"><span class="pri must">必修</span></td><td data-label="資源">台大 OCW〈經濟學原理〉林明仁</td><td data-label="類型">線上課程 · 中文</td><td data-label="難度">初階</td><td data-label="費用">免費</td><td data-label="推薦理由">中文、免費，講課生動。只要看總體經濟的單元。</td></tr>
+        <tr><td data-label="優先級"><span class="pri must">必看</span></td><td data-label="資源">Ray Dalio〈How the Economic Machine Works〉</td><td data-label="類型">影片（約 30 分鐘）· 英，有中文字幕版</td><td data-label="難度">零基礎</td><td data-label="費用">免費</td><td data-label="推薦理由">用 30 分鐘建立「信用擴張與收縮」的直覺，幫你理解為什麼升息會讓創投資金變少。</td></tr>
+        <tr><td data-label="優先級"><span class="pri tool">必用（資料）</span></td><td data-label="資源">國發會景氣指標查詢系統（景氣對策信號）</td><td data-label="類型">官方資料 · 中文</td><td data-label="難度">零基礎</td><td data-label="費用">免費</td><td data-label="推薦理由">每月 27 日前後公布。9 項指標各給 1–5 分，總分 9–45 分：紅燈 38–45、黃紅燈 32–37、綠燈 23–31、黃藍燈 17–22、藍燈 9–16。</td></tr>
+        <tr><td data-label="優先級"><span class="pri tool">必用（資料）</span></td><td data-label="資源"><a href="https://www.cier.edu.tw">中華經濟研究院 台灣採購經理人指數（PMI／NMI）</a></td><td data-label="類型">官方委託編製資料 · 中文</td><td data-label="難度">零基礎</td><td data-label="費用">免費</td><td data-label="推薦理由">中經院受國發會委託、與中華採購與供應管理協會合作編製，自 2012 年 11 月起發布。通常在每月第一個工作日下午 4 點公布上月數據。50 以上代表擴張。製造業 PMI 對硬體供應鏈的交期與價格最敏感。</td></tr>
+        <tr><td data-label="優先級"><span class="pri tool">必用（資料）</span></td><td data-label="資源">中央銀行（理監事會利率決議、新台幣匯率）、行政院主計總處（CPI、GDP、失業率）</td><td data-label="類型">官方資料 · 中文</td><td data-label="難度">零基礎</td><td data-label="費用">免費</td><td data-label="推薦理由">利率與匯率是你的資金成本與毛利的直接來源。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">選用</span></td><td data-label="資源"><a href="https://www.macromicro.me">財經M平方 MacroMicro</a></td><td data-label="類型">資料視覺化網站 · 中文</td><td data-label="難度">初階</td><td data-label="費用">基本免費，進階付費</td><td data-label="推薦理由">把景氣燈號、PMI、匯率畫成好讀的圖。注意：MacroMicro 自己註明，其年增率圖表與國發會官方數據有落差，因為國發會有做季節調整與平滑化處理。<b>引用時以國發會原始數據為準。</b></td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">英文補充</span></td><td data-label="資源"><a href="https://www.khanacademy.org">Khan Academy Macroeconomics</a>、<a href="https://mru.org">Marginal Revolution University</a></td><td data-label="類型">影片課程 · 英（部分有字幕）</td><td data-label="難度">零基礎→初階</td><td data-label="費用">免費</td><td data-label="推薦理由">單支影片短，適合補單一觀念，例如通膨或匯率。</td></tr>
+        <tr><td data-label="優先級"><span class="pri opt">英文補充</span></td><td data-label="資源"><a href="https://fred.stlouisfed.org">FRED（聖路易聯準銀行資料庫）</a>、<i>The Economist</i></td><td data-label="類型">資料／期刊 · 英</td><td data-label="難度">初階→進階</td><td data-label="費用">FRED 免費；The Economist 付費</td><td data-label="推薦理由">用來看美國利率與美元走勢，因為這會影響全球創投資金與你的美元報價。The Economist 對英文程度普通的讀者偏難，列為選讀。</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="indicators">
+  <h2><span class="num">10</span>指標 → 創辦人決策對照表</h2>
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 7</span>每月看一次，把數字轉成你的假設（現況為 2026 年 10 月可得最新）</caption>
+      <colgroup><col style="width:13%"><col style="width:37%"><col style="width:22%"><col style="width:28%"></colgroup>
+      <thead><tr><th>指標</th><th>現況</th><th>它影響你的什麼</th><th>創辦人的動作</th></tr></thead>
+      <tbody>
+        <tr><td data-label="指標"><b>景氣對策信號</b></td><td data-label="現況">國發會 2026-09-29 公布：8 月綜合判斷分數 41 分，與上月持平，9 項構成項目燈號均不變，連續 9 個月紅燈，追平 2021 年 2 月至 10 月連九紅的最長紀錄；主要由 AI 與雲端資本支出推升出口。</td><td data-label="影響">景氣熱絡時，人才、廠房與電子料件都偏緊、偏貴，但募資氣氛也比較好。</td><td data-label="動作">紅燈期間<b>提前鎖定關鍵料件與代工產能</b>，同時趁好時機募資，拉長 runway。</td></tr>
+        <tr><td data-label="指標"><b>製造業 PMI</b></td><td data-label="現況">2026 年 8 月 62.5%，連續 11 個月擴張；中經院官網〈9月PMI達63.4 產業久違輪動〉指出，9 月製造業 PMI 續揚 0.9 個百分點至 63.4，連續 12 個月擴張，是 2021 年 8 月以來逾五年的最快擴張速度，院長連賢明表示 PMI 已連續 5 個月在 60 以上。</td><td data-label="影響">PMI 高代表供應商訂單滿載，交期拉長、預付款要求變多。</td><td data-label="動作">在採購預算中加上交期緩衝與漲價情境。</td></tr>
+        <tr><td data-label="指標"><b>央行利率</b></td><td data-label="現況">請以央行最新理監事會決議為準。</td><td data-label="影響">青創貸款等機動利率的成本，以及創投資金的寬鬆或緊縮程度。</td><td data-label="動作">貸款利率做 +0.5% 的情境。</td></tr>
+        <tr><td data-label="指標"><b>新台幣匯率</b></td><td data-label="現況">請以央行與銀行牌告為準。</td><td data-label="影響">美元計價零件的成本與出口報價毛利。</td><td data-label="動作">報價保留匯率條款，或將進出口幣別配對（自然避險）。</td></tr>
+        <tr><td data-label="指標"><b>通膨（CPI）</b></td><td data-label="現況">請以主計總處為準。</td><td data-label="影響">薪資調整壓力與定價空間。</td><td data-label="動作">年度預算的人事成本至少抓 3–5% 調幅。</td></tr>
+        <tr><td data-label="指標"><b>貿易政策</b></td><td data-label="現況">美國「對等關稅」已讓財政部國稅局開放受影響企業申請延期或分期繳稅。</td><td data-label="影響">出口美國的無人機與零件的關稅成本、原產地規則。</td><td data-label="動作">定價模型要分市場計算到岸成本。</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="pits-learn">
+  <h2><span class="num">11</span>學習上的坑</h2>
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 8</span>常見坑（L1–L9）</caption>
+      <colgroup><col style="width:5%"><col style="width:15%"><col style="width:20%"><col style="width:17%"><col style="width:28%"><col style="width:15%"></colgroup>
+      <thead><tr><th>#</th><th>坑</th><th>是什麼</th><th>為什麼會踩</th><th>怎麼避免</th><th>對應資源</th></tr></thead>
+      <tbody>
+        <tr><td class="id" data-label="#">L1</td><td data-label="坑"><b>死背分錄</b></td><td data-label="是什麼">背「借現金、貸收入」卻不懂背後的經濟事件</td><td data-label="為什麼會踩">教科書與考試導向的教法</td><td data-label="怎麼避免">每筆分錄先用中文講出「錢和東西怎麼移動」</td><td data-label="對應資源">林明樟書、台大〈初會一〉</td></tr>
+        <tr><td class="id" data-label="#">L2</td><td data-label="坑"><b>借貸方向混淆</b></td><td data-label="是什麼">以為「借」就是借錢</td><td data-label="為什麼會踩">字面意思誤導</td><td data-label="怎麼避免">只記一件事：借＝左、貸＝右，資產與費用增加記左邊</td><td data-label="對應資源">台大〈初會一〉第 1–2 講</td></tr>
+        <tr><td class="id" data-label="#">L3</td><td data-label="坑"><b>權責基礎與現金基礎分不清</b></td><td data-label="是什麼">收入在「賺到」時認列，不是在「收到錢」時</td><td data-label="為什麼會踩">個人生活習慣用現金基礎思考</td><td data-label="怎麼避免">每月同時看損益表與現金流量表，對照兩者的差額</td><td data-label="對應資源">劉順仁書第八章</td></tr>
+        <tr><td class="id" data-label="#">L4</td><td data-label="坑"><b>利潤不等於現金</b></td><td data-label="是什麼">有獲利卻發不出薪水</td><td data-label="為什麼會踩">只看損益表</td><td data-label="怎麼避免">練習把淨利調整成營業現金流（間接法）</td><td data-label="對應資源">台大〈初會三〉、YC Nathoo</td></tr>
+        <tr><td class="id" data-label="#">L5</td><td data-label="坑"><b>只看損益表</b></td><td data-label="是什麼">忽略資產負債表與現金流量表</td><td data-label="為什麼會踩">新聞與財經媒體只報 EPS</td><td data-label="怎麼避免">三表一起看：損益表的淨利 → 資產負債表的保留盈餘 → 現金流量表的期末現金</td><td data-label="對應資源">MJ 書的三表連動章節</td></tr>
+        <tr><td class="id" data-label="#">L6</td><td data-label="坑"><b>成本與費用混淆</b></td><td data-label="是什麼">不知道製造成本會先進存貨、賣出後才轉成銷貨成本</td><td data-label="為什麼會踩">日常用語把兩者混用</td><td data-label="怎麼避免">硬體新創要特別練「料、工、費 → 存貨 → 銷貨成本」這條線</td><td data-label="對應資源">鄭丁旺教科書存貨章（當字典查）</td></tr>
+        <tr><td class="id" data-label="#">L7</td><td data-label="坑"><b>折舊與攤銷只當成數字</b></td><td data-label="是什麼">不懂這是在「分攤過去的支出」</td><td data-label="為什麼會踩">沒把它和現金流連起來</td><td data-label="怎麼避免">記住：折舊不花現金，但買設備當下就要付現金</td><td data-label="對應資源">Slidebean 模板的 CAPEX 分頁</td></tr>
+        <tr><td class="id" data-label="#">L8</td><td data-label="坑"><b>存貨計價方式只背不用</b></td><td data-label="是什麼">先進先出、加權平均在漲價時會影響毛利</td><td data-label="為什麼會踩">覺得那是會計人員的事</td><td data-label="怎麼避免">了解「料件漲價時毛利會被怎麼呈現」就夠了</td><td data-label="對應資源">台大〈初會二〉</td></tr>
+        <tr><td class="id" data-label="#">L9</td><td data-label="坑"><b>把會計恆等式當公式背</b></td><td data-label="是什麼">A＝L＋E 只拿來解題</td><td data-label="為什麼會踩">考試導向</td><td data-label="怎麼避免">把每一筆交易都放回恆等式裡檢查是否平衡</td><td data-label="對應資源">MJ 書（A＝D＋E）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 9</span>特殊坑：台灣在地／新創／硬體（L10–L15）</caption>
+      <colgroup><col style="width:5%"><col style="width:15%"><col style="width:20%"><col style="width:17%"><col style="width:28%"><col style="width:15%"></colgroup>
+      <thead><tr><th>#</th><th>坑</th><th>是什麼</th><th>為什麼會踩</th><th>怎麼避免</th><th>對應資源</th></tr></thead>
+      <tbody>
+        <tr><td class="id" data-label="#">L10</td><td data-label="坑"><b>用美國教材學，卻不知道術語和規則不同</b></td><td data-label="是什麼">US GAAP 與台灣 IFRS／EAS 的科目名稱、報表名稱不同。例如 US GAAP 允許後進先出法（LIFO），IFRS 不允許；台灣的報表叫「綜合損益表」「權益變動表」</td><td data-label="為什麼會踩">英文資源多，又以美國教材為主</td><td data-label="怎麼避免">英文資源只用來學觀念，科目名稱與規則以台大 OCW 和 EAS 為準</td><td data-label="對應資源">中小企業財會諮詢服務網</td></tr>
+        <tr><td class="id" data-label="#">L11</td><td data-label="坑"><b>用「投資人選股」的課學「創辦人經營」</b></td><td data-label="是什麼">學了本益比、殖利率，卻不會編預算</td><td data-label="為什麼會踩">市面上財報課大多是投資取向</td><td data-label="怎麼避免">選課時先看課程頁是否寫「挑股」「存股」，有的話只當補充</td><td data-label="對應資源">對照 Hahow 豹投資課程頁的定位說明</td></tr>
+        <tr><td class="id" data-label="#">L12</td><td data-label="坑"><b>把個人理財觀念套到公司財務</b></td><td data-label="是什麼">例如「負債＝壞事」「能省就省、不投資」</td><td data-label="為什麼會踩">個人理財書讀太多</td><td data-label="怎麼避免">公司財務的核心是「用現金換時間與里程碑」，舉債或股權融資都是工具</td><td data-label="對應資源">YC〈Managing startup finances〉、《創業投資聖經》</td></tr>
+        <tr><td class="id" data-label="#">L13</td><td data-label="坑"><b>一開始就讀中級會計或考證照教材</b></td><td data-label="是什麼">投入大量時間在創辦人用不到的細節</td><td data-label="為什麼會踩">以為讀越深越好</td><td data-label="怎麼避免">中會只當字典，用到政府補助、員工認股時才查</td><td data-label="對應資源">鄭丁旺《中級會計學》（選讀）</td></tr>
+        <tr><td class="id" data-label="#">L14</td><td data-label="坑"><b>學 SaaS 財務模型套到硬體</b></td><td data-label="是什麼">只看 MRR、churn，沒有存貨、模具與 MOQ</td><td data-label="為什麼會踩">免費模板多為 SaaS</td><td data-label="怎麼避免">用註明支援 hardware 與 manufacturing 的 Foresight 模型</td><td data-label="對應資源">Foresight Standard Financial Model</td></tr>
+        <tr><td class="id" data-label="#">L15</td><td data-label="坑"><b>學總經走向學術路線</b></td><td data-label="是什麼">花時間推導模型、讀中級總經</td><td data-label="為什麼會踩">理工背景容易追求完整理論</td><td data-label="怎麼避免">守住第 09 節的「夠用標準」</td><td data-label="對應資源">Mankiw《經濟學 9/e》精選章、Dalio 影片</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="pits-practice">
+  <h2><span class="num">12</span>實務上的坑</h2>
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 10</span>常見坑（P1–P5）</caption>
+      <colgroup><col style="width:5%"><col style="width:15%"><col style="width:20%"><col style="width:17%"><col style="width:28%"><col style="width:15%"></colgroup>
+      <thead><tr><th>#</th><th>坑</th><th>是什麼</th><th>為什麼會踩</th><th>怎麼避免</th><th>對應資源</th></tr></thead>
+      <tbody>
+        <tr><td class="id" data-label="#">P1</td><td data-label="坑"><b>預算過度樂觀、沒有情境分析</b></td><td data-label="是什麼">營收提前、成本低估、只做一種版本</td><td data-label="為什麼會踩">創辦人天生樂觀；募資簡報需要好看的數字</td><td data-label="怎麼避免">至少做三種情境（基本／悲觀／樂觀），悲觀情境要包含「營收延後 6 個月、量產成本 +20%」</td><td data-label="對應資源">YC Nathoo（別騙自己）、Foresight 模型</td></tr>
+        <tr><td class="id" data-label="#">P2</td><td data-label="坑"><b>把募資款或貸款當收入</b></td><td data-label="是什麼">增資進來的錢是「權益」，貸款是「負債」，兩者都不是營收</td><td data-label="為什麼會踩">現金進帳的感覺像收入</td><td data-label="怎麼避免">現金流預測裡把「營運」「投資」「籌資」三種活動分開列</td><td data-label="對應資源">台大〈初會三〉現金流量表</td></tr>
+        <tr><td class="id" data-label="#">P3</td><td data-label="坑"><b>不算 runway，或用最低的那個月算 burn</b></td><td data-label="是什麼">用某個月特別低的 burn 估跑道</td><td data-label="為什麼會踩">自我安慰</td><td data-label="怎麼避免">用 3 個月平均 burn，且每月更新</td><td data-label="對應資源">YC〈Managing startup finances〉</td></tr>
+        <tr><td class="id" data-label="#">P4</td><td data-label="坑"><b>沒有每月結帳、看報表的習慣</b></td><td data-label="是什麼">記帳士季末才給報表，等於開車只看後照鏡</td><td data-label="為什麼會踩">覺得記帳交出去就沒事了</td><td data-label="怎麼避免">自己維護每週更新的現金表，每月和記帳士對帳一次</td><td data-label="對應資源">第 03 節第 6 點</td></tr>
+        <tr><td class="id" data-label="#">P5</td><td data-label="坑"><b>創辦人不領薪，或低估人事成本</b></td><td data-label="是什麼">預算中人事成本只算月薪</td><td data-label="為什麼會踩">不了解雇主負擔</td><td data-label="怎麼避免">人事成本要加上雇主負擔的勞保、健保、勞退 6%，以及二代健保補充保費，抓月薪的 1.2 倍以上。創辦人若零薪，要在模型中另外標記「未來需補回的市場薪資」，否則估值與 unit economics 都會失真</td><td data-label="對應資源">新創圓夢網諮詢、記帳士</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 11</span>特殊坑：台灣在地／新創／硬體／大學衍生（P6–P18）</caption>
+      <colgroup><col style="width:5%"><col style="width:15%"><col style="width:20%"><col style="width:17%"><col style="width:28%"><col style="width:15%"></colgroup>
+      <thead><tr><th>#</th><th>坑</th><th>是什麼</th><th>為什麼會踩</th><th>怎麼避免</th><th>對應資源</th></tr></thead>
+      <tbody>
+        <tr><td class="id" data-label="#">P6</td><td data-label="坑"><b>公私帳不分、股東往來混亂</b></td><td data-label="是什麼">用個人帳戶收公司的錢，或創辦人代墊不開憑證</td><td data-label="為什麼會踩">初期圖方便</td><td data-label="怎麼避免">公司一成立就開公司帳戶。代墊款要有憑證並記為「股東往來」，定期結清</td><td data-label="對應資源">記帳士；中小企業財會諮詢網</td></tr>
+        <tr><td class="id" data-label="#">P7</td><td data-label="坑"><b>資本額設定與驗資誤解</b></td><td data-label="是什麼">以為驗資完錢要凍結，或資本額設 1 元</td><td data-label="為什麼會踩">誤信舊法或網路傳言</td><td data-label="怎麼避免">依公司法第 7 條必須經會計師簽證。資本額依貸款與補助需求設 50–100 萬元以上，動用資金時保留用途憑據</td><td data-label="對應資源">第 03 節第 2 點</td></tr>
+        <tr><td class="id" data-label="#">P8</td><td data-label="坑"><b>營業稅與統一發票申報疏忽</b></td><td data-label="是什麼">漏報零申報、拿不能扣抵的發票去扣抵、收款不開發票</td><td data-label="為什麼會踩">不熟營業稅規則</td><td data-label="怎麼避免">單數月 15 日前申報，沒有營收也要報。進項發票要有統編與公司全名。<b>任何收款都開發票</b>，否則就有逃漏稅風險</td><td data-label="對應資源">新創圓夢網〈創業補給站〉稅務文</td></tr>
+        <tr><td class="id" data-label="#">P9</td><td data-label="坑"><b>忘了 9 月暫繳</b></td><td data-label="是什麼">第二年賺錢後，9 月突然要預繳一半稅額</td><td data-label="為什麼會踩">不知道暫繳制度</td><td data-label="怎麼避免">現金流預測在 9 月預留暫繳；第一年虧損通常不會產生暫繳稅額</td><td data-label="對應資源">財政部稅務入口網</td></tr>
+        <tr><td class="id" data-label="#">P10</td><td data-label="坑"><b>研發費用處理與研發抵減</b></td><td data-label="是什麼">研發成本沒有獨立歸類，日後無法佐證研發抵減或 SBIR 核銷</td><td data-label="為什麼會踩">研發、生產、行銷的費用混在一起記</td><td data-label="怎麼避免">第一天就設研發專案代碼與工時紀錄；早期研發一律費用化</td><td data-label="對應資源">產創條例第 10、12-1 條</td></tr>
+        <tr><td class="id" data-label="#">P11</td><td data-label="坑"><b>政府補助款的認列與核銷</b></td><td data-label="是什麼">核定就當成收入；自籌款沒準備；核銷被剔除</td><td data-label="為什麼會踩">把補助當成「白拿的錢」</td><td data-label="怎麼避免">依 EAS 21 在相關成本發生期間認列。現金流按「先墊後撥」排程，並預留可能返還的情境</td><td data-label="對應資源">第 07 節、SBIR 官網</td></tr>
+        <tr><td class="id" data-label="#">P12</td><td data-label="坑"><b>技術作價入股的稅務問題</b></td><td data-label="是什麼">創辦人以專利或技術換得股票，取得當年就可能被課所得稅</td><td data-label="為什麼會踩">不知道有緩課制度，或公司沒在當年度送件認定</td><td data-label="怎麼避免">產創條例第 12-1 條：個人以自行研發的智慧財產權作價入股，可選擇緩課；持股並提供技術服務累計滿 2 年者，轉讓時可按取得價格與轉讓價格擇低課稅。<b>股票發行公司必須在作價入股當年度送中央目的事業主管機關認定。</b>相關優惠延長至民國 118 年 12 月 31 日</td><td data-label="對應資源">會計師；經濟部產發署申請文件頁</td></tr>
+        <tr><td class="id" data-label="#">P13</td><td data-label="坑"><b>大學衍生新創的智財與技轉財務議題</b></td><td data-label="是什麼">學校擁有研發成果，新創要付授權金、權利金，或讓學校持股；創作人（老師或你）獲配股票的課稅問題</td><td data-label="為什麼會踩">研究生常以為「我做的研究就是我的」</td><td data-label="怎麼避免">學研機構執行政府科技計畫的成果，分配股票給創作人時，可依產創條例第 12-2 條申請緩課，但學研機構要證明成果確實出自政府科技計畫。在<b>公司設立前</b>就和學校技轉中心談妥授權範圍、權利金結構與持股比例，並把權利金列入成本模型</td><td data-label="對應資源">國科會「科研成果法規鬆綁專區」QA；學校技轉中心</td></tr>
+        <tr><td class="id" data-label="#">P14</td><td data-label="坑"><b>硬體存貨與應收帳款的現金陷阱</b></td><td data-label="是什麼">營收成長，現金反而枯竭</td><td data-label="為什麼會踩">存貨、模具、預付款加上月結 90 天的時間差</td><td data-label="怎麼避免">預測「現金轉換週期」，在量產前籌足 6 個月以上的跑道</td><td data-label="對應資源">第 08 節、Foresight 模型</td></tr>
+        <tr><td class="id" data-label="#">P15</td><td data-label="坑"><b>匯率風險</b></td><td data-label="是什麼">美元料件與美元報價之間錯配</td><td data-label="為什麼會踩">只用單一匯率做預算</td><td data-label="怎麼避免">做 ±5% 匯率敏感度分析；報價附匯率調整條款</td><td data-label="對應資源">第 10 節</td></tr>
+        <tr><td class="id" data-label="#">P16</td><td data-label="坑"><b>青創貸款寬限期結束後的還款懸崖</b></td><td data-label="是什麼">2 年寬限期結束後開始攤還本金</td><td data-label="為什麼會踩">只看「低利」兩個字</td><td data-label="怎麼避免">現金流預測要排到寬限期之後；貸款金額依里程碑需求借，不要能借多少就借多少</td><td data-label="對應資源">第 06 節</td></tr>
+        <tr><td class="id" data-label="#">P17</td><td data-label="坑"><b>把總體經濟當成預測水晶球</b></td><td data-label="是什麼">看到紅燈就認定景氣會一直好，或用燈號決定要不要創業</td><td data-label="為什麼會踩">景氣燈號本質上是描述「已經發生」的經濟活動，第三方網站也把它歸為落後性質</td><td data-label="怎麼避免">總經只用來設定「情境假設」，不用來猜時點；公司營運以自己的訂單與現金數據為主</td><td data-label="對應資源">第 10 節、國發會原始數據</td></tr>
+        <tr><td class="id" data-label="#">P18</td><td data-label="坑"><b>相信付費代辦「保證通過」補助</b></td><td data-label="是什麼">花了大錢請代辦寫計畫，最後沒過或被要求高額抽成</td><td data-label="為什麼會踩">不熟申請流程</td><td data-label="怎麼避免">SBIR 官網一再提醒不要相信付費代辦保證通過。Phase 1 已經改成簡報申請，自己寫並先用免費諮詢檢查</td><td data-label="對應資源">新創圓夢網免費諮詢</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="path">
+  <h2><span class="num">13</span>建議學習路徑（以「創辦人夠用」為標準）</h2>
+
+  <h3>三個月速成版（每週約 6–8 小時）</h3>
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 12</span>三個月：三表打底 → 台灣制度＋現金流 → 募資＋總經</caption>
+      <colgroup><col style="width:16%"><col style="width:10%"><col style="width:36%"><col style="width:10%"><col style="width:28%"></colgroup>
+      <thead><tr><th>階段</th><th>週次</th><th>內容與資源</th><th>每週時數</th><th>驗收標準</th></tr></thead>
+      <tbody>
+        <tr><td data-label="階段"><b>1. 三表打底</b></td><td data-label="週次">第 1–4 週</td><td data-label="內容與資源">讀完林明樟書；看台大〈初級會計學一〉全 7 講；〈初會三〉看現金流量表部分</td><td data-label="每週時數">6–8 小時</td><td data-label="驗收標準">能自己為一家假想的無人機公司畫出三大報表，並口頭解釋「淨利 100 萬為什麼現金只剩 20 萬」</td></tr>
+        <tr><td data-label="階段"><b>2. 台灣制度＋現金流</b></td><td data-label="週次">第 5–8 週</td><td data-label="內容與資源">看 YC〈Managing startup finances〉；用 Smartsheet 12 個月模板；讀新創圓夢網稅務文章與財政部新創專區；修中小企業網路大學校的 20 小時創業基礎先修課程（可與第 1 階段並行）</td><td data-label="每週時數">7–8 小時</td><td data-label="驗收標準"><b>自己編出 12 個月現金流預測</b>，包含營業稅、9 月暫繳、勞健保、SBIR 自籌款，並算出 runway 與 default alive</td></tr>
+        <tr><td data-label="階段"><b>3. 募資＋總經</b></td><td data-label="週次">第 9–12 週</td><td data-label="內容與資源">讀《創業投資聖經》前半（參與者、募資、term sheet 條款）；看 Dalio 影片；每月看一次景氣燈號、PMI、央行決議</td><td data-label="每週時數">6 小時</td><td data-label="驗收標準">能做出兩輪募資的 cap table 試算（pre／post-money、稀釋、選擇權池）；能寫出一頁「總經環境對本公司採購、定價與募資的影響」備忘錄</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>六個月完整版（每週約 5–6 小時）</h3>
+  <div class="tbl">
+    <table class="stack">
+      <caption><span class="tno">表 13</span>六個月：每月一個主題，每階段都有驗收</caption>
+      <colgroup><col style="width:16%"><col style="width:10%"><col style="width:36%"><col style="width:38%"></colgroup>
+      <thead><tr><th>階段</th><th>月份</th><th>內容與資源</th><th>驗收標準</th></tr></thead>
+      <tbody>
+        <tr><td data-label="階段"><b>1. 會計觀念</b></td><td data-label="月份">第 1 個月</td><td data-label="內容與資源">林明樟書＋台大〈初會一〉</td><td data-label="驗收標準">能解釋權責基礎與現金基礎、借貸邏輯、三表之間的連動</td></tr>
+        <tr><td data-label="階段"><b>2. 會計深化</b></td><td data-label="月份">第 2 個月</td><td data-label="內容與資源">台大〈初會二〉（存貨、應收帳款、PP&amp;E）＋〈初會三〉＋劉順仁書</td><td data-label="驗收標準">能看懂一份 EAS 格式的財報，並指出存貨、應收帳款、預付款三項對現金的影響</td></tr>
+        <tr><td data-label="階段"><b>3. 台灣制度實務</b></td><td data-label="月份">第 3 個月</td><td data-label="內容與資源">20 小時創業基礎先修課程；財政部與中小企業財會諮詢網；<b>預約第 1 次新創圓夢網免費諮詢</b></td><td data-label="驗收標準">能說明 EAS 與 IFRS 的差別、記帳士與會計師的分工、營業稅與營所稅時程；決定資本額與記帳安排</td></tr>
+        <tr><td data-label="階段"><b>4. 預算與現金流</b></td><td data-label="月份">第 4 個月</td><td data-label="內容與資源">YC 兩支影片＋Smartsheet 模板 → 升級到 Foresight 三表模型</td><td data-label="驗收標準">完成 12 個月月度現金流預測加 3 年年度三表模型，並有三種情境</td></tr>
+        <tr><td data-label="階段"><b>5. 硬體與補助財務</b></td><td data-label="月份">第 5 個月</td><td data-label="內容與資源">第 07 節的 EAS 21、第 08 節的硬體議題；SBIR Phase 1 預算試編；產創條例 12-1／12-2；<b>帶著模型去做第 2 次免費諮詢</b></td><td data-label="驗收標準">模型納入模具、MOQ、預付款、應收帳款天數、SBIR 先墊後撥；做出 SBIR Phase 1 的經費表草稿</td></tr>
+        <tr><td data-label="階段"><b>6. 募資與總經</b></td><td data-label="月份">第 6 個月</td><td data-label="內容與資源">讀完《創業投資聖經》；Mankiw《經濟學 9/e》總經章節＋台大林明仁〈經濟學原理〉總經單元；建立每月總經儀表板</td><td data-label="驗收標準">能和創投討論 term sheet 主要條款；每月產出一頁總經備忘錄，並據此更新模型假設</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note"><b>並行原則</b>：20 小時創業課程和「每月看景氣燈號與 PMI」可以從第 1 週就開始，兩者都不依賴會計基礎。</p>
+</section>
+
+<section id="caveats">
+  <h2><span class="num">14</span>注意事項：哪些要再確認</h2>
+  <ul class="points">
+    <li><b>價格與上架狀態會變動</b>：書價為定價或通路優惠價。Hahow 的實際售價未取得；YOTTA 部分課程有暫停販售的情形。購買前請到原始頁面確認。</li>
+    <li><b>政府方案以官方當年度公告為準</b>：青創貸款利率隨郵政定儲機動調整。利息補貼的說法彼此矛盾：市場先生（2026/1/27 更新）寫「經濟部青創貸款無利息補貼」，新北市青年局則於 2025-01-02 公告提供 5 年利息全額補貼；申請前請向承辦銀行與所在縣市確認。SBIR 核定金額中位數 80 萬元是第三方統計，不是官方數據。</li>
+    <li><b>未逐一驗證的資源</b>：清大 OCW（ocw.nthu.edu.tw）、交大 ewant 育網（ewant.org）、Khan Academy、MRU、Dalio 影片、FRED、主計總處與央行頁面屬於長期存在的知名資源，但沒有逐一確認最新課程內容；清大與交大 OCW 目前是否有會計課，請自行搜尋。<i>Financial Intelligence for Entrepreneurs</i> 的繁中版書名與出版社尚未確認。</li>
+    <li><b>稅務與法律議題</b>：技術作價、緩課、大學技轉、補助核銷，每一案都有個別條件。本頁只提供方向，簽約或送件前務必諮詢會計師與學校技轉中心。</li>
+    <li><b>總經數據時效</b>：景氣燈號與 PMI 為截至 2026 年 10 月可得的最新數據。2026 年 9 月 PMI 63.4（連續 12 個月擴張）已由中經院官網〈9月PMI達63.4 產業久違輪動〉確認。</li>
+  </ul>
+</section>
+
+<section id="cheat">
+  <h2><span class="num">15</span>一頁速查</h2>
+  <div class="grid cols3">
+    <div class="box accent">
+      <h3>最重要的 5 個資源</h3>
+      <ol class="points" style="margin:0;padding-left:20px;font-size:15px">
+        <li>《用生活常識就能看懂財務報表【十周年暢銷紀念版】》林明樟，商周：三表入門。</li>
+        <li>台大 OCW〈初級會計學一～三〉陳坤志，免費：會計地基。</li>
+        <li>YC〈Managing startup finances〉Kirsty Nathoo，免費、附逐字稿：burn、runway、default alive。</li>
+        <li>Foresight〈Standard Financial Model〉，開源、支援硬體：三表連動財務模型。</li>
+        <li>新創圓夢網免費一對一諮詢（0800-589-168 轉 3，每人 2 次、每次 1.5 小時），搭配中小企業網路大學校 20 小時創業基礎先修課程。</li>
+      </ol>
+    </div>
+    <div class="box bad">
+      <h3>最該避開的 10 個坑</h3>
+      <ol class="points" style="margin:0;padding-left:20px;font-size:15px">
+        <li>利潤不等於現金：只看損益表。</li>
+        <li>把募資款或貸款當收入。</li>
+        <li>公私帳不分、股東往來沒有憑證。</li>
+        <li>預算只做樂觀版、沒有情境分析。</li>
+        <li>沒算模具、MOQ、預付款與應收帳款天數造成的硬體現金缺口。</li>
+        <li>SBIR 自籌 50% 和「先墊後撥」沒排進現金流；核定就當收入認列。</li>
+        <li>技術作價入股沒在當年度申請產創條例 12-1 緩課認定。</li>
+        <li>大學衍生新創在設立前沒談妥技轉授權、權利金與持股。</li>
+        <li>營業稅漏報（包括零申報），忘了 9 月暫繳。</li>
+        <li>用投資選股課學經營、用 SaaS 模板套硬體、把景氣燈號當成預測水晶球。</li>
+      </ol>
+    </div>
+    <div class="box ok">
+      <h3>第一個月該做的事</h3>
+      <ul class="points" style="margin:0;padding-left:20px;font-size:15px">
+        <li><b>第 1 週</b>：買林明樟書並讀完前半；開始看台大〈初會一〉，每週 2–3 講。報名中小企業網路大學校的創業基礎先修課程。</li>
+        <li><b>第 2 週</b>：讀完林明樟書；開一份 Google Sheets，記錄目前所有的創業相關支出（包括自己代墊的部分）。</li>
+        <li><b>第 3 週</b>：看 YC〈Managing startup finances〉；下載 Smartsheet 12 個月模板，填入第一版的粗估數字。</li>
+        <li><b>第 4 週</b>：看完〈初會一〉；查一次國發會景氣燈號與中經院 PMI。打 0800-589-168 預約第 1 次免費諮詢，主題是公司型態、資本額、記帳士與會計師的選擇、SBIR Phase 1 是否適合。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="sources">
+  <h2><span class="num">16</span>資料來源</h2>
+  <p class="note">主要來源列在前面，完整清單收在下方。本頁由 2026-10-20 的研究整理而成；價格、課程上架狀態與政府方案以各原始頁面當下公告為準。</p>
+  <ul class="sources">
+    <li><a href="https://ocw.aca.ntu.edu.tw/courses/mooc0066">台大開放式課程：初級會計學一（陳坤志）</a></li>
+    <li><a href="https://www.cite.com.tw/book?id=105846">城邦讀書花園：《用生活常識就能看懂財務報表》十周年暢銷紀念版</a></li>
+    <li><a href="https://www.books.com.tw/products/0011035495">博客來：《財報就像一本故事書》20 週年與時俱進增訂版</a></li>
+    <li><a href="https://hahow.in/courses/602cb8934d67c5c890cd50aa">Hahow：《小資必學財報課：輕鬆看懂台美股》課程頁</a></li>
+    <li><a href="https://accounting.sme.gov.tw/run.php?name=forum&amp;file=post&amp;p=531343">中小企業財會諮詢服務網：IFRS 與 EAS 適用的問答</a></li>
+    <li><a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/profit-seeking-enterprise-income-tax/provisional-income-tax-return/gA01WL6">財政部稅務入口網：營所稅暫繳問答</a></li>
+    <li><a href="https://www.apexcpas.com.tw/post/%E5%85%AC%E5%8F%B8%E8%A8%AD%E7%AB%8B%EF%BC%8C%E8%B3%87%E6%9C%AC%E9%A1%8D%E7%B0%BD%E8%AD%89%E4%B8%80%E5%AE%9A%E8%A6%81%E5%97%8E">會計師事務所說明：公司設立資本額簽證（公司法第 7 條）</a></li>
+    <li><a href="https://www.ycombinator.com/library/8I-managing-startup-finances">YC Startup Library：Managing startup finances（Kirsty Nathoo）</a></li>
+    <li><a href="https://foresight.is/ecommerce-financial-model">Foresight：Standard Financial Model</a></li>
+    <li><a href="https://www.smartsheet.com/content/financial-projections-templates">Smartsheet：Financial Projections Templates</a></li>
+    <li><a href="https://www.books.com.tw/products/0010726913">博客來：《創業投資聖經》（Venture Deals 中譯）</a>；<a href="https://mrjamie.cc/2016/09/14/venture-deals/">林之晨的推薦文</a></li>
+    <li><a href="https://startup.sme.gov.tw/home/modules/talk/">新創圓夢網：免費一對一創業諮詢</a>；<a href="https://www.smelearning.org.tw/skill-map.php">中小企業網路大學校：創業基礎先修課程</a></li>
+    <li><a href="https://rich01.com/young-entrepreneurs-loan/">市場先生：青年創業貸款整理（2026/1/27 更新）</a>；<a href="https://www.ntbk.gov.tw/multiplehtml/9aca1cdc0f104125851040c7ddbb21d9">新北市青年局：青創貸款利息補貼公告</a></li>
+    <li><a href="https://wantrich.chinatimes.com/news/20251230900432-420501">工商時報：中企署公布 2026 年 SBIR 三大核心領域</a>；<a href="https://writepaper.com.tw/programs/sbir">SBIR 計畫內容整理</a></li>
+    <li><a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?amp=&amp;flno=12-1&amp;pcode=J0040051">全國法規資料庫：產業創新條例第 12-1 條</a>；<a href="https://www.nstc.gov.tw/folksonomy/detail/e9177227-80ea-4bfb-8419-388ce1bbdab2?l=ch">國科會：科研成果法規鬆綁專區</a></li>
+    <li><a href="https://www.tktcpa.com.tw/images/PDF/EAS/EAS21%E4%BC%81%E6%A5%AD%E6%9C%83%E8%A8%88%E6%BA%96%E5%89%87%E5%85%AC%E5%A0%B1%E7%AC%AC%E4%BA%8C%E5%8D%81%E4%B8%80%E8%99%9F%E3%80%8C%E6%94%BF%E5%BA%9C%E8%A3%9C%E5%8A%A9%E5%8F%8A%E6%94%BF%E5%BA%9C%E8%BC%94%E5%8A%A9%E3%80%8D.pdf">企業會計準則公報第 21 號「政府補助及政府輔助」（PDF）</a></li>
+    <li><a href="https://www.books.com.tw/products/0010857459">博客來：Mankiw《經濟學 9/e》（王銘正譯，東華）</a></li>
+    <li><a href="https://www.cier.edu.tw/institution-ch/15616/">中華經濟研究院：台灣採購經理人指數</a>；<a href="https://www.macromicro.me/collections/10/tw-monitoring-indicators-relative">財經M平方：台灣景氣對策信號（註明與國發會數據的落差）</a></li>
+  </ul>
+  <details>
+    <summary>完整來源清單（研究時查閱的所有頁面）</summary>
+    <ol class="srcgrid">
+      <li><a href="https://ocw.aca.ntu.edu.tw/courses/mooc0066">ocw.aca.ntu.edu.tw – 初級會計學一</a></li>
+      <li><a href="https://hahow.in/courses/602cb8934d67c5c890cd50aa">hahow.in – 小資必學財報課</a></li>
+      <li><a href="https://bamzd.com/taiwan-government-grants-guide/">bamzd.com – 台灣政府補助指南</a></li>
+      <li><a href="https://www.cite.com.tw/book?id=105846">cite.com.tw – 用生活常識就能看懂財務報表</a></li>
+      <li><a href="https://www.taaze.tw/rwd_searchResult.html?keyType%5B%5D=0&amp;keyword%5B%5D=%E7%94%A8%E7%94%9F%E6%B4%BB%E5%B8%B8%E8%AD%98%E5%B0%B1%E8%83%BD%E7%9C%8B%E6%87%82%E8%B2%A1%E5%8B%99%E5%A0%B1%E8%A1%A8">taaze.tw – 二手書搜尋</a></li>
+      <li><a href="https://www.eslite.com/product/10012013192683053970001">eslite.com – 誠品商品頁</a></li>
+      <li><a href="https://www.books.com.tw/products/0011035495">books.com.tw – 財報就像一本故事書（增訂版）</a></li>
+      <li><a href="https://www.books.com.tw/products/0010798767">books.com.tw – 財報就像一本故事書（2018）</a></li>
+      <li><a href="https://readmoo.com/book/210097003000101">readmoo.com – 電子書</a></li>
+      <li><a href="https://www.books.com.tw/products/0010937083">books.com.tw – 教科書商品頁</a></li>
+      <li><a href="https://www.books.com.tw/web/sys_puballb/books/?pubid=sanyucul6">books.com.tw – 出版社書目</a></li>
+      <li><a href="https://wpac.lib.ntpu.edu.tw/webpac/content.cfm?mid=390&amp;m=as&amp;k0=%E5%BC%B5%E6%99%BA%E6%B7%B5&amp;t0=a&amp;c0=and&amp;s0=0&amp;list_num=10&amp;current_page=1&amp;si=1">wpac.lib.ntpu.edu.tw – 北大圖書館書目</a></li>
+      <li><a href="https://www.sanmin.com.tw/product/index/007826901">sanmin.com.tw – 三民書局商品頁</a></li>
+      <li><a href="https://www.ceec.edu.tw/xcepaper/cont?xsmsid=0J066588036013658199&amp;qunit=0J066632239507872025&amp;sid=0J112385333651939799">ceec.edu.tw – 大考中心</a></li>
+      <li><a href="https://www.yottau.com.tw/course/intro/96">yottau.com.tw – 一小時搞懂會計入門</a></li>
+      <li><a href="https://www.yottau.com.tw/teacher/290">yottau.com.tw – 講師頁</a></li>
+      <li><a href="https://www.yottau.com.tw/course/intro/1307">yottau.com.tw – 從財報分析打造數據決策力</a></li>
+      <li><a href="https://hahow.in/courses/5c1404fe11b27900205beea2">hahow.in – 已下架財報課</a></li>
+      <li><a href="https://accounting.sme.gov.tw/run.php?name=forum&amp;file=post&amp;p=531343">accounting.sme.gov.tw – 財會諮詢問答</a></li>
+      <li><a href="https://www.etax.nat.gov.tw/etwmain/tax-info/innotative-tax-e-reference/filing/individual-income-tax-return/OgZA6oO">etax.nat.gov.tw – 新創事業稅務</a></li>
+      <li><a href="https://podcasts.apple.com/tw/podcast/%E8%87%BA%E5%A4%A7%E9%96%8B%E6%94%BE%E5%BC%8F%E8%AA%B2%E7%A8%8B/id1599043560">podcasts.apple.com – 臺大開放式課程 Podcast</a></li>
+      <li><a href="https://store.hbr.org/product/financial-intelligence-for-entrepreneurs-what-you-really-need-to-know-about-the-numbers/1915">store.hbr.org – Financial Intelligence for Entrepreneurs</a></li>
+      <li><a href="https://lapl.overdrive.com/media/2527619">lapl.overdrive.com – 電子書資訊</a></li>
+      <li><a href="https://m.douban.com/book/subject/3007108/">douban.com – 《财务智慧》簡中版</a></li>
+      <li><a href="https://cpacorey.com/non-public-company-asset-revaluation/">cpacorey.com – 非公發公司資產重估</a></li>
+      <li><a href="https://aliciameseguer.es/eas%E8%88%87ifrs%E5%B7%AE%E7%95%B0.html">aliciameseguer.es – EAS 與 IFRS 差異</a></li>
+      <li><a href="https://www.apexcpas.com.tw/post/%E5%85%AC%E5%8F%B8%E8%A8%AD%E7%AB%8B%EF%BC%8C%E8%B3%87%E6%9C%AC%E9%A1%8D%E7%B0%BD%E8%AD%89%E4%B8%80%E5%AE%9A%E8%A6%81%E5%97%8E">apexcpas.com.tw – 資本額簽證一定要嗎</a></li>
+      <li><a href="https://hztax.com.tw/%E6%99%82%E4%BA%8B%E7%A8%85%E5%8B%99%E5%B0%88%E6%AC%84/211-%E5%89%B5%E6%A5%AD%E9%96%8B%E5%85%AC%E5%8F%B8-%E5%85%AC%E5%8F%B8%E8%A8%AD%E7%AB%8B%E7%99%BB%E8%A8%98%E8%B3%87%E6%9C%AC%E9%A1%8D%E4%B8%80%E5%AE%9A%E8%A6%81%E7%B5%A6%E6%9C%83%E8%A8%88%E5%B8%AB%E7%B0%BD%E8%AD%89%E5%97%8E.html">hztax.com.tw – 設立登記資本額簽證</a></li>
+      <li><a href="https://blog.591tax.com/company/how-to-start-a-business">blog.591tax.com – 如何開公司</a></li>
+      <li><a href="https://govinfo.autumnsnow.work/guides/company-capital">govinfo.autumnsnow.work – 公司資本額指南</a></li>
+      <li><a href="https://www.cheng-sinng.com.tw/Capital">cheng-sinng.com.tw – 資本額說明</a></li>
+      <li><a href="https://startup.sme.gov.tw/home/modules/infopack/detail/?sid=109">startup.sme.gov.tw – 創業補給站文章</a></li>
+      <li><a href="https://cpayumiii.com/vat/">cpayumiii.com – 營業稅說明</a></li>
+      <li><a href="https://nocoo.tw/blog/startup-first-year-tax">nocoo.tw – 新創第一年稅務</a></li>
+      <li><a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/profit-seeking-enterprise-income-tax/provisional-income-tax-return/gA01WL6">etax.nat.gov.tw – 暫繳問答</a></li>
+      <li><a href="https://homehnh.com/company-registration/book-keepers-office">homehnh.com – 記帳士事務所</a></li>
+      <li><a href="https://www.tkbgo.com.tw/article/toArticle?article_id=684">tkbgo.com.tw – 記帳士與會計師差異</a></li>
+      <li><a href="https://relianz.tw/blog/accounting-firm/">relianz.tw – 會計師事務所</a></li>
+      <li><a href="https://blog.591tax.com/bookkeeping/differences-between-bookkeeper-and-accountant">blog.591tax.com – 記帳士 vs 會計師</a></li>
+      <li><a href="https://ticpa.com.tw/accounting-firm/">ticpa.com.tw – 事務所收費行情</a></li>
+      <li><a href="https://www.ycombinator.com/blog/startup-school-week-5-recap-kirsty-nathoo-and-kevin-hale">ycombinator.com – Startup School Week 5 recap</a></li>
+      <li><a href="https://www.ycombinator.com/library/8I-managing-startup-finances">ycombinator.com – Managing startup finances</a></li>
+      <li><a href="https://leadersloop.com/toolkit/burn-rate-runway-and-cash-burn/">leadersloop.com – Burn rate &amp; runway</a></li>
+      <li><a href="https://www.youtube.com/watch?v=0OVSTWozvfY">youtube.com – Save your startup during an economic downturn</a></li>
+      <li><a href="https://foresight.is/ecommerce-financial-model">foresight.is – Standard Financial Model</a></li>
+      <li><a href="https://www.smartsheet.com/content/financial-projections-templates">smartsheet.com – Financial projections templates</a></li>
+      <li><a href="https://slidebean.com/free-startup-financial-model-template">slidebean.com – 免費財務模型</a></li>
+      <li><a href="https://www.forecastr.co/templates">forecastr.co – 模板</a></li>
+      <li><a href="https://www.books.com.tw/products/0010726913">books.com.tw – 創業投資聖經</a></li>
+      <li><a href="https://mrjamie.cc/2016/09/14/venture-deals/">mrjamie.cc – Venture Deals 推薦</a></li>
+      <li><a href="https://www.books.com.tw/products/F014082505">books.com.tw – 電子書商品頁</a></li>
+      <li><a href="https://www.junyiacademy.org/topics/ntu-ocw">junyiacademy.org – 台大 OCW 專區</a></li>
+      <li><a href="https://startup.sme.gov.tw/home/modules/talk/">startup.sme.gov.tw – 一對一諮詢</a></li>
+      <li><a href="https://www.smelearning.org.tw/skill-map.php">smelearning.org.tw – 創業基礎先修課程</a></li>
+      <li><a href="https://www.smeg.org.tw/basic/?mode=detail&amp;node=3163">smeg.org.tw – 中小企業信保基金</a></li>
+      <li><a href="https://startup.sme.gov.tw/home/modules/calendar/detail/?sId=6928">startup.sme.gov.tw – 活動頁</a></li>
+      <li><a href="https://rich01.com/young-entrepreneurs-loan/">rich01.com – 青年創業貸款</a></li>
+      <li><a href="https://blog.okbank.com/okbank-loan/how-to-apply-government-backed-start-up-loan-in-taiwan">blog.okbank.com – 政策性創業貸款</a></li>
+      <li><a href="https://dreamrich.com.tw/articles/65">dreamrich.com.tw – 創業貸款文章</a></li>
+      <li><a href="https://wantrich.chinatimes.com/news/20251230900432-420501">wantrich.chinatimes.com – SBIR 2026 三大領域</a></li>
+      <li><a href="https://youthfirst.yda.gov.tw/index.php/subject/content/532">youthfirst.yda.gov.tw – 青年署專題</a></li>
+      <li><a href="https://writepaper.com.tw/programs/sbir">writepaper.com.tw – SBIR 計畫整理</a></li>
+      <li><a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?amp=&amp;flno=12-1&amp;pcode=J0040051">law.moj.gov.tw – 產創條例第 12-1 條</a></li>
+      <li><a href="https://www.tktcpa.com.tw/images/PDF/EAS/EAS21%E4%BC%81%E6%A5%AD%E6%9C%83%E8%A8%88%E6%BA%96%E5%89%87%E5%85%AC%E5%A0%B1%E7%AC%AC%E4%BA%8C%E5%8D%81%E4%B8%80%E8%99%9F%E3%80%8C%E6%94%BF%E5%BA%9C%E8%A3%9C%E5%8A%A9%E5%8F%8A%E6%94%BF%E5%BA%9C%E8%BC%94%E5%8A%A9%E3%80%8D.pdf">tktcpa.com.tw – EAS 21 公報 PDF</a></li>
+      <li><a href="https://www.books.com.tw/products/0010857459">books.com.tw – 經濟學 9/e</a></li>
+      <li><a href="https://www.tunghua.com.tw/portal_c1_cnt_page.php?owner_num=c1_81363&amp;button_num=c1&amp;folder_id=100846&amp;cnt_id=677436&amp;search_word=&amp;up_page=">tunghua.com.tw – 東華書局書目 1</a></li>
+      <li><a href="https://campub.com.tw/product/detail/9789579282659">campub.com.tw – 教科書商品頁</a></li>
+      <li><a href="https://www.books.com.tw/web/sys_bbotm/books/20040201/?v=1&amp;pd=7&amp;o=5">books.com.tw – 分類書目</a></li>
+      <li><a href="https://www.tunghua.com.tw/portal_c1_cnt_page.php?owner_num=c1_81363&amp;button_num=c1&amp;folder_id=100846&amp;cnt_id=677442&amp;search_word=&amp;up_page=">tunghua.com.tw – 東華書局書目 2</a></li>
+      <li><a href="https://www.tunghua.com.tw/portal_c1_cnt_page.php?owner_num=c1_81363&amp;button_num=c1&amp;folder_id=100846&amp;cnt_id=677428&amp;search_word=&amp;up_page=">tunghua.com.tw – 東華書局書目 3</a></li>
+      <li><a href="https://ctyeh.com/finance/15018">ctyeh.com – 景氣燈號說明</a></li>
+      <li><a href="https://www.yuantatop.com/news-post/business-cycle-indicator/">yuantatop.com – 景氣對策信號解讀</a></li>
+      <li><a href="https://www.airitilibrary.com/Article/Detail/10190376-201609-201610180008-201610180008-5-8">airitilibrary.com – 期刊文章</a></li>
+      <li><a href="https://www.cier.edu.tw/institution-ch/15616/">cier.edu.tw – 台灣 PMI</a></li>
+      <li><a href="https://news.nextapple.com/finance/20260803/99A0AA809B39F8165A64CCC214F13DD6">news.nextapple.com – PMI 新聞</a></li>
+      <li><a href="https://www.macromicro.me/collections/10/tw-monitoring-indicators-relative">macromicro.me – 台灣景氣對策信號</a></li>
+      <li><a href="https://www.ntbk.gov.tw/multiplehtml/9aca1cdc0f104125851040c7ddbb21d9">ntbk.gov.tw – 新北市青年局公告</a></li>
+      <li><a href="https://sunnyfge.pixnet.net/blog/posts/10352325767-%E7%94%A8%E7%94%9F%E6%B4%BB%E5%B8%B8%E8%AD%98%E5%B0%B1%E8%83%BD%E7%9C%8B%E6%87%82%E8%B2%A1%E5%8B%99%E5%A0%B1%E8%A1%A8">pixnet.net – 讀書心得</a></li>
+      <li><a href="https://blog.simpany.co/need-to-know-about-capital/">blog.simpany.co – 資本額須知</a></li>
+      <li><a href="https://www.wanchicpa.com.tw/%E6%96%B0%E5%89%B5%E4%BA%8B%E6%A5%AD%E7%A7%9F%E7%A8%85%E5%84%AA%E6%83%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E5%BE%9E%E3%80%8A%E7%94%A2%E6%A5%AD%E5%89%B5%E6%96%B0%E6%A2%9D%E4%BE%8B%E3%80%8B-%E5%BB%B6/">wanchicpa.com.tw – 新創事業租稅優惠</a></li>
+      <li><a href="https://www.nstc.gov.tw/folksonomy/detail/e9177227-80ea-4bfb-8419-388ce1bbdab2?l=ch">nstc.gov.tw – 科研成果法規鬆綁專區</a></li>
+      <li><a href="https://fininfostation.com/climate">fininfostation.com – 景氣燈號資料</a></li>
+      <li><a href="https://indexiahq.com/2026-sbir-grant-application-guide/">indexiahq.com – 2026 SBIR 申請指南</a></li>
+    </ol>
+  </details>
+</section>
+
+</main>
+
+<footer>
+  <a href="../">← 回筆記列表</a>
+  <span>2026-10-21 整理 · 和 Claude 協作</span>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  // 深淺色切換：沒選過就跟系統
+  var KEY = 'founder-finance-map.theme', root = document.documentElement, btn = document.getElementById('themeBtn');
+  var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  function current() { var t = root.getAttribute('data-theme'); return t || (mq && mq.matches ? 'dark' : 'light'); }
+  function label() { btn.textContent = current() === 'dark' ? '☀ 淺色' : '☾ 深色'; }
+  btn.addEventListener('click', function () {
+    var next = current() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem(KEY, next); } catch (e) {}
+    label();
+  });
+  if (mq && mq.addEventListener) mq.addEventListener('change', label);
+  label();
+})();
+</script>
+</body>
+</html>
