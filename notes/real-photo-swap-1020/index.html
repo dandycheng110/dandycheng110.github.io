@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="以 hyrax.tw 的蹄兔吉祥物為例：先查路線再下載、授權與真偽查清楚、依版位裁圖、分支隔離後才上線。">
+<title>網站換成真實照片的方法</title>
+<style>
+:root{
+  --bg:#F3F5F4; --surface:#FFFFFF; --ink:#16231F; --muted:#5A6B66; --rule:#D5DDDA;
+  --accent:#0F7A68; --accent-soft:#DDF1EC; --warm:#A84A22; --warm-soft:#FBE7DC;
+  --ok:#17703F; --ok-bg:#DFF3E7; --no:#B23B2E; --no-bg:#F8E1DD; --q:#946200; --q-bg:#FBF0D3;
+  --code-bg:#EEF2F0;
+  --sans:"PingFang TC","Noto Sans TC","Microsoft JhengHei","Heiti TC",system-ui,-apple-system,sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1513; --surface:#14201D; --ink:#E3ECE9; --muted:#97A9A3; --rule:#263632;
+    --accent:#5FD3BC; --accent-soft:#123630; --warm:#F0946A; --warm-soft:#3A2218;
+    --ok:#6FD39B; --ok-bg:#15301F; --no:#F08A7C; --no-bg:#3A1A16; --q:#E6C15C; --q-bg:#33290F;
+    --code-bg:#0F1A17; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1513; --surface:#14201D; --ink:#E3ECE9; --muted:#97A9A3; --rule:#263632;
+  --accent:#5FD3BC; --accent-soft:#123630; --warm:#F0946A; --warm-soft:#3A2218;
+  --ok:#6FD39B; --ok-bg:#15301F; --no:#F08A7C; --no-bg:#3A1A16; --q:#E6C15C; --q-bg:#33290F;
+  --code-bg:#0F1A17; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.8}
+img{max-width:100%;display:block;height:auto}
+a{color:var(--accent)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 16px 64px}
+.back{display:inline-block;font-size:14px;color:var(--muted);text-decoration:none;margin-bottom:18px}
+.back:hover{color:var(--accent)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 6px}
+h1{font-size:clamp(28px,5.4vw,42px);line-height:1.3;margin:0 0 12px;letter-spacing:-.01em}
+h2{font-size:24px;line-height:1.4;margin:0 0 12px;padding-top:8px}
+h2 .n{font-family:var(--mono);font-size:14px;color:var(--accent);margin-right:10px;vertical-align:2px}
+h3{font-size:17px;margin:20px 0 8px}
+p{margin:0 0 14px}
+.lead{font-size:18px;color:var(--muted);max-width:680px}
+.meta{font-size:13px;color:var(--muted);margin-top:4px}
+section{margin-top:44px}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:16px;padding:20px}
+
+/* hero */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0 8px}
+.ba figure{margin:0;background:var(--surface);border:1px solid var(--rule);border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.ba .ph{width:min(220px,100%);aspect-ratio:1;border-radius:50%;overflow:hidden;border:3px solid var(--rule)}
+.ba .after .ph{border-color:var(--accent)}
+.ba .ph img{width:100%;height:100%;object-fit:cover}
+.ba .before .ph img{object-position:50% 30%}
+.ba figcaption{font-size:14px;color:var(--muted);text-align:center;line-height:1.6}
+.ba figcaption b{display:block;color:var(--ink);font-size:15px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0 0}
+.stat{background:var(--surface);border:1px solid var(--rule);border-radius:14px;padding:14px 12px}
+.stat b{display:block;font-size:26px;line-height:1.2;font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted);line-height:1.5;display:block;margin-top:4px}
+
+/* toc */
+.toc{margin-top:28px}
+.toc ol{margin:0;padding-left:1.4em;columns:2;column-gap:28px;font-size:15px}
+.toc li{break-inside:avoid;margin:2px 0}
+.toc a{color:var(--ink);text-decoration:none}
+.toc a:hover{color:var(--accent);text-decoration:underline}
+
+/* tables */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0 16px;border:1px solid var(--rule);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.65}
+th,td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
+th{background:var(--accent-soft);font-weight:600;white-space:nowrap;font-size:13.5px}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.pick td{background:var(--ok-bg)}
+tr.pick .chip.ok{background:var(--surface);box-shadow:inset 0 0 0 1px currentColor}
+.nowrap{white-space:nowrap}
+.chip{display:inline-block;font-size:12.5px;font-weight:600;padding:1px 9px;border-radius:999px;white-space:nowrap}
+.ok{color:var(--ok);background:var(--ok-bg)} .no{color:var(--no);background:var(--no-bg)} .q{color:var(--q);background:var(--q-bg)}
+code{font-family:var(--mono);font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:5px;word-break:break-all}
+pre{font-family:var(--mono);font-size:13px;line-height:1.6;background:var(--code-bg);border:1px solid var(--rule);border-radius:12px;padding:14px 16px;overflow-x:auto;margin:8px 0 16px}
+pre code{background:none;padding:0;word-break:normal}
+.note{border-left:3px solid var(--warm);background:var(--warm-soft);padding:10px 14px;border-radius:0 10px 10px 0;font-size:14.5px;margin:10px 0 16px}
+.note b{color:var(--warm)}
+figure.img{margin:8px 0 16px}
+figure.img img{border-radius:12px;border:1px solid var(--rule)}
+figure.img figcaption{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.6}
+.legend{display:inline-flex;align-items:center;gap:6px;margin-right:14px}
+.legend i{width:14px;height:14px;border-radius:3px;display:inline-block;border:3px solid;box-shadow:0 0 0 1px var(--ink)}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted);line-height:1.7}
+footer p{margin:0 0 8px}
+
+@media (max-width:640px){
+  .ba{gap:10px}
+  .ba figure{padding:12px 8px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .toc ol{columns:1}
+  h2{font-size:21px}
+  th,td{padding:9px 10px}
+}
+
+@media (max-width:640px){
+  .tw.stack{border:0;background:none;overflow:visible}
+  .stack table,.stack tbody,.stack tr,.stack td{display:block;width:100%}
+  .stack thead{display:none}
+  .stack tr{background:var(--surface);border:1px solid var(--rule);border-radius:12px;margin-bottom:10px;padding:8px 0}
+  .stack tr.pick{background:var(--ok-bg)} .stack tr.pick td{background:none}
+  .stack td{border:0;padding:4px 14px;display:grid;grid-template-columns:5.5em minmax(0,1fr);gap:10px;text-align:left}
+  .stack td.num{text-align:left;white-space:normal}
+  .stack td::before{content:attr(data-label);color:var(--muted);font-size:12.5px;font-weight:600;line-height:1.9}
+  .stack td code{word-break:normal;overflow-wrap:anywhere}
+  .stack td .v{min-width:0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="../">← 回筆記列表</a>
+
+<header>
+  <p class="kicker">方法筆記 · 2026-10-20</p>
+  <h1>網站換成真實照片的方法</h1>
+  <p class="lead">以 hyrax.tw 的蹄兔吉祥物為例：先查路線再下載，授權和真偽都查清楚，照版位形狀裁圖，最後隔離分支才上線。下面把每一步做過的表全部列出來，下次換別的圖可以直接照抄。</p>
+
+  <div class="ba">
+    <figure class="before">
+      <div class="ph"><img src="before.jpg" width="333" height="500" alt="換圖前：看起來像 AI 生成的蹄兔圖"></div>
+      <figcaption><b>換圖前</b>看起來像 AI 生成（1024×1536 原圖）</figcaption>
+    </figure>
+    <figure class="after">
+      <div class="ph"><img src="after.jpg" width="480" height="480" alt="換圖後：真實的岩蹄兔照片"></div>
+      <figcaption><b>換圖後</b>相機實拍，CC0 授權，可商用</figcaption>
+    </figure>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b>152 → 1</b><span>從 Commons 撈出的照片，篩到最後選定 1 張</span></div>
+    <div class="stat"><b>0</b><span>去程看得到的節點裡，經過香港或中國的次數（回程沒驗）</span></div>
+    <div class="stat"><b>4 / 4</b><span>上線前交叉檢查全部通過</span></div>
+    <div class="stat"><b>105 KB</b><span>首頁大圖成品（720×720）</span></div>
+  </div>
+</header>
+
+<nav class="toc card" aria-label="目錄">
+  <ol>
+    <li><a href="#flow">流程總覽</a></li>
+    <li><a href="#route">先查路線再下載</a></li>
+    <li><a href="#license">授權速查</a></li>
+    <li><a href="#funnel">篩選漏斗</a></li>
+    <li><a href="#candidates">6 張候選照</a></li>
+    <li><a href="#verify">驗真：確認是相機實拍</a></li>
+    <li><a href="#crop">照版位形狀裁圖</a></li>
+    <li><a href="#deploy">安全上線</a></li>
+    <li><a href="#review">交叉檢查</a></li>
+    <li><a href="#pitfalls">踩坑與解法</a></li>
+  </ol>
+</nav>
+
+<section id="flow">
+  <h2><span class="n">01</span>流程總覽</h2>
+  <div class="tw stack"><table>
+    <thead><tr><th>#</th><th>步驟</th><th>做什麼</th><th>產出</th></tr></thead>
+    <tbody>
+      <tr><td data-label="#" class="num"><div class="v">1</div></td><td data-label="步驟" class="nowrap"><div class="v">盤點版位</div></td><td data-label="做什麼"><div class="v">找出舊圖用在哪些地方，讀 CSS 確認版位形狀（<code>border-radius</code>、<code>object-fit</code>）</div></td><td data-label="產出"><div class="v">首頁大圖（打開網站第一眼看到的那張）是圓形 400 px、小圓章 56 px</div></td></tr>
+      <tr><td data-label="#" class="num"><div class="v">2</div></td><td data-label="步驟" class="nowrap"><div class="v">查路線</div></td><td data-label="做什麼"><div class="v">下載前先 traceroute，挑一個不經過香港的機房</div></td><td data-label="產出"><div class="v">選定 Wikimedia 馬賽機房</div></td></tr>
+      <tr><td data-label="#" class="num"><div class="v">3</div></td><td data-label="步驟" class="nowrap"><div class="v">撈候選</div></td><td data-label="做什麼"><div class="v">用 Commons API 分開搜「精選／高品質」「CC0」和各種蹄兔的名字，合併去掉重複，授權欄位一起抓回來</div></td><td data-label="產出"><div class="v">152 筆清單</div></td></tr>
+      <tr><td data-label="#" class="num"><div class="v">4</div></td><td data-label="步驟" class="nowrap"><div class="v">篩選</div></td><td data-label="做什麼"><div class="v">依尺寸、主題過濾（授權只記錄、不刷掉），再下載縮圖逐張看</div></td><td data-label="產出"><div class="v">6 張候選對照圖</div></td></tr>
+      <tr><td data-label="#" class="num"><div class="v">5</div></td><td data-label="步驟" class="nowrap"><div class="v">驗真</div></td><td data-label="做什麼"><div class="v">讀 EXIF 相機資訊、上傳者、分類標籤</div></td><td data-label="產出"><div class="v">確認是相機實拍</div></td></tr>
+      <tr><td data-label="#" class="num"><div class="v">6</div></td><td data-label="步驟" class="nowrap"><div class="v">裁圖</div></td><td data-label="做什麼"><div class="v">每個版位各裁一張，壓縮並清掉 EXIF</div></td><td data-label="產出"><div class="v">720×720 大圖、168×168 小圓章</div></td></tr>
+      <tr><td data-label="#" class="num"><div class="v">7</div></td><td data-label="步驟" class="nowrap"><div class="v">預覽</div></td><td data-label="做什麼"><div class="v">離線預覽桌機和手機版（擋掉外部字型）</div></td><td data-label="產出"><div class="v">4 張截圖</div></td></tr>
+      <tr><td data-label="#" class="num"><div class="v">8</div></td><td data-label="步驟" class="nowrap"><div class="v">交叉檢查</div></td><td data-label="做什麼"><div class="v">4 個 AI 分身分別查改動範圍、HTML／CSS、文案事實、授權與真偽</div></td><td data-label="產出"><div class="v">全部通過</div></td></tr>
+      <tr><td data-label="#" class="num"><div class="v">9</div></td><td data-label="步驟" class="nowrap"><div class="v">上線</div></td><td data-label="做什麼"><div class="v">只推換圖那一筆，再用 GitHub API 確認建置完成</div></td><td data-label="產出"><div class="v">Pages 狀態 <code>built</code></div></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="route">
+  <h2><span class="n">02</span>先查路線再下載</h2>
+  <p>下載照片是從自己的電腦直接連到圖庫。我不希望連線經過中國或香港，所以下載前先用 traceroute 看路線，再用 ping 量延遲來確認位置。下表是 2026-10-20 從台灣學術網路（TANet）實測的結果，只驗了去程；換了網路就要重查。</p>
+  <div class="tw stack"><table>
+    <thead><tr><th>來源</th><th>機房／節點</th><th>從台灣出發的路線</th><th>判定</th></tr></thead>
+    <tbody>
+      <tr><td data-label="來源"><div class="v">Wikimedia 預設</div></td><td data-label="機房／節點"><div class="v">新加坡 eqsin<br><code>103.102.166.x</code></div></td><td data-label="從台灣出發的路線"><div class="v">SEEDNET → NTT 台北 → 中間 4 跳不回應 → NTT 新加坡</div></td><td data-label="判定"><div class="v"><span class="chip q">❓ 看不出</span></div></td></tr>
+      <tr><td data-label="來源"><div class="v">Wikimedia 美國</div></td><td data-label="機房／節點"><div class="v">舊金山 ulsfo、達拉斯 codfw、維吉尼亞 eqiad</div></td><td data-label="從台灣出發的路線"><div class="v">PCCW Global（香港註冊網段）→ 中段不回應 → NTT 美國</div></td><td data-label="判定"><div class="v"><span class="chip no">❌ 不用</span></div></td></tr>
+      <tr><td data-label="來源"><div class="v">Wikimedia 阿姆斯特丹</div></td><td data-label="機房／節點"><div class="v">esams<br><code>185.15.59.x</code></div></td><td data-label="從台灣出發的路線"><div class="v">SEEDNET → 中間 2 跳不回應 → 阿姆斯特丹交換中心</div></td><td data-label="判定"><div class="v"><span class="chip q">❓ 看不出</span></div></td></tr>
+      <tr class="pick"><td data-label="來源"><div class="v">Wikimedia 馬賽</div></td><td data-label="機房／節點"><div class="v">drmrs<br><code>185.15.58.x</code></div></td><td data-label="從台灣出發的路線"><div class="v">Tata：台北 → 東京 → 美國 → 倫敦 → 馬賽，全程沒看到香港</div></td><td data-label="判定"><div class="v"><span class="chip ok">✅ 採用</span></div></td></tr>
+      <tr><td data-label="來源"><div class="v">Flickr 圖檔</div></td><td data-label="機房／節點"><div class="v">CloudFront tpe53</div></td><td data-label="從台灣出發的路線"><div class="v">DNS 反查是台北節點（沒做 traceroute）</div></td><td data-label="判定"><div class="v"><span class="chip q">❓ 備案</span></div></td></tr>
+      <tr><td data-label="來源"><div class="v">Unsplash 圖檔</div></td><td data-label="機房／節點"><div class="v">Fastly</div></td><td data-label="從台灣出發的路線"><div class="v">推定在香港交接給下一家網路</div></td><td data-label="判定"><div class="v"><span class="chip no">❌ 不用</span></div></td></tr>
+      <tr><td data-label="來源"><div class="v">Pexels 圖檔</div></td><td data-label="機房／節點"><div class="v">Cloudflare 104 段</div></td><td data-label="從台灣出發的路線"><div class="v">TANet 交給 Telstra，在香港交接</div></td><td data-label="判定"><div class="v"><span class="chip no">❌ 不用</span></div></td></tr>
+      <tr><td data-label="來源"><div class="v">iNaturalist</div></td><td data-label="機房／節點"><div class="v">Cloudflare 104 段</div></td><td data-label="從台灣出發的路線"><div class="v">同上</div></td><td data-label="判定"><div class="v"><span class="chip no">❌ 不用</span></div></td></tr>
+    </tbody>
+  </table></div>
+  <p>怎麼判斷馬賽那條沒經過香港：東京之後的下一個看得到的節點是 Tata 美國網段，ping 最低 236 ms；如果它在香港，從台灣 ping 只會是 20 ms 上下。不過延遲只能證明這個節點本身不在香港，沒回應的那幾跳還是看不到，所以只能說「沒看到香港」。</p>
+  <h3>指定連馬賽機房</h3>
+  <p><code>--resolve</code> 只是告訴 curl 要連哪個 IP，網址和 HTTPS 憑證都不變：</p>
+<pre><code># 查清單（Commons API）
+curl --resolve commons.wikimedia.org:443:185.15.58.224 \
+  -G 'https://commons.wikimedia.org/w/api.php' \
+  --data-urlencode 'action=query' --data-urlencode 'format=json' \
+  --data-urlencode 'generator=search' --data-urlencode 'gsrnamespace=6' \
+  --data-urlencode 'gsrsearch=hyrax hastemplate:QualityImage filetype:bitmap' \
+  --data-urlencode 'prop=imageinfo' \
+  --data-urlencode 'iiprop=url|size|extmetadata|commonmetadata'
+
+# 下載圖檔
+curl --resolve upload.wikimedia.org:443:185.15.58.240 \
+  -o photo.jpg 'https://upload.wikimedia.org/wikipedia/commons/…'</code></pre>
+</section>
+
+<section id="license">
+  <h2><span class="n">03</span>授權速查</h2>
+  <p>Wikimedia Commons 只收自由授權，所以「禁止商用（NC）」和「禁止改作（ND）」不會出現；改用其他圖庫時要自己把它們擋掉。</p>
+  <div class="tw stack"><table>
+    <thead><tr><th>授權</th><th>可以商用</th><th>要標出處</th><th>裁切後要用同授權</th><th class="num">主題篩完的 76 張中</th></tr></thead>
+    <tbody>
+      <tr><td data-label="授權"><div class="v">CC0</div></td><td data-label="可以商用"><div class="v"><span class="chip ok">可以</span></div></td><td data-label="要標出處"><div class="v">不用</div></td><td data-label="裁切後要用同授權"><div class="v">不用</div></td><td data-label="76 張候選中" class="num"><div class="v">20</div></td></tr>
+      <tr><td data-label="授權"><div class="v">公有領域（PD）</div></td><td data-label="可以商用"><div class="v"><span class="chip ok">可以</span></div></td><td data-label="要標出處"><div class="v">不用</div></td><td data-label="裁切後要用同授權"><div class="v">不用</div></td><td data-label="76 張候選中" class="num"><div class="v">3</div></td></tr>
+      <tr><td data-label="授權"><div class="v">CC BY</div></td><td data-label="可以商用"><div class="v"><span class="chip ok">可以</span></div></td><td data-label="要標出處"><div class="v"><b>要</b></div></td><td data-label="裁切後要用同授權"><div class="v">不用</div></td><td data-label="76 張候選中" class="num"><div class="v">11</div></td></tr>
+      <tr><td data-label="授權"><div class="v">CC BY-SA</div></td><td data-label="可以商用"><div class="v"><span class="chip ok">可以</span></div></td><td data-label="要標出處"><div class="v"><b>要</b></div></td><td data-label="裁切後要用同授權"><div class="v"><b>要</b>（裁過的圖也要用 CC BY-SA 釋出）</div></td><td data-label="76 張候選中" class="num"><div class="v">42</div></td></tr>
+      <tr><td data-label="授權"><div class="v">CC BY-NC／CC BY-ND</div></td><td data-label="可以商用"><div class="v"><span class="chip no">NC 不行</span></div></td><td data-label="要標出處"><div class="v">要</div></td><td data-label="裁切後要用同授權"><div class="v">ND 不能改作</div></td><td data-label="76 張候選中" class="num"><div class="v">0</div></td></tr>
+    </tbody>
+  </table></div>
+  <p>挑 CC0 最省事：網站上不用掛攝影者名字。這次還是在頁尾標了出處，那是禮貌，不是義務。</p>
+</section>
+
+<section id="funnel">
+  <h2><span class="n">04</span>篩選漏斗</h2>
+  <div class="tw stack"><table>
+    <thead><tr><th>階段</th><th class="num">剩幾張</th><th>條件</th></tr></thead>
+    <tbody>
+      <tr><td data-label="階段"><div class="v">Commons API 搜尋</div></td><td data-label="剩幾張" class="num"><div class="v">152</div></td><td data-label="條件"><div class="v">分開搜「精選／高品質／有價值圖片」「CC0」和各種蹄兔的學名、俗名，再合併去掉重複。每組只取第一頁（最多 50 筆），有 2 組其實還有下一頁</div></td></tr>
+      <tr><td data-label="階段"><div class="v">尺寸</div></td><td data-label="剩幾張" class="num"><div class="v">119</div></td><td data-label="條件"><div class="v">短邊至少 1,200 px：版位 400 px，Retina 螢幕要約 2 倍，還要留裁切空間</div></td></tr>
+      <tr><td data-label="階段"><div class="v">主題</div></td><td data-label="剩幾張" class="num"><div class="v">76</div></td><td data-label="條件"><div class="v">依檔名和分類粗篩，排除大部分頭骨、古畫、地圖、海報、毛皮和無關照片。還是有 3 張館藏標本、2 張手繪、1 張岩鼠（囓齒類，不是蹄兔）漏網，到下一步細看才刷掉</div></td></tr>
+      <tr><td data-label="階段"><div class="v">細看</div></td><td data-label="剩幾張" class="num"><div class="v">13</div></td><td data-label="條件"><div class="v">下載 960 px 預覽，挑正臉、對焦清楚、背景乾淨的</div></td></tr>
+      <tr><td data-label="階段"><div class="v">候選</div></td><td data-label="剩幾張" class="num"><div class="v">6</div></td><td data-label="條件"><div class="v">照版位裁出模擬效果，交給人挑</div></td></tr>
+      <tr class="pick"><td data-label="階段"><div class="v">選定</div></td><td data-label="剩幾張" class="num"><div class="v">1</div></td><td data-label="條件"><div class="v">6 號，CC0</div></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="candidates">
+  <h2><span class="n">05</span>6 張候選照</h2>
+  <figure class="img">
+    <img src="candidates.jpg" width="1200" height="904" alt="6 張候選蹄兔照，每張都有直式裁切和圓形小圖的模擬效果" loading="lazy">
+    <figcaption>每張左邊是直式裁切，右邊是小圓章（上 56 px、下放大）。這張是第一版對照圖，當時還沒發現首頁大圖其實是圓形，見第 07 節。</figcaption>
+  </figure>
+  <div class="tw stack"><table>
+    <thead><tr><th>#</th><th>內容</th><th>攝影者</th><th>授權</th><th>要標出處</th><th>相機（EXIF）</th></tr></thead>
+    <tbody>
+      <tr><td data-label="#" class="num"><div class="v">1</div></td><td data-label="內容"><div class="v"><a href="https://commons.wikimedia.org/wiki/File:HIRAX.jpg" target="_blank" rel="noopener">黃斑岩蹄兔正臉</a>，坦尚尼亞</div></td><td data-label="攝影者"><div class="v">DipaliLath</div></td><td data-label="授權" class="nowrap"><div class="v">CC BY-SA 4.0</div></td><td data-label="要標出處"><div class="v">要</div></td><td data-label="相機（EXIF）"><div class="v">Nikon D7000，2016</div></td></tr>
+      <tr><td data-label="#" class="num"><div class="v">2</div></td><td data-label="內容"><div class="v"><a href="https://commons.wikimedia.org/wiki/File:Dassie_am_Kap_S%C3%BCdafrika.JPG" target="_blank" rel="noopener">岩蹄兔正臉近拍</a>，南非</div></td><td data-label="攝影者"><div class="v">Christoph Hermann</div></td><td data-label="授權" class="nowrap"><div class="v">CC BY-SA 4.0</div></td><td data-label="要標出處"><div class="v">要</div></td><td data-label="相機（EXIF）"><div class="v">Canon EOS 400D，2013</div></td></tr>
+      <tr><td data-label="#" class="num"><div class="v">3</div></td><td data-label="內容"><div class="v"><a href="https://commons.wikimedia.org/wiki/File:Rock_Hyrax_Masai_Mara_Kenya_(19756465613).jpg" target="_blank" rel="noopener">幼蹄兔從石縫探頭</a>，肯亞</div></td><td data-label="攝影者"><div class="v">Esin Üstün</div></td><td data-label="授權" class="nowrap"><div class="v">CC BY 2.0</div></td><td data-label="要標出處"><div class="v">要</div></td><td data-label="相機（EXIF）"><div class="v">沒有 EXIF</div></td></tr>
+      <tr><td data-label="#" class="num"><div class="v">4</div></td><td data-label="內容"><div class="v"><a href="https://commons.wikimedia.org/wiki/File:Rock_hyrax_(Procavia_capensis)_2.jpg" target="_blank" rel="noopener">岩蹄兔站起來扶著樹枝</a>（Commons 精選圖片）</div></td><td data-label="攝影者"><div class="v">Charles J. Sharp</div></td><td data-label="授權" class="nowrap"><div class="v">CC BY-SA 4.0</div></td><td data-label="要標出處"><div class="v">要</div></td><td data-label="相機（EXIF）"><div class="v">只剩修圖軟體欄位</div></td></tr>
+      <tr><td data-label="#" class="num"><div class="v">5</div></td><td data-label="內容"><div class="v"><a href="https://commons.wikimedia.org/wiki/File:Portrait_of_a_rock_hyrax_perched_calmly.jpg" target="_blank" rel="noopener">逆光坐在石頭上</a>，南非</div></td><td data-label="攝影者"><div class="v">Stanislav Stelmakhovich</div></td><td data-label="授權" class="nowrap"><div class="v">CC0</div></td><td data-label="要標出處"><div class="v">不用</div></td><td data-label="相機（EXIF）"><div class="v">Canon EOS R3，2025</div></td></tr>
+      <tr class="pick"><td data-label="#" class="num"><div class="v">6</div></td><td data-label="內容"><div class="v"><a href="https://commons.wikimedia.org/wiki/File:Amneville_27_08_2010_Daman_1.jpg" target="_blank" rel="noopener">岩蹄兔</a>（灰色毛），法國 Amnéville 動物園 <span class="chip ok">選定</span></div></td><td data-label="攝影者"><div class="v">Vassil</div></td><td data-label="授權" class="nowrap"><div class="v">CC0</div></td><td data-label="要標出處"><div class="v">不用</div></td><td data-label="相機（EXIF）"><div class="v">Sony DSC-H5，2010</div></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="verify">
+  <h2><span class="n">06</span>驗真：確認是相機實拍</h2>
+  <p>舊圖會被換掉，就是因為它看起來像 AI 生成。所以新圖除了授權，還要確認是真的照片。</p>
+  <div class="tw stack"><table>
+    <thead><tr><th>檢查項</th><th>怎麼查</th><th>6 號的結果</th></tr></thead>
+    <tbody>
+      <tr><td data-label="檢查項" class="nowrap"><div class="v">相機 EXIF</div></td><td data-label="怎麼查"><div class="v">Commons API 的 <code>commonmetadata</code></div></td><td data-label="6 號的結果"><div class="v">Sony DSC-H5，相機時間 2010-08-27，f/3.5、1/80 秒、ISO 320、焦距 33.1 mm。另有 Photoshop CS2 的處理紀錄（2011-01-02），屬於一般後製，不影響實拍判斷</div></td></tr>
+      <tr><td data-label="檢查項" class="nowrap"><div class="v">上傳者</div></td><td data-label="怎麼查"><div class="v">分類有沒有「Self-published work」</div></td><td data-label="6 號的結果"><div class="v">有，攝影者自己上傳</div></td></tr>
+      <tr><td data-label="檢查項" class="nowrap"><div class="v">授權</div></td><td data-label="怎麼查"><div class="v"><code>LicenseShortName</code> 和分類「CC-Zero」</div></td><td data-label="6 號的結果"><div class="v">CC0</div></td></tr>
+      <tr><td data-label="檢查項" class="nowrap"><div class="v">其他限制</div></td><td data-label="怎麼查"><div class="v">有沒有肖像權、商標的警示分類</div></td><td data-label="6 號的結果"><div class="v">沒有（動物照，畫面裡沒有人和商標）</div></td></tr>
+      <tr><td data-label="檢查項" class="nowrap"><div class="v">肉眼</div></td><td data-label="怎麼查"><div class="v">毛髮、鬍鬚、腳爪、陰影自不自然</div></td><td data-label="6 號的結果"><div class="v">自然，沒有 AI 常見的糊邊、毛髮黏成一片或腳趾數目不對</div></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><b>注意</b>：EXIF 可以被清掉也可以造假，只能當佐證。要同時看上傳者、分類，再加上肉眼檢查。</div>
+</section>
+
+<section id="crop">
+  <h2><span class="n">07</span>照版位形狀裁圖</h2>
+  <figure class="img">
+    <img src="crop-guide.jpg" width="1000" height="750" alt="原圖上標出兩個正方形裁切框：綠色大框是首頁大圖，橘色小框是臉部特寫小圓章" loading="lazy">
+    <figcaption><span class="legend"><i style="border-color:#36E2C8"></i>首頁大圖（頭＋身體）</span><span class="legend"><i style="border-color:#FF8A4C"></i>小圓章（臉部特寫）</span>原圖 2325×1744，兩個框都是正方形，圓形是實際顯示的範圍。</figcaption>
+  </figure>
+  <div class="tw stack"><table>
+    <thead><tr><th>用途</th><th>版位</th><th>顯示尺寸</th><th>輸出</th><th class="num">檔案大小</th></tr></thead>
+    <tbody>
+      <tr><td data-label="用途"><div class="v">首頁大圖 <code>hyrax.jpg</code></div></td><td data-label="版位"><div class="v">圓形（<code>border-radius:50%</code>）</div></td><td data-label="顯示尺寸"><div class="v">桌機 400 px、手機約 250 px</div></td><td data-label="輸出"><div class="v">720×720，JPEG 品質 75</div></td><td data-label="檔案大小" class="num"><div class="v">105 KB</div></td></tr>
+      <tr><td data-label="用途"><div class="v">小圓章 <code>hyrax-badge.jpg</code></div></td><td data-label="版位"><div class="v">圓形</div></td><td data-label="顯示尺寸"><div class="v">56 px（手機 44 px）</div></td><td data-label="輸出"><div class="v">168×168（3 倍）</div></td><td data-label="檔案大小" class="num"><div class="v">9 KB</div></td></tr>
+      <tr><td data-label="用途"><div class="v">另一個頁面的吉祥物卡片</div></td><td data-label="版位"><div class="v">圓形</div></td><td data-label="顯示尺寸"><div class="v">84 px（手機 64 px）</div></td><td data-label="輸出"><div class="v">共用小圓章那張</div></td><td data-label="檔案大小" class="num"><div class="v">—</div></td></tr>
+    </tbody>
+  </table></div>
+  <h3>壓縮取捨（首頁大圖）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>輸出尺寸</th><th class="num">品質 70</th><th class="num">品質 75</th><th class="num">品質 80</th></tr></thead>
+    <tbody>
+      <tr><td data-label="輸出尺寸"><div class="v">800×800</div></td><td data-label="品質 70" class="num"><div class="v">117 KB</div></td><td data-label="品質 75" class="num"><div class="v">129 KB</div></td><td data-label="品質 80" class="num"><div class="v">147 KB</div></td></tr>
+      <tr class="pick"><td data-label="輸出尺寸"><div class="v">720×720</div></td><td data-label="品質 70" class="num"><div class="v">96 KB</div></td><td data-label="品質 75" class="num"><div class="v"><b>105 KB ✓</b></div></td><td data-label="品質 80" class="num"><div class="v">120 KB</div></td></tr>
+      <tr><td data-label="輸出尺寸"><div class="v">640×640</div></td><td data-label="品質 70" class="num"><div class="v">76 KB</div></td><td data-label="品質 75" class="num"><div class="v">84 KB</div></td><td data-label="品質 80" class="num"><div class="v">96 KB</div></td></tr>
+    </tbody>
+  </table></div>
+  <p>800 比 720 大 24 KB，肉眼幾乎看不出差別，所以選 720（約 1.8 倍）；手機上版位約 250 px，720 已經超過 2 倍。</p>
+  <div class="note"><b>先讀 CSS 再裁</b>：我第一版對照圖裁成直式長方形，後來才發現首頁大圖的版位是圓形。輸出時順手清掉 EXIF，GPS 和相機資訊不會跟著上網站。</div>
+</section>
+
+<section id="deploy">
+  <h2><span class="n">08</span>安全上線</h2>
+  <div class="tw stack"><table>
+    <thead><tr><th>風險</th><th>做法</th></tr></thead>
+    <tbody>
+      <tr><td data-label="風險"><div class="v">本機 main 上還有其他還沒要上線的改動，一推就整包上去</div></td><td data-label="做法"><div class="v">從線上版另開 <code>git worktree</code> 修改，推送時寫明 <code>git push origin &lt;commit&gt;:refs/heads/main</code></div></td></tr>
+      <tr><td data-label="風險"><div class="v">另一個 AI 工作階段同時在改同一個 repo</div></td><td data-label="做法"><div class="v">只 <code>git add</code> 自己改的檔案再 commit（不要用 <code>-a</code> 或 <code>git add .</code>）。換圖記得把圖檔一起列進去，例如 <code>git add index.html assets/hyrax.jpg assets/hyrax-badge.jpg</code>。別人沒 commit 的檔案一個都不碰，再傳訊息告訴對方</div></td></tr>
+      <tr><td data-label="風險"><div class="v">確認上線要連 github.io（Fastly，推定經香港）</div></td><td data-label="做法"><div class="v">改用 GitHub API 查 Pages 建置狀態和遠端檔案，不直接連網站</div></td></tr>
+      <tr><td data-label="風險"><div class="v">預覽時頁面會去抓 Google Fonts</div></td><td data-label="做法"><div class="v">預覽用的副本先拿掉外部字型；headless Chrome 加 <code>--host-resolver-rules</code> 擋掉所有外部網域</div></td></tr>
+      <tr><td data-label="風險"><div class="v">推完馬上看，可能還是舊圖</div></td><td data-label="做法"><div class="v">Pages 快取最久約 10 分鐘；強制重新整理：Chrome、Firefox 按 ⌘⇧R，Safari 按 ⌥⌘R</div></td></tr>
+    </tbody>
+  </table></div>
+<pre><code># 確認 Pages 用的是剛推的 commit，而且建置完成
+gh api repos/&lt;帳號&gt;/&lt;repo&gt;/pages/builds/latest --jq '.status + " " + .commit'
+# → built e48f77b…</code></pre>
+  <p>推送那行 <code>git push origin &lt;commit&gt;:refs/heads/main</code>：冒號左邊是「要推哪一筆」，右邊是「推到哪個分支」（Git 叫它 refspec）。寫明白就不會把本機其他改動一起推上去。</p>
+</section>
+
+<section id="review">
+  <h2><span class="n">09</span>交叉檢查</h2>
+  <p>上線前派 4 個 AI 分身各查一個面向，都只能讀、不能改，也不能連網（只有查事實那位可以用網路搜尋）。</p>
+  <div class="tw stack"><table>
+    <thead><tr><th>檢查員</th><th>看什麼</th><th>結果</th></tr></thead>
+    <tbody>
+      <tr><td data-label="檢查員" class="nowrap"><div class="v">改動範圍</div></td><td data-label="看什麼"><div class="v">是不是只動 3 個檔、有沒有夾帶改版內容、網域設定有沒有被動到、推送是不是直接接在線上版後面</div></td><td data-label="結果"><div class="v"><span class="chip ok">通過</span> 提醒推送一定要寫明「哪一筆推到哪個分支」</div></td></tr>
+      <tr><td data-label="檢查員" class="nowrap"><div class="v">HTML／CSS</div></td><td data-label="看什麼"><div class="v">另一個頁面新增的吉祥物卡片：HTML 標籤配對、CSS 大括號、手機斷點、文案規則</div></td><td data-label="結果"><div class="v"><span class="chip ok">通過</span></div></td></tr>
+      <tr><td data-label="檢查員" class="nowrap"><div class="v">事實查核</div></td><td data-label="看什麼"><div class="v">吉祥物介紹的 4 個說法：分布、草食、像天竺鼠、跟大象和海牛是近親</div></td><td data-label="結果"><div class="v"><span class="chip ok">通過</span> 附 Wikipedia、Smithsonian 國家動物園、PMC 論文等來源</div></td></tr>
+      <tr><td data-label="檢查員" class="nowrap"><div class="v">授權與真偽</div></td><td data-label="看什麼"><div class="v">CC0、自行上傳、相機 EXIF、成品有沒有殘留 EXIF</div></td><td data-label="結果"><div class="v"><span class="chip ok">通過</span></div></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="pitfalls">
+  <h2><span class="n">10</span>踩坑與解法</h2>
+  <div class="tw stack"><table>
+    <thead><tr><th>坑</th><th>解法</th></tr></thead>
+    <tbody>
+      <tr><td data-label="坑"><div class="v">首頁大圖的版位其實是圓形，第一版照直式裁</div></td><td data-label="解法"><div class="v">先讀 CSS 的 <code>border-radius</code>、<code>object-fit</code>，再決定裁法</div></td></tr>
+      <tr><td data-label="坑"><div class="v">Commons 回傳的縮圖網址換成 <code>thumb.wikimedia.org</code></div></td><td data-label="解法"><div class="v">只取路徑，改從 <code>upload.wikimedia.org</code> 下載，一樣指定馬賽機房</div></td></tr>
+      <tr><td data-label="坑"><div class="v">zsh 寫 <code>while read id path</code>，結果 <code>$PATH</code> 被蓋掉，找不到 curl</div></td><td data-label="解法"><div class="v"><code>path</code> 是 zsh 的特殊變數，改名成 <code>tp</code></div></td></tr>
+      <tr><td data-label="坑"><div class="v">連線檢查工具把 User-Agent 裡的網址當成要連的地方</div></td><td data-label="解法"><div class="v">User-Agent 不放網址</div></td></tr>
+      <tr><td data-label="坑"><div class="v">Commons API 連續查太快，回 429</div></td><td data-label="解法"><div class="v">每次請求間隔 0.3 秒，被擋的那一筆略過</div></td></tr>
+      <tr><td data-label="坑"><div class="v">ImageMagick 拼對照圖時找不到 Helvetica，號碼沒印出來</div></td><td data-label="解法"><div class="v">改用 Python Pillow 的內建字型畫號碼</div></td></tr>
+      <tr><td data-label="坑"><div class="v">改 repo 改到一半，發現另一個工作階段也在改</div></td><td data-label="解法"><div class="v">見第 08 節：只 commit 自己的檔案，推送寫明「哪一筆推到哪個分支」，並通知對方</div></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>
+  <p><b>照片出處</b></p>
+  <p>換圖後、裁切示意：<a href="https://commons.wikimedia.org/wiki/File:Amneville_27_08_2010_Daman_1.jpg" target="_blank" rel="noopener">Vassil</a>，CC0，Wikimedia Commons。</p>
+  <p>6 張候選對照圖是下列照片裁切後合成的，合成圖依 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-SA 4.0</a> 釋出：1 DipaliLath（CC BY-SA 4.0）、2 Christoph Hermann（CC BY-SA 4.0）、3 Esin Üstün（<a href="https://creativecommons.org/licenses/by/2.0/deed.zh-hant" target="_blank" rel="noopener">CC BY 2.0</a>）、4 Charles J. Sharp（CC BY-SA 4.0）、5 Stanislav Stelmakhovich（CC0）、6 Vassil（CC0），原圖都在 Wikimedia Commons，連結見第 05 節的表。</p>
+  <p>換圖前那張是 hyrax.tw 舊的吉祥物圖。</p>
+  <p>實作：2026-10-20 · <a href="https://hyrax.tw/" target="_blank" rel="noopener">hyrax.tw</a></p>
+</footer>
+</div>
+</body>
+</html>
