@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ORCA 水聽器前級放大器選型</title>
+<meta name="description" content="TC4013 水聽器前級放大器選型：訊號預算、現成放大器、自製 4 通道板、擷取卡地雷與下一步。">
+<style>
+:root{--bg:#fbfcfd;--fg:#182430;--muted:#5c6b7a;--line:#d8e0e7;--accent:#10617a;--accent-soft:rgba(16,97,122,.10);--tint:#f1f4f7;--edge:#8a99a8;--code:#eef2f5}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f161c;--fg:#e6edf3;--muted:#9fb0c0;--line:#2a3742;--accent:#5fb7cf;--accent-soft:rgba(95,183,207,.14);--tint:#16212a;--edge:#6b7d8e;--code:#1a252e}}
+:root[data-theme="dark"]{--bg:#0f161c;--fg:#e6edf3;--muted:#9fb0c0;--line:#2a3742;--accent:#5fb7cf;--accent-soft:rgba(95,183,207,.14);--tint:#16212a;--edge:#6b7d8e;--code:#1a252e}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
+main{max-width:880px;margin:0 auto;padding:32px 16px 64px}
+h1{font-size:28px;line-height:1.35;margin:0 0 6px}
+.byline{color:var(--muted);font-size:14px;margin:0 0 28px}
+h2{font-size:21px;margin:44px 0 12px;padding-top:16px;border-top:1px solid var(--line)}
+p{margin:0 0 14px}
+a{color:var(--accent);text-underline-offset:2px}
+strong{font-weight:650}
+ul,ol{padding-left:22px;margin:0 0 16px}
+li{margin:4px 0}
+ul.task-list{list-style:none;padding-left:4px}
+ul.task-list input{margin-right:8px;transform:translateY(1px)}
+.tw{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:680px;font-size:14px;line-height:1.6}
+td{min-width:4.8em}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--tint);font-weight:650;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+code{background:var(--code);padding:1px 5px;border-radius:5px;font-size:.92em}
+figure.diagram{margin:8px 0 18px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+figure.diagram svg{width:100%;height:auto;display:block}
+figcaption{color:var(--muted);font-size:13px;text-align:center;margin-top:6px}
+.d-ink{fill:var(--fg)} .d-quiet{fill:var(--muted)}
+.d-box{fill:none;stroke:var(--edge);stroke-width:1.25}
+.d-accent{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2}
+.d-tint{fill:var(--tint);stroke:var(--edge);stroke-width:1.25}
+.d-line{fill:none;stroke:var(--edge);stroke-width:1.25}
+.d-arrow{fill:var(--edge)}
+footer{max-width:880px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:13px}
+@media (max-width:600px){h1{font-size:23px}h2{font-size:19px}body{font-size:15.5px}}
+</style>
+</head>
+<body>
+<main>
+<h1>ORCA 水聽器前級放大器選型</h1>
+<p class="byline">2026-10-23 整理｜給 ORCA 硬體組</p>
+<h2 id="結論">結論</h2>
+<p>建議分兩步：先花小錢買 1–2 片 Aquarian PA4（約 US$70／片）接 TC4013 做泳池實測，數據出來再決定正式的 4 通道版走哪個組合。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>組合</th>
+<th>訊號鏈</th>
+<th>要自己畫的板</th>
+<th>前級＋擷取估價（不含水聽器）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 少畫板</td>
+<td>PA4 ×4 → 濾波小板（6 階低通＋增益）→ MCC USB-1808X</td>
+<td>一塊 4 路濾波小板</td>
+<td>約 US$1,269（NT$4.1 萬）＋小板</td>
+</tr>
+<tr>
+<td>2 整合板</td>
+<td>自製板：INA849 前級＋濾波＋AD7606C＋MCU</td>
+<td>一塊完整的 4 通道板</td>
+<td>約 US$130–270／片，建議做 2–3 片</td>
+</tr>
+</tbody>
+</table></div>
+<ol type="1">
+<li><strong>先確認東西還能用</strong>：TC4013、借來的 USB-1210、45 kHz pinger 和它的電池。水聽器如果不能用了，先買 1 支 AS-1＋1 片 PA4（約 US$483）做同樣的池測，數據 OK 再補 3 支。</li>
+<li><strong>泳池實測</strong>：照下一段接線，錄 pinger 在不同距離的訊號，和推進器不同油門的頻譜。</li>
+<li><strong>再決定大錢</strong>：水聽器走〈湊滿 4 支水聽器的三條路〉的 A 或 B，前級和擷取走上表的組合 1 或 2。</li>
+</ol>
+<p>擷取卡不要沿用 MCC 118／128（原因見〈擷取卡要一起換〉）。比賽上 pinger 只影響 Task 2：球丟進有 pinger 的紅桶 50 分、藍桶 30 分、其他紅桶 10 分，所以建議先驗證、不要一次買齊。</p>
+<h2 id="第一次泳池實測怎麼接">第一次泳池實測怎麼接</h2>
+<p>PA4 出廠 26 dB 直接接 USB-1210 的 ±2 V 檔就夠，不用第二級：25 m 處的峰值約 3.4 mV，16-bit 下約 55 個 LSB。</p>
+<ol type="1">
+<li><strong>水聽器</strong>：在 PA4 輸入焊一個 BNC 母座，線要短，外殼接 PA4 的輸入地。TC4013 的 6 m 線和 BNC 頭不要剪，之後還要拿它當校正基準。</li>
+<li><strong>供電</strong>：用 9 V 電池（在 6–12 V 範圍內，6.5 mA 可撐幾十小時），不用做穩壓板，也不會有接地迴路。改成 DC 供電後，不要再接到開著 48 V phantom 的錄音介面。</li>
+<li><strong>輸出</strong>：PA4 差動輸出接 USB-1210 差動輸入，PA4 的地要接到 USB-1210 的 AI GND，不然共模電壓會飄、輸入會飽和。</li>
+<li><strong>錄音設定</strong>：±2 V 檔、差動模式、取樣率 500 kS/s 以上（USB-1210 最高 2 MS/s）；存原始波形，不要只存頻譜；每個距離錄 10 秒以上；記下水聽器和 pinger 的深度。</li>
+<li><strong>要錄的組合</strong>：pinger 在 1／5／10／25 m；pinger 放進紅桶裡再錄一組（桶壁擋掉多少目前查不到）；推進器停轉、低、中、高油門各錄一段，看 24／48／72 kHz 有沒有線譜。</li>
+<li><strong>pinger</strong>：RJE ULB-362B 碰水就開始發聲（端蓋是水開關），每秒響 1 次、脈衝 9 ms 以上；用完擦乾。B 版電池約 30 天，電量下降時聲源級會從 160.5 dB 往 157 dB 掉。</li>
+</ol>
+<h2 id="訊號有多小要放大多少">訊號有多小、要放大多少</h2>
+<p>接 AD7606C 的 ±2.5 V 檔時，固定約 40 dB 就涵蓋 0.3–56 m：最近處不會削頂，最遠處峰值仍有約 100 個 LSB，不一定要做自動增益。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>距離</th>
+<th>收到的聲壓級（dB re 1 µPa）</th>
+<th>TC4013 輸出（rms）</th>
+<th>放大 40 dB 後的峰值</th>
+<th>佔 ±2.5 V 滿刻度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.3 m（貼近桶子）</td>
+<td>171.0</td>
+<td>9.95 mV</td>
+<td>1.41 V</td>
+<td>56%</td>
+</tr>
+<tr>
+<td>1 m</td>
+<td>160.5</td>
+<td>2.99 mV</td>
+<td>422 mV</td>
+<td>17%</td>
+</tr>
+<tr>
+<td>5 m</td>
+<td>146.5</td>
+<td>597 µV</td>
+<td>84 mV</td>
+<td>3.4%</td>
+</tr>
+<tr>
+<td>10 m</td>
+<td>140.5</td>
+<td>299 µV</td>
+<td>42 mV</td>
+<td>1.7%</td>
+</tr>
+<tr>
+<td>25 m</td>
+<td>132.5</td>
+<td>119 µV</td>
+<td>17 mV</td>
+<td>0.68%</td>
+</tr>
+<tr>
+<td>55.9 m（SP 池對角線）</td>
+<td>125.6</td>
+<td>53.4 µV</td>
+<td>7.6 mV</td>
+<td>0.30%（約 99 個 LSB）</td>
+</tr>
+</tbody>
+</table></div>
+<p>算法：聲壓級 = 聲源級 160.5 dB −20·log10(距離)，TC4013 靈敏度 −211 dB re 1 V/µPa，45 kHz 在淡水的吸收 50 m 只有 0.02 dB，忽略。</p>
+<ul>
+<li><strong>增益怎麼定</strong>：上限看最近處不削頂，靈敏度 +3 dB 時 0.3 m 峰值約 2 V，所以 ±2.5 V 檔最多約 42 dB；下限看前級雜訊放大後要蓋過 ADC 雜訊，約 35 dB（畫板前用資料表再算一次）。接 USB-1808X 的 ±5 V 檔再加約 6 dB；USB-1210 的 ±2 V 檔少約 2 dB。可調增益留給推進器太吵、要往下調的時候。</li>
+<li><strong>遠距離看最差情況</strong>：pinger 電量只剩 157 dB、靈敏度 −3 dB 時，訊號再少 6.5 dB，表上的峰值大約剩一半。</li>
+<li><strong>前級雜訊目標</strong>：類比頻寬 20 kHz、56 m 最差情況要 30 dB 訊雜比時，前級要 ≤ 5 nV/√Hz；後端再做 2 kHz 數位窄頻，20 nV/√Hz 也夠。</li>
+<li><strong>比賽場地</strong>：55.9 m 是 2025 年新加坡 SP 50 m 池的對角線；2026 年三亞 25×16 m 池約 29.7 m；2027 年預定回 SP，規則書還沒公布。</li>
+</ul>
+<h2 id="現成放大器">現成放大器</h2>
+<p>現成品裡最值得先買的是 Aquarian PA4：裸板、可以塞進艙、一片約 US$70。RESON 三款都是鋁盒、只能詢價，VP2000 是實驗桌用。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>型號</th>
+<th>品牌／地區</th>
+<th>增益</th>
+<th>45 kHz 能不能用</th>
+<th>供電</th>
+<th>外型</th>
+<th>價格</th>
+<th>適不適合裝車</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aquarianaudio.com/pa4.html" target="_blank" rel="noopener">PA4</a></td>
+<td>Aquarian／AFAB（美國）</td>
+<td>6–56 dB，跳線設定，出廠 26 dB</td>
+<td>26 dB 時 −3 dB 到 280 kHz；開到 50 dB 只剩 48 kHz</td>
+<td>P48 phantom 或外接 6–12 VDC，<strong>超過 15 V 會燒</strong>；6.5 mA</td>
+<td>裸板、差動輸出</td>
+<td>約 US$70／片（待確認）</td>
+<td>首選；裝車要加過壓保護</td>
+</tr>
+<tr>
+<td><a href="https://www.cetaceanresearch.com/documents/reson-VP1000-preamp.pdf" target="_blank" rel="noopener">VP1000（EC6061）</a></td>
+<td>Teledyne RESON（丹麥）</td>
+<td>0–32 dB，6 檔</td>
+<td>0.5 Hz–1 MHz（增益 20 dB 時）</td>
+<td>9–18 VDC，12 mA</td>
+<td>小鋁盒，305 g</td>
+<td>詢價</td>
+<td>可以，但後面還要第二級</td>
+</tr>
+<tr>
+<td><a href="https://www.teledynemarine.com/en-us/products/SiteAssets/RESON/EC6081mk2%20-%20Product%20leaflet.pdf" target="_blank" rel="noopener">VP2000（EC6081 mk2）</a></td>
+<td>Teledyne RESON（丹麥）</td>
+<td>0–50 dB，6 檔</td>
+<td>1 Hz–1 MHz，可選高通／低通</td>
+<td>內建 9 V 充電電池，24 V 充電</td>
+<td>125×80×60 mm 鋁盒</td>
+<td>詢價</td>
+<td>實驗桌用，不適合裝車</td>
+</tr>
+<tr>
+<td><a href="https://datasheets.globalspec.com/ds/teledyne-technologies/ec6067/bfb2a6d2-8d27-4073-9b63-0d012a202516" target="_blank" rel="noopener">CCA1000（EC6067）</a></td>
+<td>Teledyne RESON（丹麥）</td>
+<td>0–32 dB，電荷放大</td>
+<td>1 Hz–1 MHz</td>
+<td>12–24 VDC，40 mA</td>
+<td>530 g</td>
+<td>詢價</td>
+<td>纜線很長才需要；輸出最大只有 2 Vp</td>
+</tr>
+<tr>
+<td><a href="https://www.benthowave.com/products/Specs/BII1050Datasheet.pdf" target="_blank" rel="noopener">BII-1050</a></td>
+<td>Benthowave（加拿大）</td>
+<td>查不到</td>
+<td>查不到</td>
+<td>查不到</td>
+<td>77×50.6×33 mm 小盒，115 g</td>
+<td>接單生產、詢價</td>
+<td>尺寸適合，寫信問規格</td>
+</tr>
+<tr>
+<td><a href="https://avisoft.com/ultrasound-microphones/charge-amplifier/" target="_blank" rel="noopener">Charge amp #42002／#42003</a></td>
+<td>Avisoft（德國）</td>
+<td>由水聽器電容決定</td>
+<td>查不到</td>
+<td>USB 或 P48 phantom</td>
+<td>—</td>
+<td>US$1,020／台</td>
+<td>太貴</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>雜訊夠不夠</strong>：後端做 2 kHz 數位窄頻後，就算前級是 20 nV/√Hz、聲源和靈敏度都取最差，56 m 外仍有約 29 dB 訊雜比；PA4 約 38–45 dB。真正的麻煩是推進器雜訊和泳池回音，見〈自己做 4 通道前級板〉的設計重點。</p>
+<p><strong>裝上車時</strong>：4S 電池滿電 16.8 V，穩壓器一壞就會直接送進 PA4（上限 15 V），要加 TVS＋保險絲，或用獨立的小電池。據經銷商資料，同家的 PA6 一定要 48 V phantom，裝車要選 PA4 的 DC 供電版。</p>
+<p><strong>資料可信度</strong>：Aquarian 和 Benthowave 的原廠網頁這次沒能直接打開核對，數字來自搜尋摘要，下單前要再核對一次；RESON 的數字來自隊上 2023 年截的原廠規格書。</p>
+<h2 id="自己做-4-通道前級板">自己做 4 通道前級板</h2>
+<p>這是結論裡的組合 2：前級、濾波和 ADC 在同一片板上，四路一致性最好；零件約 US$50–90，整片粗估 US$130–270。沒有隊伍公開「TC4013 四通道、授權寬鬆」可以直接抄的設計，要自己畫。</p>
+<figure class="diagram"><svg viewBox="0 0 760 968" role="img" aria-label="四路完全相同的類比鏈，一起進同步取樣 ADC" font-size="13"><defs><marker id="chain-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="d-arrow"/></marker></defs><text x="24" y="34" font-size="15" font-weight="600" class="d-ink">四路完全相同的類比鏈，一起進同步取樣 ADC</text><rect x="156" y="56" width="348" height="528" rx="8" class="d-tint"/><text x="330" y="80" text-anchor="middle" font-weight="600" class="d-ink">每支水聽器一套，共 4 套，零件完全相同</text><path d="M330 152V176" class="d-line" marker-end="url(#chain-arrow)"/><path d="M330 248V272" class="d-line" marker-end="url(#chain-arrow)"/><path d="M330 328V352" class="d-line" marker-end="url(#chain-arrow)"/><path d="M330 408V432" class="d-line" marker-end="url(#chain-arrow)"/><path d="M330 488V512" class="d-line" marker-end="url(#chain-arrow)"/><path d="M330 568V616" class="d-line" marker-end="url(#chain-arrow)"/><path d="M330 688V712" class="d-line" marker-end="url(#chain-arrow)"/><path d="M330 784V808" class="d-line" marker-end="url(#chain-arrow)"/><path d="M330 864V888" class="d-line" marker-end="url(#chain-arrow)"/><path d="M536 212H480" class="d-line" marker-end="url(#chain-arrow)"/><path d="M536 316H504" class="d-line" marker-end="url(#chain-arrow)"/><rect x="180" y="96" width="300" height="56" rx="8" class="d-box"/><text x="330" y="120" text-anchor="middle" font-weight="600" class="d-ink">TC4013 水聽器</text><text x="330" y="136" text-anchor="middle" font-size="11.5" class="d-quiet">1 m 約 3 mV，56 m 約 53 µV</text><rect x="180" y="176" width="300" height="72" rx="8" class="d-box"/><text x="330" y="200" text-anchor="middle" font-weight="600" class="d-ink">輸入網路</text><text x="330" y="216" text-anchor="middle" font-size="11.5" class="d-quiet">芯線接 +IN、外皮接 −IN</text><text x="330" y="232" text-anchor="middle" font-size="11.5" class="d-quiet">兩腳各 100 kΩ 到地，≤ 100 Ω＋箝位保護</text><rect x="180" y="272" width="300" height="56" rx="8" class="d-box"/><text x="330" y="296" text-anchor="middle" font-weight="600" class="d-ink">前級 INA849，30–40 dB</text><text x="330" y="312" text-anchor="middle" font-size="11.5" class="d-quiet">偏壓電流小；增益太低雜訊會變大</text><rect x="180" y="352" width="300" height="56" rx="8" class="d-box"/><text x="330" y="376" text-anchor="middle" font-weight="600" class="d-ink">高通 2 階，約 20 kHz</text><text x="330" y="392" text-anchor="middle" font-size="11.5" class="d-quiet">保護後級；擋不到 24 kHz 的 ESC 雜訊</text><rect x="180" y="432" width="300" height="56" rx="8" class="d-box"/><text x="330" y="456" text-anchor="middle" font-weight="600" class="d-ink">增益檔位 −10／0／+10 dB</text><text x="330" y="472" text-anchor="middle" font-size="11.5" class="d-quiet">四路同一檔，用跳線或 DIP 開關</text><rect x="180" y="512" width="300" height="56" rx="8" class="d-box"/><text x="330" y="536" text-anchor="middle" font-weight="600" class="d-ink">低通 4 階 80–100 kHz，×2</text><text x="330" y="552" text-anchor="middle" font-size="11.5" class="d-quiet">兼 ADC 驅動，C0G 1% 電容</text><rect x="180" y="616" width="300" height="72" rx="8" class="d-accent"/><text x="330" y="640" text-anchor="middle" font-weight="600" class="d-ink">同步取樣 ADC：AD7606C</text><text x="330" y="656" text-anchor="middle" font-size="11.5" class="d-ink">±2.5 V 檔、高頻寬模式、800 kS/s–1 MS/s</text><text x="330" y="672" text-anchor="middle" font-size="11.5" class="d-quiet">別用 ADS8584S／AD7606B：內建濾波 ≤ 24 kHz</text><rect x="180" y="712" width="300" height="72" rx="8" class="d-box"/><text x="330" y="736" text-anchor="middle" font-weight="600" class="d-ink">MCU 硬體觸發＋DMA</text><text x="330" y="752" text-anchor="middle" font-size="11.5" class="d-quiet">只送每次 ping 前後的資料（約 0.5 MB/s）</text><text x="330" y="768" text-anchor="middle" font-size="11.5" class="d-quiet">要連續串流就用 USB 高速，例如 Teensy 4.1</text><rect x="180" y="808" width="300" height="56" rx="8" class="d-box"/><text x="330" y="832" text-anchor="middle" font-weight="600" class="d-ink">USB 隔離器</text><text x="330" y="848" text-anchor="middle" font-size="11.5" class="d-quiet">類比地和 Jetson 的地分開</text><rect x="180" y="888" width="300" height="56" rx="8" class="d-box"/><text x="330" y="912" text-anchor="middle" font-weight="600" class="d-ink">Jetson（ROS 2）</text><text x="330" y="928" text-anchor="middle" font-size="11.5" class="d-quiet">用到達時間差或 MUSIC 算方位</text><rect x="536" y="176" width="200" height="72" rx="8" class="d-box"/><text x="636" y="200" text-anchor="middle" font-weight="600" class="d-ink">校正測試音</text><text x="636" y="216" text-anchor="middle" font-size="11.5" class="d-quiet">同一訊號源經小電容</text><text x="636" y="232" text-anchor="middle" font-size="11.5" class="d-quiet">同時注入四路 +IN</text><rect x="536" y="272" width="200" height="88" rx="8" class="d-box"/><text x="636" y="296" text-anchor="middle" font-weight="600" class="d-ink">類比電源 ±5 V</text><text x="636" y="312" text-anchor="middle" font-size="11.5" class="d-quiet">獨立電池優先</text><text x="636" y="328" text-anchor="middle" font-size="11.5" class="d-quiet">DC-DC 要避開 45 kHz</text><text x="636" y="344" text-anchor="middle" font-size="11.5" class="d-quiet">後面加 LC＋低雜訊 LDO</text></svg><figcaption>水聽器訊號鏈（組合 2）：每路 6 級，四路共用一顆同步取樣 ADC</figcaption></figure>
+<p>四路的增益檔和濾波元件都要一樣，方位才不會偏；最容易踩雷的是 ADC 內建濾波，選型前一定要查資料表的 analog input −3 dB bandwidth。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>畫板前要定的規格</th>
+<th>建議</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>類比供電</td>
+<td>±5 V（訊號最大 ±2.5 V），獨立電池優先</td>
+</tr>
+<tr>
+<td>增益分配</td>
+<td>前級 30–40 dB，低通級 ×2，總共約 40 dB；檔位 −10／0／+10 dB，四路同檔</td>
+</tr>
+<tr>
+<td>取樣率</td>
+<td>AD7606C 跑 800 kS/s–1 MS/s，4 階 80–100 kHz 低通就夠；只跑 200 kS/s 要 6–8 階</td>
+</tr>
+<tr>
+<td>資料量</td>
+<td>1 MS/s × 4 路 × 16 bit = 8 MB/s；只送每次 ping 前後約 60 ms，就降到約 0.5 MB/s</td>
+</tr>
+<tr>
+<td>測試音</td>
+<td>同一個訊號源（MCU 的 DAC 或函數產生器）經小電容同時注入四路 +IN；相位表每個增益檔各存一份</td>
+</tr>
+</tbody>
+</table></div>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>用途</th>
+<th>建議零件</th>
+<th>單價（USD）</th>
+<th>為什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>前級</td>
+<td><a href="https://www.ti.com/product/INA849" target="_blank" rel="noopener">INA849</a>（TI）</td>
+<td>3.57</td>
+<td>偏壓電流約 20 nA；等效雜訊 26 dB 時約 2.9 nV/√Hz、40 dB 時約 1.9</td>
+</tr>
+<tr>
+<td>前級備選</td>
+<td><a href="https://www.analog.com/en/products/ad8429.html" target="_blank" rel="noopener">AD8429</a>（ADI）</td>
+<td>5.22</td>
+<td>偏壓電流 150–300 nA，配 1 MΩ 偏壓會偏掉 0.15–0.3 V，一定要用 100 kΩ</td>
+</tr>
+<tr>
+<td>濾波、增益檔</td>
+<td><a href="https://www.ti.com/product/OPA1656" target="_blank" rel="noopener">OPA1656</a></td>
+<td>1.12</td>
+<td>低雜訊、便宜；可先用 TI DUAL-DIYAMP-EVM（US$22）試搭</td>
+</tr>
+<tr>
+<td>ADC 首選</td>
+<td><a href="https://www.analog.com/media/en/technical-documentation/data-sheets/ad7606c-16.pdf" target="_blank" rel="noopener">AD7606C-16</a></td>
+<td>約 42</td>
+<td>8 通道同步 1 MS/s，高頻寬模式 220 kHz；貨況要查，曾傳交期 38 週</td>
+</tr>
+<tr>
+<td>ADC 備選</td>
+<td><a href="https://www.analog.com/en/products/ad7380-4.html" target="_blank" rel="noopener">AD7380-4</a></td>
+<td>26.50</td>
+<td>4 通道同步 4 MS/s、類比頻寬 26.8 MHz；差動輸入要另加驅動，LFCSP 要回焊</td>
+</tr>
+<tr>
+<td>不要用</td>
+<td><a href="https://www.ti.com/product/ADS8588S" target="_blank" rel="noopener">ADS8588S</a>（ADS8584S 同家族）、<a href="https://www.analog.com/media/en/technical-documentation/data-sheets/ad7606b.pdf" target="_blank" rel="noopener">AD7606B</a></td>
+<td>—</td>
+<td>內建低通只到 11.5–24 kHz（看檔位），45 kHz 會被明顯衰減、相位偏移</td>
+</tr>
+<tr>
+<td>也不要用</td>
+<td>LM358、MAX4466、MAX9814 模組</td>
+<td>—</td>
+<td>45 kHz 頻寬不夠；MAX9814 自帶自動增益，四路會不一致</td>
+</tr>
+</tbody>
+</table></div>
+<p>單價多是原廠千顆價，少量買通常貴 1.5–2 倍。</p>
+<ul>
+<li><strong>輸入網路</strong>：芯線接 +IN、外皮接 −IN，兩腳各經 100 kΩ 到類比地，配 3.4 nF 是幾百 Hz 的高通，順便擋低頻。保護電阻每腳 ≤ 100 Ω（1 kΩ 會多出約 5.8 nV/√Hz），再加低漏電箝位二極體。差動輸入壓掉的是水聽器外皮和板子地之間的雜訊電位差。</li>
+<li><strong>增益分配</strong>：in-amp 給 30–40 dB；增益太低時輸出級雜訊會拉高等效雜訊（20 dB 時約 4.6 nV/√Hz）。in-amp 後的 20 kHz 高通是保護後級，它在 24 kHz 只衰減約 1.7 dB。</li>
+<li><strong>推進器</strong>：Basic ESC 的切換頻率官方沒寫，推論 24 kHz，2 次諧波 48 kHz 離 pinger 只差 3 kHz，類比濾波壓不掉。要靠數位濾波和收音時停轉：油門要歸 0（怠速時 ESC 還在切換）；pinger 每秒響 1 次，聽到第一次後預測下一次，前後各留 20–50 ms 停轉。</li>
+<li><strong>回音</strong>：相位或時間差要在「直達聲到了、第一道反射還沒到」那一小段量；10 m 外的水面反射可能只晚約 0.26 ms，所以類比濾波不要太窄。2 kHz 數位窄頻只拿來判斷有沒有 ping，中心頻率用實測值（pinger 容差 ±1 kHz）。</li>
+<li><strong>電源與隔離</strong>：獨立電池優先。要用 DC-DC，就選切換頻率固定、離 45 kHz 和取樣率都遠的型號，後面加 LC π 濾波再進 LT3042 這類高 PSRR 的 LDO。隔離放在 MCU 和 Jetson 之間（數位或 USB 隔離器），不然兩邊的地又接回去。</li>
+<li><strong>MCU 與傳輸</strong>：MCU 用計時器打 CONVST、DMA 收資料，只把每次 ping 前後的資料送給 Jetson，RP2350 的 USB 全速就夠；要連續串流 8 MB/s 就要 USB 2.0 高速，例如 Teensy 4.1。</li>
+<li><strong>參考設計</strong>：<a href="https://github.com/maximvoven/Hydrophone-Amplifier-Oizys" target="_blank" rel="noopener">Oizys</a>（MIT 授權可沿用，作者自認不理想、已封存）、<a href="https://github.com/cheehieu/usc-auv-passive-sonar" target="_blank" rel="noopener">USC passive sonar</a>（GPL-2.0，用 AD8331）；<a href="https://robonation.org/app/uploads/sites/4/2025/07/RS25_TDR_Cornell-University-AUV_compressed.pdf" target="_blank" rel="noopener">Cornell 2025</a> 把水聽系統放進獨立模組艙。</li>
+</ul>
+<h2 id="湊滿-4-支水聽器的三條路">湊滿 4 支水聽器的三條路</h2>
+<p>測方向至少要 3～4 支，隊上只有 1 支 TC4013。下面只算水聽器本身；前級和擷取看〈結論〉的組合 1／2。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>路線</th>
+<th>內容</th>
+<th>水聽器估價</th>
+<th>好處</th>
+<th>要注意</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A 省錢、快</td>
+<td><a href="https://www.aquarianaudio.com/as-1-hydrophone.html" target="_blank" rel="noopener">Aquarian AS-1</a> ×4；TC4013 留著當校正基準</td>
+<td>約 US$1,652（NT$5.3 萬），未含運費關稅</td>
+<td>頻寬 1 Hz–100 kHz；<a href="https://robonation.org/app/uploads/sites/4/2025/07/RS25_TDR_Univ-of-British-Columbia-Okanagan-Marine-Robotics-compressed.pdf" target="_blank" rel="noopener">UBC Okanagan RoboSub 2025</a> 用過</td>
+<td>單價 US$413 只有一個來源；交期 6–7 週；沒有個別校正，規格是在 9 m 線末端量的；外徑沒查到；UBC 的 TDR 寫的是改版 S1，下單前確認差異</td>
+</tr>
+<tr>
+<td>B 冠軍同款</td>
+<td>TC4013 再補 3 支</td>
+<td>約 US$5,456（NT$17.5 萬）；4 支全買約 NT$23.3 萬</td>
+<td>NUS Bumblebee 多年實證；外徑 10 mm，排得出 1.5 cm 方陣；每支有原廠校正</td>
+<td>唯一公開價是 <a href="https://www.bhphotovideo.com/c/product/759556-REG/Ambient_Recording_TC4013S_TC4013_Miniature_Reference_Hydrophone.html" target="_blank" rel="noopener">B&amp;H 刊登</a>的 US$1,818.60／支；4 條 6 m 一體成形線要穿艙，BNC 頭比線粗、穿不過照線徑選的穿艙件，線盤在艙內靠近 ESC 電源線會拾取干擾；詢價時問線長與接頭選項</td>
+</tr>
+<tr>
+<td>C 內建前級</td>
+<td>TC4014、TC4032、<a href="https://www.cetaceanresearch.com/hydrophones/c75-hydrophone/index.html" target="_blank" rel="noopener">Cetacean C75</a> 這類</td>
+<td>全部詢價</td>
+<td>前級在水聽器裡，線拉長也不怕干擾；C75 可吃 5–32 VDC</td>
+<td>價格、外徑、隊伍使用紀錄都沒查到</td>
+</tr>
+</tbody>
+</table></div>
+<p>匯率以 1 美元 ≈ 32 元粗估。用相位法或 MUSIC 測向時，45 kHz 的水聽器間距要小於 1.67 cm（半個波長），外徑大的型號排不進去；改用到達時間差可以把間距拉開，但換成另一組限制：要抓脈衝起始邊緣、對回音比較敏感、取樣率要更高。不建議：HTI-96-MIN（只到 30 kHz）、Cetacean C57（線性範圍只到 45 kHz）。</p>
+<h2 id="擷取卡要一起換">擷取卡要一起換</h2>
+<p>MCC 118／128 抓不到 4 通道的 45 kHz：它的 100 kS/s 是整張板加總、一顆 A/D 輪流取樣，4 支水聽器每支只剩 25 kS/s。要換成 4 通道同時取樣、每通道 200 kS/s 以上、16-bit 以上的卡，前面也一定要有抗混疊低通。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>型號</th>
+<th>4 通道時每支取樣率</th>
+<th>同時取樣</th>
+<th>解析度／輸入範圍</th>
+<th>Linux／樹莓派／Jetson</th>
+<th>價格</th>
+<th>結論</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/mccdaq/daqhats" target="_blank" rel="noopener">MCC 118／128</a></td>
+<td>25 kS/s</td>
+<td>否，輪流</td>
+<td>12／16-bit</td>
+<td>樹莓派</td>
+<td>—</td>
+<td>不能用</td>
+</tr>
+<tr>
+<td>NI USB-9215</td>
+<td>2023 年實測單通道 75 kS/s</td>
+<td>是</td>
+<td>16-bit，±10 V</td>
+<td>只有 x86</td>
+<td>—</td>
+<td>不能用：低於抓 45 kHz 要的 90 kS/s</td>
+</tr>
+<tr>
+<td><a href="https://www.adlinktech.com/Products/Data_Acquisition/USBDAQ/USB-1210?lang=en" target="_blank" rel="noopener">ADLINK USB-1210</a></td>
+<td>2 MS/s</td>
+<td>是</td>
+<td>16-bit，±10／±2 V</td>
+<td>Linux 驅動只測過 x86，ARM 查不到</td>
+<td>借用中</td>
+<td>第一次池測用它接 x86 筆電</td>
+</tr>
+<tr>
+<td><a href="https://digilent.com/shop/mcc-usb-1808x-high-speed-high-precision-simultaneous-usb-daq-device/" target="_blank" rel="noopener">MCC USB-1808X</a></td>
+<td>200 kS/s</td>
+<td>是，8 通道</td>
+<td>18-bit，±10／±5 V</td>
+<td>開源 uldaq，樹莓派可用；Jetson 未驗證</td>
+<td>US$989</td>
+<td>組合 1 用；類比頻寬沒查到，有一家經銷標停產，詢價時確認</td>
+</tr>
+<tr>
+<td><a href="https://redpitaya.com/product/stemlab-125-14-4-input/" target="_blank" rel="noopener">Red Pitaya 125-14 4-Input</a></td>
+<td>125 MS/s</td>
+<td>推論是</td>
+<td>14-bit，±1 V 或 ±20 V</td>
+<td>板子自己跑 Linux，走網路線</td>
+<td>US$1,366</td>
+<td>備案；4 通道連續串流沒證實，吃 5 V 2 A</td>
+</tr>
+<tr>
+<td><a href="https://uk.rs-online.com/web/p/oscilloscopes/2806442" target="_blank" rel="noopener">PicoScope 4444</a></td>
+<td>MS/s 級</td>
+<td>是</td>
+<td>12–14-bit，差動</td>
+<td>沒有 arm64 驅動，Jetson 不行</td>
+<td>£1,285 未稅</td>
+<td>只適合岸上筆電</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>抗混疊</strong>：取樣率 fs 時，fs − 45 kHz 附近的雜訊會折到 45 kHz（200 kS/s 時是 155 kHz）。組合 1 的 PA4 在 26 dB 平坦到 280 kHz，直接進 USB-1808X 會把 100–280 kHz 的雜訊全折回來（例如推測的 ESC 第 6 次諧波 144 kHz 會折到 56 kHz），所以 PA4 後面要加 6 階、截止約 60–70 kHz 的低通，在 155 kHz 約壓 40–50 dB。組合 2 的 AD7606C 跑 800 kS/s–1 MS/s，4 階 80–100 kHz 就夠。</p>
+<p><strong>輸入範圍</strong>：放大器輸出要對準擷取卡：USB-1808X 最小 ±5 V、USB-1210 ±2 V、AD7606C ±2.5 V。</p>
+<h2 id="之前的紀錄與這次的參考">之前的紀錄與這次的參考</h2>
+<p>2020–2024 年商用前級停在詢價階段，2023 年也試過 LM358 自製。下面照時間整理當時的決定和理由；有些地方想請當時的學長姐補充。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>時間</th>
+<th>當時發生什麼</th>
+<th>這次的參考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024 SAUVC 賽後</td>
+<td>樹莓派同時接水聽電路和飛控板，電流不夠；檢討寫「水聽用單獨一塊 RPi」「考慮買現成系統，像日本隊一樣」「再加兩顆水聽器做三角定位」</td>
+<td>水聽前級要獨立供電，跟推進器電源分開；日本隊用的是哪套現成系統沒有紀錄，可以問當時去的人</td>
+</tr>
+<tr>
+<td>2023-11-16</td>
+<td>擷取卡從 ADLINK USB-1210 換成 MCC 118／128，理由寫「Max 100 kS/s 符合需求」</td>
+<td>查 daqhats 原始碼，100 kS/s 是整張板加總，4 支每支只剩 25 kS/s；輪流取樣的通道間差約 10 µs，剛好是 1.5 cm 陣列的整個時間差範圍（推算）。想確認當時是不是用單通道估的？</td>
+</tr>
+<tr>
+<td>2023-09</td>
+<td>用 USB-1210 接 pinger「看得到變化但很小」，於是訂了 LM358 自製放大器</td>
+<td>LM358 頻寬 0.7 MHz、轉換率 0.3 V/µs，在 45 kHz 一級最多約 15 倍，放大量不夠</td>
+</tr>
+<tr>
+<td>2023-07-23</td>
+<td>擷取卡從 NI USB-9215 換成 USB-1210，理由「頻率過低」</td>
+<td>這個判斷是對的：USB-1210 是 4 通道同時取樣、每通道 2 MS/s</td>
+</tr>
+<tr>
+<td>2023-07-14</td>
+<td>水聽 meeting 列了 RESON VP1000、VP2000、CCA1000 和 GRAS 26CI、26CA；LabVIEW 用 75 kS/s 讀值</td>
+<td>GRAS 兩款是麥克風用的前級，增益約 0 dB、要 24–28 V 定電流供電，跟水聽器需要的放大不同，這次先不列入；75 kS/s 低於抓 45 kHz 至少要的 90 kS/s</td>
+</tr>
+<tr>
+<td>2021 交接</td>
+<td>「麥克風太常壞掉，建議跟其他實驗室借用或購入更便宜穩定的商品」</td>
+<td>水聽器也算耗材，預算要留備品</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="下一步">下一步</h2>
+<p>前四項只要買 2 片 PA4 和一些接頭、電池，做完就有真實數據可以決定後面的大筆採購。</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />確認 TC4013 水聽器、借來的 ADLINK USB-1210、45 kHz pinger 和它的電池都還能用（電池必要時先訂）</label></li>
+<li><label><input type="checkbox" />向 Aquarian 下單 PA4 ×2（指定 DC 供電版），一併問 AS-1 的外徑、線長與接頭、交期，以及 S1 和 AS-1 差在哪</label></li>
+<li><label><input type="checkbox" />PA4 輸入焊 BNC 母座、準備 9 V 電池，照〈第一次泳池實測怎麼接〉接線</label></li>
+<li><label><input type="checkbox" />泳池實測：pinger 在 1／5／10／25 m 和放進紅桶各錄 10 秒以上；推進器停轉、低、中、高油門各錄一段頻譜</label></li>
+<li><label><input type="checkbox" />寄信詢價：RESON 新加坡辦事處（TC4013 線長與接頭選項、VP1000）、Benthowave（BII-1050）、Cetacean（C75），順便問外徑和交期</label></li>
+<li><label><input type="checkbox" />跟 Digilent 或 RS 確認 USB-1808X 有沒有停產、類比頻寬和交期</label></li>
+<li><label><input type="checkbox" />依池測數據決定水聽器路線（A／B／C）和前級＋擷取組合（1／2）</label></li>
+<li><label><input type="checkbox" />走組合 2 的話，先用 DUAL-DIYAMP-EVM 搭濾波試做、確認 AD7606C 貨源，再定供電軌和增益檔位畫板</label></li>
+</ul>
+<h2 id="來源">來源</h2>
+<p>價格與庫存是 2026-10-23 查的。不少原廠網頁這次沒能直接打開核對，那些數字來自搜尋摘要，下單前要對原廠資料表。</p>
+<ul>
+<li>隊上資料：HackMD〈水下麥克風 preamplifier 規格〉〈DAQ system〉〈控制組進度報告2024〉〈2024 硬體組交接筆記〉〈AUV 交接報告 - 硬體組〉；雲端「2-8. 水聽」的〈水聽meeting〉（2023-07-14）、〈0723會議〉</li>
+<li>比賽規則：<a href="https://github.com/sauvc/rulebook/blob/master/rulebook.md" target="_blank" rel="noopener">SAUVC rulebook（GitHub）</a></li>
+<li>Pinger：<a href="https://www.rjeint.com/wp-content/uploads/2018/03/ULB-362-ULB-362PL-Users-Manual-MAR-2018.pdf" target="_blank" rel="noopener">RJE ULB-362 使用手冊</a></li>
+<li>水聽器：<a href="https://www.teledynemarine.com/en-us/products/SiteAssets/RESON/TC4013%20product%20leaflet.pdf" target="_blank" rel="noopener">TC4013 leaflet</a>、<a href="https://www.teledynemarine.com/en-us/products/SiteAssets/RESON/Teledyne%20RESON%20Hydrophone%20catalog%20web.pdf" target="_blank" rel="noopener">RESON 水聽器型錄</a>、<a href="https://www.aquarianaudio.com/as-1-hydrophone.html" target="_blank" rel="noopener">Aquarian AS-1</a>、<a href="https://pinknoise-systems.eu/products/aquarian-audio-s1-hydrophone" target="_blank" rel="noopener">Aquarian S1</a></li>
+<li>前級：<a href="http://www.aquarianaudio.com/AqAudDocs/pa4manual.pdf" target="_blank" rel="noopener">PA4 手冊</a>、<a href="https://www.cetaceanresearch.com/documents/reson-VP1000-preamp.pdf" target="_blank" rel="noopener">VP1000 資料表</a>、<a href="https://www.teledynemarine.com/en-us/products/SiteAssets/RESON/EC6081mk2%20-%20Product%20leaflet.pdf" target="_blank" rel="noopener">EC6081 mk2 leaflet</a>、<a href="https://www.ti.com/product/INA849" target="_blank" rel="noopener">INA849</a>、<a href="https://www.analog.com/media/en/technical-documentation/data-sheets/AD8429.pdf" target="_blank" rel="noopener">AD8429 資料表</a>、<a href="https://www.ti.com/product/LM358" target="_blank" rel="noopener">LM358（TI）</a></li>
+<li>擷取：<a href="https://github.com/mccdaq/daqhats" target="_blank" rel="noopener">mccdaq/daqhats 原始碼</a>、<a href="https://digilent.com/shop/mcc-usb-1808x-high-speed-high-precision-simultaneous-usb-daq-device/" target="_blank" rel="noopener">USB-1808X</a>、<a href="https://www.ti.com/lit/ds/symlink/ads8588s.pdf" target="_blank" rel="noopener">ADS8588S 資料表</a>、<a href="https://www.analog.com/media/en/technical-documentation/data-sheets/ad7606b.pdf" target="_blank" rel="noopener">AD7606B 資料表</a>、<a href="https://www.analog.com/media/en/technical-documentation/data-sheets/ad7606c-16.pdf" target="_blank" rel="noopener">AD7606C-16 資料表</a>、<a href="https://www.analog.com/en/products/ad7380-4.html" target="_blank" rel="noopener">AD7380-4</a></li>
+<li>別隊做法：<a href="https://bumblebee.sg/pdf/Bumblebee_Robosub_Paper_2021.pdf" target="_blank" rel="noopener">Bumblebee RoboSub 2021</a>、<a href="https://robonation.org/app/uploads/sites/4/2025/07/RS25_TDR_Univ-of-British-Columbia-Okanagan-Marine-Robotics-compressed.pdf" target="_blank" rel="noopener">UBC Okanagan RoboSub 2025</a>、<a href="https://robonation.org/app/uploads/sites/4/2025/07/RS25_TDR_Cornell-University-AUV_compressed.pdf" target="_blank" rel="noopener">Cornell RoboSub 2025</a>、<a href="https://arxiv.org/html/2607.18075v1" target="_blank" rel="noopener">Duke RoboSub 2026</a>、<a href="https://arxiv.org/pdf/2206.11082" target="_blank" rel="noopener">T200 推進器雜訊量測</a></li>
+</ul>
+
+</main>
+<footer><a href="/notes/">← 筆記站</a></footer>
+</body>
+</html>
