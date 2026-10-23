@@ -87,7 +87,7 @@ footer{max-width:880px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font
 <li><strong>供電</strong>：用 9 V 電池（在 6–12 V 範圍內，6.5 mA 可撐幾十小時），不用做穩壓板，也不會有接地迴路。改成 DC 供電後，不要再接到開著 48 V phantom 的錄音介面。</li>
 <li><strong>輸出</strong>：PA4 差動輸出接 USB-1210 差動輸入，PA4 的地要接到 USB-1210 的 AI GND，不然共模電壓會飄、輸入會飽和。</li>
 <li><strong>錄音設定</strong>：±2 V 檔、差動模式、取樣率 500 kS/s 以上（USB-1210 最高 2 MS/s）；存原始波形，不要只存頻譜；每個距離錄 10 秒以上；記下水聽器和 pinger 的深度。</li>
-<li><strong>要錄的組合</strong>：pinger 在 1／5／10／25 m；pinger 放進紅桶裡再錄一組（桶壁擋掉多少目前查不到）；推進器停轉、低、中、高油門各錄一段，看 24／48／72 kHz 有沒有線譜。</li>
+<li><strong>要錄的組合</strong>：pinger 在 1／5／10／25 m；pinger 放進紅桶裡再錄一組（桶壁擋掉多少目前查不到）；推進器停轉、低、中、高油門各錄一段，看 24／48／72 kHz 有沒有線譜；最後把 pinger 拿出水、推進器停轉，錄 30 秒背景雜訊，算 45 kHz 附近的雜訊大小（PA4 的雜訊規格只量到 20 kHz，這一步就是在補它）。</li>
 <li><strong>pinger</strong>：RJE ULB-362B 碰水就開始發聲（端蓋是水開關），每秒響 1 次、脈衝 9 ms 以上；用完擦乾。B 版電池約 30 天，電量下降時聲源級會從 160.5 dB 往 157 dB 掉。</li>
 </ol>
 <h2 id="訊號有多小要放大多少">訊號有多小、要放大多少</h2>
@@ -233,6 +233,7 @@ footer{max-width:880px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font
 </tbody>
 </table></div>
 <p><strong>雜訊夠不夠</strong>：後端做 2 kHz 數位窄頻後，就算前級是 20 nV/√Hz、聲源和靈敏度都取最差，56 m 外仍有約 29 dB 訊雜比；PA4 約 38–45 dB。真正的麻煩是推進器雜訊和泳池回音，見〈自己做 4 通道前級板〉的設計重點。</p>
+<p><strong>PA4 的雜訊規格只量到 20 kHz</strong>：規格表寫的「&lt; 1 µV（10 nF 分流、未加權 20 Hz–20 kHz）」是在音訊頻段量的總雜訊，不是它能用的頻寬；能用的頻寬看 −3 dB 那一行（12 dB 時到 3 MHz、26 dB 時到 280 kHz）。45 kHz 的雜訊原廠沒寫，上面的約 7 nV/√Hz 是把 &lt; 1 µV 攤平換算的估計值。一般放大器在 1 kHz 以上的雜訊大致是平的，45 kHz 不太會比較差，但要靠池測量過才算數，也可以寫信問 Aquarian。</p>
 <p><strong>裝上車時</strong>：4S 電池滿電 16.8 V，穩壓器一壞就會直接送進 PA4（上限 15 V），要加 TVS＋保險絲，或用獨立的小電池。據經銷商資料，同家的 PA6 一定要 48 V phantom，裝車要選 PA4 的 DC 供電版。</p>
 <p><strong>資料可信度</strong>：Aquarian 和 Benthowave 的原廠網頁這次沒能直接打開核對，數字來自搜尋摘要，下單前要再核對一次；RESON 的數字來自隊上 2023 年截的原廠規格書。</p>
 <h2 id="自己做-4-通道前級板">自己做 4 通道前級板</h2>
@@ -490,9 +491,9 @@ footer{max-width:880px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font
 <p>前四項只要買 2 片 PA4 和一些接頭、電池，做完就有真實數據可以決定後面的大筆採購。</p>
 <ul class="task-list">
 <li><label><input type="checkbox" />確認 TC4013 水聽器、借來的 ADLINK USB-1210、45 kHz pinger 和它的電池都還能用（電池必要時先訂）</label></li>
-<li><label><input type="checkbox" />向 Aquarian 下單 PA4 ×2（指定 DC 供電版），一併問 AS-1 的外徑、線長與接頭、交期，以及 S1 和 AS-1 差在哪</label></li>
+<li><label><input type="checkbox" />向 Aquarian 下單 PA4 ×2（指定 DC 供電版），一併問 AS-1 的外徑、線長與接頭、交期，S1 和 AS-1 差在哪，以及 PA4 在 45 kHz 的雜訊</label></li>
 <li><label><input type="checkbox" />PA4 輸入焊 BNC 母座、準備 9 V 電池，照〈第一次泳池實測怎麼接〉接線</label></li>
-<li><label><input type="checkbox" />泳池實測：pinger 在 1／5／10／25 m 和放進紅桶各錄 10 秒以上；推進器停轉、低、中、高油門各錄一段頻譜</label></li>
+<li><label><input type="checkbox" />泳池實測：pinger 在 1／5／10／25 m 和放進紅桶各錄 10 秒以上；推進器停轉、低、中、高油門各錄一段頻譜；pinger 拿出水、推進器停轉，再錄 30 秒背景雜訊</label></li>
 <li><label><input type="checkbox" />寄信詢價：RESON 新加坡辦事處（TC4013 線長與接頭選項、VP1000）、Benthowave（BII-1050）、Cetacean（C75），順便問外徑和交期</label></li>
 <li><label><input type="checkbox" />跟 Digilent 或 RS 確認 USB-1808X 有沒有停產、類比頻寬和交期</label></li>
 <li><label><input type="checkbox" />依池測數據決定水聽器路線（A／B／C）和前級＋擷取組合（1／2）</label></li>
