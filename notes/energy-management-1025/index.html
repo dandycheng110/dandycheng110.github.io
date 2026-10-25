@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>〈能量管理入門〉查核報告</title>
+<meta name="description" content="逐條查證涵泉AI〈能量管理入門〉：31 條說法、9 筆參考文獻稽核、5 個微行動的證據分級與修正版做法，以及「時空曆法預測精力」的評估。整體可信度：中低。">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F2F2F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="〈能量管理入門〉查核報告">
+<meta property="og:description" content="31 條說法逐條查證、9 筆文獻稽核、5 個微行動證據分級。整體可信度：中低。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%8B%3C/text%3E%3C/svg%3E">
+<script>
+  try { var t = localStorage.getItem('energy-management.theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<style>
+/* Apple HIG 版面：系統字（SF / 蘋方）、iOS 分組背景與插入式分組清單、
+   44pt 觸控目標、Dynamic Type（iOS Safari 跟隨系統字級）、深淺色與高對比。 */
+:root{
+  color-scheme:light dark;
+  --bg:#F2F2F7; --cell:#FFFFFF;
+  --label:#000000; --label-2:#6C6C70; --label-3:#8E8E93;
+  --sep:rgba(60,60,67,.29);
+  --fill:rgba(118,118,128,.12); --fill-2:rgba(118,118,128,.22);
+  --tint:#0066CC; --tint-soft:rgba(0,102,204,.07);
+  --bar:rgba(242,242,247,.8);
+  --c-ok:#34C759; --c-detail:#FFCC00; --c-src:#FF9500; --c-exag:#AF52DE; --c-none:#FF3B30; --c-unk:#8E8E93;
+  --mix:15%;
+  --radius:12px; --hair:1px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif;
+}
+@media (min-resolution:2dppx){:root{--hair:.5px}}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#000000; --cell:#1C1C1E;
+    --label:#FFFFFF; --label-2:#A1A1A6; --label-3:#8E8E93;
+    --sep:rgba(84,84,88,.65);
+    --fill:rgba(118,118,128,.24); --fill-2:rgba(118,118,128,.36);
+    --tint:#2997FF; --tint-soft:rgba(41,151,255,.12);
+    --bar:rgba(22,22,24,.78);
+    --c-ok:#30D158; --c-detail:#FFD60A; --c-src:#FF9F0A; --c-exag:#BF5AF2; --c-none:#FF453A; --c-unk:#98989D;
+    --mix:24%;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#000000; --cell:#1C1C1E;
+  --label:#FFFFFF; --label-2:#A1A1A6; --label-3:#8E8E93;
+  --sep:rgba(84,84,88,.65);
+  --fill:rgba(118,118,128,.24); --fill-2:rgba(118,118,128,.36);
+  --tint:#2997FF; --tint-soft:rgba(41,151,255,.12);
+  --bar:rgba(22,22,24,.78);
+  --c-ok:#30D158; --c-detail:#FFD60A; --c-src:#FF9F0A; --c-exag:#BF5AF2; --c-none:#FF453A; --c-unk:#98989D;
+  --mix:24%;
+}
+:root[data-theme="light"]{color-scheme:light}
+@media (prefers-contrast:more){
+  :root{--sep:color-mix(in srgb,var(--label) 45%,transparent);--label-2:color-mix(in srgb,var(--label) 82%,var(--cell))}
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:106.25%;-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:calc(3.5rem + env(safe-area-inset-top))}
+/* iOS Safari：用系統「文字大小」設定當基準（Dynamic Type），所有字級以 rem 跟著縮放 */
+@supports (font:-apple-system-body) and (-webkit-touch-callout:none){html{font:-apple-system-body}}
+body{margin:0;background:var(--bg);color:var(--label);font-family:var(--font);font-size:1rem;line-height:1.7;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;line-break:strict;overflow-wrap:break-word;-webkit-tap-highlight-color:transparent}
+a{color:var(--tint);text-underline-offset:.18em;text-decoration-thickness:1px}
+strong{font-weight:600}
+h1,h2,h3,h4{text-wrap:balance}
+p,li,dd{text-wrap:pretty}
+.nb{white-space:nowrap}
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+:focus-visible{outline:3px solid var(--tint);outline-offset:2px}
+
+/* ---------- 導覽列（捲動後才出現材質與置中標題） ---------- */
+.navbar{position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top);transition:background-color .25s ease,box-shadow .25s ease}
+.navbar[data-scrolled]{background:var(--bar);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 var(--hair) 0 var(--sep)}
+.nav-inner{max-width:44rem;margin:0 auto;padding:0 max(.5rem,env(safe-area-inset-right)) 0 max(.5rem,env(safe-area-inset-left));
+  display:grid;grid-template-columns:minmax(6rem,1fr) minmax(0,auto) minmax(6rem,1fr);align-items:center;min-height:2.75rem}
+.nav-back{justify-self:start;display:inline-flex;align-items:center;gap:.3rem;min-height:2.75rem;padding:0 .4rem;color:var(--tint);text-decoration:none;font-size:1rem;white-space:nowrap;border-radius:10px}
+.nav-back svg{width:.68rem;height:1.12rem;flex:none}
+.nav-title{justify-self:center;max-width:22rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:inherit;font-size:1rem;font-weight:600;line-height:1.3;font-feature-settings:"halt";
+  color:var(--label);background:none;border:0;padding:0 .25rem;min-height:2.75rem;cursor:pointer;opacity:0;visibility:hidden;transition:opacity .2s ease,visibility .2s}
+.navbar[data-compact] .nav-title{opacity:1;visibility:visible}
+.nav-title .short{display:none}
+@media (max-width:34em){.nav-title .full{display:none}.nav-title .short{display:inline}}
+.nav-icon{justify-self:end;display:grid;place-items:center;width:2.75rem;height:2.75rem;padding:0;border:0;border-radius:50%;background:none;color:var(--tint);cursor:pointer}
+.nav-icon svg{width:1.35rem;height:1.35rem}
+
+/* ---------- 版面 ---------- */
+.page{max-width:44rem;margin:0 auto;padding:0 max(1rem,env(safe-area-inset-right)) 0 max(1rem,env(safe-area-inset-left))}
+.hero{padding-top:.4rem}
+h1{margin:0;font-size:2rem;line-height:1.24;font-weight:700;letter-spacing:.01em;font-feature-settings:"halt"}
+.subtitle{margin:.35rem 0 0;font-size:1.176rem;line-height:1.45;color:var(--label-2)}
+.target{margin:.9rem 0 0;font-size:.882rem;line-height:1.65;color:var(--label-2)}
+
+.card{background:var(--cell);border-radius:var(--radius)}
+.verdict{margin-top:1.4rem;padding:1.1rem 1rem 1.05rem}
+.verdict-head{display:flex;align-items:center;gap:1rem;margin:0 0 .9rem}
+.battery{flex:none;width:4.5rem;height:auto;color:var(--label-3)}
+.battery .lit{fill:var(--c-src)}
+.battery .off{fill:var(--fill-2)}
+.verdict-k{margin:0;font-size:.882rem;line-height:1.35;color:var(--label-2)}
+.verdict-v{margin:0;font-size:1.647rem;line-height:1.2;font-weight:700}
+.verdict p.sum{margin:0 0 .8rem}
+.verdict .use{margin:0;padding-top:.8rem;border-top:var(--hair) solid var(--sep);font-weight:600}
+.aside{margin:.55rem 1rem 0;font-size:.765rem;line-height:1.55;color:var(--label-2)}
+
+.sec{margin-top:2.9rem}
+.sec>h2,.tldr>h2{margin:0 0 .55rem;font-size:1.294rem;line-height:1.38;font-weight:700}
+.lead{margin:0 0 1rem}
+.tldr{margin-top:2.2rem}
+.ghead{margin:1.5rem 1rem .4rem;padding:0;font-size:.765rem;font-weight:400;line-height:1.4;color:var(--label-2)}
+.gfoot{margin:.5rem 1rem 0;font-size:.765rem;line-height:1.6;color:var(--label-2)}
+h3.sub{margin:2rem 0 .45rem;font-size:1.059rem;line-height:1.45;font-weight:600}
+
+/* ---------- 插入式分組清單 ---------- */
+.list{list-style:none;margin:0;padding:0;background:var(--cell);border-radius:var(--radius);overflow:hidden}
+.list>li{position:relative}
+.list>li+li::before{content:"";position:absolute;top:0;right:0;left:var(--inset,1rem);border-top:var(--hair) solid var(--sep);pointer-events:none}
+
+/* 家族色：成立／細節有誤／出處有誤／誇大／查無實據；文獻狀態：部分／無法查核／有誤 */
+[data-fam="ok"]{--c:var(--c-ok)}
+[data-fam="detail"],[data-fam="part"]{--c:var(--c-detail);--mk:#000}
+[data-fam="src"]{--c:var(--c-src)}
+[data-fam="exag"]{--c:var(--c-exag)}
+[data-fam="none"],[data-fam="bad"]{--c:var(--c-none)}
+[data-fam="unk"]{--c:var(--c-unk)}
+.g{display:inline-block;flex:none;width:1.05rem;height:1.05rem;color:var(--c,var(--label-3))}
+
+/* 重點摘要 */
+.feat{--inset:3.6rem}
+.feat>li{display:grid;grid-template-columns:1.75rem minmax(0,1fr);column-gap:.85rem;padding:.95rem 1rem}
+.feat .g{width:1.75rem;height:1.75rem;margin-top:.1rem}
+.feat h3{margin:0 0 .15rem;font-size:1rem;line-height:1.55;font-weight:600}
+.feat p{margin:0;font-size:.941rem;line-height:1.72;color:var(--label-2)}
+
+/* 目錄 */
+.toc a{display:flex;align-items:center;gap:.75rem;min-height:2.75rem;padding:.6rem 1rem;color:var(--label);text-decoration:none;line-height:1.45}
+.toc .t{flex:1;min-width:0}
+.toc .n{color:var(--label-2);font-size:.941rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.chev{flex:none;width:.5rem;height:.875rem;color:var(--label-3)}
+.toc a:active{background:var(--fill-2)}
+.toc a:focus-visible{outline-offset:-3px;border-radius:var(--radius)}
+
+/* 判定分布（像 iPhone 儲存空間的條） */
+.dist{display:flex;gap:2px;height:1.375rem;margin:0 0 .2rem;border-radius:7px;overflow:hidden}
+.dist>span{flex:var(--n) 1 0;background:var(--c);transition:opacity .2s ease}
+.dist>span.dim{opacity:.18}
+
+/* 篩選膠囊（單選） */
+.filters{display:flex;flex-wrap:wrap;gap:.5rem;margin:0;padding:0;border:0;min-width:0}
+.filters .ghead{float:left;width:100%;margin:.8rem 0 .1rem;padding:0 1rem}
+.pill{position:relative;display:inline-flex}
+.pill input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.pill-face{display:inline-flex;align-items:center;gap:.45rem;min-height:2.75rem;padding:0 1rem;border-radius:999px;background:var(--cell);
+  color:var(--label);font-size:.941rem;line-height:1.2;cursor:pointer;-webkit-user-select:none;user-select:none;transition:background-color .15s,color .15s}
+.pill .dot{width:.625rem;height:.625rem;border-radius:50%;background:var(--c)}
+.pill .n{color:var(--label-2);font-variant-numeric:tabular-nums}
+.pill input:checked+.pill-face{background:var(--label);color:var(--bg)}
+.pill input:checked+.pill-face .n{color:inherit;opacity:.7}
+.pill input:focus-visible+.pill-face{outline:3px solid var(--tint);outline-offset:2px}
+
+.tools{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin:.75rem 0 .3rem;padding:0 0 0 1rem}
+.status{font-size:.765rem;color:var(--label-2)}
+.textbtn{font:inherit;font-size:.941rem;color:var(--tint);background:none;border:0;padding:0 .6rem;min-height:2.75rem;cursor:pointer;border-radius:10px}
+
+/* 說法查證：可展開的列 */
+.claim>summary{position:relative;display:grid;grid-template-columns:1.85rem minmax(0,1fr) .5rem;column-gap:.6rem;align-items:start;
+  min-height:2.75rem;padding:.8rem 1rem;cursor:pointer;list-style:none}
+.claim>summary::-webkit-details-marker{display:none}
+.claim+.claim>summary::before{content:"";position:absolute;top:0;right:0;left:1rem;border-top:var(--hair) solid var(--sep)}
+.claim.first>summary::before{display:none}
+.claim>summary:focus-visible{outline-offset:-3px;border-radius:var(--radius)}
+.claim>summary:active{background:var(--fill)}
+.no{font-size:.882rem;line-height:1.6rem;color:var(--label-2);font-variant-numeric:tabular-nums;font-weight:500}
+.say{display:flex;flex-direction:column;align-items:flex-start;gap:.4rem;min-width:0}
+.say-t{font-size:1rem;line-height:1.6}
+.claim .chev{margin-top:.4rem;transition:transform .2s ease}
+.claim[open] .chev{transform:rotate(90deg)}
+.chip{display:inline-flex;align-items:flex-start;gap:.35rem;max-width:100%;padding:.22rem .65rem .22rem .32rem;border-radius:.8rem;
+  background:var(--fill);background:color-mix(in srgb,var(--c) var(--mix),var(--cell));font-size:.8rem;line-height:1.45;font-weight:500;color:var(--label)}
+.chip .g{margin-top:.04rem}
+.body{margin:0;padding:0 1rem 1.05rem}
+.body dt{margin:0 0 .1rem;font-size:.765rem;line-height:1.5;color:var(--label-2)}
+.body dd{margin:0 0 .75rem;font-size:.941rem;line-height:1.75}
+.body dd:last-child{margin-bottom:0}
+
+/* 參考文獻 */
+.ref{padding:.9rem 1rem 1rem}
+.ref-head{display:grid;grid-template-columns:1.85rem minmax(0,1fr);column-gap:.6rem}
+.cite{font-size:1rem;line-height:1.6;font-weight:500}
+.ref dl{margin:.6rem 0 0;display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:.75rem;row-gap:.5rem}
+.ref dt{font-size:.765rem;line-height:1.6rem;color:var(--label-2);white-space:nowrap}
+.ref dd{margin:0;display:flex;align-items:flex-start;gap:.45rem;font-size:.941rem;line-height:1.65}
+.ref dd .g{margin-top:.24rem}
+.summary{margin:1rem 0 0}
+
+/* 微行動 */
+.action{background:var(--cell);border-radius:var(--radius);overflow:hidden;margin:0 0 1rem}
+.action-head{display:grid;grid-template-columns:1.85rem minmax(0,1fr);column-gap:.6rem;padding:1rem 1rem .95rem}
+.action-no{font-size:1.294rem;line-height:1.4;font-weight:700;color:var(--label-2);font-variant-numeric:tabular-nums}
+.action h3{margin:0;font-size:1.176rem;line-height:1.4;font-weight:600}
+.scope{margin:.1rem 0 0;font-size:.882rem;line-height:1.5;color:var(--label-2)}
+.grade{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-top:.6rem;font-size:.882rem;line-height:1.4}
+.grade .k,.grade-list .k{color:var(--label-2)}
+.bars{flex:none;width:1.45rem;height:1rem;color:var(--label)}
+.bars .off{fill:var(--fill-2)}
+.bars-none{display:inline-block;width:1.45rem}
+.grade-list{list-style:none;margin:.45rem 0 0;padding:0;display:grid;gap:.3rem}
+.grade-list li{display:flex;align-items:center;gap:.5rem;font-size:.882rem;line-height:1.45}
+.field{padding:.85rem 1rem .95rem;border-top:var(--hair) solid var(--sep)}
+.field h4{margin:0 0 .15rem;font-size:.765rem;font-weight:400;line-height:1.5;color:var(--label-2)}
+.field p{margin:0;font-size:.941rem;line-height:1.75}
+.field.fix{background:var(--tint-soft)}
+.field.fix h4{color:var(--tint);font-weight:600}
+
+/* 曆法評估 */
+.callout{display:grid;grid-template-columns:1.75rem minmax(0,1fr);column-gap:.85rem;align-items:start;padding:1rem;background:var(--cell);border-radius:var(--radius);margin:0 0 1rem}
+.callout .g{width:1.75rem;height:1.75rem}
+.callout p{margin:0;font-weight:600;line-height:1.65}
+.reasons>li{padding:.9rem 1rem}
+.reasons h3{margin:0 0 .15rem;font-size:1rem;line-height:1.55;font-weight:600}
+.reasons p{margin:0;font-size:.941rem;line-height:1.75}
+
+/* 可勾選清單（提醒事項樣式） */
+.checklist{--inset:3.5rem}
+.check{display:grid;grid-template-columns:1.5rem minmax(0,1fr);column-gap:1rem;align-items:start;padding:.85rem 1rem;cursor:pointer}
+.check input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.ring{display:grid;place-items:center;width:1.5rem;height:1.5rem;margin-top:.12rem;border-radius:50%;border:1.5px solid var(--label-3);color:#fff;transition:background-color .15s,border-color .15s}
+.ring svg{width:.95rem;height:.95rem;opacity:0}
+.check input:checked+.ring{background:var(--tint);border-color:var(--tint)}
+.check input:checked+.ring svg{opacity:1}
+.check input:focus-visible+.ring{outline:3px solid var(--tint);outline-offset:2px}
+.txt strong{display:block;line-height:1.6}
+.txt span{display:block;margin-top:.1rem;font-size:.941rem;line-height:1.72;color:var(--label-2)}
+.check input:checked~.txt strong{color:var(--label-2)}
+
+/* 注意事項、來源 */
+.notes>li{padding:.8rem 1rem;font-size:.941rem;line-height:1.75}
+.sources a{display:block;padding:.7rem 1rem;text-decoration:none;line-height:1.5}
+.sources .t{display:block;color:var(--tint)}
+.sources .d{display:block;margin-top:.1rem;font-size:.882rem;color:var(--label-2)}
+.sources a:focus-visible{outline-offset:-3px;border-radius:var(--radius)}
+
+/* 頁尾 */
+.foot{max-width:44rem;margin:2.75rem auto 0;padding:.5rem max(1rem,env(safe-area-inset-right)) calc(2.25rem + env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left));
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.25rem 1rem;font-size:.882rem;color:var(--label-2)}
+.foot a{display:inline-flex;align-items:center;gap:.35rem;min-height:2.75rem;color:var(--tint);text-decoration:none}
+.foot a svg{width:.6rem;height:1rem}
+
+/* 只有滑鼠類裝置才有 hover 底色 */
+@media (hover:hover){
+  .nav-back:hover,.nav-icon:hover,.textbtn:hover{background:var(--fill)}
+  .toc a:hover,.claim>summary:hover,.sources a:hover{background:var(--fill)}
+  .pill input:not(:checked)+.pill-face:hover{background:var(--fill-2)}
+}
+/* 比較寬的螢幕：內容對齊編號後的文字欄 */
+@media (min-width:34em){
+  .body{padding-left:3.45rem}
+  .ref dl{margin-left:2.45rem}
+  .field{padding-left:3.45rem}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+@media print{
+  :root:not(#print){color-scheme:light;--bg:#fff;--cell:#fff;--label:#000;--label-2:#3C3C43;--label-3:#8E8E93;--sep:#bbb;--fill:rgba(118,118,128,.12);--fill-2:rgba(118,118,128,.22);--tint:#0066CC;--tint-soft:transparent;--mix:15%;--c-ok:#34C759;--c-detail:#FFCC00;--c-src:#FF9500;--c-exag:#AF52DE;--c-none:#FF3B30;--c-unk:#8E8E93}
+  .navbar,.filters,.tools,.foot a,.chev{display:none!important}
+  .card,.list,.action,.callout{border:1px solid #bbb;break-inside:avoid}
+  .claim,.ref,.feat>li{break-inside:avoid}
+  .sec{margin-top:1.75rem}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="g-ok" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="M5.8 10.3l2.8 2.8 5.6-6" fill="none" style="stroke:var(--mk,#fff)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="g-warn" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="M10 5.3v6.1" fill="none" style="stroke:var(--mk,#fff)" stroke-width="2.2" stroke-linecap="round"/><circle cx="10" cy="14.6" r="1.3" style="fill:var(--mk,#fff)"/></symbol>
+    <symbol id="g-swap" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="M5.6 7.6h8.6M11.9 5.3l2.3 2.3-2.3 2.3M14.4 12.4H5.8M8.1 10.1l-2.3 2.3 2.3 2.3" fill="none" style="stroke:var(--mk,#fff)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="g-up" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="M10 14.8V5.6M6.3 9.3 10 5.6l3.7 3.7" fill="none" style="stroke:var(--mk,#fff)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="g-x" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="M6.6 6.6l6.8 6.8M13.4 6.6l-6.8 6.8" fill="none" style="stroke:var(--mk,#fff)" stroke-width="2.1" stroke-linecap="round"/></symbol>
+    <symbol id="g-half" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="currentColor"/><circle cx="10" cy="10" r="5.3" fill="none" style="stroke:var(--mk,#fff)" stroke-width="1.6"/><path d="M10 4.7a5.3 5.3 0 0 0 0 10.6z" style="fill:var(--mk,#fff)"/></symbol>
+    <symbol id="g-q" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="M7.6 7.8a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1.1.9-1.1 1.6v.4" fill="none" style="stroke:var(--mk,#fff)" stroke-width="1.9" stroke-linecap="round"/><circle cx="10" cy="14.7" r="1.2" style="fill:var(--mk,#fff)"/></symbol>
+  </defs>
+</svg>
+
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a class="nav-back" href="../"><svg viewBox="0 0 12 20" aria-hidden="true" focusable="false"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>筆記列表</a>
+    <button class="nav-title" id="navTitle" type="button" title="回到頁首"><span class="full">〈能量管理入門〉查核報告</span><span class="short">能量管理入門查核</span></button>
+    <button class="nav-icon" id="themeBtn" type="button" aria-label="切換深色模式"><svg viewBox="0 0 22 22" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="8.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M11 2.4a8.6 8.6 0 0 0 0 17.2z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+
+<main class="page" id="top">
+<article>
+  <header class="hero">
+    <h1 id="pageTitle"><span class="nb">〈能量管理入門〉</span><span class="nb">查核報告</span></h1>
+    <p class="subtitle">涵泉AI 文章的引用與實證可信度</p>
+    <p class="target">查核對象：涵泉AI〈能量管理入門：為什麼你的精力總是不夠用？5個方法找回內在節奏〉，2026 年 8 月 7 日發布。<br>整理日期：<time datetime="2026-10-25">2026 年 10 月 25 日</time></p>
+  </header>
+
+  <section class="card verdict" aria-labelledby="verdictK">
+    <div class="verdict-head">
+      <svg class="battery" viewBox="0 0 70 32" role="img" aria-label="整體可信度：中低（低、中低、中、中高、高五級中的第二級）">
+        <rect x="1.25" y="1.25" width="61.5" height="29.5" rx="8" fill="none" stroke="currentColor" stroke-width="2.5"/>
+        <rect x="65" y="10.5" width="4" height="11" rx="2" fill="currentColor"/>
+        <rect class="lit" x="5.5" y="5.5" width="8.6" height="21" rx="3"/>
+        <rect class="lit" x="16.6" y="5.5" width="8.6" height="21" rx="3"/>
+        <rect class="off" x="27.7" y="5.5" width="8.6" height="21" rx="3"/>
+        <rect class="off" x="38.8" y="5.5" width="8.6" height="21" rx="3"/>
+        <rect class="off" x="49.9" y="5.5" width="8.6" height="21" rx="3"/>
+      </svg>
+      <div>
+        <p class="verdict-k" id="verdictK">整體可信度</p>
+        <p class="verdict-v">中低</p>
+      </div>
+    </div>
+    <p class="sum">這篇文章的大方向還算合理：睡眠、作息規律、適度休息、在精神好的時段做重要的事，都是有研究支持的建議。但它標榜「5個有實證支持的微行動」，這個說法禁不起檢驗。</p>
+    <p class="sum">全文至少有 4 處出處誤植：40% 多工數據其實來自 University of Michigan／APA，不是 Stanford；會議浪費數據不是 MIT；「順四時而適寒暑」出自《靈樞·本神》，不是《素問》；參考文獻 5 的 Halberg 1969 論文書目查無此篇。另有 3 處數字被誇大或套錯情境，例如把 NASA 越洋夜航飛行員的小睡數據套用到午餐後；還有 1 句署名 Loehr 的引言查無出處。</p>
+    <p class="sum">這種寫法把中醫典籍和現代科學並列，用「不謀而合」、「在此交匯」來借科學的公信力。文末推銷的「時空曆法預測精力」，目前也找不到任何科學證據。</p>
+    <p class="use">可以當作生活提醒來讀，但不宜當成學術或健康依據引用。</p>
+  </section>
+  <p class="aside">說明：沒有在網路上找到這篇文章的原始網頁，以下查核以貼上的全文為準。</p>
+
+  <section class="tldr" aria-labelledby="h-tldr">
+    <h2 id="h-tldr">重點摘要</h2>
+    <ul class="list feat">
+      <li data-fam="src"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-warn"/></svg><div><h3>部分正確，但「有實證支持」言過其實</h3><p>睡眠剝奪對認知的影響（清醒 17 小時約等同血液酒精濃度 0.05%）、反芻思考與焦慮憂鬱的關聯、步行有助發散性創意，這些都有可靠研究支持。不過文中多個數字（40%、34%、60%、3,700 億、96 次）不是張冠李戴，就是脫離了原本的研究情境。</p></div></li>
+      <li data-fam="none"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-x"/></svg><div><h3>引用品質差</h3><p>9 筆參考文獻中，有 1 筆書目查無此篇（Halberg 1969），1 筆標題查無對應文件（NASA “Napping on the Night Shift”），1 筆文獻用錯地方（Miller &amp; Cohen 2001 談的是認知控制，不是壓力），1 筆無法查核（台灣商務「校注版」），2 句古文有 1 句篇名掛錯。</p></div></li>
+      <li data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><div><h3>真正該做的事</h3><p>先把睡眠顧好，早上照一段時間的戶外光，依自己的時型把難的工作排在狀態好的時段，每工作一段時間就離開螢幕休息幾分鐘（最好起來走動），需要時小睡 10–20 分鐘。「曆法預測精力」沒有任何證據，可以忽略。</p></div></li>
+    </ul>
+  </section>
+
+  <nav aria-labelledby="h-toc">
+    <h2 class="ghead" id="h-toc">目錄</h2>
+    <ul class="list toc">
+      <li><a href="#claims"><span class="t">一、說法查證表</span><span class="n">31 條</span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+      <li><a href="#refs"><span class="t">二、參考文獻稽核表</span><span class="n">9 筆</span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+      <li><a href="#actions"><span class="t">三、5 個微行動的證據分級與修正版做法</span><span class="n">5 項</span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+      <li><a href="#calendar"><span class="t">四、「時空曆法預測精力」的評估</span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+      <li><a href="#do"><span class="t">五、真正有證據支持、可直接採用的做法</span><span class="n">8 項</span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+      <li><a href="#caveats"><span class="t">注意事項與主要來源</span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+    </ul>
+  </nav>
+
+  <section class="sec" id="claims" aria-labelledby="h-claims">
+    <h2 id="h-claims">一、說法查證表</h2>
+    <p class="lead">文章裡可以查證的說法共 31 條（含 1b、7a 這類子項）。點任一條，展開查證結果與正確出處。</p>
+    <div class="dist" role="img" aria-label="31 條說法的判定分布：成立 12、細節有誤 5、出處有誤 7、誇大 5、查無實據 2"><span data-fam="ok" style="--n:12"></span><span data-fam="detail" style="--n:5"></span><span data-fam="src" style="--n:7"></span><span data-fam="exag" style="--n:5"></span><span data-fam="none" style="--n:2"></span></div>
+    <fieldset class="filters"><legend class="ghead">依判定篩選</legend><label class="pill"><input type="radio" name="fam" value="all" checked><span class="pill-face">全部<span class="n">31</span></span></label><label class="pill" data-fam="ok"><input type="radio" name="fam" value="ok"><span class="pill-face"><span class="dot"></span>成立<span class="n">12</span></span></label><label class="pill" data-fam="detail"><input type="radio" name="fam" value="detail"><span class="pill-face"><span class="dot"></span>細節有誤<span class="n">5</span></span></label><label class="pill" data-fam="src"><input type="radio" name="fam" value="src"><span class="pill-face"><span class="dot"></span>出處有誤<span class="n">7</span></span></label><label class="pill" data-fam="exag"><input type="radio" name="fam" value="exag"><span class="pill-face"><span class="dot"></span>誇大<span class="n">5</span></span></label><label class="pill" data-fam="none"><input type="radio" name="fam" value="none"><span class="pill-face"><span class="dot"></span>查無實據<span class="n">2</span></span></label></fieldset>
+    <div class="tools"><span class="status" id="claimStatus" aria-live="polite">顯示全部 31 條</span><button class="textbtn" id="expandAll" type="button" aria-controls="claimList">全部展開</button></div>
+    <div class="list claims" id="claimList"><details class="claim" id="c-1" data-fam="ok"><summary><span class="no">1</span><span class="say"><span class="say-t">開頭引言是《The Power of Full Engagement》的核心論點</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>大致正確（翻譯有誤）</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>這句話其實就是書的副標題 Managing Energy, Not Time, Is the Key to High Performance and Personal Renewal。「Personal Renewal」應譯為「個人更新／自我更新」，譯成「健康更新」並不準確（後來的版本副標題有改成含「Health and Happiness」的寫法，可能是混用）。</dd><dt>正確出處</dt><dd>Loehr &amp; Schwartz（2003），Free Press</dd></dl></details><details class="claim" id="c-1b" data-fam="exag"><summary><span class="no">1b</span><span class="say"><span class="say-t">這本書建立在與世界頂級運動員二十多年的實務研究上</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-up"/></svg><span>誇大（「研究」一詞）</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>Loehr 長年擔任運動心理顧問，主要對象是網球選手。但這些是實務經驗與觀察，不是同儕審查的系統性研究。</dd><dt>正確出處</dt><dd>Loehr &amp; Schwartz，HBR 2001</dd></dl></details><details class="claim" id="c-1c" data-fam="detail"><summary><span class="no">1c</span><span class="say"><span class="say-t">這本書「已被《哈佛商業評論》多次引用」</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-warn"/></svg><span>細節有誤</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>實際情況是作者本人在 HBR 發表過文章：Loehr &amp; Schwartz〈The Making of a Corporate Athlete〉（2001 年 1 月號），以及 Schwartz &amp; McCarthy〈Manage Your Energy, Not Your Time〉（2007）。這是作者自己投稿，不能說成被 HBR 引用。</dd><dt>正確出處</dt><dd>HBR 2001；HBR 2007</dd></dl></details><details class="claim" id="c-2" data-fam="ok"><summary><span class="no">2</span><span class="say"><span class="say-t">人的能量分為身體、情緒、心智、精神四個維度，各需要「消耗—恢復」的循環</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>正確</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>符合原書。原書 Principle 1 寫的是「four separate but related sources of energy: physical, emotional, mental and spiritual」，也強調 oscillation（在消耗與恢復之間擺盪）。</dd><dt>正確出處</dt><dd>Loehr &amp; Schwartz（2003）</dd></dl></details><details class="claim" id="c-3" data-fam="src"><summary><span class="no">3</span><span class="say"><span class="say-t">Loehr 與 Schwartz 把「固定時間、固定環境做最重要的事」稱為「儀式化習慣」（ritualized habits），可以減少決策疲勞</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-swap"/></svg><span>出處誤植＋理論過時</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>原書用語是 positive (energy) rituals，定義是「高度具體、逐漸自動化、由價值觀驅動的例行程序」。文章把它窄化成「固定時間做最重要的事」。另外，「減少決策疲勞」背後的自我耗竭（ego depletion）理論在再現危機中受到重創：Hagger 等人 2016 年的多實驗室預登記再現研究（23 個實驗室，N=2,141）得到 d=0.04，95% CI [−0.07, 0.15]，結果與零效應一致。</dd><dt>正確出處</dt><dd>Loehr &amp; Schwartz（2003）；Hagger et al.（2016），Perspectives on Psychological Science</dd></dl></details><details class="claim" id="c-4" data-fam="ok"><summary><span class="no">4</span><span class="say"><span class="say-t">Loehr 發現，表現最好的人不是恢復最快的人，而是在比賽中穿插微恢復的人</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>大致正確但扭曲</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>Loehr 觀察到，頂尖網球選手會在分與分之間 15–20 秒內執行固定的恢復儀式。儀式最一致的選手，心率在分與分之間可下降 15%–20%。這本身就是「快速恢復」，所以「不是恢復最快的人」這組對比是文章自己加的。另外，這是心率監測的觀察，不是對照實驗。</dd><dt>正確出處</dt><dd>Loehr &amp; Schwartz，HBR 2001</dd></dl></details><details class="claim" id="c-5" data-fam="none"><summary><span class="no">5</span><span class="say"><span class="say-t">文章引述 Loehr：能量的平衡不是零和遊戲，而像波浪，關鍵在「乘浪而非逆浪」</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-x"/></svg><span>查無實據（疑似杜撰或改寫）</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>找不到原文。Loehr 確實說過類似意思，例如受訪時說「You perform in waves」，也有 oscillation 的概念。但「零和遊戲」、「乘浪而非逆浪」這種完整句子，在他的書或文章中都查無對應。</dd><dt>正確出處</dt><dd>—</dd></dl></details><details class="claim" id="c-6" data-fam="ok"><summary><span class="no">6</span><span class="say"><span class="say-t">NIH 研究：警覺度與認知能力在 24 小時內規律波動，受褪黑激素與皮質醇調控</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>大致正確</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>NIGMS 的說明頁將晝夜節律定義為「依循 24 小時週期的身體、心理與行為變化」，並說明視交叉上核（SCN）依光照控制褪黑激素分泌、節律失調會造成嗜睡與注意力困難。頁面沒有詳細討論皮質醇。大方向正確。</dd><dt>正確出處</dt><dd>NIGMS〈Circadian Rhythms〉說明頁</dd></dl></details><details class="claim" id="c-7a" data-fam="src"><summary><span class="no">7a</span><span class="say"><span class="say-t">「順四時而適寒暑」出自《黃帝內經·素問》</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-swap"/></svg><span>出處誤植</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>原句出自《靈樞·本神》：「故智者之養生也，必順四時而適寒暑，和喜怒而安居處，節陰陽而調剛柔。」意思相近的段落在《素問·四氣調神大論》，但這句原文不在《素問》。</dd><dt>正確出處</dt><dd>《靈樞·本神第八》</dd></dl></details><details class="claim" id="c-7b" data-fam="ok"><summary><span class="no">7b</span><span class="say"><span class="say-t">《黃帝內經》：「起居有常，不妄作勞，故能形與神俱，而盡終其天年」</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>大致正確（節錄）</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>出自《素問·上古天真論》，引文本身正確。但前面省略了「法於陰陽，和於術數，食飲有節」，後面省略了「度百歲乃去」。另外，傳統注家多把「不妄作勞」解為不過度勞動與房勞，和現代「能量管理」並不等同。</dd><dt>正確出處</dt><dd>《素問·上古天真論篇第一》</dd></dl></details><details class="claim" id="c-8" data-fam="src"><summary><span class="no">8</span><span class="say"><span class="say-t">「現代時間生物學之父」Franz Halberg 命名了超日節律，其中最有名的是約 90 分鐘的認知循環</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-swap"/></svg><span>出處誤植＋誇大</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>Halberg 公認是現代時間生物學的奠基者之一，1959 年創造 circadian 一詞，ultradian／infradian 等詞彙也出自他和同事。但約 90 分鐘的循環是 Nathaniel Kleitman 提出的「基本休息—活動週期」（BRAC）假說。睡眠中約 90 分鐘的 NREM–REM 週期證據可靠；清醒時是否存在穩定的 90 分鐘認知週期，研究結果並不一致：有研究找到約 90–100 分鐘的波動，也有使用較嚴格統計方法的研究找不到。</dd><dt>正確出處</dt><dd>Halberg 1959；Kleitman 1982（Sleep）；PubMed 7870505 等</dd></dl></details><details class="claim" id="c-9" data-fam="ok"><summary><span class="no">9</span><span class="say"><span class="say-t">連續清醒 17 小時後，認知表現相當於血液酒精濃度 0.05%</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>正確</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>Dawson &amp; Reid（1997，Nature 388:235）：清醒 17 小時約等同 0.05%，24 小時約等同 0.10%。Williamson &amp; Feyer（2000）以 39 名受試者重現：17–19 小時後，部分測驗表現等同或劣於 0.05%。</dd><dt>正確出處</dt><dd>Dawson &amp; Reid 1997；Williamson &amp; Feyer 2000</dd></dl></details><details class="claim" id="c-10" data-fam="src"><summary><span class="no">10</span><span class="say"><span class="say-t">壓力與焦慮直接影響前額葉皮質功能、降低決策品質（文章以 Miller &amp; Cohen 2001 為據）</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-swap"/></svg><span>出處誤植</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>說法正確，但文章引用的 Miller &amp; Cohen（2001）談的是前額葉的「認知控制」整合理論，不是壓力。合適的出處是 Arnsten（2009，Nat Rev Neurosci 10:410–422，PMID 19455173）〈Stress signalling pathways that impair prefrontal cortex structure and function〉。</dd><dt>正確出處</dt><dd>Arnsten 2009</dd></dl></details><details class="claim" id="c-10b" data-fam="ok"><summary><span class="no">10b</span><span class="say"><span class="say-t">正向情緒能擴展認知靈活性</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>大致正確</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>這是 Fredrickson 的「擴展—建構理論」，有不少實驗支持，但效果大小不一。Fredrickson 與 Losada 提出的「正負情緒 2.9 比 1」比例，遭 Brown, Sokal &amp; Friedman（2013，American Psychologist）批評為完全沒有根據；Fredrickson &amp; Losada 隨後正式撤回該文的數學模型部分（並非全文撤稿），引用時應避免延伸。</dd><dt>正確出處</dt><dd>Fredrickson 2001</dd></dl></details><details class="claim" id="c-11" data-fam="src"><summary><span class="no">11</span><span class="say"><span class="say-t">史丹佛大學研究：多工使認知效率下降高達 40%</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-swap"/></svg><span>出處誤植＋數字無實測依據</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>「40%」出自 APA 網頁上 David Meyer（University of Michigan）的一句口頭估計：轉換任務造成的短暫心智阻斷，可能耗掉多達 40% 的生產時間。Rubinstein, Meyer &amp; Evans（2001）的實驗測的是每次切換多花幾百毫秒，論文裡沒有 40% 這個數字。Stanford 的 Ophir, Nass &amp; Wagner（2009，PNAS）發現重度媒體多工者過濾干擾的能力較差，也沒有提出「40%」。</dd><dt>正確出處</dt><dd>APA〈Multitasking: Switching costs〉；Rubinstein et al. 2001</dd></dl></details><details class="claim" id="c-12" data-fam="ok"><summary><span class="no">12</span><span class="say"><span class="say-t">與個人價值觀一致的工作，能顯著降低倦怠風險</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>大致正確</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>Maslach &amp; Leiter 的「工作生活六領域」模型把「價值觀不一致」列為倦怠的預測因子之一，屬相關性證據。「顯著降低」帶有因果意味，說法略強。</dd><dt>正確出處</dt><dd>Maslach &amp; Leiter 工作生活領域模型</dd></dl></details><details class="claim" id="c-13" data-fam="ok"><summary><span class="no">13</span><span class="say"><span class="say-t">Andrew Huberman 建議每天安排 1–2 個 90 分鐘深度專注區塊，之後休息 10–30 分鐘</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>正確（但屬意見，非證據）</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>Huberman Lab〈Focus Toolkit〉節目確實建議約 90 分鐘的專注區塊（前 5–10 分鐘是暖身），結束後花 10–30 分鐘刻意放鬆，並建議先從每天 1 個區塊開始，他本人一天約做 3 個。這是播客建議，不是研究結論。</dd><dt>正確出處</dt><dd>Huberman Lab Episode 88</dd></dl></details><details class="claim" id="c-14" data-fam="none"><summary><span class="no">14</span><span class="say"><span class="say-t">中醫子午流注（辰時胃經、午時心經當令）與 90 分鐘超日節律「不謀而合」</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-x"/></svg><span>中醫描述正確；「不謀而合」查無實據</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>在中醫十二經流注的順序中，「寅肺、卯大腸、辰胃、巳脾、午心」的描述正確。但子午流注沒有經過現代科學驗證。現代時間生物學確實發現肝、腸等周邊器官有自己的時鐘，不過它們是以約 24 小時為週期、由基因調控的分子節律，不是「每 2 小時輪一個器官當令」。何況 2 小時一個時辰和 90 分鐘根本是不同的時間尺度，「不謀而合」在邏輯上不成立。</dd><dt>正確出處</dt><dd>傳統經絡流注；NIGMS（周邊時鐘）</dd></dl></details><details class="claim" id="c-15" data-fam="detail"><summary><span class="no">15</span><span class="say"><span class="say-t">Sleep Foundation：多數人 9–11 點警覺度最高、1–3 點因餐後昏沉出現低谷、4–6 點有第二個小高峰</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-warn"/></svg><span>細節有誤＋過度概化</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>Sleep Foundation 相關頁面支持「下午 1–3 點附近有晝夜節律低谷」，也提到早上 10 點和下午 4 點都可能感覺清醒，但沒有在引用的頁面找到「9–11 點高峰、4–6 點第二高峰」的明確敘述。下午低谷主要是晝夜節律造成，不吃午餐也會出現，把它全部歸因於「餐後」並不準確。另外，個體差異很大：晨型與夜型的高峰時段不同，認知表現在個人最佳時段較好，這叫「同步效應」（synchrony effect）。</dd><dt>正確出處</dt><dd>Sleep Foundation 晝夜節律系列頁；Schmidt et al. 2007</dd></dl></details><details class="claim" id="c-16" data-fam="exag"><summary><span class="no">16</span><span class="say"><span class="say-t">滑社群媒體每次都觸發多巴胺波動，實際上在消耗心智能量</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-up"/></svg><span>誇大／查無實據</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>多巴胺是訊號分子，不是會被「耗盡」的燃料。不確定獎勵可能強化查看手機的習慣，這是合理推論，但「每次都觸發」、「消耗心智能量」屬於科普迷思。Orben &amp; Przybylski（2019，Nature Human Behaviour）分析三個大型資料集（n=355,358），發現社群與數位科技使用和幸福感的關聯為負但很小，最多只能解釋 0.4% 的幸福感變異。</dd><dt>正確出處</dt><dd>—</dd></dl></details><details class="claim" id="c-17" data-fam="detail"><summary><span class="no">17</span><span class="say"><span class="say-t">真正的休息，是讓大腦從專注態切換到發散態（default mode network）</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-warn"/></svg><span>過度簡化</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>預設模式網路（DMN）在休息、走神、自我參照思考時比較活躍，但它不等於「發散態」，後者是科普書（如 Barbara Oakley）的概念。DMN 也不是「越活躍越恢復」，過度活躍與反芻思考有關。</dd><dt>正確出處</dt><dd>—</dd></dl></details><details class="claim" id="c-18" data-fam="ok"><summary><span class="no">18</span><span class="say"><span class="say-t">散步 10 分鐘：史丹佛研究顯示，步行可使創意產出平均提升 60%</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>大致正確但被延伸</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>Oppezzo &amp; Schwartz（2014）：受試者主要在跑步機上邊走邊做測驗，每次測驗約 8 分鐘。81% 的受試者在「替代用途測驗」（發散思考）上進步，平均約提升 60%；但在「遠距聯想測驗」（聚斂思考）上，步行時表現略差。60% 指的是邊走邊想時的發散創意，不代表走 10 分鐘後一般工作效率提升。不過研究也發現坐下後仍有殘留效果。</dd><dt>正確出處</dt><dd>Oppezzo &amp; Schwartz 2014，JEP: LMC 40(4):1142–1152</dd></dl></details><details class="claim" id="c-19" data-fam="exag"><summary><span class="no">19</span><span class="say"><span class="say-t">閉眼深呼吸 3 分鐘，可以啟動副交感神經、降低皮質醇</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-up"/></svg><span>部分正確，誇大</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>慢速呼吸（約每分鐘 6 次）能提高心率變異度等迷走神經指標，證據中等。但「3 分鐘就降皮質醇」缺乏直接證據：Ma 等人（2017）是 8 週橫膈膜呼吸訓練後皮質醇下降；Balban 等人（2023，Cell Reports Medicine）是連續一個月、每天 5 分鐘的「循環嘆息」改善情緒。</dd><dt>正確出處</dt><dd>Ma et al. 2017；Balban et al. 2023</dd></dl></details><details class="claim" id="c-20" data-fam="ok"><summary><span class="no">20</span><span class="say"><span class="say-t">20-20-20 法則是美國視光學會（AOA）的建議，可緩解數位眼疲勞</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>正確（證據有限）</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>AOA 的電腦視覺症候群頁面確實推薦這個做法。但證據有限：Talens-Estarelles 等人（2023，Contact Lens and Anterior Eye）的非隨機對照研究（29 名有症狀的電腦使用者，使用兩週）發現眼睛疲勞與乾眼症狀減輕，但淚膜與眼表客觀指標沒有變化，停用一週後效果消失，作者結論是不支持把 20 秒定時休息當作數位眼疲勞的治療方法。</dd><dt>正確出處</dt><dd>AOA〈Computer Vision Syndrome〉頁</dd></dl></details><details class="claim" id="c-21" data-fam="detail"><summary><span class="no">21</span><span class="say"><span class="say-t">早晨喝溫水、在陽光下站 2 分鐘：光照抑制褪黑激素，幫助啟動日間節律</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-warn"/></svg><span>部分正確、細節有誤</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>早晨光照是校正生理時鐘最主要的訊號，這點正確。但一般建議是戶外日光照射數十分鐘，2 分鐘可能不夠。早上褪黑激素本來就在下降，晨光主要的作用是讓節律「相位前移」，不只是「抑制褪黑激素」。「溫水」則沒有證據。</dd><dt>正確出處</dt><dd>NIGMS；Sleep Foundation</dd></dl></details><details class="claim" id="c-22" data-fam="detail"><summary><span class="no">22</span><span class="say"><span class="say-t">午餐後閉眼休息 10–20 分鐘：NASA 研究顯示 26 分鐘小睡可提升飛行員表現 34%</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-warn"/></svg><span>數字細節有誤＋情境錯置</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>原始研究是 NASA TM-108839（Rosekind et al., 1994）。受試者是三人制、無加派機組的越洋長途航班飛行員：休息組 12 人在巡航階段有 40 分鐘的休息機會，對照組 9 人照常值勤。休息組在 93% 的機會中入睡，平均 5.6 分鐘睡著，睡了 25.8 分鐘。效益出現在最後 90 分鐘（下降與落地階段）。「34% 表現、54% 生理警覺」是後來的摘要與 Rosekind 公開談話中的數字，原報告的重點是與對照組相比，休息組的微睡眠事件減少。所以「26 分鐘」是實際睡著的時間，不是建議的時長；研究情境是長時間夜航加上時差，不能直接套用到「午餐後」。一般人白天小睡 10–20 分鐘有助提振精神，也比較不會有起床後的昏沉（睡眠慣性）。</dd><dt>正確出處</dt><dd>NASA TM-108839（NTRS 19950006379）</dd></dl></details><details class="claim" id="c-23" data-fam="exag"><summary><span class="no">23</span><span class="say"><span class="say-t">睡前寫三件感恩的事：「研究證實」感恩日記可改善睡眠品質與情緒</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-up"/></svg><span>誇大</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>統合分析顯示效果小：Cregg &amp; Cheavens（2021）納入 27 項研究、N=3,675，憂鬱與焦慮合併的效果量 g=−0.29，作者形容為「相對溫和」。Dickens（2017）發現，對照組若是正向活動，效果接近零。感恩與睡眠的關聯主要來自相關性研究（Wood et al. 2009）。「研究證實」一詞過強。</dd><dt>正確出處</dt><dd>Cregg &amp; Cheavens 2021（J Happiness Stud）；Dickens 2017</dd></dl></details><details class="claim" id="c-24" data-fam="src"><summary><span class="no">24</span><span class="say"><span class="say-t">研究顯示，平均每人每天查看手機 96 次</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-swap"/></svg><span>出處不明＋品質低</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>出自 Asurion 2019 年的商業問卷（Solidea Solutions 執行，1,998 名美國智慧型手機用戶），對象是美國人，而且是自陳數據。Asurion 2022 年的同類調查變成 352 次；有實際測量的研究數字也差很多（例如 RescueTime 2019 測得每天拿起手機 58 次）。這類數字的方法學品質低，不宜當作「研究顯示」。</dd><dt>正確出處</dt><dd>Asurion 新聞稿（2019-11-21）</dd></dl></details><details class="claim" id="c-25" data-fam="ok"><summary><span class="no">25</span><span class="say"><span class="say-t">反芻思考與焦慮、抑鬱正相關</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>正確</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>Nolen-Hoeksema 的反應風格理論與後續大量研究都支持這一點，是相當穩健的發現。</dd><dt>正確出處</dt><dd>Nolen-Hoeksema 1991 及後續研究</dd></dl></details><details class="claim" id="c-26" data-fam="src"><summary><span class="no">26</span><span class="say"><span class="say-t">MIT 研究：低效會議每年浪費美國經濟超過 3,700 億美元</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-swap"/></svg><span>出處誤植＋數字可疑</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>找不到任何 MIT 的研究支持這個數字。常見的數字有兩個：Doodle〈State of Meetings 2019〉估計 3,990 億美元，這是排程軟體公司的商業報告；另一個常被引用的 370 億美元，據 Lucid Meetings 的 Elise Keith 追查，源自 1989 年 Industry Week 一篇文章〈A $37 billion waste〉。370 億美元是「370 億」，不是「3,700 億」，文章可能把兩個數字混在一起。和 MIT 有關的只有 MIT CISR 對減少會議的研究，但它沒有提出這個金額。</dd><dt>正確出處</dt><dd>Doodle 2019 商業報告</dd></dl></details><details class="claim" id="c-27" data-fam="exag"><summary><span class="no">27</span><span class="say"><span class="say-t">全文標榜提供「5 個有實證支持的微行動」</span><span class="chip"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-up"/></svg><span>誇大</span></span></span><svg class="chev" viewBox="0 0 8 14" aria-hidden="true" focusable="false"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><dl class="body"><dt>查證結果</dt><dd>各行動的證據強弱差很多（見「三、5 個微行動的證據分級」），而且多數具體數字與引用都有問題。</dd><dt>正確出處</dt><dd>—</dd></dl></details></div>
+    <p class="gfoot">分類方式：依每條判定的主要關鍵詞分成五類。「過度簡化」併入細節有誤，「出處不明」併入出處有誤，第 14 條依「不謀而合」的判定歸為查無實據。</p>
+  </section>
+
+  <section class="sec" id="refs" aria-labelledby="h-refs">
+    <h2 id="h-refs">二、參考文獻稽核表</h2>
+    <p class="lead">文章列的 9 筆參考文獻，逐筆查三件事：文獻是否存在、書目是否正確、能不能支持文中的用途。</p>
+    <ul class="list refs"><li class="ref" id="r-1"><div class="ref-head"><span class="no">#1</span><span class="cite">Loehr &amp; Schwartz（2003），The Power of Full Engagement，Free Press</span></div><dl><dt>存在</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>存在</span></dd><dt>書目</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>正確</span></dd><dt>支持</dt><dd data-fam="part"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-half"/></svg><span>部分支持：四維度正確；「ritualized habits」用語錯誤；結尾引言查無出處</span></dd></dl></li><li class="ref" id="r-2"><div class="ref-head"><span class="no">#2</span><span class="cite">NIGMS，Circadian Rhythms Fact Sheet</span></div><dl><dt>存在</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>存在，網址可連（會轉址到不含 .aspx 的新網址）</span></dd><dt>書目</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>正確</span></dd><dt>支持</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>大致支持：晝夜節律與褪黑激素；皮質醇著墨很少</span></dd></dl></li><li class="ref" id="r-3"><div class="ref-head"><span class="no">#3</span><span class="cite">Sleep Foundation，What Is a Circadian Rhythm?</span></div><dl><dt>存在</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>存在，網址有效</span></dd><dt>書目</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>正確</span></dd><dt>支持</dt><dd data-fam="part"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-half"/></svg><span>部分支持：下午 1–3 點低谷有據；「9–11 點高峰、4–6 點第二高峰」未在該頁找到</span></dd></dl></li><li class="ref" id="r-4"><div class="ref-head"><span class="no">#4</span><span class="cite">AOA，Computer Vision Syndrome</span></div><dl><dt>存在</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>存在</span></dd><dt>書目</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>大致正確</span></dd><dt>支持</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>支持：「20-20-20 為 AOA 建議」</span></dd></dl></li><li class="ref" id="r-5"><div class="ref-head"><span class="no">#5</span><span class="cite">Halberg et al.（1969），“Physiologic 24-hour periodicity in human beings,” Proc Soc Exp Biol Med</span></div><dl><dt>存在</dt><dd data-fam="bad"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-x"/></svg><span>查無此篇</span></dd><dt>書目</dt><dd data-fam="bad"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-x"/></svg><span>書目錯誤。相近的真實文獻有兩篇：Halberg, Halberg, Barnum &amp; Bittner（1959）“Physiologic 24-hour periodicity in human beings and mice, the lighting regimen and daily routine”，收錄於 AAAS 出版的 Photoperiodism and Related Phenomena in Plants and Animals（pp. 803–878）；以及 Halberg（1969）“Chronobiology”，Annu Rev Physiol 31:675–725。circadian 一詞首見於 Halberg 1959（Z Vitam Horm Fermentforsch 10:225–296）。</span></dd><dt>支持</dt><dd data-fam="bad"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-x"/></svg><span>不支持：文中拿它支撐「90 分鐘認知循環」，但這個主題的源頭是 Kleitman 的 BRAC</span></dd></dl></li><li class="ref" id="r-6"><div class="ref-head"><span class="no">#6</span><span class="cite">Oppezzo &amp; Schwartz（2014），JEP: LMC</span></div><dl><dt>存在</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>存在</span></dd><dt>書目</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>正確，卷期 40(4):1142–1152</span></dd><dt>支持</dt><dd data-fam="part"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-half"/></svg><span>部分支持：60% 是邊走邊做發散思考測驗的結果，不支持「散步 10 分鐘」的一般化說法</span></dd></dl></li><li class="ref" id="r-7"><div class="ref-head"><span class="no">#7</span><span class="cite">Miller &amp; Cohen（2001），Annu Rev Neurosci</span></div><dl><dt>存在</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>存在</span></dd><dt>書目</dt><dd data-fam="ok"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-ok"/></svg><span>正確</span></dd><dt>支持</dt><dd data-fam="bad"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-x"/></svg><span>不支持：論文談前額葉的認知控制，不談壓力損害；應改引 Arnsten 2009</span></dd></dl></li><li class="ref" id="r-8"><div class="ref-head"><span class="no">#8</span><span class="cite">《黃帝內經·素問》台灣商務印書館校注版</span></div><dl><dt>存在</dt><dd data-fam="unk"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-q"/></svg><span>無法查核：台灣商務出版過《黃帝內經素問今註今譯》等版本，但「校注版」缺校注者、年份、ISBN，無法對應到特定書目</span></dd><dt>書目</dt><dd data-fam="unk"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-q"/></svg><span>不完整</span></dd><dt>支持</dt><dd data-fam="part"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-half"/></svg><span>部分支持：「起居有常」那句在《素問》；「順四時而適寒暑」在《靈樞》，《素問》任何版本都不會有這句</span></dd></dl></li><li class="ref" id="r-9"><div class="ref-head"><span class="no">#9</span><span class="cite">NASA Fatigue Countermeasures Program，“Napping on the Night Shift”</span></div><dl><dt>存在</dt><dd data-fam="bad"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-x"/></svg><span>查無此標題文件</span></dd><dt>書目</dt><dd data-fam="bad"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-x"/></svg><span>書目錯誤。實際應為 Rosekind, Graeber, Dinges et al.（1994），Crew Factors in Flight Operations IX: Effects of Planned Cockpit Rest on Crew Performance and Alertness in Long-Haul Operations，NASA TM-108839／DOT/FAA/92/24；34%／54% 這組數字則多引自 Rosekind et al.（1995），J Sleep Res 4(Suppl 2):62–66。</span></dd><dt>支持</dt><dd data-fam="part"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-half"/></svg><span>部分支持：NASA 小睡研究確實存在，但情境是越洋夜航，不是午餐後小睡</span></dd></dl></li></ul>
+    <p class="summary">小結：9 筆中，大致完全成立的只有 #2、#4 兩筆；#1、#3、#6 只部分支持文中用途；#5、#9 是書目錯誤；#7 用錯地方；#8 不完整，而且有一句篇名掛錯。另外，文中多數數字（40%、96 次、3,700 億、17 小時）在參考文獻中根本沒有列出來源。</p>
+  </section>
+
+  <section class="sec" id="actions" aria-labelledby="h-actions">
+    <h2 id="h-actions">三、5 個微行動的證據分級與修正版做法</h2>
+    <p class="lead">依實際研究的證據強弱替文章的 5 個微行動分級，並給出修正版做法。訊號格代表證據強度：4 格強、3 格中等、2 格有限、1 格軼事，半格表示介於兩級之間。</p>
+    <article class="action" id="a-1"><header class="action-head"><span class="action-no">1</span><div><h3>繪製能量地圖</h3><p class="scope">3 天、每 2 小時自評 1–10 分</p><div class="grade"><svg class="bars" viewBox="0 0 23 16" aria-hidden="true" focusable="false"><rect x="0.0" y="10" width="4.6" height="5" rx="1.2" fill="currentColor"/><rect x="6.1" y="7" width="4.6" height="8" rx="1.2" fill="currentColor"/><rect x="12.2" y="4" width="4.6" height="11" rx="1.2" class="off"/><rect x="12.2" y="9.5" width="4.6" height="5.5" rx="1.2" fill="currentColor"/><rect x="18.3" y="1" width="4.6" height="14" rx="1.2" class="off"/></svg><span class="k">證據強度</span><strong>有限～中等</strong></div></div></header><div class="field"><h4>最佳現有證據</h4><p>經驗取樣法（experience sampling）是研究精力與疲勞波動的標準方法；晝夜節律與時型會造成可預測的日內波動。</p></div><div class="field"><h4>主要問題</h4><p>3 天樣本太少，容易被睡眠不足、咖啡因、會議、週間與週末差異干擾；只記分數，看不出原因。</p></div><div class="field fix"><h4>修正版做法</h4><p>記錄 1–2 週（包含平日和週末），每天 4–6 次。除了精力分數，也記下前晚睡眠時數、咖啡因、餐食、正在做的事。可以搭配時型問卷（如 MEQ 或 Munich ChronoType Questionnaire），找出自己是晨型還是夜型。</p></div></article><article class="action" id="a-2"><header class="action-head"><span class="action-no">2</span><div><h3>高峰時段做最重要的事</h3><div class="grade"><svg class="bars" viewBox="0 0 23 16" aria-hidden="true" focusable="false"><rect x="0.0" y="10" width="4.6" height="5" rx="1.2" fill="currentColor"/><rect x="6.1" y="7" width="4.6" height="8" rx="1.2" fill="currentColor"/><rect x="12.2" y="4" width="4.6" height="11" rx="1.2" fill="currentColor"/><rect x="18.3" y="1" width="4.6" height="14" rx="1.2" class="off"/></svg><span class="k">證據強度</span><strong>中等</strong></div></div></header><div class="field"><h4>最佳現有證據</h4><p>Schmidt et al.（2007）〈A time to think〉回顧指出，認知表現隨晝夜節律與時型變化，在個人最佳時段表現較好（同步效應）。</p></div><div class="field"><h4>主要問題</h4><p>文章預設多數人上午 9–11 點是高峰，但許多大學生和研究生偏夜型，高峰可能在午後甚至傍晚。「減少決策疲勞」的理論基礎（自我耗竭）已經受到再現研究挑戰。</p></div><div class="field fix"><h4>修正版做法</h4><p>依據行動 1 的紀錄，把需要深度思考的工作（寫論文、分析資料）排在你自己的高峰時段，並關閉通知。單次專注 60–90 分鐘是合理的經驗法則，但不需要執著於「生理上的 90 分鐘」。</p></div></article><article class="action" id="a-3"><header class="action-head"><span class="action-no">3</span><div><h3>有意識的休息</h3><p class="scope">散步、深呼吸、20-20-20</p><div class="grade"><svg class="bars" viewBox="0 0 23 16" aria-hidden="true" focusable="false"><rect x="0.0" y="10" width="4.6" height="5" rx="1.2" fill="currentColor"/><rect x="6.1" y="7" width="4.6" height="8" rx="1.2" fill="currentColor"/><rect x="12.2" y="4" width="4.6" height="11" rx="1.2" fill="currentColor"/><rect x="18.3" y="1" width="4.6" height="14" rx="1.2" class="off"/></svg><span class="k">證據強度</span><strong>中等</strong></div></div></header><div class="field"><h4>最佳現有證據</h4><p>Albulescu et al.（2022，PLOS ONE）統合 22 項實驗：10 分鐘以內的微休息能提升活力（d=0.36）、降低疲勞（d=0.35），但對整體工作表現的效果不顯著（d=0.16）；休息越久，表現的提升越明顯。Sonnentag &amp; Fritz（2007）指出，心理抽離、放鬆、掌控感、精熟經驗是四種關鍵的恢復經驗。Oppezzo &amp; Schwartz（2014）發現步行有助發散思考。</p></div><div class="field"><h4>主要問題</h4><p>「60% 創意」被泛化；「3 分鐘降皮質醇」缺乏直接證據；「滑手機＝多巴胺耗能」是迷思。</p></div><div class="field fix"><h4>修正版做法</h4><p>每 50–90 分鐘休息 5–10 分鐘，最好離開螢幕、起身走動。卡關需要點子時，可以邊走邊想。想放鬆時，用每分鐘約 6 次的慢速呼吸做幾分鐘。休息時用不用手機不必一律禁止，重點是休息後有沒有覺得真的放鬆、能從工作中抽離。</p></div></article><article class="action" id="a-4"><header class="action-head"><span class="action-no">4</span><div><h3>能量補充儀式</h3><p class="scope">晨光＋溫水、午後小睡、感恩日記</p><div class="grade"><span class="k">證據強度</span><strong>混合</strong></div><ul class="grade-list"><li><svg class="bars" viewBox="0 0 23 16" aria-hidden="true" focusable="false"><rect x="0.0" y="10" width="4.6" height="5" rx="1.2" fill="currentColor"/><rect x="6.1" y="7" width="4.6" height="8" rx="1.2" fill="currentColor"/><rect x="12.2" y="4" width="4.6" height="11" rx="1.2" fill="currentColor"/><rect x="18.3" y="1" width="4.6" height="14" rx="1.2" class="off"/><rect x="18.3" y="8.0" width="4.6" height="7.0" rx="1.2" fill="currentColor"/></svg><span class="k">小睡</span><span>中等～強</span></li><li><svg class="bars" viewBox="0 0 23 16" aria-hidden="true" focusable="false"><rect x="0.0" y="10" width="4.6" height="5" rx="1.2" fill="currentColor"/><rect x="6.1" y="7" width="4.6" height="8" rx="1.2" fill="currentColor"/><rect x="12.2" y="4" width="4.6" height="11" rx="1.2" fill="currentColor"/><rect x="18.3" y="1" width="4.6" height="14" rx="1.2" class="off"/></svg><span class="k">晨光</span><span>中等</span></li><li><span class="bars-none" aria-hidden="true"></span><span class="k">感恩</span><span>小效果</span></li><li><svg class="bars" viewBox="0 0 23 16" aria-hidden="true" focusable="false"><rect x="0.0" y="10" width="4.6" height="5" rx="1.2" class="off"/><rect x="6.1" y="7" width="4.6" height="8" rx="1.2" class="off"/><rect x="12.2" y="4" width="4.6" height="11" rx="1.2" class="off"/><rect x="18.3" y="1" width="4.6" height="14" rx="1.2" class="off"/></svg><span class="k">溫水</span><span>無證據</span></li></ul></div></header><div class="field"><h4>最佳現有證據</h4><p>NASA TM-108839 顯示，在睡眠不足的情境下，有計畫的小睡能改善警覺度。一般短時間小睡（10–20 分鐘）有助提神、睡眠慣性較少。晨光是校正生理時鐘的主要訊號。感恩介入對憂鬱與焦慮的效果小（g≈−0.29），對照組若是正向活動，效果接近零。</p></div><div class="field"><h4>主要問題</h4><p>2 分鐘的日照可能不夠；NASA 數據的情境套用錯誤；感恩的效果被說成「研究證實」。</p></div><div class="field fix"><h4>修正版做法</h4><p>起床後 1 小時內到戶外接觸日光（陰天也比室內亮很多），時間以十幾分鐘到數十分鐘為宜。下午若真的想睡，小睡 10–20 分鐘，避免下午太晚才睡，以免影響晚上的睡眠。感恩書寫可以當作溫和的心情練習，不要期待它取代睡眠或治療。</p></div></article><article class="action" id="a-5"><header class="action-head"><span class="action-no">5</span><div><h3>切斷「能量吸血鬼」</h3><div class="grade"><svg class="bars" viewBox="0 0 23 16" aria-hidden="true" focusable="false"><rect x="0.0" y="10" width="4.6" height="5" rx="1.2" fill="currentColor"/><rect x="6.1" y="7" width="4.6" height="8" rx="1.2" fill="currentColor"/><rect x="12.2" y="4" width="4.6" height="11" rx="1.2" class="off"/><rect x="12.2" y="9.5" width="4.6" height="5.5" rx="1.2" fill="currentColor"/><rect x="18.3" y="1" width="4.6" height="14" rx="1.2" class="off"/></svg><span class="k">證據強度</span><strong>有限～中等</strong></div></div></header><div class="field"><h4>最佳現有證據</h4><p>反芻思考與憂鬱、焦慮的關聯很穩健。社群媒體與幸福感的關聯整體很小（Orben &amp; Przybylski 2019：最多解釋 0.4% 的變異），因人而異。Fritz, Lam &amp; Spreitzer（2011）研究工作中的能量管理策略，發現與學習、意義、人際連結相關的策略和活力的關聯較明確；Quinn, Spreitzer &amp; Lam（2012）則從理論上整理了組織中的人類能量。</p></div><div class="field"><h4>主要問題</h4><p>96 次、3,700 億美元等數字的來源可疑；「減少 50% 時間」沒有依據。</p></div><div class="field fix"><h4>修正版做法</h4><p>用行動 1 的紀錄找出對你而言做完會明顯掉精力的活動，針對它設限，例如設定 App 使用時段、婉拒沒有議程的會議。如果反芻思考持續、影響睡眠或情緒，可以考慮轉移注意力的練習或尋求專業協助。各校的學生諮商中心通常提供免費服務。</p></div></article>
+  </section>
+
+  <section class="sec" id="calendar" aria-labelledby="h-calendar">
+    <h2 id="h-calendar">四、「時空曆法預測精力」的評估</h2>
+    <div class="callout" data-fam="none"><svg class="g" aria-hidden="true" focusable="false"><use href="#g-x"/></svg><p>目前沒有任何科學證據顯示，干支、黃曆、節氣等曆法系統能預測「個人」某一週的精力高低。</p></div>
+    <p class="lead">文末推銷的「每週精力氣候」，號稱結合時空曆法與心理學，預測未來一週的精力走勢。問題在下面四點：</p>
+    <ul class="list reasons"><li><h3>缺乏機制</h3><p>個人精力已知的主要決定因素是睡眠的長度與規律、晝夜節律相位（時型）、身體健康與疾病、工作量與壓力、情緒狀態、月經週期等。這些因素都隨個人狀況變動，不是由出生時辰或曆法日期決定的。</p></li><li><h3>缺乏驗證</h3><p>沒有找到任何同儕審查研究，證明以曆法推算出的「精力預報」與實際測得的精力（自評或客觀指標）相符。季節確實會影響部分人的情緒與睡眠（如季節性情緒障礙），但那是光照時數的效應，與干支推算無關。</p></li><li><h3>心理機制可以解釋「準」的感覺</h3><p>模糊、正向的描述容易讓人覺得「說中了」（巴納姆效應／Forer effect）。預報也可能成為自我應驗的預言：被告知「今天適合休息」，人就比較可能覺得累。</p></li><li><h3>文章的修辭模式</h3><p>全文多次把中醫典籍與現代科學並列，用「不謀而合」、「在此交匯」、「傳統智慧＋現代科學」等措辭，把沒有驗證的傳統理論（子午流注）和有證據的現代發現（晝夜節律）綁在一起。這樣一來，有證據那部分的公信力就被轉嫁到沒證據的部分，最後再導向自家產品「每週精力氣候」。再加上署名 Loehr 卻查無出處的引言、篇名錯誤的古文，以及把作者本人投稿說成「被 HBR 多次引用」，整體呈現典型的「借科學包裝內容行銷」模式。這不一定代表作者刻意造假，但至少反映出撰寫時沒有核對原始來源。</p></li></ul>
+    <h3 class="sub">「能量管理」概念本身的學術地位</h3>
+    <p>Loehr &amp; Schwartz 的框架主要是實務／顧問文獻，本身沒有經過嚴格的對照試驗驗證。但相鄰的學術領域有實證支持：組織行為學中的「人類能量」與活力研究（Quinn, Spreitzer &amp; Lam 2012；Fritz, Lam &amp; Spreitzer 2011）、工作恢復研究（Sonnentag &amp; Fritz 2007）、微休息統合分析（Albulescu et al. 2022），以及時間生物學（晝夜節律、時型、同步效應）。</p>
+    <p>換言之，「別只管時間，也要管精力」這個大方向有道理，但書中許多具體主張（如精神能量的機制、四維度的劃分）屬於有用的比喻，不是經過驗證的模型。</p>
+  </section>
+
+  <section class="sec" id="do" aria-labelledby="h-do">
+    <h2 id="h-do">五、真正有證據支持、可直接採用的做法</h2>
+    <p class="lead">已經在做的就勾起來。勾選進度只存在這台裝置的瀏覽器。</p>
+    <ul class="list checklist"><li><label class="check"><input type="checkbox" data-key="sleep"><span class="ring"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 10.5l3.2 3.2L15 6.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><strong>睡眠優先</strong><span>固定起床時間，確保足夠睡眠。清醒 17 小時，認知表現就可能降到相當於血液酒精濃度 0.05% 的程度。對研究生來說，熬夜趕工往往得不償失。</span></span></label></li><li><label class="check"><input type="checkbox" data-key="light"><span class="ring"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 10.5l3.2 3.2L15 6.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><strong>早晨戶外光</strong><span>起床後盡早到戶外接觸自然光，持續十幾分鐘以上，有助穩定生理時鐘。晚上則減少強光與螢幕光。</span></span></label></li><li><label class="check"><input type="checkbox" data-key="chrono"><span class="ring"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 10.5l3.2 3.2L15 6.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><strong>認識自己的時型</strong><span>用 1–2 週的紀錄或時型問卷，找出自己的高峰與低谷，把最燒腦的工作排在高峰時段。</span></span></label></li><li><label class="check"><input type="checkbox" data-key="breaks"><span class="ring"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 10.5l3.2 3.2L15 6.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><strong>規律的微休息</strong><span>每工作 50–90 分鐘休息 5–10 分鐘，起身走動、離開螢幕。這對提升活力、降低疲勞有小到中等的效果。</span></span></label></li><li><label class="check"><input type="checkbox" data-key="nap"><span class="ring"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 10.5l3.2 3.2L15 6.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><strong>需要時短暫小睡</strong><span>下午低谷時小睡 10–20 分鐘，不要拖到太晚。</span></span></label></li><li><label class="check"><input type="checkbox" data-key="single"><span class="ring"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 10.5l3.2 3.2L15 6.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><strong>減少任務切換</strong><span>深度工作時關閉通知、單工處理。切換確實有成本，只是沒有「40%」那麼精確。</span></span></label></li><li><label class="check"><input type="checkbox" data-key="rumination"><span class="ring"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 10.5l3.2 3.2L15 6.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><strong>處理反芻思考</strong><span>察覺自己反覆糾結時，轉移注意力或寫下具體行動。若長期影響情緒或睡眠，尋求校內諮商。</span></span></label></li><li><label class="check"><input type="checkbox" data-key="verify"><span class="ring"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 10.5l3.2 3.2L15 6.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><strong>對健康類文章保持查證習慣</strong><span>看到「研究顯示」卻沒附原始論文、數字精確到可疑（34%、60%、40%），或古今「不謀而合」的寫法時，先找原始出處再相信。</span></span></label></li></ul>
+    <p class="gfoot" id="doneCount" aria-live="polite">已勾選 0／8</p>
+  </section>
+
+  <section class="sec" id="caveats" aria-labelledby="h-caveats">
+    <h2 id="h-caveats">注意事項與主要來源</h2>
+    <ul class="list notes"><li>沒有找到這篇文章的原始網頁，無法確認貼上的文字與原文一字不差。</li><li>Dickens（2017）的效果量引自其他文獻的轉述，沒有直接讀原文。Fritz, Lam &amp; Spreitzer（2011）與 Quinn, Spreitzer &amp; Lam（2012）的細節依據一般學術認知整理，引用前建議再核對原文。</li><li>Sleep Foundation 網站內容會不定期更新（引用頁面最近一次修改是 2026 年 7 月）。沒有在該頁找到「9–11 點高峰、4–6 點第二高峰」的敘述，但不排除這些時段出現在該站其他頁面。</li><li>台灣商務印書館的《黃帝內經》版本因書目資訊不全，無法完全排除存在某一特定「校注版」的可能。</li></ul>
+    <h3 class="ghead">書與作者</h3><ul class="list sources"><li><a href="https://hbr.org/2001/01/the-making-of-a-corporate-athlete" rel="noopener noreferrer"><span class="t">The Making of a Corporate Athlete</span><span class="d">Loehr &amp; Schwartz，Harvard Business Review，2001 年 1 月號</span></a></li></ul><h3 class="ghead">睡眠、晝夜節律與小睡</h3><ul class="list sources"><li><a href="https://www.nigms.nih.gov/education/fact-sheets/Pages/circadian-rhythms" rel="noopener noreferrer"><span class="t">Circadian Rhythms</span><span class="d">NIGMS（美國國家衛生研究院）說明頁</span></a></li><li><a href="https://www.sleepfoundation.org/circadian-rhythm/sleep-drive-and-your-body-clock" rel="noopener noreferrer"><span class="t">Sleep Drive and Your Body Clock</span><span class="d">Sleep Foundation</span></a></li><li><a href="https://www.nature.com/articles/40775" rel="noopener noreferrer"><span class="t">Fatigue, alcohol and performance impairment</span><span class="d">Dawson &amp; Reid，Nature，1997</span></a></li><li><a href="https://ntrs.nasa.gov/citations/19950006379" rel="noopener noreferrer"><span class="t">Crew Factors in Flight Operations IX</span><span class="d">NASA TM-108839，Rosekind et al.，1994</span></a></li></ul><h3 class="ghead">專注、壓力與休息</h3><ul class="list sources"><li><a href="https://www.apa.org/topics/research/multitasking" rel="noopener noreferrer"><span class="t">Multitasking: Switching costs</span><span class="d">American Psychological Association</span></a></li><li><a href="https://pubmed.ncbi.nlm.nih.gov/19455173/" rel="noopener noreferrer"><span class="t">Stress signalling pathways that impair prefrontal cortex structure and function</span><span class="d">Arnsten，Nature Reviews Neuroscience，2009（PubMed）</span></a></li><li><a href="https://doi.org/10.1177/1745691616652873" rel="noopener noreferrer"><span class="t">A Multilab Preregistered Replication of the Ego-Depletion Effect</span><span class="d">Hagger et al.，Perspectives on Psychological Science，2016</span></a></li><li><a href="https://www.apa.org/pubs/journals/releases/xlm-a0036577.pdf" rel="noopener noreferrer"><span class="t">Give Your Ideas Some Legs</span><span class="d">Oppezzo &amp; Schwartz，JEP: LMC，2014（全文 PDF）</span></a></li><li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9432722/" rel="noopener noreferrer"><span class="t">“Give me a break!” 微休息的系統性回顧與統合分析</span><span class="d">Albulescu et al.，PLOS ONE，2022</span></a></li><li><a href="https://www.hubermanlab.com/episode/focus-toolkit-tools-to-improve-your-focus-and-concentration" rel="noopener noreferrer"><span class="t">Focus Toolkit</span><span class="d">Huberman Lab 節目</span></a></li></ul><h3 class="ghead">其他數字與古籍</h3><ul class="list sources"><li><a href="https://www.semanticscholar.org/paper/Gratitude-Interventions:-Effective-Self-help-A-of-Cregg-Cheavens/cc4f096cc8138711920eabf30d9311929d2df577" rel="noopener noreferrer"><span class="t">Gratitude Interventions: Effective Self-help? A Meta-analysis</span><span class="d">Cregg &amp; Cheavens，Journal of Happiness Studies，2021</span></a></li><li><a href="https://www.asurion.com/press-releases/americans-check-their-phones-96-times-a-day/" rel="noopener noreferrer"><span class="t">Americans check their phones 96 times a day</span><span class="d">Asurion 新聞稿，2019</span></a></li><li><a href="https://ctext.org/huangdi-neijing/ben-shen" rel="noopener noreferrer"><span class="t">《靈樞·本神》原文</span><span class="d">中國哲學書電子化計劃</span></a></li><li><a href="https://www.aoa.org/healthy-eyes/eye-and-vision-conditions/computer-vision-syndrome" rel="noopener noreferrer"><span class="t">Computer Vision Syndrome</span><span class="d">American Optometric Association</span></a></li></ul>
+    <p class="gfoot">完整查核另參考了 50 多個網頁，這裡列出主要的原始來源。</p>
+  </section>
+</article>
+</main>
+
+<footer class="foot">
+  <a href="../"><svg viewBox="0 0 12 20" aria-hidden="true" focusable="false"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>回筆記列表</a>
+  <span>2026-10-25 整理，和 Claude 協作</span>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 深淺色切換：沒選過就跟系統
+  var KEY = 'energy-management.theme', root = document.documentElement, btn = document.getElementById('themeBtn');
+  var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  var metas = document.querySelectorAll('meta[name="theme-color"]');
+  function current() { var t = root.getAttribute('data-theme'); return t || (mq && mq.matches ? 'dark' : 'light'); }
+  function sync() {
+    var dark = current() === 'dark';
+    btn.setAttribute('aria-label', dark ? '切換為淺色模式' : '切換為深色模式');
+    btn.title = dark ? '切換為淺色模式' : '切換為深色模式';
+    if (root.hasAttribute('data-theme')) for (var i = 0; i < metas.length; i++) metas[i].setAttribute('content', dark ? '#000000' : '#F2F2F7');
+  }
+  btn.addEventListener('click', function () {
+    var next = current() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem(KEY, next); } catch (e) {}
+    sync();
+  });
+  if (mq && mq.addEventListener) mq.addEventListener('change', sync);
+  sync();
+
+  // 導覽列：捲動後出現材質底；大標題捲走後，置中顯示小標題（點它回到頁首）
+  var bar = document.getElementById('navbar'), title = document.getElementById('pageTitle'), navTitle = document.getElementById('navTitle');
+  function onScroll() {
+    bar.toggleAttribute('data-scrolled', window.scrollY > 2);
+    bar.toggleAttribute('data-compact', title.getBoundingClientRect().bottom < bar.getBoundingClientRect().bottom);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+  navTitle.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
+
+  // 說法查證：依判定篩選、全部展開
+  var list = document.getElementById('claimList');
+  var rows = Array.prototype.slice.call(list.querySelectorAll('.claim'));
+  var statusEl = document.getElementById('claimStatus');
+  var segs = Array.prototype.slice.call(document.querySelectorAll('.dist > span'));
+  var expand = document.getElementById('expandAll');
+  function markFirst() {
+    var seen = false;
+    rows.forEach(function (r) { var first = !r.hidden && !seen; r.classList.toggle('first', first); if (!r.hidden) seen = true; });
+  }
+  function syncExpand() {
+    var vis = rows.filter(function (r) { return !r.hidden; });
+    var allOpen = vis.length > 0 && vis.every(function (r) { return r.open; });
+    expand.textContent = allOpen ? '全部收合' : '全部展開';
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="fam"]'), function (radio) {
+    radio.addEventListener('change', function () {
+      var f = radio.value, n = 0;
+      rows.forEach(function (r) { var show = f === 'all' || r.getAttribute('data-fam') === f; r.hidden = !show; if (show) n++; });
+      segs.forEach(function (s) { s.classList.toggle('dim', f !== 'all' && s.getAttribute('data-fam') !== f); });
+      statusEl.textContent = f === 'all' ? '顯示全部 ' + n + ' 條' : '顯示 ' + n + ' 條';
+      markFirst(); syncExpand();
+    });
+  });
+  expand.addEventListener('click', function () {
+    var vis = rows.filter(function (r) { return !r.hidden; });
+    var open = !vis.every(function (r) { return r.open; });
+    vis.forEach(function (r) { r.open = open; });
+    syncExpand();
+  });
+  rows.forEach(function (r) { r.addEventListener('toggle', syncExpand); });
+  markFirst();
+
+  // 列印：全部展開、取消篩選，印完還原
+  var restore = [];
+  window.addEventListener('beforeprint', function () {
+    restore = rows.map(function (r) { return [r, r.open, r.hidden]; });
+    rows.forEach(function (r) { r.open = true; r.hidden = false; });
+  });
+  window.addEventListener('afterprint', function () {
+    restore.forEach(function (s) { s[0].open = s[1]; s[0].hidden = s[2]; });
+    markFirst();
+  });
+
+  // 可勾選清單：只存在這台裝置
+  var DKEY = 'energy-management.done';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.checklist input'));
+  var out = document.getElementById('doneCount'), saved = {};
+  try { saved = JSON.parse(localStorage.getItem(DKEY) || '{}') || {}; } catch (e) { saved = {}; }
+  function count() { out.textContent = '已勾選 ' + boxes.filter(function (b) { return b.checked; }).length + '／' + boxes.length; }
+  boxes.forEach(function (b) {
+    b.checked = !!saved[b.getAttribute('data-key')];
+    b.addEventListener('change', function () {
+      saved[b.getAttribute('data-key')] = b.checked;
+      try { localStorage.setItem(DKEY, JSON.stringify(saved)); } catch (e) {}
+      count();
+    });
+  });
+  count();
+})();
+</script>
+</body>
+</html>
