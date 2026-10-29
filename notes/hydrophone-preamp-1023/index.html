@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>ORCA 水聽器前級放大器選型</title>
-<meta name="description" content="TC4013 水聽器前級放大器選型：訊號預算、現成放大器、自製 4 通道板、擷取卡地雷與下一步。">
+<meta name="description" content="TC4013 水聽器前級放大器選型：訊號預算、現成放大器、自製 4 通道板、LTspice 模擬驗證、擷取卡地雷與下一步。">
 <style>
 :root{--bg:#fbfcfd;--fg:#182430;--muted:#5c6b7a;--line:#d8e0e7;--accent:#10617a;--accent-soft:rgba(16,97,122,.10);--tint:#f1f4f7;--edge:#8a99a8;--code:#eef2f5}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f161c;--fg:#e6edf3;--muted:#9fb0c0;--line:#2a3742;--accent:#5fb7cf;--accent-soft:rgba(95,183,207,.14);--tint:#16212a;--edge:#6b7d8e;--code:#1a252e}}
@@ -47,7 +47,7 @@ footer{max-width:880px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font
 <body>
 <main>
 <h1>ORCA 水聽器前級放大器選型</h1>
-<p class="byline">2026-10-23 整理｜給 ORCA 硬體組</p>
+<p class="byline">2026-10-23 整理，2026-10-29 補 LTspice 模擬｜給 ORCA 硬體組</p>
 <h2 id="結論">結論</h2>
 <p>建議分兩步：先花小錢買 1–2 片 Aquarian PA4（約 US$70／片）接 TC4013 做泳池實測，數據出來再決定正式的 4 通道版走哪個組合。</p>
 <div class="tw"><table>
@@ -290,7 +290,7 @@ footer{max-width:880px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font
 <td>前級備選</td>
 <td><a href="https://www.analog.com/en/products/ad8429.html" target="_blank" rel="noopener">AD8429</a>（ADI）</td>
 <td>5.22</td>
-<td>偏壓電流 150–300 nA，配 1 MΩ 偏壓會偏掉 0.15–0.3 V，一定要用 100 kΩ</td>
+<td>偏壓電流 150–300 nA，配 1 MΩ 時兩腳電流的差會讓前級飽和（A 級直接卡死，見〈LTspice 模擬驗證〉），一定要用 100 kΩ</td>
 </tr>
 <tr>
 <td>濾波、增益檔</td>
@@ -333,6 +333,111 @@ footer{max-width:880px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font
 <li><strong>電源與隔離</strong>：獨立電池優先。要用 DC-DC，就選切換頻率固定、離 45 kHz 和取樣率都遠的型號，後面加 LC π 濾波再進 LT3042 這類高 PSRR 的 LDO。隔離放在 MCU 和 Jetson 之間（數位或 USB 隔離器），不然兩邊的地又接回去。</li>
 <li><strong>MCU 與傳輸</strong>：MCU 用計時器打 CONVST、DMA 收資料，只把每次 ping 前後的資料送給 Jetson，RP2350 的 USB 全速就夠；要連續串流 8 MB/s 就要 USB 2.0 高速，例如 Teensy 4.1。</li>
 <li><strong>參考設計</strong>：<a href="https://github.com/maximvoven/Hydrophone-Amplifier-Oizys" target="_blank" rel="noopener">Oizys</a>（MIT 授權可沿用，作者自認不理想、已封存）、<a href="https://github.com/cheehieu/usc-auv-passive-sonar" target="_blank" rel="noopener">USC passive sonar</a>（GPL-2.0，用 AD8331）；<a href="https://robonation.org/app/uploads/sites/4/2025/07/RS25_TDR_Cornell-University-AUV_compressed.pdf" target="_blank" rel="noopener">Cornell 2025</a> 把水聽系統放進獨立模組艙。</li>
+</ul>
+<h2 id="ltspice-模擬驗證">LTspice 模擬驗證</h2>
+<p>2026-10-29 用 LTspice 26 模擬組合 2 整條鏈和組合 1 的 6 階低通，這份文件的數字大多成立。另外補三件事：雜訊的大頭、AD8429 飽和的真正原因、四路相位會差多少。</p>
+<p>模擬的電路照〈自己做 4 通道前級板〉的規格挑標準值：INA849 前級 34 dB（RG ≈ 122 Ω）→ 20 kHz 2 階高通 → −10／0／+10 dB 增益檔 → 約 90 kHz 4 階低通 → ×2 驅動 → AD7606C ±2.5 V 檔，供電 ±5 V。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>10/23 的說法</th>
+<th>模擬結果</th>
+<th>判斷</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>總增益約 40 dB</td>
+<td>0 dB 檔在 45 kHz 是 39.8 dB；−10／+10 dB 檔是 29.8／49.8 dB</td>
+<td>成立</td>
+</tr>
+<tr>
+<td>固定約 40 dB 就涵蓋 0.3–56 m</td>
+<td>0.3 m 峰值 1.38 V（滿刻度的 55%）；56 m 峰值 7.4 mV（97 個 LSB）</td>
+<td>成立；+10 dB 檔在 0.52 m 內會削頂</td>
+</tr>
+<tr>
+<td>20 kHz 高通在 24 kHz 只衰減約 1.7 dB</td>
+<td>高通單獨看 1.84 dB；整條鏈的 24 kHz 只比 45 kHz 低 1.5 dB，48 kHz 一樣大</td>
+<td>成立，ESC 雜訊還是要靠數位濾波＋停轉</td>
+</tr>
+<tr>
+<td>AD7606C 跑 800 kS/s–1 MS/s，4 階低通就夠</td>
+<td>800 kS/s／1 MS/s 時，會折回 45 kHz 的 755／955 kHz 被壓 74／82 dB，加上 ADC 內建濾波是 85／95 dB</td>
+<td>成立</td>
+</tr>
+<tr>
+<td>組合 1 的 6 階、截止 60–70 kHz 低通在 155 kHz 約壓 40–50 dB</td>
+<td>截止 60／65／70 kHz 時壓 49.3／45.1／41.2 dB；45 kHz 只掉 0.1 dB</td>
+<td>成立</td>
+</tr>
+<tr>
+<td>保護電阻 1 kΩ 會多出約 5.8 nV/√Hz</td>
+<td>整條鏈從 2.88 變 6.40 nV/√Hz，多出的約 5.7（雜訊按平方相加）</td>
+<td>成立</td>
+</tr>
+<tr>
+<td>前級 20 nV/√Hz、最差情況，56 m 外仍約 29 dB</td>
+<td>用 20 nV/√Hz 算是 29.1 dB；模擬的 2.88 nV/√Hz 是 45.9 dB</td>
+<td>成立</td>
+</tr>
+<tr>
+<td>AD8429 配 1 MΩ 會偏 0.15–0.3 V，一定要用 100 kΩ</td>
+<td>0.15–0.3 V 是兩腳一起偏的共模，會被抵銷；飽和來自偏壓電流的差（見下）</td>
+<td>結論對，原因改寫</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>雜訊的大頭不是 INA849</strong>：整條鏈折回水聽器端是 2.88 nV/√Hz（45 kHz、0 dB 檔）。前三大（nV/√Hz）是兩腳各 100 Ω 的保護電阻 1.82、RG 熱雜訊 1.43、INA849 本身 1.0；增益越低 RG 越大，這項越明顯。56 m 外最差情況、2 kHz 窄頻後仍有 46 dB 訊雜比，不必為雜訊換更貴的前級；要再壓低，保護電阻可改 49.9 Ω（約 1.29），但要先確認箝位二極體的限流。</p>
+<p><strong>AD8429 配 1 MΩ 為什麼會飽和</strong>：0.15–0.3 V 是兩腳一起偏的共模，in-amp 會抵銷；真正的問題是兩腳偏壓電流的差（A 級最多 100 nA）乘 1 MΩ 約 0.1 V，再放大 50 倍就超過 ±5 V 供電時約 ±3.8 V 的輸出擺幅。模擬裡 A 級前級輸出卡在 −3.8 V、訊號消失，B 級偏到 −1.65 V、擺幅餘裕少一半。改 100 kΩ 後最多偏 0.53 V；INA849 偏壓電流小，用 1 MΩ 也只偏 0.32 V。</p>
+<p><strong>四路相位會差多少</strong>：誤差主要來自濾波器的電阻電容，是固定的，可以用〈自己做 4 通道前級板〉規格表裡的測試音校掉。下表是每種情況抽 300 組零件、隨機湊成 2 萬片 4 路板，看一片板裡最差的兩路（95% 的板子在這以內）：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>情況</th>
+<th>45 kHz 相位差</th>
+<th>換成方位誤差</th>
+<th>換成時間差</th>
+<th>增益差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>組合 2，建議零件（電阻 0.1%、C0G 電容 1%）</td>
+<td>1.2°</td>
+<td>0.4°</td>
+<td>74 ns</td>
+<td>0.12 dB</td>
+</tr>
+<tr>
+<td>組合 2，一般零件（電阻 1%、電容 5%）</td>
+<td>6.1°</td>
+<td>2.2°</td>
+<td>377 ns</td>
+<td>0.61 dB</td>
+</tr>
+<tr>
+<td>組合 1 濾波小板，建議零件</td>
+<td>1.8°</td>
+<td>0.6°</td>
+<td>112 ns</td>
+<td>0.21 dB</td>
+</tr>
+<tr>
+<td>組合 1 濾波小板，一般零件</td>
+<td>9.2°</td>
+<td>3.2°</td>
+<td>567 ns</td>
+<td>1.07 dB</td>
+</tr>
+</tbody>
+</table></div>
+<p>方位誤差假設兩支水聽器相距 1.5 cm、聲音從正前方來；改用到達時間差、間距拉大後影響會小很多。組合 1 只算了濾波小板，4 片 PA4 之間的差異沒有模型、還沒算進去，所以用相位法測向時組合 2 比較有利。</p>
+<p><strong>模擬沒算到的</strong>：</p>
+<ul>
+<li>INA849、AD8429、OPA1656 不在 LTspice 零件庫，照資料表數字做等效模型；先拿庫裡 AD8421 的原廠模型校驗過，增益差 0.01 dB 內、雜訊多估 6–8%。</li>
+<li>泳池背景雜訊、推進器雜訊、ADC 本身的雜訊和 PCB 走線都沒算，AD7606C 內建濾波先假設一階；訊雜比要等池測錄到背景雜訊後再補。</li>
+<li>INA849、AD8429 的偏壓電流和雜訊數字來自搜尋摘要，畫板前要對原廠資料表。</li>
 </ul>
 <h2 id="湊滿-4-支水聽器的三條路">湊滿 4 支水聽器的三條路</h2>
 <p>測方向至少要 3～4 支，隊上只有 1 支 TC4013。下面只算水聽器本身；前級和擷取看〈結論〉的組合 1／2。</p>
