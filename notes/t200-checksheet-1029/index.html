@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Blue Robotics T200 水下推進器怎麼判斷正常：看外觀、手轉＋短接、萬用電表量三組電阻、泡水通電比電流。A4 橫式兩頁可列印：正面 10 顆記錄表，背面判讀小抄，附原廠出處。">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="T200 推進器體檢表">
+<meta property="og:description" content="水下推進器 T200 四關篩檢，A4 兩頁可列印：10 顆記錄表＋判讀小抄。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8B%3C/text%3E%3C/svg%3E">
+<title>T200 推進器體檢表</title>
+<style>
+/* 版面：A4 橫式紙張兩頁。螢幕上是紙張預覽（正面依寬度等比縮小；背面在窄螢幕改成直排好讀），列印時一張紙一頁。 */
+:root {
+  --desk: #dbe2e5;
+  --desk-ink: #182026;
+  --desk-ink-2: #4a5761;
+  --sheet-edge: #c3cdd2;
+  /* 紙面顏色：紙要印出來，深色模式也維持白紙黑字 */
+  --paper: #ffffff;
+  --ink: #182026;
+  --ink-2: #47535d;
+  --ink-3: #78848d;
+  --rule: #26323b;
+  --rule-2: #9ea9b1;
+  --rule-3: #d2d9de;
+  --tint: #e7eff2;
+  --tint-2: #f3f7f8;
+  --accent: #0c5666;
+  --accent-ink: #ffffff;
+  --wire-blue: #1f63d6;
+  --wire-green: #17904d;
+  --wire-white: #ffffff;
+  --wire-edge: #6f7b84;
+  --power: #c23b2f;
+  --ok: #1d7a44;
+  --warn: #a86f00;
+  --bad: #b3302a;
+  --ok-tint: #ecf6ef;
+  --warn-tint: #fbf4e3;
+  --bad-tint: #fbeeed;
+  --font-sans: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Heiti TC", sans-serif;
+  --font-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --desk: #12181b; --desk-ink: #e1e8eb; --desk-ink-2: #9fb0b9; --sheet-edge: #2b363c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --desk: #12181b; --desk-ink: #e1e8eb; --desk-ink-2: #9fb0b9; --sheet-edge: #2b363c;
+  color-scheme: dark;
+}
+
+body { margin: 0; background: var(--desk); color: var(--desk-ink); font-family: var(--font-sans); -webkit-text-size-adjust: 100%; }
+.desk {
+  display: grid; justify-items: center; gap: 12px;
+  padding-block: 24px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.intro, .label, .frame { width: 100%; max-width: 297mm; min-width: 0; }
+.intro { display: grid; gap: 6px; margin-bottom: 4px; }
+.intro h1 { margin: 0; font-size: 1.4rem; font-weight: 650; letter-spacing: 0.01em; text-wrap: balance; }
+.intro p { margin: 0; max-width: 46em; font-size: 0.92rem; line-height: 1.65; color: var(--desk-ink-2); }
+.label { font-size: 0.78rem; letter-spacing: 0.08em; color: var(--desk-ink-2); margin-top: 12px; }
+.frame { overflow: hidden; }
+
+/* ---------- 紙張 ---------- */
+.sheet {
+  box-sizing: border-box; width: 297mm; height: 210mm; padding: 8mm 8mm 7mm;
+  background: var(--paper); color: var(--ink); border: 1px solid var(--sheet-edge);
+  display: flex; flex-direction: column; gap: 2.6mm;
+  font-size: 8.3pt; line-height: 1.4; font-variant-numeric: tabular-nums;
+  overflow: hidden; transform-origin: 0 0;
+}
+.sheet h2, .sheet h3, .sheet h4, .sheet p, .sheet ul, .sheet ol, .sheet dl, .sheet dd { margin: 0; }
+.eyebrow { font-size: 0.82em; letter-spacing: 0.12em; color: var(--accent); font-weight: 600; }
+.sheet h2 { font-size: 2.05em; font-weight: 700; letter-spacing: 0.02em; line-height: 1.2; }
+.n {
+  display: inline-grid; place-items: center; width: 1.55em; height: 1.55em; border-radius: 50%;
+  background: var(--accent); color: var(--accent-ink); font: 700 0.86em/1 var(--font-mono);
+  margin-right: 0.45em; vertical-align: 0.05em;
+}
+.t { font-weight: 400; color: var(--ink-3); font-size: 0.86em; margin-left: 0.5em; }
+.chip { display: inline-block; padding: 0.05em 0.5em; border-radius: 0.3em; font-weight: 700; font-size: 0.92em; border: 0.25mm solid currentColor; white-space: nowrap; }
+.chip.ok { color: var(--ok); background: var(--ok-tint); }
+.chip.warn { color: var(--warn); background: var(--warn-tint); }
+.chip.bad { color: var(--bad); background: var(--bad-tint); }
+.w { display: inline-block; width: 1.9mm; height: 1.9mm; border-radius: 50%; box-sizing: border-box; border: 0.25mm solid transparent; vertical-align: -0.1mm; }
+.w.b { background: var(--wire-blue); }
+.w.g { background: var(--wire-green); }
+.w.wh { background: var(--wire-white); border-color: var(--wire-edge); }
+.blank { display: inline-block; min-width: 15mm; height: 1em; border-bottom: 0.25mm solid var(--rule-2); vertical-align: -0.2em; margin-inline: 0.8mm; }
+.blank.s { min-width: 9mm; }
+.note { color: var(--ink-3); font-size: 0.88em; }
+
+/* ---------- 正面：記錄表 ---------- */
+.rec-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 8mm; }
+.rec-title { display: grid; gap: 1mm; min-width: 0; }
+.howto { color: var(--ink-2); font-size: 0.95em; max-width: 128mm; }
+.howto b { color: var(--ink); }
+.meta { display: grid; grid-template-columns: repeat(3, 40mm); gap: 2.4mm 4mm; }
+.f { display: flex; align-items: flex-end; gap: 1.6mm; }
+.f dt { font-size: 0.88em; color: var(--ink-2); white-space: nowrap; }
+.f dd { flex: 1; min-width: 6mm; height: 5mm; border-bottom: 0.25mm solid var(--rule-2); position: relative; }
+.f dd[data-unit]::after { content: attr(data-unit); position: absolute; right: 0; bottom: 0.4mm; font: 0.82em/1 var(--font-mono); color: var(--ink-3); }
+
+.rec { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 0.95em; border: 0.5mm solid var(--rule); }
+.rec th, .rec td { border: 0.22mm solid var(--rule-2); padding: 0.6mm; text-align: center; vertical-align: middle; }
+.rec thead { border-bottom: 0.5mm solid var(--rule); }
+.rec thead th { font-weight: 600; line-height: 1.25; background: var(--tint-2); font-size: 0.95em; }
+.rec thead tr.r1 th { background: var(--tint); font-size: 1.04em; padding-block: 1.1mm; }
+.rec thead th small { display: block; font-weight: 400; color: var(--ink-3); font-size: 0.84em; }
+.rec .stage { text-align: left; padding-left: 1.6mm; }
+.rec .sb { border-left: 0.55mm solid var(--rule); }
+.rec .pair { font-size: 0.92em; }
+.rec .pair .dots { display: block; line-height: 0; margin-bottom: 0.6mm; }
+.rec .pair .w + .w { margin-left: 0.5mm; }
+.rec .res { font-size: 0.9em; }
+.rec .res .sq { display: block; width: 2.4mm; height: 2.4mm; margin: 0 auto 0.7mm; border-radius: 0.5mm; }
+.rec .res.ok { color: var(--ok); } .rec .res.ok .sq { background: var(--ok); }
+.rec .res.warn { color: var(--warn); } .rec .res.warn .sq { background: var(--warn); }
+.rec .res.bad { color: var(--bad); } .rec .res.bad .sq { background: var(--bad); }
+.rec tbody td { height: 12.6mm; box-sizing: border-box; }
+.rec tbody td:nth-child(1) { font: 700 1.25em/1 var(--font-mono); background: var(--tint); }
+.rec tbody td:nth-child(3), .rec tbody td:nth-child(7), .rec tbody td:nth-child(11),
+.rec tbody td:nth-child(15), .rec tbody td:nth-child(18), .rec tbody td:nth-child(21) { border-left: 0.55mm solid var(--rule); }
+.rec tbody td:nth-child(n+7):nth-child(-n+10), .rec tbody td:nth-child(n+15):nth-child(-n+17) { background: var(--tint-2); }
+.rec tbody td:nth-child(18) { background: var(--ok-tint); }
+.rec tbody td:nth-child(19) { background: var(--warn-tint); }
+.rec tbody td:nth-child(20) { background: var(--bad-tint); }
+.rec tbody td:nth-child(n+11):nth-child(-n+13), .rec tbody td:nth-child(16) { position: relative; }
+.rec tbody td:nth-child(n+11):nth-child(-n+13)::after { content: "Ω"; }
+.rec tbody td:nth-child(16)::after { content: "A"; }
+.rec tbody td:nth-child(n+11):nth-child(-n+13)::after, .rec tbody td:nth-child(16)::after {
+  position: absolute; right: 0.8mm; bottom: 0.5mm; font: 0.8em/1 var(--font-mono); color: var(--ink-3);
+}
+.rec tbody tr:nth-child(5) td { border-bottom: 0.45mm solid var(--rule); }
+
+.rec-foot { display: grid; grid-template-columns: 1.55fr 1fr 0.95fr; gap: 6mm; }
+.rec-foot h3 { font-size: 0.98em; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 0.9mm; }
+.rec-foot p + p { margin-top: 0.6mm; }
+.bins-mini { display: grid; gap: 0.9mm; }
+.bins-mini div { display: grid; grid-template-columns: 13mm 1fr; align-items: baseline; gap: 1.6mm; }
+.tally { display: flex; flex-wrap: wrap; gap: 1.2mm 4mm; align-items: baseline; }
+
+/* ---------- 背面：判讀小抄 ---------- */
+.guide-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10mm; }
+.guide-head .lede { color: var(--ink-2); max-width: 150mm; font-size: 0.98em; }
+.guide-sheet { font-size: 8.7pt; }
+.cols { display: grid; grid-template-columns: 0.9fr 1.12fr 1.12fr 1.7fr; gap: 3.6mm; flex: 1; min-height: 0; }
+.card { border-top: 0.6mm solid var(--rule); padding-top: 1.6mm; display: flex; flex-direction: column; gap: 1.3mm; min-width: 0; }
+.card h3 { font-size: 1.12em; font-weight: 700; display: flex; align-items: baseline; flex-wrap: wrap; }
+.card h4 { font-size: 0.97em; font-weight: 700; margin-top: 0.6mm; }
+.card ul, .card ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.7mm; }
+.card li { position: relative; padding-left: 3.6mm; }
+.card li::before { position: absolute; left: 0; top: 0; font-weight: 700; }
+.card li.y::before { content: "✓"; color: var(--ok); }
+.card li.x::before { content: "✗"; color: var(--bad); }
+.card li.d::before { content: ""; width: 1.2mm; height: 1.2mm; border-radius: 50%; background: var(--ink-3); top: 0.6em; left: 0.9mm; }
+.card ol { counter-reset: step; }
+.card ol li { counter-increment: step; }
+.card ol li::before { content: counter(step); font-family: var(--font-mono); color: var(--accent); }
+.pre { color: var(--ink-2); background: var(--tint-2); border-radius: 1mm; padding: 1.2mm 1.8mm; }
+.tip, .cap { color: var(--ink-2); font-size: 0.94em; }
+.pit { background: var(--tint-2); border-radius: 1mm; padding: 1.4mm 1.8mm; display: grid; gap: 0.8mm; }
+
+.wiring { display: block; width: 100%; max-width: 100%; height: auto; }
+.wiring .box { fill: var(--paper); stroke: var(--rule); stroke-width: 1.6; }
+.wiring .box.hl { fill: var(--tint); }
+.wiring text { fill: var(--ink); font-family: var(--font-sans); }
+.wiring .k { font-size: 12px; font-weight: 700; }
+.wiring .s { font-size: 10.5px; fill: var(--ink-2); }
+.wiring .lbl { font-size: 9.5px; fill: var(--ink-2); }
+.wiring line { fill: none; stroke-linecap: round; }
+.wiring .p { stroke: var(--power); stroke-width: 3; }
+.wiring .m { stroke: var(--ink); stroke-width: 3; }
+.wiring .wb { stroke: var(--wire-blue); stroke-width: 3; }
+.wiring .wg { stroke: var(--wire-green); stroke-width: 3; }
+.wiring .we { stroke: var(--wire-edge); stroke-width: 3.6; }
+.wiring .ww { stroke: var(--wire-white); stroke-width: 1.8; }
+.wiring .sig { stroke: var(--ink-2); stroke-width: 1.8; stroke-dasharray: 4 3; }
+
+.bottom { display: grid; grid-template-columns: 1.65fr 1fr; gap: 5mm; }
+.bins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.4mm; }
+.bin { border: 0.3mm solid var(--rule-3); border-top: 1.1mm solid var(--rule-3); border-radius: 1mm; padding: 1.4mm 2mm; display: grid; gap: 0.6mm; align-content: start; }
+.bin b { font-size: 1.05em; }
+.bin.ok { border-top-color: var(--ok); } .bin.ok b { color: var(--ok); }
+.bin.warn { border-top-color: var(--warn); } .bin.warn b { color: var(--warn); }
+.bin.bad { border-top-color: var(--bad); } .bin.bad b { color: var(--bad); }
+.safety { border: 0.3mm solid var(--rule-3); border-radius: 1mm; padding: 1.4mm 2mm; display: grid; gap: 0.7mm; align-content: start; }
+.safety h3 { font-size: 1em; font-weight: 700; }
+.safety ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.6mm; }
+.safety li { position: relative; padding-left: 3.2mm; }
+.safety li::before { content: ""; position: absolute; left: 0.8mm; top: 0.6em; width: 1.2mm; height: 1.2mm; border-radius: 50%; background: var(--bad); }
+.src { font-size: 0.78em; color: var(--ink-3); border-top: 0.2mm solid var(--rule-3); padding-top: 1.2mm; overflow-wrap: anywhere; }
+.src a { color: inherit; text-decoration: none; }
+
+/* 窄螢幕：背面小抄改成直排，手機上也讀得清楚（列印不受影響） */
+@media screen and (max-width: 1180px) {
+  .frame.fluid { overflow: visible; }
+  .frame.fluid .sheet { width: auto; height: auto; padding: 20px 18px 22px; font-size: 15px; gap: 16px; overflow: visible; }
+  .frame.fluid .guide-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .frame.fluid .cols { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+  .frame.fluid .bottom { grid-template-columns: 1fr; gap: 14px; }
+  .frame.fluid .bins { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+}
+
+@page { size: A4 landscape; margin: 0; }
+@media print {
+  html, body { background: var(--paper); }
+  .screen-only { display: none !important; }
+  .desk { display: block; padding: 0 !important; }
+  .frame { max-width: none; width: auto; height: auto !important; overflow: visible; break-after: page; page-break-after: always; }
+  .frame.last { break-after: auto; page-break-after: auto; }
+  .sheet { transform: none !important; border: none; height: 209.5mm; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+.intro a { color: var(--desk-ink); text-underline-offset: 2px; }
+.intro .back { font-size: 0.85rem; color: var(--desk-ink-2); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="desk">
+  <header class="intro screen-only">
+    <a class="back" href="../">← 筆記站</a>
+    <h1>T200 推進器體檢表</h1>
+    <p>A4 橫式兩頁：正面是 10 顆推進器的記錄表，背面是判讀小抄。列印請用 <a href="t200-checksheet-a4.pdf">PDF 檔</a>（或直接用瀏覽器列印），雙面選「短邊翻頁」，背面才不會上下顛倒。在手機上看，背面小抄會改成直排，測的時候可以直接對照。</p>
+  </header>
+
+  <div class="label screen-only">正面・記錄表</div>
+  <div class="frame scale">
+    <section class="sheet rec-sheet" aria-label="記錄表">
+      <header class="rec-head">
+        <div class="rec-title">
+          <div class="eyebrow">BLUE ROBOTICS T200・四關篩檢記錄</div>
+          <h2>T200 推進器體檢表</h2>
+          <p class="howto">每格：正常打 <b>✓</b>、有問題打 <b>✗</b>、沒測留空白。電阻、電流寫數字；結果三格選一格打 ✓。編號跟推進器上的紙膠帶一致。</p>
+        </div>
+        <dl class="meta">
+          <div class="f"><dt>日期</dt><dd></dd></div>
+          <div class="f"><dt>地點</dt><dd></dd></div>
+          <div class="f"><dt>測試人</dt><dd></dd></div>
+          <div class="f"><dt>萬用電表</dt><dd></dd></div>
+          <div class="f"><dt>探棒短路讀數</dt><dd data-unit="Ω"></dd></div>
+          <div class="f"><dt>電調型號</dt><dd></dd></div>
+          <div class="f"><dt>電源</dt><dd data-unit="V"></dd></div>
+          <div class="f"><dt>限流</dt><dd data-unit="A"></dd></div>
+          <div class="f"><dt>油門</dt><dd data-unit="µs"></dd></div>
+        </dl>
+      </header>
+
+      <table class="rec">
+        <colgroup>
+          <col style="width:8mm"><col style="width:22mm">
+          <col style="width:9.5mm"><col style="width:9.5mm"><col style="width:9.5mm"><col style="width:9.5mm">
+          <col style="width:10mm"><col style="width:11mm"><col style="width:11mm"><col style="width:11mm">
+          <col style="width:13mm"><col style="width:13mm"><col style="width:13mm"><col style="width:10.5mm">
+          <col style="width:9.5mm"><col style="width:14mm"><col style="width:9.5mm">
+          <col style="width:10.5mm"><col style="width:10.5mm"><col style="width:10.5mm">
+          <col>
+        </colgroup>
+        <thead>
+          <tr class="r1">
+            <th rowspan="3">編號</th>
+            <th rowspan="3">財產編號</th>
+            <th colspan="4" class="stage sb"><span class="n">1</span>看外觀<span class="t">30 秒</span></th>
+            <th colspan="4" class="stage sb"><span class="n">2</span>手轉＋短接<span class="t">1 分鐘</span></th>
+            <th colspan="4" class="stage sb"><span class="n">3</span>萬用電表量電阻<span class="t">2 分鐘</span></th>
+            <th colspan="3" class="stage sb"><span class="n">4</span>通電<span class="t">要電調＋電源</span></th>
+            <th colspan="3" class="stage sb">結果<span class="t">選一格打 ✓</span></th>
+            <th rowspan="3" class="sb">備註</th>
+          </tr>
+          <tr class="r2">
+            <th rowspan="2" class="sb">槳葉</th>
+            <th rowspan="2">導流罩</th>
+            <th rowspan="2">電線</th>
+            <th rowspan="2">縫隙</th>
+            <th rowspan="2" class="sb">手轉順<small>線分開</small></th>
+            <th colspan="3">兩兩短接後變重？</th>
+            <th colspan="3" class="sb">讀數（Ω）</th>
+            <th rowspan="2">相差<small>≤ 0.2 Ω</small></th>
+            <th rowspan="2" class="sb">平順</th>
+            <th rowspan="2">電流<small>同油門</small></th>
+            <th rowspan="2">溫度<small>正常</small></th>
+            <th rowspan="2" class="sb res ok"><i class="sq"></i>能用</th>
+            <th rowspan="2" class="res warn"><i class="sq"></i>清再測</th>
+            <th rowspan="2" class="res bad"><i class="sq"></i>先別用</th>
+          </tr>
+          <tr class="r3">
+            <th class="pair"><span class="dots"><i class="w b"></i><i class="w g"></i></span>藍綠</th>
+            <th class="pair"><span class="dots"><i class="w g"></i><i class="w wh"></i></span>綠白</th>
+            <th class="pair"><span class="dots"><i class="w wh"></i><i class="w b"></i></span>白藍</th>
+            <th class="pair sb"><span class="dots"><i class="w b"></i><i class="w g"></i></span>藍綠</th>
+            <th class="pair"><span class="dots"><i class="w g"></i><i class="w wh"></i></span>綠白</th>
+            <th class="pair"><span class="dots"><i class="w wh"></i><i class="w b"></i></span>白藍</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>8</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>9</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>10</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+
+      <footer class="rec-foot">
+        <section>
+          <h3>分三堆</h3>
+          <div class="bins-mini">
+            <div><span class="chip ok">能用</span><span>四關都過</span></div>
+            <div><span class="chip warn">清再測</span><span>只有手轉沙沙、卡卡：用清水沖、邊沖邊轉，再測一次</span></div>
+            <div><span class="chip bad">先別用</span><span>電阻 OL、短接某組沒感覺、通電一頓一頓、電流特別高又燙、線皮破到見銅</span></div>
+          </div>
+        </section>
+        <section>
+          <h3>電流怎麼比</h3>
+          <p>好的那幾顆，電流的中間值 <span class="blank"></span> A</p>
+          <p>某顆比它高約 2 成以上 → 再測一次確認</p>
+          <p class="note">「2 成」是經驗值，不是原廠標準</p>
+        </section>
+        <section>
+          <h3>統計</h3>
+          <p class="tally"><span>能用<span class="blank s"></span>顆</span><span>清再測<span class="blank s"></span>顆</span><span>先別用<span class="blank s"></span>顆</span></p>
+          <p class="note">背面：判讀小抄（怎麼判斷、通電接法、安全）</p>
+        </section>
+      </footer>
+    </section>
+  </div>
+
+  <div class="label screen-only">背面・判讀小抄</div>
+  <div class="frame fluid last">
+    <section class="sheet guide-sheet" aria-label="判讀小抄">
+      <header class="guide-head">
+        <div>
+          <div class="eyebrow">T200 推進器體檢表・背面</div>
+          <h2>判讀小抄</h2>
+        </div>
+        <p class="lede">前 3 關不用通電、不用拆，隨時能做；第 4 關要電調和限流電源。判斷時看同一批互相比：三組電阻互相比，每顆的電流互相比。</p>
+      </header>
+
+      <div class="cols">
+        <article class="card">
+          <h3><span class="n">1</span>看外觀<span class="t">每顆 30 秒</span></h3>
+          <p class="pre">開始前：每顆貼紙膠帶寫編號，跟正面一致；有財產編號就抄下來。</p>
+          <ul>
+            <li class="d"><b>槳葉</b>：缺角、裂痕（缺一角轉起來會抖）</li>
+            <li class="d"><b>導流罩</b>：外圈有沒有裂</li>
+            <li class="d"><b>電線</b>：外皮割傷、壓扁、露銅；線頭有沒有綠黑色銅鏽</li>
+            <li class="d"><b>縫隙</b>：卡沙子、頭髮、白色水垢</li>
+          </ul>
+          <p class="tip">有問題就在那一格打 ✗，備註寫是哪裡。</p>
+        </article>
+
+        <article class="card">
+          <h3><span class="n">2</span>手轉＋短接<span class="t">每顆 1 分鐘</span></h3>
+          <p>三條馬達線（<i class="w b"></i> 藍、<i class="w g"></i> 綠、<i class="w wh"></i> 白）先分開、別互碰，撥槳轉：</p>
+          <ul>
+            <li class="y">轉起來順，放手還會滑一小段</li>
+            <li class="y">平均的「一格一格」感是磁鐵在吸鐵芯，正常；乾的時候喀喀響也正常，下水會變小</li>
+            <li class="x">沙沙聲、刮刮聲、某個角度特別緊、軸會晃</li>
+            <li class="x">線分開時就很重、一頓一頓：卡東西，或線圈內部短路</li>
+          </ul>
+          <h4>短接：兩條線的銅頭捏在一起再轉</h4>
+          <ul>
+            <li class="y">明顯變重（馬達變發電機，自己在煞車），藍綠、綠白、白藍三組差不多</li>
+            <li class="x">某一組特別輕或沒感覺：疑似斷線，第 3 關確認</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3><span class="n">3</span>萬用電表量電阻<span class="t">每顆 2 分鐘</span></h3>
+          <ol>
+            <li>轉到最小的電阻檔（Ω）</li>
+            <li>兩支探棒碰在一起，讀數寫在正面「探棒短路讀數」</li>
+            <li>量藍綠、綠白、白藍，照實寫讀數</li>
+          </ol>
+          <ul>
+            <li class="y">三組都很小：扣掉探棒後只有零點幾 Ω（原廠論壇有人量到約 0.18 Ω）</li>
+            <li class="y">最大減最小 ≤ 0.2 Ω，「相差」欄打 ✓。三組都含探棒電阻，算相差時不用扣</li>
+            <li class="x">出現 OL（不通）：斷線</li>
+            <li class="x">某一組明顯比另外兩組大：接觸不良或線圈有問題</li>
+          </ul>
+          <p class="tip">重點是三組互相比，不用死對某個數字。</p>
+        </article>
+
+        <article class="card">
+          <h3><span class="n">4</span>通電<span class="t">要電調＋限流電源</span></h3>
+          <svg class="wiring" viewBox="0 0 300 120" role="img" aria-label="通電接法：限流電源接到電調，電調的三條馬達線接 T200，伺服測試器或 Arduino 接到電調的訊號線">
+            <rect class="box" x="2" y="10" width="86" height="46" rx="6"/>
+            <text class="k" x="45" y="29" text-anchor="middle">限流電源</text>
+            <text class="s" x="45" y="46" text-anchor="middle">12 V・限流 3 A</text>
+            <line class="p" x1="88" y1="24" x2="120" y2="24"/>
+            <line class="m" x1="88" y1="42" x2="120" y2="42"/>
+            <text class="lbl" x="104" y="19" text-anchor="middle">＋</text>
+            <text class="lbl" x="104" y="55" text-anchor="middle">－</text>
+            <rect class="box hl" x="120" y="10" width="62" height="46" rx="6"/>
+            <text class="k" x="151" y="38" text-anchor="middle">電調</text>
+            <line class="wb" x1="182" y1="20" x2="214" y2="20"/>
+            <line class="wg" x1="182" y1="33" x2="214" y2="33"/>
+            <line class="we" x1="182" y1="46" x2="214" y2="46"/>
+            <line class="ww" x1="182" y1="46" x2="214" y2="46"/>
+            <rect class="box" x="214" y="10" width="84" height="46" rx="6"/>
+            <text class="k" x="256" y="29" text-anchor="middle">T200</text>
+            <text class="s" x="256" y="46" text-anchor="middle">泡在水桶裡</text>
+            <line class="sig" x1="151" y1="56" x2="151" y2="84"/>
+            <text class="lbl" x="158" y="74">訊號線＋地線</text>
+            <rect class="box" x="86" y="84" width="130" height="32" rx="6"/>
+            <text class="s" x="151" y="104" text-anchor="middle">伺服測試器 或 Arduino</text>
+          </svg>
+          <p class="cap">電源正負極不能接反；馬達三條線怎麼接都會轉，交換任兩條就反轉。</p>
+          <ul>
+            <li class="d">推進器<b>整顆泡進水桶</b>、夾在桶邊再通電。乾轉官方上限 10 秒，原廠人員建議只點 1～2 秒</li>
+            <li class="d">電源 12 V（T200 可用 7～20 V），限流先設 3 A</li>
+            <li class="d">開機時旋鈕：Basic ESC 放中間（1500 µs＝停），等確認音；1475～1525 µs 是死區，轉一點點不動是正常的。無人機電調轉到最小</li>
+            <li class="d">油門推到約 1550～1600 µs，每顆用同一個油門，看<b>平順、電流、溫度</b></li>
+          </ul>
+          <div class="pit">
+            <b>容易誤判的坑</b>
+            <ul>
+              <li class="d">伺服測試器不亮：有些 Basic ESC（例如 R3）不出 5 V，另外給 5 V，地線接一起</li>
+              <li class="d">一直重播開機音：限流太低，往上調</li>
+              <li class="d">馬達線別用長鱷魚夾，接觸電阻會讓它轉得卡卡的</li>
+              <li class="d">懷疑壞了：跟好的那顆對調電調再測，分出是電調還是推進器</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="bottom">
+        <section class="bins" aria-label="分三堆">
+          <div class="bin ok"><b>能用</b><span>四關都過。</span></div>
+          <div class="bin warn"><b>清再測</b><span>只有手轉沙沙、卡卡：用清水沖、邊沖邊轉，再測一次。要拆開清理，先問器材負責人。</span></div>
+          <div class="bin bad"><b>先別用</b><span>電阻 OL、短接某組沒感覺、通電一頓一頓、電流特別高又燙、線皮破到見銅。</span></div>
+        </section>
+        <section class="safety">
+          <h3>安全</h3>
+          <ul>
+            <li>槳很利：通電前夾牢，手指、頭髮、電線都遠離</li>
+            <li>別直接接 LiPo 電池測；12 V 全油門約吃 17 A，測試只推一點點</li>
+            <li>線都接好、旋鈕歸位，最後才開電源；拆線前先關電源</li>
+          </ul>
+        </section>
+      </div>
+
+      <footer class="src">資料來源：Blue Robotics <a href="https://bluerobotics.com/store/thrusters/t200-thruster/">T200 規格頁</a>（bluerobotics.com/store/thrusters/t200-thruster）、<a href="https://bluerobotics.com/learn/thruster-usage-guide">Thruster User Guide</a>（bluerobotics.com/learn/thruster-usage-guide）、<a href="https://discuss.bluerobotics.com/">Blue Robotics 原廠論壇</a>（discuss.bluerobotics.com：乾轉測試、三組電阻、Basic ESC 開機音與 5 V）。限流 3 A、油門 1550～1600 µs、電流高 2 成再測是實務建議，不是原廠規格。製表 2026-10-29。</footer>
+    </section>
+  </div>
+</div>
+
+<script>
+(function () {
+  var frames = document.querySelectorAll('.frame.scale');
+  function fit() {
+    frames.forEach(function (f) {
+      var s = f.firstElementChild;
+      s.style.transform = 'none';
+      var k = Math.min(1, f.clientWidth / s.offsetWidth);
+      s.style.transform = k < 1 ? 'scale(' + k + ')' : 'none';
+      f.style.height = k < 1 ? Math.ceil(s.offsetHeight * k) + 'px' : '';
+    });
+  }
+  fit();
+  var lastW = document.documentElement.clientWidth;
+  window.addEventListener('resize', function () {
+    var w = document.documentElement.clientWidth;
+    if (w !== lastW) { lastW = w; fit(); }
+  });
+  window.addEventListener('beforeprint', function () {
+    frames.forEach(function (f) { f.firstElementChild.style.transform = 'none'; f.style.height = ''; });
+  });
+  window.addEventListener('afterprint', fit);
+})();
+</script>
+</body>
+</html>
