@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>T-MARS 頒獎日行程</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* 版面：手機優先單欄、最寬 720px；時間軸左欄放時間、右欄放事情；攤位用色塊標「已確認／未公布」 */
+:root{
+  --bg:#F2F6F8; --surface:#FFFFFF; --fg:#13263A; --muted:#5B6D7F; --line:#D2DDE5;
+  --accent:#0E6E86; --accent-ink:#FFFFFF; --accent-soft:#DDEFF4;
+  --warn:#A8501C; --warn-bg:#FBEADB; --ok:#1F7A50; --ok-bg:#E0F2E8;
+  --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --font-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --font-mono:"IBM Plex Mono","SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C151D; --surface:#14212C; --fg:#E7EEF3; --muted:#9DB0C0; --line:#273846;
+    --accent:#4BBBD0; --accent-ink:#06202A; --accent-soft:#163440;
+    --warn:#F2A867; --warn-bg:#3A2717; --ok:#74D4A4; --ok-bg:#16302A; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C151D; --surface:#14212C; --fg:#E7EEF3; --muted:#9DB0C0; --line:#273846;
+  --accent:#4BBBD0; --accent-ink:#06202A; --accent-soft:#163440;
+  --warn:#F2A867; --warn-bg:#3A2717; --ok:#74D4A4; --ok-bg:#16302A; color-scheme:dark;
+}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.65;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px;}
+*{box-sizing:border-box}
+.wrap{max-width:720px;margin:0 auto}
+header.top{padding-block:28px 18px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--font-mono);font-size:13px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+h1{font-family:var(--font-display);font-size:30px;line-height:1.25;margin:6px 0 8px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 14px}
+.facts{display:flex;flex-wrap:wrap;gap:8px}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:14px}
+.fact b{font-family:var(--font-mono);font-variant-numeric:tabular-nums;color:var(--accent)}
+section{padding-block:22px 6px}
+h2{font-size:20px;margin:0 0 4px;text-wrap:balance}
+h2 small{font-weight:400;color:var(--muted);font-size:14px;margin-left:8px}
+.lead{color:var(--muted);margin:0 0 12px;font-size:15px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0}
+.stack{display:grid;gap:12px}
+p{margin:6px 0}
+ul{margin:6px 0;padding-left:20px}
+li{margin:3px 0}
+a{color:var(--accent);text-underline-offset:3px}
+.tonight{border-left:4px solid var(--warn)}
+.tonight ol{margin:6px 0 0;padding-left:22px}
+.tonight li{margin:6px 0}
+/* 時間軸 */
+.tl{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.tl li{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);min-width:0}
+.tl li:last-child{border-bottom:0}
+.tl time{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:14px;color:var(--accent);padding-top:3px;white-space:nowrap}
+.tl .what{min-width:0}
+.tl b{display:block;font-weight:700}
+.tl p{margin:2px 0 0;color:var(--muted);font-size:14.5px}
+.tl li.key b{color:var(--accent)}
+.toggle{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 6px}
+.toggle button{font:inherit;font-size:14px;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.toggle button:focus-visible,.chk input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+/* 動線站點 */
+.stop{display:grid;grid-template-columns:36px 1fr;gap:12px}
+.stop .n{font-family:var(--font-mono);font-size:22px;color:var(--accent);line-height:1.1;padding-top:2px}
+.stop h3{margin:0 0 4px;font-size:17px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{font-family:var(--font-mono);font-size:12px;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.chip.ok{background:var(--ok-bg);color:var(--ok)}
+.chip.tbd{background:var(--warn-bg);color:var(--warn)}
+.who{margin:4px 0;font-size:15px}
+.ask{margin:6px 0 0;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:14.5px}
+.ask b{color:var(--accent)}
+/* 清單 */
+.chk{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.chk label{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;border-radius:8px;cursor:pointer}
+.chk label:has(input:checked){color:var(--muted);text-decoration:line-through}
+.chk input{width:20px;height:20px;margin-top:3px;accent-color:var(--accent);flex:none}
+.note{font-size:14px;color:var(--muted)}
+.links{display:grid;gap:8px}
+.links a{display:block;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--fg)}
+.links a span{display:block;font-size:13px;color:var(--muted)}
+.links a:hover{border-color:var(--accent)}
+.opener{font-size:15px;padding:10px 12px;border-left:3px solid var(--accent);background:var(--surface);border-radius:0 8px 8px 0}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+td,th{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:500}
+.tbl{overflow-x:auto}
+footer{padding-block:24px 0;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:18px}
+@media (prefers-reduced-motion:no-preference){.toggle button{transition:background .15s,color .15s}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">2026-11-03（二）· 台南</div>
+  <h1>T-MARS 頒獎日行程</h1>
+  <p class="sub">2026 年水面及水下載具示範競賽 頒獎典禮，加上同場的 MATURE Taiwan 海洋科技暨無人載具展參觀。我代表陽明交大 ORCA AUV（交大 AUV-1）出席領獎；致詞稿與座位圖在出席包。</p>
+  <div class="facts">
+    <div class="fact"><b>09:05–09:30</b> 入口大廳報到</div>
+    <div class="fact"><b>09:30–09:55</b> 頒獎典禮</div>
+    <div class="fact"><b>09:49–09:52</b> AUV 組頒獎</div>
+    <div class="fact"><b>09:00–16:00</b> 展覽開放</div>
+    <div class="fact">大台南會展中心 展覽棟 1F 東展區</div>
+  </div>
+</header>
+
+<section id="tonight">
+  <div class="card tonight">
+    <h2>今晚先做的四件事</h2>
+    <ol>
+      <li><b>高鐵票已買：803 次（新竹 07:02 → 台南 08:28）</b>。603 的對號座賣完了。回程方案 B 是 664 次（16:48 → 17:57）、方案 A 是 642 次（13:13 → 14:25），有決定就先買，下午北上的對號座也可能賣完。</li>
+      <li><b>截下參觀 QR code</b>：展覽登記我 11/2 早上已經完成（bizeview）。打開信裡的「查看最新報名資訊」連結，把 QR code 截圖存到相簿，進場靠它。</li>
+      <li><b>問隊長黃政堯</b>：頒獎典禮會「辦理優良作品展示及產學交流」，載具要不要到場、誰帶、幾點到；也確認賴老師和其他隊員誰會去。</li>
+      <li><b>回傳座位圖 PDF 給大會</b>：出席包有兩版（空格補「成育典」／取代原本列的隊友）。先問隊友明天去不去、名字寫法對不對，再選一版寄。講稿裡的【】等領完獎再補。</li>
+    </ol>
+  </div>
+</section>
+
+<section id="timeline">
+  <h2>時間軸 <small>從新竹出發（若我人已在台南，從 08:30 那列開始看）</small></h2>
+  <p class="lead">回程兩個方案：B 看到閉館（建議，難得南下一趟）；A 趕回 15:45 的「半導體可靠度」，那堂是旁聽，不去不扣分。</p>
+  <div class="toggle" role="group" aria-label="回程方案">
+    <button type="button" id="btnB" aria-pressed="true">方案 B：看到 16:00 閉館</button>
+    <button type="button" id="btnA" aria-pressed="false">方案 A：趕回 15:45 旁聽</button>
+  </div>
+  <div class="card">
+  <ol class="tl">
+    <li><time>06:05</time><div class="what"><b>往高鐵新竹站，06:45 前到站，滑板車裝袋帶著</b><p>182 首班 06:10 從北大橋發、約 06:50 才到高鐵站，離 07:02 開車只剩 12 分鐘，公車一塞就完了。建議騎滑板車或叫計程車直接到站，或台鐵六家線到六家站再走 3 分鐘。怕趕不上：最晚 06:32（開車前 30 分鐘）在 T Express 把票改到後面的班次，603 對號座賣完就改成自由座票；開車後這張票就失效，官網寫「未搭指定車次要補差額再加 50% 違約金」，別直接跳上下一班。</p></div></li>
+    <li><time>07:02</time><div class="what"><b>高鐵 803 次 新竹 07:02 → 台南 08:28（已買）</b><p>每站停，車程 86 分，可以補眠。</p></div></li>
+    <li><time>08:28</time><div class="what"><b>到高鐵台南站</b><p>走 2 號出口，步行 5–10 分鐘到大台南會展中心展覽棟（全台唯一緊鄰高鐵站的會展中心），08:40 左右到門口，比 09:05 報到早不少，可以先逛一圈找 M328 和報到桌。</p></div></li>
+    <li class="key"><time>08:50</time><div class="what"><b>入口出示 QR code 進場</b><p>1F 東展區。進門先拿展場手冊和平面圖，把下面動線的攤位圈起來。</p></div></li>
+    <li class="key"><time>09:05</time><div class="what"><b>入口大廳報到（到 09:30）</b><p>大會流程寫「入口大廳接待、席次確認、頒獎動線說明」。報「ORCA AUV，陽明交大」，跟禮賓組拿手拿牌、問 AUV 組從哪邊上台下台。座位在右側那張表最下排最左兩格（隊友、成育典）。</p></div></li>
+    <li class="key"><time>09:30</time><div class="what"><b>典禮開始，09:32 全場合照</b><p>持手拿牌、看鏡頭，全程直播。09:33 鼓道場表演、09:37 精華影片、09:40–09:45 高科大吳忠信校長與海委會吳欣修副主委致詞；之後直接頒獎，沒有排隊伍發言。</p></div></li>
+    <li class="key"><time>09:47</time><div class="what"><b>ROV 組頒獎時坐到走道側準備</b><p>09:45 USV、09:47 ROV。</p></div></li>
+    <li class="key"><time>09:49</time><div class="what"><b>AUV 組頒獎（到 09:52）</b><p>唱名 → 上台 → 海委會長官授獎 → 定點合影 → 下台。主持人遞麥才講話，備用稿在出席包。09:52 人力潛艇、09:55 禮成。</p></div></li>
+    <li><time>09:55</time><div class="what"><b>禮成後先認人，再去 M328</b><p>先找同校的王學誠副教授、TEAM NYCU USV 和 AUV 同組 NautAeg-AUV 的隊長；再找執行團隊（高科大造船系的老師）問獎金撥款文件、11/7 高科大作品展示還辦不辦、第二三階段日期、大會照片哪裡拿。領完獎先發回報給隊上群。</p></div></li>
+    <li><time>10:30</time><div class="what"><b>動線第 1 圈：水下載具 → 聲學 → 邊緣運算</b><p>站 2、3、4，約兩小時。這一圈跟 SAUVC 2027 和水聽器最有關，先走。</p></div></li>
+    <li><time>12:30</time><div class="what"><b>午餐</b><p>會展中心內的餐飲或高鐵站的便利商店。沙崙這一帶外面餐廳少，別特地往外走。</p></div></li>
+    <li class="optA" hidden><time>12:50</time><div class="what"><b>（方案 A）離開會場，搭 642 次 台南 13:13 → 新竹 14:25</b><p>到新竹後搭 182 或台鐵回市區，15:45 前進教室。更早一班是 640 次（12:48 → 13:57），要 12:25 就離開。第 2 圈就跳過。</p></div></li>
+    <li class="optB"><time>13:15</time><div class="what"><b>動線第 2 圈：無人水面載具 → 美國館 → 無人機區</b><p>站 5、6、7。當天如果有論壇場次（議程網路上還沒公布，服務台會有），插在這一段。</p></div></li>
+    <li class="optB"><time>15:30</time><div class="what"><b>收尾</b><p>回 M328 補問、補拍、補遞名片。16:00 閉館。</p></div></li>
+    <li class="optB"><time>16:05</time><div class="what"><b>走回高鐵台南站，搭 664 次 台南 16:48 → 新竹 17:57</b><p>16:13 的 660 次閉館後走過去只剩 13 分鐘，別賭。今晚沒有其他行程。</p></div></li>
+  </ol>
+  </div>
+</section>
+
+<section id="transport">
+  <h2>交通</h2>
+  <div class="stack">
+    <div class="card">
+      <p><b>高鐵（主要方案）</b></p>
+      <ul>
+        <li>新竹端：182 公車首班 06:10 從北大橋發（第三方班表，以國光客運 App 為準），到高鐵約 06:50，接 07:02 的車太趕；改騎滑板車或計程車 06:45 前到站，或台鐵六家線到六家站。交大免費「光復–竹北」校車這麼早多半沒車，時刻要查校方公告。</li>
+        <li>電動滑板車：高鐵官網乘車須知沒有針對電動滑板車的條文，照一般隨身物品算：每件長度 150 公分內、長寬高之和 220 公分內、40 公斤內，裝袋提著上車就行；站內禁止騎自行車、平衡車、滑板之類的東西，進站前收起來。台南端從高鐵站走到會展中心只要 5–10 分鐘，滑板車不一定要拿出來；展場內要提著。</li>
+        <li>班次（官方 2026/2/2 起時刻表，皆每日行駛）：去程已買 803（新竹 07:02 → 台南 08:28）；603（07:27 → 08:38）對號座賣完；要改票得在開車前 30 分鐘（06:32）前於 T Express 或窗口辦，逾時票失效。回程 B 664（台南 16:48 → 新竹 17:57）或 842（16:41 → 18:08）；回程 A 642（13:13 → 14:25）或 640（12:48 → 13:57）。</li>
+        <li>買票時看一下 T Express 的「大學生優惠」有沒有開給那班車（研究生持學生證可用，以 App 顯示為準）。</li>
+        <li>票根留著。11/3 這趟能不能併進隊上的交通補助還沒確認，先留證據。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p><b>如果改成開車</b></p>
+      <ul>
+        <li>新竹到台南走國道約 2.5–3 小時，06:00 前就要出發。</li>
+        <li>大會要「車牌號碼」才方便進場辨識，今晚就回信給執行團隊。</li>
+        <li>走台 86 線，上崙交流道（大潭出口）下。會展中心停車棟汽車每小時 40 元、一天上限 160 元（較舊的資料，現場為準），機車免費。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="entry">
+  <h2>入場與報到</h2>
+  <div class="card">
+    <ul>
+      <li>展覽入場憑 bizeview 的報名 QR code。我 11/2 08:11 已收到「報名完成」信，不用再登記。</li>
+      <li>備用：記得報名編號開頭和報名姓名，萬一手機沒電可以用這個查。</li>
+      <li>頒獎典禮另有報到（09:05–09:30，大會流程寫「入口大廳接待」），跟展覽入場是兩回事。先刷 QR 進展區，再到入口大廳的接待處報到。</li>
+      <li>典禮由海委會主辦，海委會海洋科學館的攤位是 M328，舞台應該就在那一帶；禮賓組會引導入座。</li>
+      <li>我的身分：陽明交大 ORCA AUV 團隊代表（座位圖上另一位是隊友）。致詞稿、貴賓名單、座位圖導讀都在本機的出席包資料夾。</li>
+    </ul>
+  </div>
+</section>
+
+<section id="route">
+  <h2>參觀動線 <small>7 站，第 1 圈先走 1–4</small></h2>
+  <p class="lead">只有 M328 和 M644 兩個攤位號碼查得到，其他攤位要靠進場拿的平面圖。順序照我的優先：SAUVC 2027、水聽器、載具視覺、碩論資安、資安工作線索。</p>
+  <div class="opener">自我介紹一句話：「交大 AUV-1，剛比完海委會的 T-MARS 示範賽，準備 2027 新加坡 SAUVC；碩論做無人載具的通訊鏈路攻擊與偵測。」然後遞 hyrax.tw 的 NFC 名片。</div>
+  <div class="stack" style="margin-top:12px">
+
+    <div class="card stop"><div class="n">1</div><div>
+      <h3>海委會 海洋科學館 <span class="chip ok">M328 已確認</span></h3>
+      <p class="who">典禮就在這一帶。國海院、成大（鯨豚救援與海洋保育 30 年成果）、中山大學水下載具中心（展前報導說會帶下潛 2,630 m 的深拖載具）；T-MARS 優良作品展示。</p>
+      <p class="ask"><b>問：</b>獎金怎麼撥、要哪些文件；11/7 高科大楠梓校區的優勝作品展示還辦不辦、要不要帶載具；第二、三階段的日期、形式、補助；大會照片影片哪裡拿；明年賽制。</p>
+    </div></div>
+
+    <div class="card stop"><div class="n">2</div><div>
+      <h3>水下載具 AUV／ROV <span class="chip tbd">攤位未公布</span></h3>
+      <p class="who">BeeX（新加坡，團隊出身 NUS Bumblebee，SAUVC 老手）、雷虎科技、知洋科技 Awareocean（獵雷 ROV）、Bedrock Ocean Exploration（美，AUV 海床測繪）、VATN Systems（美，小型 AUV）、Lorien Dynamics。</p>
+      <p class="ask"><b>問：</b>BeeX 問 SAUVC 2027 怎麼準備、資格影片常見失誤；其他家問推進器與密封做法、急停（E-Stop）與漏電斷電怎麼做、非紅供應鏈的零件來源、學生團隊有沒有優惠。</p>
+    </div></div>
+
+    <div class="card stop"><div class="n">3</div><div>
+      <h3>聲學與感測 <span class="chip ok">虎門 M644 已確認</span><span class="chip tbd">其餘未公布</span></h3>
+      <p class="who">Sonardyne（英，USBL 定位、水下聲學通訊）、知洋科技（被動聲納）、虎門科技 M644（聲學／振動量測儀器＋CAE 模擬軟體）。主辦單位是水下噪音協會，攤位本身也值得停。</p>
+      <p class="ask"><b>問：</b>水聽器前級放大器與校正怎麼做、45 kHz pinger 定位的最低配置、水下噪音量測的入門儀器；虎門問聲學量測租借或學生方案。</p>
+    </div></div>
+
+    <div class="card stop"><div class="n">4</div><div>
+      <h3>邊緣運算 <span class="chip tbd">攤位未公布</span></h3>
+      <p class="who">7starlake（強固型 edge AI 電腦，做無人海上平台、無人地面載具、反無人機系統）。</p>
+      <p class="ask"><b>問：</b>Orin 等級的強固機箱、功耗與電壓範圍、學生價；給 ORCA 視覺升級參考。</p>
+    </div></div>
+
+    <div class="card stop"><div class="n">5</div><div>
+      <h3>無人水面載具 USV <span class="chip tbd">攤位未公布</span></h3>
+      <p class="who">台船「奮進魔鬼魚」（匿蹤三胴體、AI 辨識，展期跟美國 Havoc 做台美連線群控）、碳基科技 6 m 無人艇群控、MARTAC（美）、直域科技 STR8、Seasats（美，太陽能長航時）、UForce。</p>
+      <p class="ask"><b>問：</b>通訊鏈路用什麼、有沒有加密與身分驗證、群控架構、載具識別怎麼做、有沒有資安需求。這是碩論的田野素材。</p>
+    </div></div>
+
+    <div class="card stop"><div class="n">6</div><div>
+      <h3>美國館與國防自主 <span class="chip tbd">攤位未公布</span></h3>
+      <p class="who">UPIA（聯合太平洋創新聯盟）號召的 17 家美國單位；Beluga Navigation Systems 等。</p>
+      <p class="ask"><b>問：</b>非紅供應鏈的具體要求、對資安人才的需求、實習或合作窗口。這一站是資安主業的線索。</p>
+    </div></div>
+
+    <div class="card stop"><div class="n">7</div><div>
+      <h3>無人機區 <span class="chip tbd">D7xx 一帶，待確認</span></h3>
+      <p class="who">查到的攤位號有 D701，應該是無人機區。雷虎科技展前報導說會帶自製巡飛彈。</p>
+      <p class="ask"><b>問：</b>鏈路與 MAVLink 用不用、反制與抗干擾做法、Remote ID。</p>
+    </div></div>
+
+  </div>
+</section>
+
+<section id="forum">
+  <h2>論壇</h2>
+  <div class="card">
+    <p>展期三天共 8 場論壇，查得到名稱的有「台美多層次海域感知論壇」「台美水面及水下無人載具創新交流會」，還有 DSET 的無人水面載具報告。<b>哪一場在 11/3、幾點，網路上沒公布。</b>進場先到服務台拿當天議程，有「海域感知」或「水下載具」就排進 13:15 那一段。</p>
+  </div>
+</section>
+
+<section id="pack">
+  <h2>帶什麼 <small>勾過的會留在這支手機上</small></h2>
+  <div class="card">
+    <ul class="chk" id="chk">
+      <li><label><input type="checkbox" id="p1" data-k="p1">bizeview 報名 QR code 截圖（相簿裡）</label></li>
+      <li><label><input type="checkbox" id="p2" data-k="p2">高鐵票（T Express）</label></li>
+      <li><label><input type="checkbox" id="p3" data-k="p3">學生證、身分證</label></li>
+      <li><label><input type="checkbox" id="p4" data-k="p4">hyrax.tw NFC 數位名片</label></li>
+      <li><label><input type="checkbox" id="p5" data-k="p5">隊服或有校名的上衣（合照會直播）</label></li>
+      <li><label><input type="checkbox" id="p6" data-k="p6">行動電源、充電線</label></li>
+      <li><label><input type="checkbox" id="p7" data-k="p7">雨傘、水壺（高溫悶熱，可能短陣雨；展場冷氣強帶薄外套）</label></li>
+      <li><label><input type="checkbox" id="p8" data-k="p8">筆記本或手機備忘：每站的問題與對方名字</label></li>
+      <li><label><input type="checkbox" id="p9" data-k="p9">拍照清單：合照、獎狀、各家 AUV 的推進器配置、艙體密封、聲學模組</label></li>
+      <li><label><input type="checkbox" id="p10" data-k="p10">裝獎狀的 L 夾或硬紙袋</label></li>
+    </ul>
+  </div>
+</section>
+
+<section id="weather">
+  <h2>天氣</h2>
+  <div class="card">
+    <p>三家國外預報不一致：一家寫大致晴朗（高 29、低 24 度，降雨 20%），兩家寫悶熱有短陣雨（30 度上下）。共同點是高溫潮濕。出門前再看一次中央氣象署「臺南市歸仁區」。</p>
+  </div>
+</section>
+
+<section id="links">
+  <h2>連結</h2>
+  <div class="links">
+    <a href="https://www.bizeview.com/profile.html?tab=registrations">bizeview 我的報名（找 QR code）<span>報名完成信裡的同一個連結，可能要登入</span></a>
+    <a href="https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E5%8F%B0%E5%8D%97%E6%9C%83%E5%B1%95%E4%B8%AD%E5%BF%83">大台南會展中心 地圖<span>臺南市歸仁區歸仁十二路 3 號</span></a>
+    <a href="https://www.maturetaiwan.com/">MATURE Taiwan 官網<span>參展商、平面圖、論壇議程在這裡；用手機開（Mac 在校網會被守門員擋）</span></a>
+    <a href="https://tmars.pages.dev/">T-MARS 示範競賽官網<span>時間表與辦法</span></a>
+    <a href="https://www.thsrc.com.tw/">台灣高鐵<span>T Express 查班次、訂票</span></a>
+    <a href="https://www.google.com/calendar/event?eid=OGUwZWk1bHFuOWRsajduYmYyZXUydmo3OW8gZG90MTAwMDExMEBt">Google 日曆的典禮事件<span>09:00–12:00，已補上地點</span></a>
+  </div>
+</section>
+
+<section id="unknown">
+  <h2>還不確定的事</h2>
+  <div class="card">
+    <div class="tbl"><table>
+      <tr><th>事情</th><th>現況</th><th>怎麼補</th></tr>
+      <tr><td>高鐵票價、大學生優惠</td><td>班次已照官方時刻表定好，票價沒查</td><td>T Express 訂票時看</td></tr>
+      <tr><td>11/3 論壇場次</td><td>只查到論壇名稱，沒有日期時間</td><td>服務台拿當天議程</td></tr>
+      <tr><td>攤位號碼</td><td>只確認 M328、M644</td><td>進場拿平面圖圈起來</td></tr>
+      <tr><td>典禮在東展區哪裡</td><td>大會信只寫 1F 東展區</td><td>往 M328 找報到桌，問工作人員</td></tr>
+      <tr><td>11/3 交通能不能報帳</td><td>隊上的補助案寫的是 10/31–11/1</td><td>票根留著，問系辦或大會</td></tr>
+      <tr><td>我在新竹還是台南</td><td>照 11/2 的油費路線信推測，我已回新竹</td><td>人在台南就從 08:30 那列開始</td></tr>
+      <tr><td>隊上載具要不要到場</td><td>典禮有「優良作品展示」</td><td>今晚問隊長</td></tr>
+      <tr><td>座位圖回傳哪一版</td><td>出席包有「補空格」和「取代隊友」兩版</td><td>問隊友去不去、名字寫法，今晚寄</td></tr>
+      <tr><td>11/7 高科大作品展示</td><td>報名辦法寫 11/7，大會改成 11/3 後沒再說</td><td>現場問執行團隊</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<footer>
+  整理於 2026-11-02 23:00（台北時間）。來源：大會通知信、大會 11/2 20:38 發的「頒獎典禮流程及座位圖」PDF、bizeview 報名完成信、高鐵官網 2026/2/2 起時刻表與乘車須知、ICC Tainan 活動頁、聯合報與中央社等展前報導、Google 日曆、同晚做的出席包。展覽資訊以現場公告為準。
+</footer>
+</div>
+
+<script>
+(function(){
+  var KEY_OPT='tmars1103-ret', KEY_CHK='tmars1103-pack';
+  function get(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  function set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  var bA=document.getElementById('btnA'), bB=document.getElementById('btnB');
+  function show(opt){
+    var isA=(opt==='A');
+    document.querySelectorAll('.optA').forEach(function(el){el.hidden=!isA});
+    document.querySelectorAll('.optB').forEach(function(el){el.hidden=isA});
+    bA.setAttribute('aria-pressed', isA?'true':'false');
+    bB.setAttribute('aria-pressed', isA?'false':'true');
+  }
+  bA.addEventListener('click',function(){show('A');set(KEY_OPT,'A')});
+  bB.addEventListener('click',function(){show('B');set(KEY_OPT,'B')});
+  show(get(KEY_OPT)==='A'?'A':'B');
+  var saved={};
+  try{saved=JSON.parse(get(KEY_CHK)||'{}')||{}}catch(e){saved={}}
+  document.querySelectorAll('#chk input').forEach(function(cb){
+    if(saved[cb.dataset.k]) cb.checked=true;
+    cb.addEventListener('change',function(){saved[cb.dataset.k]=cb.checked;set(KEY_CHK,JSON.stringify(saved))});
+  });
+})();
+</script>
+
+</body>
+</html>
