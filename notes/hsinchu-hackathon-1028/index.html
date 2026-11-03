@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<title>115 新竹政策黑客松：參賽評估與報名衝刺</title>
+<meta name="description" content="115 新竹政策黑客松（風城聚力，玩轉AI）參賽評估：活動速覽、時程與行事曆撞期、三大題目與評分權重、優勢與風險、三個提案方向、48 小時報名清單與 3–5 頁簡報骨架。寫於 2026-10-28。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="115 新竹政策黑客松：參賽評估與報名衝刺">
+<meta property="og:description" content="活動速覽、時程與撞期、評分權重、三個提案方向、報名清單與簡報骨架（寫於 2026-10-28）">
+<meta property="og:url" content="https://dandycheng110.github.io/notes/hsinchu-hackathon-1028/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap">
+<style>
+/* 一頁決策便條：楷書標題像手寫筆記，唯一的重點是蓋了章的結論；其餘維持安靜的墨色與細線。 */
+:root{
+  --bg:#eef2f5; --paper:#ffffff; --tint:#f4f7f9;
+  --ink:#14232d; --ink-2:#4b5a66; --rule:#d6dee4;
+  --link:#1f62b8;
+  --due:#2a78d6; --due-wash:#e4eefb;   /* 報名截止：全頁唯一的強調色 */
+  --warn:#e8a317; --warn-wash:#fdf2d8; /* 與行事曆撞期（狀態色，一律配文字標籤） */
+  --rest:#8f9397; --grid:#e6ebef; --axis:#b9c3ca; --hover:rgba(42,120,214,.07);
+  --seal:#b8392a; --bar:#9eabb5;
+  --kai:"LXGW WenKai TC","Kaiti TC","BiauKai","DFKai-SB","STKaiti",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Noto Sans CJK TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0f161c; --paper:#16212a; --tint:#1b2731;
+    --ink:#e5ecf1; --ink-2:#a3b0ba; --rule:#2b3843;
+    --link:#7fb0f0;
+    --due:#3d8ae0; --due-wash:#1a2b42;
+    --warn:#e8a317; --warn-wash:#3b2f15;
+    --rest:#686c70; --grid:#22303a; --axis:#3d4c58; --hover:rgba(61,138,224,.12);
+    --seal:#e0644f; --bar:#5a6873;
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.8 var(--sans)}
+main{max-width:47rem;margin:0 auto;padding:36px max(18px,env(safe-area-inset-right)) 64px max(18px,env(safe-area-inset-left))}
+a{color:var(--link);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px;border-radius:3px}
+strong{font-weight:700}
+
+/* 頁首 */
+.crumb{font-size:.88rem;color:var(--ink-2);margin:0 0 30px}
+.crumb a{color:var(--ink-2)}
+h1{font-family:var(--kai);font-weight:700;font-size:clamp(2.15rem,6.6vw,3.05rem);line-height:1.18;margin:0;letter-spacing:.01em}
+.sub{font-family:var(--kai);font-size:clamp(1.3rem,3.8vw,1.7rem);line-height:1.3;color:var(--ink-2);margin:.2em 0 0}
+.written{margin:16px 0 0;font-size:.92rem;color:var(--ink-2)}
+
+/* 結論：整頁唯一大聲的地方 */
+.verdict{margin:30px 0 0;background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:26px 26px 22px}
+.verdict-top{display:flex;gap:24px;align-items:center}
+.seal{flex:none;writing-mode:vertical-rl;height:94px;padding:10px 9px;font-family:var(--kai);font-weight:700;font-size:30px;line-height:1.08;letter-spacing:.06em;color:var(--seal);border:3px solid var(--seal);border-radius:8px;box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3.5px var(--seal);transform:rotate(-4deg)}
+.verdict-lead{margin:0;font-size:1.16rem;line-height:1.75}
+.verdict-lead b{font-family:var(--kai);font-size:1.32em;font-weight:700}
+.due{background:var(--due-wash);box-shadow:inset 3px 0 0 var(--due);color:var(--ink);font-weight:700;padding:1px 7px 1px 9px;border-radius:3px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.points{margin:22px 0 0;padding:18px 0 0;border-top:1px solid var(--rule);display:grid;grid-template-columns:6.4em 1fr;gap:10px 18px}
+.points dt{font-weight:700}
+.points dd{margin:0}
+
+/* 目錄 */
+.toc{margin:26px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:4px 20px;font-size:.95rem}
+.toc li{margin:0}
+
+/* 段落 */
+section{margin-top:60px;scroll-margin-top:16px}
+h2{font-family:var(--kai);font-weight:700;font-size:1.7rem;line-height:1.3;margin:0 0 10px;padding-top:18px;border-top:1px solid var(--rule)}
+h3{font-family:var(--kai);font-weight:700;font-size:1.25rem;line-height:1.35;margin:30px 0 8px}
+p{margin:0 0 12px}
+.lead{font-size:1.06rem;margin:0 0 18px}
+ul,ol{margin:0 0 12px;padding-left:1.35em}
+li{margin:7px 0}
+.src{font-size:.86rem;color:var(--ink-2);margin:14px 0 0}
+.note{color:var(--ink-2);font-size:.88rem}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* 表格 */
+.tbl{overflow-x:auto;margin:8px 0 14px;border:1px solid var(--rule);border-radius:10px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:.95rem;line-height:1.65}
+th,td{text-align:left;vertical-align:top;padding:10px 14px;border-top:1px solid var(--rule)}
+thead th{border-top:0;background:var(--tint);font-size:.86rem;color:var(--ink-2);white-space:nowrap}
+.kv tr:first-child>*{border-top:0}
+.kv th{width:6.8em;color:var(--ink-2);white-space:nowrap}
+.wide{min-width:560px}
+td.w{white-space:nowrap;font-variant-numeric:tabular-nums}
+.pct{display:inline-block;min-width:2.4em;text-align:right;margin-right:10px}
+.bar{display:inline-block;vertical-align:middle;height:8px;width:calc(var(--v) * 1.9px);background:var(--bar);border-radius:0 4px 4px 0}
+.none{color:var(--ink-2)}
+.nw{white-space:nowrap}
+
+/* 時程圖 */
+.tl-fig{margin:8px 0 14px;background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:18px 16px 14px}
+.tl-title{font-weight:700;margin:0 0 6px}
+.legend{list-style:none;margin:0 0 4px;padding:0;display:flex;flex-wrap:wrap;gap:2px 18px;font-size:.86rem;color:var(--ink-2)}
+.legend li{margin:0;display:flex;align-items:center;gap:7px}
+.legend i{width:9px;height:9px;transform:rotate(45deg);border-radius:1px}
+.k-due{background:var(--due)} .k-warn{background:var(--warn)} .k-rest{background:var(--rest)}
+.tl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tl{display:block;width:100%;min-width:620px;height:auto;font-family:var(--sans)}
+.tl .lab{fill:var(--ink);font-size:13px}
+.tl .lab.b{font-weight:700}
+.tl .lab.m{fill:var(--ink-2)}
+.tl .tick{fill:var(--ink-2);font-size:11.5px;font-variant-numeric:tabular-nums}
+.tl .grid{stroke:var(--grid);stroke-width:1}
+.tl .axis{stroke:var(--axis);stroke-width:1.25}
+.tl .guide{stroke:var(--grid);stroke-width:1}
+.tl .m-rest{fill:var(--rest)}
+.tl .s-rest{fill:var(--rest);fill-opacity:.24;stroke:var(--rest);stroke-width:1.25}
+.tl .m-due{fill:var(--due)}
+.tl .l-due{stroke:var(--due);stroke-width:1.5}
+.tl .m-warn{fill:var(--warn)}
+.tl .s-warn{fill:var(--warn);fill-opacity:.3;stroke:var(--warn);stroke-width:1.25}
+.tl .date{fill:var(--ink-2);font-size:12px;font-variant-numeric:tabular-nums}
+.tl .date.b{fill:var(--ink);font-weight:700}
+.tl .pill{fill:var(--warn-wash);stroke:var(--warn);stroke-width:1}
+.tl .pill-t{fill:var(--ink);font-size:11px;font-weight:700}
+.tl .hit{fill:transparent}
+.tl .row:hover .hit{fill:var(--hover)}
+.tl-hint{display:none}
+details.tv{margin-top:12px;font-size:.92rem}
+details.tv summary{cursor:pointer;color:var(--link);width:max-content}
+details.tv .tbl{margin-top:10px}
+
+/* 提案方向 */
+.opt{border-left:3px solid var(--rule);padding:2px 0 2px 18px;margin:24px 0}
+.opt.pick{border-left-color:var(--ink)}
+.opt h3{margin:0 0 2px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.tag{font-family:var(--sans);font-size:.78rem;font-weight:700;color:var(--ink);border:1px solid var(--ink);border-radius:999px;padding:0 10px;line-height:1.7}
+.opt .what{color:var(--ink-2);margin:0 0 10px}
+.opt dl{display:grid;grid-template-columns:6.6em 1fr;gap:6px 16px;margin:0}
+.opt dt{font-weight:700;color:var(--ink-2);font-size:.92rem;padding-top:.1em}
+.opt dd{margin:0}
+
+/* 清單 */
+.checks{list-style:none;padding:0;margin:10px 0 16px}
+.checks li{display:flex;gap:12px;align-items:flex-start;margin:0;padding:11px 2px;border-top:1px solid var(--rule)}
+.checks li:last-child{border-bottom:1px solid var(--rule)}
+.checks input{flex:none;width:20px;height:20px;margin:4px 0 0;accent-color:var(--ink);cursor:pointer}
+.checks label{flex:1;cursor:pointer}
+.checks .d{font-weight:700;font-variant-numeric:tabular-nums}
+.checks input:checked+label{color:var(--ink-2);text-decoration:line-through;text-decoration-color:var(--ink-2)}
+.steps li{padding-left:.2em}
+
+footer{max-width:47rem;margin:0 auto;padding:0 max(18px,env(safe-area-inset-right)) 48px max(18px,env(safe-area-inset-left));color:var(--ink-2);font-size:.88rem}
+footer a{color:var(--ink-2)}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  .verdict{padding:22px 18px 18px}
+  .verdict-top{gap:18px}
+  .seal{font-size:24px;height:80px;padding:9px 7px}
+  .points,.opt dl{grid-template-columns:1fr;gap:0}
+  .points dd,.opt dd{margin-bottom:10px}
+  .opt dt{padding-top:0}
+  .tl-hint{display:inline}
+  /* 時程表格在手機上改成一列一筆 */
+  .sched thead{display:none}
+  .sched tr{display:block;padding:10px 14px;border-top:1px solid var(--rule)}
+  .sched tbody tr:first-child{border-top:0}
+  .sched td{display:block;padding:0;border:0;white-space:normal}
+  .sched td:first-child{font-weight:700}
+  .sched td:last-child{color:var(--ink-2);font-size:.88rem}
+  .sched td.none{display:none}
+}
+@media print{
+  body{background:#fff}
+  .toc,details.tv summary{display:none}
+  .tl-scroll{overflow:visible}
+  section{break-inside:avoid-page}
+}
+</style>
+</head>
+<body>
+<main>
+  <nav class="crumb" aria-label="頁面位置"><a href="../">我的筆記</a> / 黑客松參賽評估</nav>
+
+  <header>
+    <h1>115 新竹政策黑客松</h1>
+    <p class="sub">參賽評估與報名衝刺</p>
+    <p class="written">寫於 2026 年 10 月 28 日，報名截止前兩天。</p>
+  </header>
+
+  <section class="verdict" id="verdict" aria-labelledby="verdict-h">
+    <h2 class="vh" id="verdict-h">結論</h2>
+    <div class="verdict-top">
+      <div class="seal" aria-hidden="true">建議參加</div>
+      <p class="verdict-lead"><b>建議參加</b>，但前提是 <span class="due">10/30（五）23:59</span> 前湊滿 4 人、交出 3–5 頁提案 PDF，只剩約 60 小時。</p>
+    </div>
+    <dl class="points">
+      <dt>為什麼值得</dt>
+      <dd>全免費、就在交大旁；決賽約 25 隊爭 8 個獎項（總獎金 50 萬）；比的是政策提案，你的 AI＋資安背景正好是賣點。</dd>
+      <dt>行事曆</dt>
+      <dd>11/21–22 決賽目前沒有行程；11/14 工作坊撞到無人機微學分，每隊只需 1 人出席，派隊友去即可。</dd>
+      <dt>建議題目</dt>
+      <dd>主題一「新竹通」× AI 防詐（<a href="#dir-a">下方方向 A</a>）；若同學已有題目，用下方評分重點補強它。</dd>
+      <dt>下一步</dt>
+      <dd>10/28 先回同學確認其他 3 位隊員與題目，再照文末「<a href="#sprint">48 小時衝刺清單</a>」走。</dd>
+    </dl>
+  </section>
+
+  <nav aria-label="本頁段落">
+    <ul class="toc">
+      <li><a href="#overview">活動速覽</a></li>
+      <li><a href="#timeline">時程與行事曆</a></li>
+      <li><a href="#scoring">題目與評分</a></li>
+      <li><a href="#fit">優勢與風險</a></li>
+      <li><a href="#directions">提案方向</a></li>
+      <li><a href="#sprint">衝刺清單</a></li>
+      <li><a href="#sources">資料來源</a></li>
+    </ul>
+  </nav>
+
+  <section id="overview">
+    <h2>活動速覽</h2>
+    <p class="lead">新竹市政府主辦的第二屆政策黑客松：政府出題、青年組隊提案，決賽 11/21–22 兩天一夜，全程免費。它比的是「政策提案＋簡報」，不是寫程式比實作。</p>
+    <div class="tbl">
+      <table class="kv">
+        <tbody>
+          <tr><th scope="row">主辦／承辦</th><td>新竹市政府／新竹市青年發展中心</td></tr>
+          <tr><th scope="row">年度主題</th><td>風城聚力，玩轉AI：提案必須以 AI 為解方核心，並在簡報說明用法與效益</td></tr>
+          <tr><th scope="row">決賽時間</th><td>11/21（六）–11/22（日），兩天一夜，第二天提案競賽</td></tr>
+          <tr><th scope="row">地點</th><td>身心障礙者就業綜合大樓 5F 職人廳（東區龍山西路 99 號）；住宿和選旅（東區大學路 16 號）</td></tr>
+          <tr><th scope="row">費用</th><td>餐飲、住宿、新竹車站接駁全免；錄取後繳隊伍保證金 1,000 元，賽後全額退還（賽前 3 天內取消或缺席不退）</td></tr>
+          <tr><th scope="row">資格</th><td>16–40 歲學生或社會人士；<strong>固定 4 人一隊</strong>，每人限一隊、每隊一題；報名後不得換人</td></tr>
+          <tr><th scope="row">規模</th><td>書審選出約 25 隊進決賽（約 100 人）</td></tr>
+          <tr><th scope="row">獎金</th><td>總額 50 萬：第 1 名 15 萬、第 2 名 10 萬、第 3 名 8 萬、佳作 3 組各 3 萬、創意獎與人氣獎各 1.5 萬</td></tr>
+          <tr><th scope="row">報名要件</th><td>身分證明、切結書、資料蒐集同意書、3–5 頁提案簡報 PDF；<strong>每位隊員</strong>都要在許願池發一張許願卡</td></tr>
+          <tr><th scope="row">作品規定</th><td>須原創、未對外發表、未成立標案、未在其他競賽得獎；延伸既有作品須主動揭露差異</td></tr>
+          <tr><th scope="row">得獎義務</th><td>至少配合 1 場市府後續簡報；獎金依法扣稅</td></tr>
+          <tr><th scope="row">自備</th><td>電腦、延長線、轉接頭</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="src">來源：<a href="https://115hsinchuhackathon.com/">活動官網</a>、<a href="https://115hsinchuhackathon.com/faq.html">常見問題</a>。截至 10/28，官網「最新消息」沒有延長報名的公告。</p>
+  </section>
+
+  <section id="timeline">
+    <h2>時程與行事曆</h2>
+    <p class="lead">11/21–22 決賽週末你的日曆是空的；唯一衝突是 11/14 培力工作坊，每隊只需 1 人出席，派隊友去即可。</p>
+    <figure class="tl-fig">
+      <p class="tl-title" id="tl-title">10/30 報名截止；11/14 工作坊撞到無人機課</p>
+      <ul class="legend">
+        <li><i class="k-due"></i>報名截止</li>
+        <li><i class="k-warn"></i>與你的行事曆撞期</li>
+        <li><i class="k-rest"></i>其他時程</li>
+      </ul>
+      <div class="tl-scroll">
+        <svg class="tl" viewBox="0 0 760 350" role="img" aria-labelledby="tl-title">
+          <g class="grid-lines">
+            <line class="grid" x1="232" y1="44" x2="232" y2="338"/>
+            <line class="grid" x1="351.84" y1="44" x2="351.84" y2="338"/>
+            <line class="grid" x1="471.68" y1="44" x2="471.68" y2="338"/>
+            <line class="grid" x1="591.52" y1="44" x2="591.52" y2="338"/>
+            <line class="axis" x1="232" y1="44" x2="660" y2="44"/>
+            <text class="tick" x="232" y="30" text-anchor="middle">10/28</text>
+            <text class="tick" x="351.84" y="30" text-anchor="middle">11/4</text>
+            <text class="tick" x="471.68" y="30" text-anchor="middle">11/11</text>
+            <text class="tick" x="591.52" y="30" text-anchor="middle">11/18</text>
+          </g>
+          <line class="l-due" x1="266.24" y1="114" x2="266.24" y2="338"/>
+
+          <g class="row"><title>評估日：10/28（三），寫這份評估的日子</title>
+            <rect class="hit" x="0" y="58.5" width="760" height="31"/>
+            <text class="lab m" x="20" y="78.5">評估日</text>
+            <path class="m-rest" d="M232 67l7 7l-7 7l-7-7z"/>
+            <text class="date" x="246" y="78">10/28（三）</text>
+          </g>
+          <g class="row"><title>書審報名截止：10/30（五）23:59</title>
+            <rect class="hit" x="0" y="89.5" width="760" height="31"/>
+            <text class="lab b" x="20" y="109.5">書審報名截止</text>
+            <line class="guide" x1="232" y1="105" x2="259.24" y2="105"/>
+            <path class="m-due" d="M266.24 98l7 7l-7 7l-7-7z"/>
+            <text class="date b" x="280.24" y="109">10/30（五）23:59</text>
+          </g>
+          <g class="row"><title>公布正取、備取名單：11/6（五）</title>
+            <rect class="hit" x="0" y="120.5" width="760" height="31"/>
+            <text class="lab" x="20" y="140.5">公布正備取名單</text>
+            <line class="guide" x1="232" y1="136" x2="379.08" y2="136"/>
+            <path class="m-rest" d="M386.08 129l7 7l-7 7l-7-7z"/>
+            <text class="date" x="400.08" y="140">11/6（五）</text>
+          </g>
+          <g class="row"><title>繳交團隊保證金 1,000 元：11/6（五）–11/10（二），賽後全額退還</title>
+            <rect class="hit" x="0" y="151.5" width="760" height="31"/>
+            <text class="lab" x="20" y="171.5">繳保證金 1,000 元</text>
+            <line class="guide" x1="232" y1="167" x2="386.08" y2="167"/>
+            <rect class="s-rest" x="386.08" y="161" width="68.48" height="12" rx="6"/>
+            <text class="date" x="468.56" y="171">11/6–11/10</text>
+          </g>
+          <g class="row"><title>入選團隊正式確認：11/11（三）</title>
+            <rect class="hit" x="0" y="182.5" width="760" height="31"/>
+            <text class="lab" x="20" y="202.5">正式錄取確認</text>
+            <line class="guide" x1="232" y1="198" x2="464.68" y2="198"/>
+            <path class="m-rest" d="M471.68 191l7 7l-7 7l-7-7z"/>
+            <text class="date" x="485.68" y="202">11/11（三）</text>
+          </g>
+          <g class="row"><title>團隊培力工作坊暨行前說明會：11/14（六），每隊至少 1 人；與你的無人機微學分撞期</title>
+            <rect class="hit" x="0" y="213.5" width="760" height="31"/>
+            <text class="lab" x="20" y="233.5">培力工作坊（每隊 ≥1 人）</text>
+            <line class="guide" x1="232" y1="229" x2="516.04" y2="229"/>
+            <path class="m-warn" d="M523.04 222l7 7l-7 7l-7-7z"/>
+            <rect class="pill" x="537.04" y="220" width="36" height="18" rx="9"/>
+            <text class="pill-t" x="555.04" y="233" text-anchor="middle">撞期</text>
+            <text class="date" x="581.04" y="233">11/14（六）</text>
+          </g>
+          <g class="row"><title>你的無人機微學分：11/14（六）–11/15（日），Day 1 有跨域組隊</title>
+            <rect class="hit" x="0" y="244.5" width="760" height="31"/>
+            <text class="lab" x="20" y="264.5">你的無人機微學分</text>
+            <line class="guide" x1="232" y1="260" x2="523.04" y2="260"/>
+            <rect class="s-warn" x="523.04" y="254" width="17.12" height="12" rx="6"/>
+            <rect class="pill" x="554.16" y="251" width="36" height="18" rx="9"/>
+            <text class="pill-t" x="572.16" y="264" text-anchor="middle">撞期</text>
+            <text class="date" x="598.16" y="264">11/14–11/15</text>
+          </g>
+          <g class="row"><title>寄送活動行前通知：11/16（一）</title>
+            <rect class="hit" x="0" y="275.5" width="760" height="31"/>
+            <text class="lab" x="20" y="295.5">行前通知</text>
+            <line class="guide" x1="232" y1="291" x2="550.28" y2="291"/>
+            <path class="m-rest" d="M557.28 284l7 7l-7 7l-7-7z"/>
+            <text class="date" x="571.28" y="295">11/16（一）</text>
+          </g>
+          <g class="row"><title>決賽：11/21（六）–11/22（日），兩天一夜，第二天提案競賽</title>
+            <rect class="hit" x="0" y="306.5" width="760" height="31"/>
+            <text class="lab b" x="20" y="326.5">決賽（兩天一夜）</text>
+            <line class="guide" x1="232" y1="322" x2="642.88" y2="322"/>
+            <rect class="s-rest" x="642.88" y="316" width="17.12" height="12" rx="6"/>
+            <text class="date b" x="674" y="326">11/21–11/22</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption class="src">官網時程＋你的 Google 日曆，2026/10/28–11/22。<span class="tl-hint">圖可以左右滑動；下方表格列出同樣的時程。</span></figcaption>
+      <details class="tv">
+        <summary>以表格檢視時程</summary>
+        <div class="tbl">
+          <table class="sched">
+            <thead><tr><th scope="col">日期</th><th scope="col">事項</th><th scope="col">備註</th></tr></thead>
+            <tbody>
+              <tr><td class="w">10/30（五）23:59</td><td>書審報名截止</td><td>官網提醒提早送出</td></tr>
+              <tr><td class="w">11/6（五）</td><td>公布正取、備取名單</td><td class="none">—</td></tr>
+              <tr><td class="w">11/6（五）–11/10（二）</td><td>繳交團隊保證金 1,000 元</td><td>賽後全額退還</td></tr>
+              <tr><td class="w">11/11（三）</td><td>入選團隊正式確認</td><td class="none">—</td></tr>
+              <tr><td class="w">11/14（六）</td><td>團隊培力工作坊暨行前說明會</td><td>每隊至少 1 人；與你的無人機微學分撞期</td></tr>
+              <tr><td class="w">11/14（六）–11/15（日）</td><td>你的無人機微學分</td><td>Day 1 有跨域組隊</td></tr>
+              <tr><td class="w">11/16（一）</td><td>寄送活動行前通知</td><td class="none">—</td></tr>
+              <tr><td class="w">11/21（六）–11/22（日）</td><td>決賽</td><td>兩天一夜，第二天提案競賽</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </figure>
+  </section>
+
+  <section id="scoring">
+    <h2>三大題目與評分</h2>
+    <p class="lead">書審最重「解題提案」與「後續影響力」（各 30%）；決賽新增 25% 的「團隊驗證能力」，書審靠說得清楚，決賽要拿得出初步驗證。</p>
+    <div class="tbl">
+      <table class="wide">
+        <thead><tr><th scope="col">題目</th><th scope="col">要解的問題</th><th scope="col">怎麼看</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">主題一<br><span class="nw">竹通在手，生活暢行</span></th><td>讓市府 App「新竹通」成為更全面的生活夥伴；官方舉例：公車下車按鈕、即時資訊整合</td><td>影響人數最大。新竹通已整合 300 多項服務、下載逾 20 萬次，但 App Store 評分只有 3.0（458 則）</td></tr>
+          <tr><th scope="row">主題二<br><span class="nw">智遊風城，無界探索</span></th><td>用 AI 做「一鍵探索新竹」的虛擬導遊與客製路線</td><td>最直覺、最容易撞題，除非握有獨家在地資料</td></tr>
+          <tr><th scope="row">主題三<br><span class="nw">政策出題，智慧城市</span></th><td>從許願池挑市民願望，分公共參與、社福安居、創新創業、文化教育、宜居永續五組</td><td>彈性最大，但要先找到一張有說服力的許願卡</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl">
+      <table class="wide">
+        <thead><tr><th scope="col">評分項目</th><th scope="col">書審</th><th scope="col">決賽</th><th scope="col">取分重點</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">問題界定<br><span class="note">了解程度、獨特洞見</span></th><td class="w"><span class="pct">20%</span><span class="bar" style="--v:20"></span></td><td class="w"><span class="pct">10%</span><span class="bar" style="--v:10"></span></td><td>用新竹的數字說清楚誰受影響、有多少人</td></tr>
+          <tr><th scope="row">解題提案<br><span class="note">創新性、可行性</span></th><td class="w"><span class="pct">30%</span><span class="bar" style="--v:30"></span></td><td class="w"><span class="pct">30%</span><span class="bar" style="--v:30"></span></td><td>AI 是核心不是點綴；講明資料來源與誰來維運</td></tr>
+          <tr><th scope="row">團隊組成<br><span class="note">在地連結、背景與執行力</span></th><td class="w"><span class="pct">20%</span><span class="bar" style="--v:20"></span></td><td class="w none"><span class="pct">—</span></td><td>寫出每位隊員與新竹的關係和相關經歷</td></tr>
+          <tr><th scope="row">團隊驗證能力<br><span class="note">落地、初步驗證、短中長期計畫</span></th><td class="w none"><span class="pct">—</span></td><td class="w"><span class="pct">25%</span><span class="bar" style="--v:25"></span></td><td>決賽前三週做出原型或小規模使用者測試</td></tr>
+          <tr><th scope="row">後續影響力<br><span class="note">解決議題、影響人數與範圍</span></th><td class="w"><span class="pct">30%</span><span class="bar" style="--v:30"></span></td><td class="w"><span class="pct">25%</span><span class="bar" style="--v:25"></span></td><td>量化受益人數，指名市府可接手的單位</td></tr>
+          <tr><th scope="row">現場簡報台風<br><span class="note">簡報、問答</span></th><td class="w none"><span class="pct">—</span></td><td class="w"><span class="pct">10%</span><span class="bar" style="--v:10"></span></td><td>主講交給最穩的人，其他人分工準備問答</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="src">來源：<a href="https://115hsinchuhackathon.com/">活動官網評分標準</a>、<a href="https://www.cna.com.tw/postwrite/chi/427829">中央社訊息平台：新竹通整合逾 300 項服務</a>、<a href="https://apps.apple.com/tw/app/%E6%96%B0%E7%AB%B9%E9%80%9A/id6739238077">App Store：新竹通</a></p>
+  </section>
+
+  <section id="fit">
+    <h2>我的優勢與風險</h2>
+    <p class="lead">條件很對題：在地、AI＋資安背景、決賽週末有空。最大的風險是 60 小時內湊滿 4 人並交出提案。</p>
+    <h3>優勢</h3>
+    <ul>
+      <li><strong>在地連結</strong>（書審「團隊組成」20% 的一半）：你就住交大旁；會場在東區龍山西路、住宿在大學路，通勤成本幾乎為零。</li>
+      <li><strong>背景對題</strong>：軍方網路作戰與紅隊演練、TWCERT/CC 漏洞通報經驗；市府 2026 年 2 月剛成立數位發展處、下設資通安全科，新竹通也主打通過 MAS L3+F 資安驗證。</li>
+      <li><strong>比的是提案</strong>：評分看問題、解方與落地，不需要 48 小時寫完整系統。</li>
+      <li><strong>免費的 pitch 實戰</strong>：有簡報講師與 AI 業師輔導，也能順便練創業需要的商業提案表達。</li>
+      <li><strong>獎項密度</strong>：約 25 隊爭 8 個獎項，進決賽後約三分之一的隊伍會拿獎。</li>
+    </ul>
+    <h3>風險</h3>
+    <ul>
+      <li><strong>時間</strong>：10/28 晚上有 Physical AI 課、10/29 早上有化合物半導體課（下週期末考），10/30 是唯一完整空檔。</li>
+      <li><strong>組隊</strong>：固定 4 人、全員 16–40 歲、每人限一隊、報名後不能換人；若找高階經理人班同學，先確認年齡。</li>
+      <li><strong>11/14 工作坊撞到無人機微學分</strong>（11/14–15，Day 1 有跨域組隊）：請隊友代表出席。</li>
+      <li><strong>原創規定</strong>：作品不得已對外發表或在其他競賽得獎。若延伸你在梅竹黑客松做過的 AI＋數位安全構想，要做出實質差異並在報名時揭露，最好先寫信問主辦（<a href="mailto:hsinchuhackathon115@gmail.com">hsinchuhackathon115@gmail.com</a>）。</li>
+      <li><strong>後續投入</strong>：決賽前三週要做驗證；得獎還要配合至少 1 場市府後續簡報。</li>
+    </ul>
+    <p class="src">來源：<a href="https://115hsinchuhackathon.com/faq.html">常見問題</a>、<a href="https://www.cna.com.tw/postwrite/chi/427829">中央社訊息平台：數發處專案報告</a>、你的 Google 日曆</p>
+  </section>
+
+  <section id="directions">
+    <h2>提案方向建議</h2>
+    <p class="lead">推薦 A：資安背景是其他隊伍難以複製的團隊優勢，而新竹通目前的六大功能沒有防詐，空缺清楚。若同學已有題目，就用上方評分表補強它。</p>
+
+    <article class="opt pick" id="dir-a">
+      <h3>A. 竹通守門員 <span class="tag">推薦</span></h3>
+      <p class="what">新竹通內建 AI 防詐判讀（主題一，或主題三・社福安居組）</p>
+      <dl>
+        <dt>AI 做什麼</dt><dd>市民貼上可疑訊息、網址或來電號碼，AI 判讀風險並給下一步；長輩可綁定家人一起守護</dd>
+        <dt>為什麼有機會</dt><dd>新竹通六大功能沒有防詐；對上市府新設的資通安全科與你的專長；受益者是所有新竹通用戶</dd>
+        <dt>主要風險</dt><dd>防詐主責在中央，要寫清楚市府（警察局、數發處）的角色，與 165 服務互補而非重做；訊息含個資，需去識別設計</dd>
+      </dl>
+    </article>
+
+    <article class="opt" id="dir-b">
+      <h3>B. 竹通小幫手</h3>
+      <p class="what">300 多項服務的對話式入口（主題一）</p>
+      <dl>
+        <dt>AI 做什麼</dt><dd>用自然語言找到服務、預填申辦，轉 1999 時附上摘要</dd>
+        <dt>為什麼有機會</dt><dd>1999 每月約 4,000 通來電；受益人數最大</dd>
+        <dt>主要風險</dt><dd>最容易撞題；市府已規劃優化查詢與檢索，「尚未進行」的規定風險較高</dd>
+      </dl>
+    </article>
+
+    <article class="opt" id="dir-c">
+      <h3>C. 水下之眼</h3>
+      <p class="what">水下無人機＋AI 漁港與海岸巡檢（主題三・宜居永續組）</p>
+      <dl>
+        <dt>AI 做什麼</dt><dd>影像辨識水下設施損傷與海洋廢棄物</dd>
+        <dt>為什麼有機會</dt><dd>差異化最高；可找水下無人機團隊做初步驗證（決賽 25%）</dd>
+        <dt>主要風險</dt><dd>受益人數難量化；需先確認市府現行巡檢方式；隊上要有能動設備的人</dd>
+      </dl>
+    </article>
+
+    <p>主題二（AI 旅遊規劃）最多人會想到，除非有獨家在地資料，不建議。114 年的得獎提案查不到公開資料，114 年許願池頁面也未顯示內容。</p>
+    <p class="src">來源：<a href="https://apps.apple.com/tw/app/%E6%96%B0%E7%AB%B9%E9%80%9A/id6739238077">App Store：新竹通功能說明</a>、<a href="https://www.cna.com.tw/postwrite/chi/427829">中央社訊息平台：1999 話務與新竹通規劃</a></p>
+  </section>
+
+  <section id="sprint">
+    <h2>48 小時衝刺清單</h2>
+    <p class="lead"><span class="due">10/30（五）23:59</span> 前要完成下面 6 件事；官網提醒提早送出，建議 18:00 前交。</p>
+    <ul class="checks">
+      <li><input type="checkbox" id="c1"><label for="c1"><span class="d">10/28</span>：回覆同學，確認另外 3 位隊員（全員 16–40 歲）與主題</label></li>
+      <li><input type="checkbox" id="c2"><label for="c2"><span class="d">10/28</span>：4 人各自註冊官網，在<a href="https://115hsinchuhackathon.com/wish.html">許願池</a>發一張許願卡（標題、問題描述、具體想法、願望目標、社會影響），內容可和提案同題</label></li>
+      <li><input type="checkbox" id="c3"><label for="c3"><span class="d">10/29</span>：定案「一句話解方」，按頁分工寫簡報</label></li>
+      <li><input type="checkbox" id="c4"><label for="c4"><span class="d">10/29</span>：備齊每人的身分證明、切結書、資料蒐集同意書</label></li>
+      <li><input type="checkbox" id="c5"><label for="c5"><span class="d">10/30 中午</span>：完成 3–5 頁 PDF，隊內互審一次</label></li>
+      <li><input type="checkbox" id="c6"><label for="c6"><span class="d">10/30 18:00</span>：送出<a href="https://forms.gle/1MVBZ9ZFgmR7M7Wm6">報名表單</a></label></li>
+    </ul>
+    <p>錄取後：11/6–11/10 繳 1,000 元保證金；指定一位隊友出席 11/14 工作坊。</p>
+
+    <h3>3–5 頁書審簡報骨架</h3>
+    <p class="note">照官方建議內容排，括號是對應的書審配分。</p>
+    <ol class="steps">
+      <li><strong>問題界定</strong>（20%）：新竹在地數字＋一個真實市民情境</li>
+      <li><strong>解方與 AI 亮點</strong>（30%）：一張使用流程圖，寫清 AI 做什麼、資料從哪來</li>
+      <li><strong>執行規劃與預計成本</strong>：短中長期里程碑、需要哪個市府單位、概估經費</li>
+      <li><strong>預期效益</strong>（後續影響力 30%）：受益人數與可追蹤的指標</li>
+      <li><strong>團隊組成</strong>（20%）：4 人背景、分工與新竹的連結</li>
+    </ol>
+  </section>
+
+  <section id="sources">
+    <h2>資料來源</h2>
+    <ul>
+      <li><a href="https://115hsinchuhackathon.com/">115 新竹政策黑客松官網</a>：活動須知、時程、題目、評分標準</li>
+      <li><a href="https://115hsinchuhackathon.com/faq.html">常見問題</a>：地址、住宿、接駁、保證金</li>
+      <li><a href="https://115hsinchuhackathon.com/wish.html">政策許願池</a>：許願卡欄位與開放時間</li>
+      <li><a href="https://newtalk.tw/plan/view/1187">Newtalk：竹市政策黑客松開跑</a>：2026-10-07，市府廣告稿，確認為第二屆</li>
+      <li><a href="https://www.cna.com.tw/postwrite/chi/427829">中央社訊息平台：數發處專案報告</a>：2026-03-12，市府稿，新竹通與 1999 數字</li>
+      <li><a href="https://apps.apple.com/tw/app/%E6%96%B0%E7%AB%B9%E9%80%9A/id6739238077">App Store：新竹通</a>：功能說明與評分</li>
+      <li>你的 Google 日曆：10/28–11/22 的行程</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <p>回到 <a href="../">我的筆記</a>。由 克勞德先生 協助整理。</p>
+</footer>
+
+<script>
+/* 手機上時程圖要左右滑，直接展開表格版 */
+(function () {
+  var tv = document.querySelector('details.tv');
+  if (tv && window.matchMedia && window.matchMedia('(max-width: 560px)').matches) tv.open = true;
+})();
+
+/* 衝刺清單的勾選只存在這台裝置的瀏覽器裡 */
+(function () {
+  var KEY = 'hsinchu-hackathon-1028:checks', state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { state = {}; }
+  document.querySelectorAll('.checks input[type=checkbox]').forEach(function (box) {
+    if (state[box.id]) box.checked = true;
+    box.addEventListener('change', function () {
+      state[box.id] = box.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    });
+  });
+})();
+</script>
+</body>
+</html>
