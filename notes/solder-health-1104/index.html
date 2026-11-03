@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="焊錫冒的白煙主要是松香助焊劑，反覆吸可能變成氣喘；鉛主要從手進到嘴。對身體的影響、隊辦吸煙機的實際效果、0 元到萬元級的改善做法和可印的隊辦焊錫守則。">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AUV 隊辦銲錫健康研究報告">
+<meta property="og:description" content="焊錫冒的白煙主要是松香助焊劑，反覆吸可能變成氣喘；鉛主要從手進到嘴。對身體的影響、隊辦吸煙機的實際效果、0 元到萬元級的改善做法和可印的隊辦焊錫守則。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AB%81%3C/text%3E%3C/svg%3E">
+<title>AUV 隊辦銲錫健康研究報告</title>
+<style>
+:root { --bg:#f6f7f5; --fg:#1d2327; --muted:#5a636a; --line:#d8dde0; --accent:#1c6a86; --card:#ffffff; --th:#eef1f2;
+  --warn-bg:#fff5e2; --warn-line:#d99a2b; --info-bg:#edf4f9; --info-line:#5a97bf; }
+@media (prefers-color-scheme: dark) { :root { --bg:#13171a; --fg:#e5e8ea; --muted:#a2acb3; --line:#30383e; --accent:#71c3de; --card:#1a1f23; --th:#232a2f;
+  --warn-bg:#352b17; --warn-line:#c48b2c; --info-bg:#172833; --info-line:#4e8bb0; } }
+* { box-sizing:border-box }
+body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.8 "PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif; -webkit-text-size-adjust:100% }
+.wrap { max-width:840px; margin:0 auto; padding:28px 16px 64px }
+.kicker { margin:0; color:var(--muted); font-size:.9rem; letter-spacing:.06em }
+h1 { font-size:1.95rem; line-height:1.35; margin:.15em 0 .25em }
+.meta { margin:0 0 1.1em; color:var(--muted); font-size:.92rem }
+h2 { font-size:1.35rem; line-height:1.4; margin:2.2em 0 .6em; padding-top:.7em; border-top:1px solid var(--line) }
+a { color:var(--accent); text-underline-offset:2px }
+p, li { overflow-wrap:anywhere }
+.callout { border-left:4px solid; border-radius:8px; padding:.5em 1em; margin:1.2em 0 }
+.callout.info { background:var(--info-bg); border-color:var(--info-line) }
+.callout.warn { background:var(--warn-bg); border-color:var(--warn-line) }
+nav.toc { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.5em 1.2em; margin:1.2em 0 }
+nav.toc p { margin:.3em 0; font-weight:600 }
+nav.toc ol { margin:.2em 0 .5em; padding-left:1.4em }
+.table-wrap { overflow-x:auto; margin:1em 0; -webkit-overflow-scrolling:touch }
+table { border-collapse:collapse; width:100%; min-width:560px; font-size:.92rem; line-height:1.6; background:var(--card) }
+th, td { border:1px solid var(--line); padding:.45em .6em; vertical-align:top; text-align:left }
+th { background:var(--th); white-space:nowrap }
+img { display:block; max-width:100%; height:auto; margin:1em auto; border-radius:10px; background:#fff; border:1px solid var(--line) }
+ul.task-list { list-style:none; padding-left:.3em }
+ul.task-list input { margin-right:.5em }
+details { margin:1em 0 }
+summary { cursor:pointer; font-weight:600; color:var(--accent) }
+footer { margin-top:3em; padding-top:1em; border-top:1px solid var(--line); color:var(--muted); font-size:.9rem }
+@media (max-width:600px) { body { font-size:16px } h1 { font-size:1.55rem } table { font-size:.86rem } }
+@media print { nav.toc, footer { display:none } body { background:#fff; color:#000 } .wrap { max-width:none } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<p class="kicker">AUV 隊辦 · 焊錫安全</p>
+<h1>AUV 隊辦銲錫健康研究報告</h1>
+<p class="meta">2026-11-03 整理 · 2026-11-04 核對 9 份原頁 · 成育典</p>
+</header>
+<div class="callout info"><p><strong>整理方式</strong>：用 Claude 分四個面向（助焊劑煙、鉛、改善設備、台灣法規）搜尋公開資料，重要數字再由另一輪搜尋獨立核對，2026-11-04 另外打開 9 份原頁核對。這不是醫療建議，身體不舒服請看醫生。</p></div>
+<nav class="toc"><p>目錄</p><ol>
+<li><a href="#結論">結論</a></li>
+<li><a href="#隊辦現況">隊辦現況</a></li>
+<li><a href="#焊錫怎麼跑進身體三條路">焊錫怎麼跑進身體：三條路</a></li>
+<li><a href="#對身體的影響">對身體的影響</a></li>
+<li><a href="#風險有多大">風險有多大</a></li>
+<li><a href="#台灣法規怎麼看">台灣法規怎麼看</a></li>
+<li><a href="#隊辦怎麼改">隊辦怎麼改</a></li>
+<li><a href="#隊辦焊錫守則">隊辦焊錫守則</a></li>
+<li><a href="#身體不舒服怎麼辦">身體不舒服怎麼辦</a></li>
+<li><a href="#參考資料">參考資料</a></li>
+</ol></nav>
+<main>
+<h2 id="結論">結論</h2>
+<p>隊辦焊錫對身體最大的風險，是助焊劑（松香）冒出的白煙，不是鉛煙。英國職安主管機關 HSE 說，它是「職業性氣喘」（因工作得的氣喘）的主要成因之一。有鉛、無鉛錫絲都一樣會冒這種煙。</p>
+<p>鉛只有用有鉛錫絲才要擔心，主要是沾到手和桌面，再跟著零食吃進去。隊辦的錫絲有沒有鉛還沒確認，確認前先當有鉛來防。</p>
+<p>隊辦沒有量過空氣，所以說不出「超標」還是「安全」。這是推論：社團焊得比工廠少很多，多數人可能頂多刺鼻、喉嚨癢。要防的是少數人被「致敏」（身體開始把松香當敵人），之後吸一點就可能喘，可能拖很久，有些人離開焊錫環境後也沒有完全好。</p>
+<div class="callout warn">
+
+<p><strong>最該先做的三件事，都不用花錢：</strong></p>
+<ol type="1">
+<li><strong>吸煙機挪到烙鐵旁</strong>：吸口越近越好、不擋到手就行；焊完讓它多跑一陣子，窗戶多開一會兒。它現在離焊點太遠，而且外型像 HAKKO 493，是只有活性碳濾片的小黑盒。英國 HSE 實測過這類機器：碳片只濾掉一小部分有害成分，排出來的風還帶著煙，只適合很偶爾、量很少的焊接，出風口也別對著人。</li>
+<li><strong>焊接桌不吃不喝，焊完用肥皂洗手</strong>：乾洗手不能取代，CDC 說它可能去不掉鉛。</li>
+<li><strong>鋰電池搬離焊接桌</strong>：烙鐵燙到電池，或錫珠搭到正負極，都可能短路起火；鋰電池燒起來還會放出氟化氫等有毒氣體。</li>
+</ol>
+</div>
+
+<p>想再升級，最划算的是把焊點三面圍起來，或用風管把煙直接排到窗外（見「隊辦怎麼改」）。</p>
+<p>下一步（負責人請隊上自己填）：</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />看錫絲標籤和吸煙機型號（這週）</label></li>
+<li><label><input type="checkbox" />吸煙機挪近、鋰電池搬走（今天就能做）</label></li>
+<li><label><input type="checkbox" />印「隊辦焊錫守則」貼在焊台旁</label></li>
+<li><label><input type="checkbox" />記一個月焊錫紀錄：誰焊、焊多久、用哪捲錫絲</label></li>
+<li><label><input type="checkbox" />問環安中心：隊辦算不算實驗場所、錫渣怎麼回收</label></li>
+</ul>
+<h2 id="隊辦現況">隊辦現況</h2>
+<p>焊接集中在同一張工作桌：兩個烙鐵位、一台桌上型吸煙機、XT60 接線和 10000 mAh 鋰電池都在桌上（2026-10-31 社辦照片）。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>照片看到的</th>
+<th>為什麼重要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>烙鐵</td>
+<td>一台黑色焊台＋一支紫柄烙鐵，各有烙鐵架</td>
+<td>兩個焊接位，賽前可能同時開工</td>
+</tr>
+<tr>
+<td>吸煙機</td>
+<td>面板寫「FUME EXTRACTOR」的黑色桌上型機，外型像白光 HAKKO 493（風扇＋活性碳濾片），放在桌子後方</td>
+<td>這型要貼近烙鐵才有用；濾片多久沒換不知道</td>
+</tr>
+<tr>
+<td>錫絲</td>
+<td>2 捲，綠色線軸，標籤拍不清楚</td>
+<td>有沒有鉛，決定要不要擔心鉛</td>
+</tr>
+<tr>
+<td>鋰電池</td>
+<td>10000 mAh LiPo 平放在焊接桌上</td>
+<td>跟烙鐵同桌是起火風險</td>
+</tr>
+<tr>
+<td>房間</td>
+<td>地板約 67 m²、樓板高約 3.3 m；有窗戶、窗型冷氣和室內測試泳池</td>
+<td>窗型冷氣大多只把室內空氣吹來吹去，不會換進外面的空氣</td>
+</tr>
+</tbody>
+</table></div>
+<p>下次到隊辦可以順手確認這 4 件事，確認完拍照或回報給隊上：</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />錫絲線軸標籤寫的是 Sn63/Pb37、60/40（有鉛），還是 Pb-free、SAC305（無鉛）</label></li>
+<li><label><input type="checkbox" />吸煙機的型號貼紙，活性碳濾片上次換是什麼時候</label></li>
+<li><label><input type="checkbox" />窗戶打不打得開，開了風往哪邊走</label></li>
+<li><label><input type="checkbox" />一週大概焊幾小時，賽前最長連續焊多久</label></li>
+</ul>
+<p>另外請每個人自己想一下：有沒有氣喘、過敏體質，或正在懷孕、備孕、產後一年內？不用回報，有的話請看「對身體的影響」裡的「誰要更小心」。</p>
+<h2 id="焊錫怎麼跑進身體三條路">焊錫怎麼跑進身體：三條路</h2>
+<p><img src="three-routes.png" alt="焊錫的三條路：吸進去、吃進去、碰到" /></p>
+<p>最該擋的是第一條「吸進去」：白煙從烙鐵直直往上升，要在煙柱旁就把它抓走。第二條「吃進去」靠洗手、不在焊台吃東西，就能大幅減少（推論，沒有實測數字）。第三條「碰到」：少用手直接摸助焊劑殘留，焊完一樣洗手。</p>
+<h2 id="對身體的影響">對身體的影響</h2>
+<p>最確定的傷害是呼吸道和皮膚過敏，兩者都來自松香；鉛有毒很確定，但社團的焊錫量會吃進多少，沒有資料。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>部位</th>
+<th>會怎樣</th>
+<th>從哪來</th>
+<th>證據多強</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>肺</td>
+<td>咳、喘、胸悶；已經過敏的人，只要短時間（15 分鐘以內）吸到焊煙就可能發作</td>
+<td>松香助焊劑煙</td>
+<td>強：英國 HSE 列為職業性氣喘的主要成因之一；讓過敏工人實際吸松香煙，肺功能真的下降</td>
+</tr>
+<tr>
+<td>鼻子、喉嚨、眼睛</td>
+<td>刺鼻、喉嚨癢、流鼻水、眼睛刺痛</td>
+<td>助焊劑煙</td>
+<td>中：一家英國電子廠回問卷的員工，22% 有跟工作有關的鼻炎</td>
+</tr>
+<tr>
+<td>皮膚</td>
+<td>紅、癢、起疹子（過敏性接觸皮膚炎）</td>
+<td>松香、助焊劑殘留</td>
+<td>強：皮膚炎病人做過敏貼布測試，約 3.5% 對松香有反應（一般人約 0.9%）</td>
+</tr>
+<tr>
+<td>全身（鉛）</td>
+<td>存在骨頭裡慢慢累積；影響神經、血壓、腎臟，孕期影響胎兒</td>
+<td>有鉛錫絲，手到嘴</td>
+<td>強（鉛有毒很確定）；但社團會吃進多少，沒資料</td>
+</tr>
+<tr>
+<td>手、眼睛</td>
+<td>燙傷；錫珠、助焊劑或剪下的腳彈進眼睛</td>
+<td>烙鐵、熔錫、斜口鉗</td>
+<td>各大學焊錫守則都列</td>
+</tr>
+</tbody>
+</table></div>
+<p>致敏就像花生過敏：前幾次沒事，某天身體把松香記成敵人，之後一點點就可能發作。HSE 說，症狀可能焊完當下就出現，也可能幾小時後、甚至夜間才出現，所以容易被忽略。皮膚過敏測試是陰性，也不代表沒有松香氣喘（1979 年一項研究的 58 名病人全部陰性），有呼吸道症狀要看職業醫學科。</p>
+<p>氣喘會不會好？HSE 說，肺一旦變得過敏，之後就算濃度很低也可能發作，繼續吸症狀會更嚴重。一項 1982 年的追蹤發現，離開工廠的人，約一半「呼吸道太敏感、一點刺激就收縮」的狀況恢復正常，但這不等於症狀全好；留在同廠換工作的只有 1 人恢復。越早遠離焊煙，恢復的機會越大。</p>
+<p>兩個常見誤會：</p>
+<ul>
+<li><strong>換無鉛就沒事</strong>：無鉛錫絲通常一樣包著松香芯，只去掉了鉛。無鉛要更高溫，助焊劑的酸性也較強、比較容易揮發，HSE 說烙鐵從 250 °C 到 400 °C，煙量可能變成三倍，所以無鉛的煙可能更多（沒有直接比較有鉛、無鉛的實測）。</li>
+<li><strong>焊錫會致癌</strong>：煙裡的甲醛是第 1 類致癌物，但這個分級只表示「確定能讓人致癌」，沒說多少量才會。唯一找到的焊錫區實測，是 1981 年美國 NIOSH 的兩筆（0.006、0.04 ppm，台灣勞工上限是 1 ppm），量不高，也不能代表隊辦。</li>
+</ul>
+<p>誰要更小心（這些人更要把吸煙機、開窗、洗手做確實，不舒服就先離開焊錫區）：</p>
+<ul>
+<li>已經對松香過敏的人：就算自己不焊，同一間有人焊也可能受影響</li>
+<li>原本有氣喘的人：煙可能讓氣喘加重</li>
+<li>過敏體質的人：只有一篇 1979 年的小研究發現微弱關聯，但值得留意</li>
+<li>懷孕、備孕或產後一年內的人：不要碰有鉛錫絲；松香煙對孕期的影響沒查到資料，保守起見少接觸</li>
+<li>賽前連續焊好幾小時、臉湊近焊點的人</li>
+</ul>
+<h2 id="風險有多大">風險有多大</h2>
+<p>隊辦沒量過空氣，沒辦法說超標；下面先用研究推估隊上幾種情況，再附各國上限和工廠研究當尺。</p>
+<p>換算到隊辦（依研究推估，不是實測）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>情況</th>
+<th>風險</th>
+<th>為什麼</th>
+<th>該怎麼做</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>偶爾焊幾個點，吸煙機貼近、開窗</td>
+<td>低</td>
+<td>量少；煙被吸離臉部，再靠開窗稀釋</td>
+<td>照守則做</td>
+</tr>
+<tr>
+<td>賽前連續焊好幾小時，臉湊近、吸煙機擺遠</td>
+<td>中</td>
+<td>刺激變多，致敏機會增加</td>
+<td>吸煙機貼近、開窗，中間起來休息透氣</td>
+</tr>
+<tr>
+<td>已經對松香過敏</td>
+<td>高</td>
+<td>短時間吸到就可能發作</td>
+<td>盡量別焊，有人焊時也別待在旁邊</td>
+</tr>
+<tr>
+<td>原本有氣喘</td>
+<td>中</td>
+<td>煙可能讓氣喘加重</td>
+<td>盡量讓別人焊；要焊就貼近吸煙機、開窗，不舒服馬上離開</td>
+</tr>
+<tr>
+<td>有鉛錫絲，在焊台吃東西、沒洗手</td>
+<td>中</td>
+<td>鉛直接吃進去，空腹時吸收更多</td>
+<td>不在焊台吃喝，焊完用肥皂洗手</td>
+</tr>
+<tr>
+<td>懷孕或備孕，用有鉛錫絲</td>
+<td>高</td>
+<td>胎兒對鉛最敏感</td>
+<td>不碰有鉛錫絲</td>
+</tr>
+</tbody>
+</table></div>
+<p>各國上限（給每天上班 8 小時的勞工用的管理門檻，不代表低於它就安全）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>物質</th>
+<th>上限</th>
+<th>誰訂的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>松香助焊劑煙（量的是裡面的樹脂酸）</td>
+<td>8 小時平均 0.05 mg/m³；15 分鐘 0.15 mg/m³，而且要盡量再壓低；原表標為致敏物</td>
+<td>英國 HSE</td>
+</tr>
+<tr>
+<td>松香芯錫絲加熱冒出的東西（換算成甲醛來量）</td>
+<td>0.1 mg/m³</td>
+<td>美國 NIOSH（建議值）</td>
+</tr>
+<tr>
+<td>松香芯錫絲加熱冒出的東西</td>
+<td>不給數字，要求越低越好，並註明它會讓皮膚和呼吸道過敏</td>
+<td>美國 ACGIH（工業衛生專家協會）</td>
+</tr>
+<tr>
+<td>鉛（空氣中）</td>
+<td>8 小時平均 50 µg/m³（＝0.05 mg/m³）</td>
+<td>台灣勞工作業場所容許暴露標準</td>
+</tr>
+<tr>
+<td>甲醛</td>
+<td>1 ppm（現行值；114 年修法，部分物質 116 年起改新值，甲醛新值還沒確認）</td>
+<td>台灣勞工作業場所容許暴露標準</td>
+</tr>
+</tbody>
+</table></div>
+<p>mg/m³ 是每立方公尺空氣裡有幾毫克，µg/m³ 是幾微克，1 mg＝1,000 µg。低於上限也不保證沒事：1979 年那家英國電子廠，助焊劑煙還低於當時的上限，回問卷的員工照樣有 22% 出現跟工作有關的喘或呼吸困難。</p>
+<p>工廠研究還說了三件事：</p>
+<ul>
+<li>把幾篇研究合起來算，焊錫工呼吸會咻咻叫（喘鳴）的勝算，約是沒焊錫的人的 2.6 倍（只來自 3 篇有校正吸菸的研究），肺功能只小降約 0.9%；這些都是全職工廠工人。</li>
+<li>手焊時空氣裡的鉛通常很少，但不是零，焊 XT60／XT90 這種要高溫久焊的接頭可能多一些；鉛主要留在桌面和手上。NIOSH 在電路板廠量到的空氣鉛，最高一次是 49 µg/m³（快碰到上限 50 µg/m³），那時作業員正在清錫渣。</li>
+<li>控制差的工廠（伊朗，空氣鉛 90 µg/m³，已超過上限），女性焊錫工平均血鉛 10.6 µg/dL（照 NIOSH 標準算偏高，數字怎麼看見「身體不舒服怎麼辦」）；一項證據較弱的馬來西亞研究（樣本數、錫絲有沒有鉛都不清楚）則發現，電子廠焊錫工跟沒接觸的人血鉛差不多。</li>
+</ul>
+<p>要知道隊辦落在哪一格，先記一個月：誰焊、焊多久、用哪捲錫絲。焊台旁貼一張紀錄表，或開個共用表單，焊完順手填一行；看醫生時也用得到。</p>
+<h2 id="台灣法規怎麼看">台灣法規怎麼看</h2>
+<p>台灣法規管的是雇主和勞工，學生社團算不算是灰色地帶，所以不能說隊辦違法；但可以拿法規當標竿。</p>
+<ul>
+<li><strong>學生算不算「工作者」</strong>：職安法施行細則第 2 條，把受工作場所負責人指揮或監督、「以學習技能、接受職業訓練為目的從事勞動」的人也算進去。白話是：為了學技術、聽場地負責人指揮做事的人，也可能算。純學生自主的社團算不算，沒找到勞動部解釋。</li>
+<li><strong>有鉛錫絲在通風不良處焊，就是「鉛作業」</strong>：《鉛中毒預防規則》第 2 條把「於通風不充分之場所從事鉛合金軟焊之作業」列為鉛作業。鉛合金指含鉛 10% 以上（第 3 條），所以 Sn63/Pb37、60/40 都算，無鉛錫絲不算。</li>
+<li><strong>怎樣算通風不充分</strong>：第 3 條寫「室內對外開口面積未達底面積二十分之一以上或全面積百分之三以上者」。隊辦地板約 67 m²，二十分之一是 3.35 m²；窗簾拉上、門關著時，很難說通風充分。這句有解讀空間，以主管機關解釋為準。</li>
+<li><strong>規定要做的事</strong>：局部排氣（在焊點旁直接把煙抽走）或整體換氣（整間換進外面的空氣，每人每分鐘 1.67 m³ 以上；第 13、32 條）、每天用水或吸塵器清潔（第 36 條）、洗手設備（第 37 條）、公告禁止飲食和吸菸（第 44 條）。兩人同時焊，等於每小時要換進約 200 m³ 外氣，差不多是整間隊辦的空氣量。</li>
+<li><strong>懷孕與女性</strong>：《女性勞工母性健康保護實施辦法》第 10 條，把在鉛及其化合物散布場所工作的女性勞工，依血鉛分三級：未滿 5、5 到未滿 10、10 µg/dL 以上。</li>
+<li><strong>松香煙</strong>：這次沒查到台灣容許暴露標準有松香煙的專門項目；職安署網站上的《刺激性或過敏性氣喘認定參考指引》，把助焊劑（以松香為例）列為會引起氣喘的物質。</li>
+<li><strong>學校</strong>：陽明交大新生資訊頁寫，進實驗場所前要先完成至少 3 小時安全衛生訓練。隊辦算不算環安中心管的「實驗場所」（算的話，進隊辦的人都要先受訓）、錫渣怎麼回收，建議由隊長統一去問環安中心。</li>
+</ul>
+<h2 id="隊辦怎麼改">隊辦怎麼改</h2>
+<p>原則是先讓煙少冒、在焊點旁就抓走，再談換設備；口罩擺最後。下表大致由便宜排到貴，前七項幾乎不用花錢。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>做法</th>
+<th>花費</th>
+<th>為什麼有用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>吸煙機挪到烙鐵旁，吸口越近越好、對著煙</td>
+<td>0 元</td>
+<td>吸口一拉遠，吸力就掉很快（跟距離平方成反比）：離一個吸口寬度，就只剩約一成；MIT 對吸煙管口的建議是離焊點約 13 cm</td>
+</tr>
+<tr>
+<td>用不會燒的板子把焊點三面圍起來，吸煙機當背牆</td>
+<td>0～數百元</td>
+<td>HSE 案例：工廠的排煙設備改成包圍式後，人吸到的煙少了 98%；隊辦的機器只有活性碳，效果不會一樣，還是要開窗</td>
+</tr>
+<tr>
+<td>頭偏一邊，不要在煙柱正上方；工件墊高</td>
+<td>0 元</td>
+<td>煙會往上直升，很可能直接進到你呼吸的位置；工件墊高，就不用低頭湊過去</td>
+</tr>
+<tr>
+<td>溫度夠用就好；焊 XT60／XT90 換大烙鐵頭，不要只調高溫</td>
+<td>0 元（沒有大烙鐵頭要另買）</td>
+<td>溫度越高，煙越多：HSE 說烙鐵從 250 °C 到 400 °C，煙量可能變成三倍</td>
+</tr>
+<tr>
+<td>焊接時開窗；電扇往窗外吹，不要對著焊台吹</td>
+<td>0 元</td>
+<td>窗型冷氣大多不換外氣；側風會把煙吹離吸口</td>
+</tr>
+<tr>
+<td>焊接桌不吃不喝；焊完用肥皂洗手；桌面濕擦，不要用嘴吹</td>
+<td>0 元</td>
+<td>鉛主要從手進嘴；肥皂洗得掉大部分但洗不全，要認真搓；乾洗手可能去不掉</td>
+</tr>
+<tr>
+<td>LiPo 搬離焊接桌；IPA（異丙醇，清助焊劑用的酒精）用小瓶、用完蓋緊</td>
+<td>0 元</td>
+<td>鋰電池起火會放出氟化氫；IPA 在 12 °C 以上就有可點燃的蒸氣</td>
+</tr>
+<tr>
+<td>焊錫和剪腳時戴護目鏡</td>
+<td>很便宜</td>
+<td>錫珠、助焊劑、剪下的腳都會彈</td>
+</tr>
+<tr>
+<td>換活性碳濾片</td>
+<td>如果是 HAKKO 原廠機，A1001 五片約 US$25～33（先看型號）</td>
+<td>活性碳吸滿就沒效，MIT 要求排煙設備每年至少檢查一次、定期換濾網；室內泳池的濕氣可能讓它更快失效（推論）</td>
+</tr>
+<tr>
+<td>下次買錫絲：選無鉛；買得到無松香（rosin-free）的更好</td>
+<td>看品牌</td>
+<td>無鉛就沒有鉛的問題；無松香是 HSE 的首選，但不含松香的助焊劑也有人用了得氣喘，換了照樣要排煙；買之前先看 SDS 有沒有標 H334（呼吸道過敏）、H317（皮膚過敏）</td>
+</tr>
+<tr>
+<td>DIY：4 吋管道風扇＋風管接到窗外，吸口靠近焊點</td>
+<td>約 NT$1,200～1,500（只算風扇和風管；吸口罩、窗戶封板另計）</td>
+<td>煙直接排出去，不再吹回室內</td>
+</tr>
+<tr>
+<td>換有 HEPA（高效率微粒濾網）＋活性碳、附吸煙臂的機型</td>
+<td>國外標價換算約 NT$3 萬上下（台灣要詢價）</td>
+<td>HEPA 攔微粒、活性碳吸氣體</td>
+</tr>
+</tbody>
+</table></div>
+<p>附註：</p>
+<ul>
+<li>只有活性碳的桌上機夠不夠：英國 HSE 和 MIT 都說它擋不住細微粒，HSE 實測碳片只濾掉一小部分有害成分；HSE 也說它只適合「很偶爾、量很少」的焊接，出風口不能對著人，房間通風好更理想。伊利諾大學、賓州大學則認為附活性碳的桌上機對多數用途已經夠用。</li>
+<li>現有機器的便宜升級：HAKKO 有 999-198 高效濾片，宣稱最多攔下約 90% 微粒（不到 HEPA 等級）；493 能不能裝，要先確認型號。</li>
+<li>萬元級的參考標價：Weller Zero Smog EL Kit 1 歐洲 €920（未稅）；白光 HAKKO FA-430 日本 ¥142,780（含稅，吸嘴風管另售；FA-430、FA-431 哪一台停售說法有衝突）。</li>
+<li>想買新的桌上型吸煙機（寶工、賽威樂 Xytronic 等約 NT$1,600～3,800）之前，先看規格有沒有 HEPA；只有活性碳的跟現在那台同一類，換了差不多。</li>
+<li>口罩不能代替排煙：N95 只擋微粒、擋不住氣體，一般口罩更不行。</li>
+<li>用有鉛錫絲的話，鉛會沾在衣服和手上帶回家；回家抱小孩前先換衣服、洗手洗臉（CDC 建議）。</li>
+<li>AUV 常做的環氧樹脂灌封也會讓皮膚過敏：未固化的樹脂和硬化劑要戴厚的丁腈手套，不要用乳膠或棉手套（NIOSH 建議）。</li>
+<li>想驗證吸煙機有沒有在抓：用 PM2.5 感測器（例如 PMS5003），同樣焊法開、關各測一次比較。它看不到 0.3 µm 以下的細小微粒，也測不到氣體，讀數低不代表安全。</li>
+</ul>
+<h2 id="隊辦焊錫守則">隊辦焊錫守則</h2>
+<p>印出來貼在焊台旁，一張 A4 就放得下。</p>
+<p><strong>焊之前</strong></p>
+<ol type="1">
+<li>鋰電池、IPA、食物和飲料離開焊接桌。</li>
+<li>開窗；吸煙機打開，吸口對著焊點、越近越好（不擋到手），出風口別對著人。</li>
+<li>戴護目鏡。</li>
+<li>看錫絲標籤：懷孕、備孕或產後一年內的人不碰有鉛錫絲。</li>
+</ol>
+<p><strong>焊的時候</strong></p>
+<ol type="1">
+<li>頭偏一邊，不要在煙柱正上方。</li>
+<li>溫度夠用就好；焊粗線吃不上錫，就換大烙鐵頭，不要一直調高溫。</li>
+<li>烙鐵不用就放回烙鐵架；離開座位就關電源。</li>
+</ol>
+<p><strong>焊完</strong></p>
+<ol type="1">
+<li>吸煙機多跑一陣子，窗戶多開一會兒。</li>
+<li>錫渣和剪下的腳收進專用盒，清錫渣時吸煙機也要開；桌面用濕紙巾擦，不要用嘴吹或乾刷。</li>
+<li>用肥皂洗手再吃東西，乾洗手不算。</li>
+<li>咳、喘、胸悶或起疹子：先停焊、跟隊上說；反覆出現就去看醫生，喘得厉害要馬上就醫。</li>
+</ol>
+<h2 id="身體不舒服怎麼辦">身體不舒服怎麼辦</h2>
+<p>焊錫後反覆咳、喘、胸悶，或皮膚起疹子，就先停焊、去看醫生，別等它自己好；喘得厉害、說話困難，就馬上就醫或打 119。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>狀況</th>
+<th>先做什麼</th>
+<th>去哪裡</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>焊錫時或焊完（甚至當晚）咳、喘、胸悶、流鼻水</td>
+<td>停焊、離開焊錫區；反覆出現就去看醫生，喘得厉害、說話困難就馬上就醫或打 119</td>
+<td>職業醫學科或胸腔內科</td>
+</tr>
+<tr>
+<td>皮膚紅、癢、起疹子</td>
+<td>不再碰助焊劑殘留；看醫生時說有接觸松香</td>
+<td>皮膚科（可以做貼布測試：把松香等過敏原貼在皮膚上，看會不會起反應）</td>
+</tr>
+<tr>
+<td>擔心鉛：用有鉛錫絲、常在焊台吃東西、懷孕或備孕</td>
+<td>驗血鉛</td>
+<td>職業醫學科；或醫事檢驗所自費（有檢驗所標約 NT$400，以現場報價為準）</td>
+</tr>
+<tr>
+<td>燙傷</td>
+<td>沖、脫、泡、蓋、送：冷水沖 15～30 分鐘，不要塗牙膏或藥膏</td>
+<td>起水泡或範圍大就送醫（國健署原則是處理完都送醫）</td>
+</tr>
+<tr>
+<td>鋰電池冒煙、膨脹</td>
+<td>人先離開房間，不要吸到煙</td>
+<td>起火打 119</td>
+</tr>
+</tbody>
+</table></div>
+<p>看醫生時帶兩樣東西：錫絲的 SDS（安全資料表，跟賣家要，或上品牌官網用型號找），和最近焊了多久的紀錄。醫師要靠這些判斷是不是跟焊錫有關。</p>
+<p>新竹臺大分院有環境及職業醫學部，2023 年獲勞動部認可為職業傷病診治專責醫院。勞動部全國職業傷病服務專線是 (02)3366-8266；服務對象以勞工為主，學生能不能用要先問。</p>
+<p>驗出來的血鉛怎麼看（µg/dL 是每 100 毫升血裡有幾微克鉛；數字最好請職業醫學科醫師解讀）：</p>
+<ul>
+<li>鉛沒有已知的安全量，下面都是管理門檻，不是安全線。</li>
+<li>美國把成人 3.5 µg/dL 當參考值，100 個成人裡只有約 2～3 個會超過；NIOSH 把 5 µg/dL 以上算「偏高」。</li>
+<li>美國 CSTE（州與地方流行病學家協會）2021 年的處置指引：3.5～9 µg/dL 要了解風險、減少接觸，懷孕的人考慮暫時離開，並持續追蹤血鉛。</li>
+<li>台灣女性勞工的母性保護：5 以上進第二級、10 以上進第三級。</li>
+</ul>
+<h2 id="參考資料">參考資料</h2>
+<p>大部分來源只看過搜尋摘要；2026-11-04 另外打開 9 份原頁核對，結果列在下面。「已重查」是第二位查核員或作者用另一次搜尋獨立核對過；「補查」是最後為了補漏洞另外找的，只查過一次；「未重查」的只當參考。查不到或被查核否決的數字，報告裡已經拿掉。</p>
+<p>原頁核對（2026-11-04，先確認連線路線沒經過中港再開）：</p>
+<ul>
+<li><a href="https://www.hse.gov.uk/asthma/solderers.htm">HSE〈Solderer〉</a>：松香煙是職業性氣喘的主要成因之一（原文 a top cause）；桌上型吸煙盒除非裝 HEPA，否則用處有限。</li>
+<li><a href="https://www.hse.gov.uk/pubns/indg249.pdf">HSE INDG249（2015）</a>：「風扇＋濾網」的小黑盒，HSE 測試發現粗活性碳濾片只濾掉一小部分有害成分，排氣仍帶著相當濃度的煙，只適合很偶爾、量很少的焊接；烙鐵從 250 °C 到 400 °C，煙量可能變三倍；焊錫煙微粒多在 0.5～1.0 µm。</li>
+<li><a href="https://www.hse.gov.uk/pubns/indg248.pdf">HSE INDG248（2015）</a>：松香助焊劑會引起氣喘和皮膚炎；症狀有咳、喘鳴、流淚流鼻水、胸悶；繼續吸會更嚴重。</li>
+<li><a href="https://www.hse.gov.uk/pubns/priced/eh40.pdf">HSE EH40 暴露上限表</a>：Rosin-based solder flux fume 8 小時 0.05、15 分鐘 0.15 mg/m³，標 Sen（致敏物）。</li>
+<li><a href="https://www.hse.gov.uk/pubns/guidance/oce4.pdf">HSE OCE4</a>：上限同上、要盡量再壓低；可行就改用無松香或低松香錫絲。</li>
+<li><a href="https://www.hse.gov.uk/lev/case-studies/soldering-case-study.htm">HSE KAC Alarms 案例</a>：原本是捕集式排氣，改成包圍式罩子後暴露降 98%；風扇和濾材沿用，罩子 £140～180。</li>
+<li><a href="https://www.hse.gov.uk/surfaceengineering/occupational-asthma-mists.htm">HSE 職業性氣喘頁</a>：肺一旦過敏，低濃度也可能發作；症狀可能幾小時後、夜間才出現（這頁講電鍍，原理通用）。</li>
+<li><a href="https://ehs.mit.edu/wp-content/uploads/EHS-0167.pdf">MIT EHS-0167</a>：電子焊接不太可能產生鉛煙；煙往上直升進呼吸區；吸煙管口約 5 吋；要活性碳加 HEPA，沒有 HEPA 的吸煙器控制不足；排煙設備每年至少檢查一次；肥皂水洗手、濕紙巾擦桌面。</li>
+<li><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=N0060018">鉛中毒預防規則</a>（113-06-13 修正）：第 2 條第 2 項第 10 款、第 3 條（鉛合金 10%、通風不充分）、第 13、32、36、37 條都和報告一致；禁止飲食吸菸是第 44 條，之前寫成第 41 條是錯的，已改正。</li>
+<li>打不開：HSE SIM 03/2002/26 和〈Electronics (Soldering)〉兩頁已下架。</li>
+<li>已拿掉：「HSE 說職業性氣喘一旦養成就是永久的」「潛伏期數個月到數年」這兩句，原頁找不到。</li>
+</ul>
+<details>
+<summary>展開全部參考資料（61 筆）</summary>
+
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>主題</th>
+<th>來源</th>
+<th>用在哪</th>
+<th>查核</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>松香煙</td>
+<td><a href="https://www.hse.gov.uk/pubns/indg248.htm">HSE〈Solder fume and you〉INDG248</a></td>
+<td>症狀、繼續吸會更嚴重</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://hse.gov.uk/lung-disease/electronics-soldering.htm">HSE〈Electronics (Soldering)〉</a></td>
+<td>原頁已下架（2026-11-04 打不開）</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://www.hse.gov.uk/foi/internalops/sims/manuf/3_02_26.htm">HSE SIM 03/2002/26</a></td>
+<td>原頁已下架；上限改用 EH40、OCE4 原文確認</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://www.hse.gov.uk/surfaceengineering/occupational-asthma-mists.htm">HSE 職業性氣喘頁</a></td>
+<td>少量也可能發作、症狀可能夜間才出現</td>
+<td>補查</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://www.cdc.gov/niosh/npg/npgd0547.html">NIOSH Pocket Guide：Rosin core solder</a></td>
+<td>美國建議值 0.1 mg/m³</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://elimit.online.sy.worksafebc.com/substance/rosin-core-solder-thermal-decomposition-products-colophony">WorkSafeBC E-Limit（轉載 ACGIH）</a></td>
+<td>不給數字、標為致敏物</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://pubmed.ncbi.nlm.nih.gov/441994/">Burge 等 1979，Thorax</a></td>
+<td>22% 喘或呼吸困難、22% 鼻炎</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://pubmed.ncbi.nlm.nih.gov/483204/">Burge 等 1979 病例對照研究</a></td>
+<td>過敏體質微弱關聯、皮膚測試全陰性</td>
+<td>補查</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://pubmed.ncbi.nlm.nih.gov/7389068/">Burge 等 1980，Clinical Allergy</a></td>
+<td>已過敏者 15 分鐘內發作</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC459315">Burge 1982，Thorax</a></td>
+<td>離開後約一半氣道敏感度恢復</td>
+<td>已重查（有修正）</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://link.springer.com/article/10.1007/s12199-011-0236-8">Mendy 等 2012 統合分析</a></td>
+<td>喘鳴勝算比 2.6</td>
+<td>已重查（有修正）</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://pubmed.ncbi.nlm.nih.gov/41936388/">Karimian 等 2026 統合分析</a></td>
+<td>皮膚炎病人約 3.5% 對松香過敏</td>
+<td>已重查（有修正）</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://www.cdc.gov/niosh/hhe/reports/pdfs/81-369-466-1591.pdf">NIOSH HETA 81-369／81-466</a></td>
+<td>焊錫區甲醛兩筆</td>
+<td>補查</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://www.safety.admin.cam.ac.uk/system/files/hsd193c.pdf">劍橋大學 HSD193C</a></td>
+<td>溫度越高煙越多</td>
+<td>補查</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://www.ehs.washington.edu/system/files/resources/Soldering_SOP_Template.docx">華盛頓大學 EHS 焊錫 SOP 範本</a></td>
+<td>無鉛要更高溫、助焊劑較易揮發</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://pubmed.ncbi.nlm.nih.gov/20889465/">非松香助焊劑致喘病例</a></td>
+<td>換無松香照樣要排煙</td>
+<td>補查</td>
+</tr>
+<tr>
+<td>松香煙</td>
+<td><a href="https://www.sciencedirect.com/science/article/abs/pii/S0304389413002549">Gómez 等 2013</a></td>
+<td>停焊後細微粒仍飄在空中</td>
+<td>未重查</td>
+</tr>
+<tr>
+<td>鉛</td>
+<td><a href="https://ehrs.upenn.edu/sites/default/files/2023-09/Soldering%20Fact%20Sheet%2021.pdf">賓州大學 EHRS 焊錫安全</a></td>
+<td>鉛主要從手進嘴</td>
+<td>已重查（有修正）</td>
+</tr>
+<tr>
+<td>鉛</td>
+<td><a href="https://stacks.cdc.gov/view/cdc/193988">NIOSH 波焊鉛暴露評估</a></td>
+<td>空氣鉛低、表面有鉛</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>鉛</td>
+<td><a href="https://www.cdc.gov/niosh/hhe/reports/pdfs/2007-0201-3086.pdf">NIOSH HETA 2007-0201-3086</a></td>
+<td>清錫渣時 49 µg/m³</td>
+<td>已重查（有修正）</td>
+</tr>
+<tr>
+<td>鉛</td>
+<td><a href="https://www.sciencedirect.com/science/article/abs/pii/S0584854725000096">焊接溫度與重金屬排放（2025）</a></td>
+<td>高溫久焊鉛排放較多</td>
+<td>未重查</td>
+</tr>
+<tr>
+<td>鉛</td>
+<td><a href="https://link.springer.com/article/10.1007/s10661-019-7258-x">Mohammadyan 等 2019</a></td>
+<td>伊朗工廠血鉛 10.6 µg/dL</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>鉛</td>
+<td><a href="https://eprints.ums.edu.my/19682/">馬來西亞電子廠焊錫工研究</a></td>
+<td>血鉛跟沒接觸的人差不多</td>
+<td>補查（證據弱）</td>
+</tr>
+<tr>
+<td>鉛</td>
+<td><a href="https://ntp.niehs.nih.gov/research/assessments/noncancer/completed/lead">NTP 2012 低劑量鉛專著</a></td>
+<td>&lt;10、部分 &lt;5 µg/dL 就有影響</td>
+<td>已重查（只引總結論）</td>
+</tr>
+<tr>
+<td>鉛</td>
+<td><a href="https://www.cdc.gov/niosh/lead/bll-reference/index.html">NIOSH 成人血鉛指引</a></td>
+<td>成人 3.5／5 µg/dL</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>鉛</td>
+<td><a href="https://libraries.cste.org/wp-content/uploads/2026/07/ManagementGuidelinesforAdult.pdf">CSTE 2021 成人鉛暴露處置指引</a></td>
+<td>3.5～9 µg/dL 怎麼處置</td>
+<td>補查</td>
+</tr>
+<tr>
+<td>鉛</td>
+<td><a href="https://www.atsdr.cdc.gov/toxguides/toxguide-13.pdf">ATSDR ToxGuide：鉛</a></td>
+<td>空腹吸收更多、存在骨頭</td>
+<td>已重查（有修正）</td>
+</tr>
+<tr>
+<td>鉛</td>
+<td><a href="https://www.cdc.gov/clean-hands/about/hand-sanitizer.html">CDC：乾洗手使用建議</a></td>
+<td>乾洗手可能去不掉鉛</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>鉛</td>
+<td><a href="https://stacks.cdc.gov/view/cdc/193138">NIOSH 去鉛濕巾研究</a></td>
+<td>肥皂洗得掉大部分但洗不全</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>鉛</td>
+<td><a href="https://www.cdc.gov/lead-prevention/prevention/jobs-hobbies-activities.html">CDC：工作與嗜好的鉛</a></td>
+<td>鉛會帶回家，回家先換衣服</td>
+<td>未重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://ehs.mit.edu/wp-content/uploads/EHS-0167.pdf">MIT EHS-0167</a></td>
+<td>要活性碳＋HEPA、吸煙管口約 13 cm、每年檢查</td>
+<td>已重查（有修正）</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://ehs.stanford.edu/wp-content/uploads/Soldering-Safety-Fact-Sheet.pdf">Stanford 焊錫安全</a></td>
+<td>焊錫區不准飲食、排回室內要 HEPA</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://drs.illinois.edu/Page/SafetyLibrary/SolderingSafety">伊利諾大學 DRS 焊錫安全</a></td>
+<td>桌上機對多數用途夠用</td>
+<td>已重查（有修正）</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://www.hse.gov.uk/asthma/solderers.htm">HSE〈Solderer〉</a></td>
+<td>桌上型除非有 HEPA 用處有限</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://www.hse.gov.uk/lev/case-studies/soldering-case-study.htm">HSE KAC Alarms 案例</a></td>
+<td>包圍式後吸到的煙少 98%</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://www.osha.gov/otm/section-3-health-hazards/chapter-3">OSHA Technical Manual III-3</a></td>
+<td>離吸口一個直徑只剩約一成風速</td>
+<td>補查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://skycraftsurplus.com/products/hakko-493-smoke-absorber.html">Hakko 493 規格</a></td>
+<td>493 型標配活性碳濾片（隊辦那台型號待確認）</td>
+<td>未重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://hakkousa.com/replacement-filter.html">HAKKO A1001／999-198 濾片</a></td>
+<td>A1001 主要除臭；999-198 攔微粒最多約 90%</td>
+<td>已重查（有修正）</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://azcus.digikey.com/en/products/detail/american-hakko-products-inc/A1001/6228772">A1001 價格（DigiKey）</a></td>
+<td>五片約 US$25～33</td>
+<td>未重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://www.weller-tools.com/eu/gb/filtration/products/solder-fumes/zero-smog-el-kit-1">Weller Zero Smog EL Kit 1</a></td>
+<td>€920（未稅）</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://ec.hakko.com/products/detail/3906">HAKKO FA-430 日本官網</a></td>
+<td>¥142,780</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://www.findprice.com.tw/g/%E5%AF%B6%E5%B7%A5%20%E6%A1%8C%E9%9D%A2">寶工桌上型比價（FindPrice）</a></td>
+<td>NT$2,200～3,800</td>
+<td>未重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://biggo.com.tw/s/xytronic%20%E8%B3%BD%E5%A8%81%E6%A8%82/">Xytronic 比價（BigGo）</a></td>
+<td>約 NT$1,600～2,200</td>
+<td>未重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://www.findprice.com.tw/g/4%E5%90%8B%E9%A2%A8%E7%AE%A1">4 吋風管比價（FindPrice）</a></td>
+<td>風扇＋風管約 NT$1,200～1,500</td>
+<td>未重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://www.epa.gov/indoor-air-quality-iaq/how-does-outdoor-air-enter-building">EPA：外氣怎麼進到室內</a></td>
+<td>窗型冷氣多半不換外氣</td>
+<td>未重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://www.cdc.gov/niosh/ppe/respirators/ffr.html">NIOSH 濾材式面罩</a></td>
+<td>N95 擋不住氣體</td>
+<td>未重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://www.cmu.edu/ehs/Laboratory-Safety/chemical-safety/documents/ehs-guideline---soldering-safety.pdf">CMU EHS 焊錫安全</a></td>
+<td>焊錫和剪腳要戴護目鏡</td>
+<td>未重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://www.tandfonline.com/doi/full/10.1080/02786826.2023.2285935">低價 PM 感測器原理（Aerosol Sci. Tech. 2023）</a></td>
+<td>看不到 0.3 µm 以下</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>設備</td>
+<td><a href="https://www.cdc.gov/niosh/reproductive-health/prevention/epoxies-resins.html">NIOSH：環氧樹脂</a></td>
+<td>灌封會讓皮膚過敏、戴厚丁腈手套</td>
+<td>補查</td>
+</tr>
+<tr>
+<td>安全</td>
+<td><a href="https://www.cdc.gov/niosh/npg/npgd0359.html">NIOSH Pocket Guide：異丙醇</a></td>
+<td>閃火點約 12 °C</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>安全</td>
+<td><a href="https://www.nature.com/articles/s41598-017-09784-z">Larsson 等 2017，鋰電池火災氟化物</a></td>
+<td>起火放出氟化氫</td>
+<td>補查</td>
+</tr>
+<tr>
+<td>安全</td>
+<td><a href="https://health99.hpa.gov.tw/theme/tab/304/1290">健康九九：燙傷處理</a></td>
+<td>沖脫泡蓋送</td>
+<td>補查</td>
+</tr>
+<tr>
+<td>法規</td>
+<td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=N0060018">鉛中毒預防規則</a></td>
+<td>第 2、3、13、32、36、37、44 條</td>
+<td>已重查（條號以查核版為準）</td>
+</tr>
+<tr>
+<td>法規</td>
+<td><a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0060065&amp;flno=10">女性勞工母性健康保護實施辦法第 10 條</a></td>
+<td>血鉛三級</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>法規</td>
+<td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=N0060004">勞工作業場所容許暴露標準</a></td>
+<td>鉛 50 µg/m³、甲醛 1 ppm</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>法規</td>
+<td><a href="https://zh.wikisource.org/wiki/%E8%81%B7%E6%A5%AD%E5%AE%89%E5%85%A8%E8%A1%9B%E7%94%9F%E6%B3%95%E6%96%BD%E8%A1%8C%E7%B4%B0%E5%89%87_%28%E6%B0%91%E5%9C%8B109%E5%B9%B4%29">職安法施行細則第 2 條（維基文庫）</a></td>
+<td>學生算不算工作者</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>法規</td>
+<td><a href="https://www.osha.gov.tw/media/vaogmzwi/%E5%88%BA%E6%BF%80%E6%80%A7%E6%88%96%E9%81%8E%E6%95%8F%E6%80%A7%E6%B0%A3%E5%96%98%E8%AA%8D%E5%AE%9A%E5%8F%83%E8%80%83%E6%8C%87%E5%BC%95.pdf?mediaDL=true">職安署《刺激性或過敏性氣喘認定參考指引》</a></td>
+<td>助焊劑（以松香為例）列為致喘物</td>
+<td>已重查（內容）</td>
+</tr>
+<tr>
+<td>學校</td>
+<td><a href="https://newstudents.nycu.edu.tw/master/%E5%85%B6%E4%BB%96%E8%B3%87%E8%A8%8A/safetain/">陽明交大新生資訊：環安衛教育訓練</a></td>
+<td>進實驗場所前 3 小時訓練</td>
+<td>未重查</td>
+</tr>
+<tr>
+<td>就醫</td>
+<td><a href="https://www.mol.gov.tw/1607/1632/1640/19353/post">勞動部職業傷病服務</a></td>
+<td>專線 (02)3366-8266</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>就醫</td>
+<td><a href="https://n.yam.com/Article/20230419705908">新竹臺大分院獲認可（新聞）</a></td>
+<td>職業傷病診治專責醫院</td>
+<td>已重查</td>
+</tr>
+<tr>
+<td>就醫</td>
+<td><a href="https://www.ucl.com.tw/webshop/shop/ServiceQueryInfo.asp?GoodsID=D0104057&amp;GoodstypeID=D0&amp;MiddleID=D010">大安聯合醫事檢驗所：血中鉛</a></td>
+<td>自費約 NT$400</td>
+<td>未重查</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+
+</main>
+<footer><a href="../">← 回筆記列表</a> · 最後更新 2026-11-04</footer>
+</div>
+</body>
+</html>
