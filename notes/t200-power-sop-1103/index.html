@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Blue Robotics T200 水下推進器接電調、用直流電源供應器在岸上通電測試的步驟：接線圖、電源供應器設定（INDEP、12 V、限流 3 A）、通電 5 步、卡關排查、安全紅線、Arduino 固定油門附錄。每段都能一鍵複製成 Discord 貼文。">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="T200 推進器通電 SOP">
+<meta property="og:description" content="T200 接電調、用電源供應器在岸上通電測試：接線圖、電源設定、通電步驟、卡關排查與安全紅線。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%8C%3C/text%3E%3C/svg%3E">
+<title>T200 推進器通電 SOP</title>
+<style>
+/* 版面：單欄閱讀。每段是一張卡片：上面是排好版的內容，右上角按鈕複製該則的 Discord 原文，下面可展開看原文。 */
+:root{
+  --bg:#eef3f4;
+  --surface:#ffffff;
+  --code:#f4f8f9;
+  --fg:#13222b;
+  --muted:#566874;
+  --line:#d3dde2;
+  --accent:#0b7480;
+  --accent-ink:#ffffff;
+  --chip:#e0f0f1;
+  --chip-ink:#0b5d66;
+  --warn-bg:#fff4e0;
+  --warn-line:#e0a640;
+  --warn-ink:#5f3d00;
+  --font-body:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+  --font-mono:ui-monospace,"SF Mono",Menlo,Consolas,"PingFang TC","Microsoft JhengHei",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1519; --surface:#142027; --code:#0f191e; --fg:#e1eaee; --muted:#93a5b0; --line:#25343c;
+    --accent:#3eb3bd; --accent-ink:#04262b; --chip:#173840; --chip-ink:#9fdbe0;
+    --warn-bg:#2b2213; --warn-line:#b5832e; --warn-ink:#f2d9a6;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1519; --surface:#142027; --code:#0f191e; --fg:#e1eaee; --muted:#93a5b0; --line:#25343c;
+  --accent:#3eb3bd; --accent-ink:#04262b; --chip:#173840; --chip-ink:#9fdbe0;
+  --warn-bg:#2b2213; --warn-line:#b5832e; --warn-ink:#f2d9a6;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.7}
+a{color:var(--accent)}
+.wrap{max-width:760px;margin:0 auto;padding-block:20px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+.back{font-size:.92rem;text-decoration:none}
+.eyebrow{font-size:.8rem;letter-spacing:.06em;color:var(--muted);margin:16px 0 0}
+h1{font-size:clamp(1.6rem,5vw,2.2rem);line-height:1.25;margin:4px 0 0;text-wrap:balance}
+.lede{margin:10px 0 0;font-size:1.05rem}
+.note{margin:10px 0 0;color:var(--muted);font-size:.93rem}
+.toc{display:flex;flex-wrap:wrap;gap:8px}
+.toc a{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--fg);text-decoration:none;font-size:.9rem}
+.toc a span{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
+.part{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-width:0;scroll-margin-top:12px}
+.part-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line)}
+.num{flex:none;display:inline-grid;place-items:center;width:1.9em;height:1.9em;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:.9rem}
+.part-head h2{font-size:1.15rem;margin:0;flex:1 1 8em;min-width:0;text-wrap:balance}
+.chip{font-size:.78rem;background:var(--chip);color:var(--chip-ink);padding:2px 10px;border-radius:999px;white-space:nowrap}
+.copy{appearance:none;border:0;background:var(--accent);color:var(--accent-ink);font:inherit;font-size:.88rem;font-weight:600;padding:6px 14px;border-radius:9px;cursor:pointer}
+.copy:hover{filter:brightness(1.07)}
+.copy:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+.body{padding:2px 16px 14px;min-width:0}
+.body h3{font-size:1.02rem;line-height:1.45;margin:18px 0 6px;padding-left:10px;border-left:3px solid var(--accent)}
+.body p{margin:8px 0}
+.body ul,.body ol{margin:8px 0;padding-left:1.4em;display:grid;gap:4px}
+.body li::marker{color:var(--accent)}
+.body ol li::marker{font-weight:700}
+.body a{overflow-wrap:anywhere}
+.body code{font-family:var(--font-mono);font-size:.9em;background:var(--code);padding:1px 5px;border-radius:5px}
+.sub{font-size:.88rem;color:var(--muted)}
+.warn{background:var(--warn-bg);border-left:3px solid var(--warn-line);color:var(--warn-ink);padding:8px 12px;border-radius:0 8px 8px 0}
+.sub.warn{color:var(--warn-ink)}
+pre{margin:0;font-family:var(--font-mono);font-size:.86rem;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:2}
+pre.code{margin:10px 0;padding:12px 14px;background:var(--code);border:1px solid var(--line);border-radius:10px;white-space:pre;overflow-wrap:normal;overflow-x:auto;max-width:100%}
+pre.code code{background:none;padding:0;font-size:inherit}
+figure.wiring{margin:10px 0 12px;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--code)}
+figure.wiring a{display:block}
+figure.wiring img{display:block;width:100%;height:auto;border-radius:8px;background:#fff}
+figure.wiring figcaption{font-size:.86rem;color:var(--muted);margin-top:8px}
+.raw{border-top:1px solid var(--line)}
+.raw summary{cursor:pointer;padding:10px 16px;font-size:.88rem;color:var(--muted)}
+.raw pre{padding:12px 16px 16px;background:var(--code);color:var(--fg)}
+.src h2{font-size:1rem;margin:0 0 6px}
+.src ul{margin:0;padding-left:1.2em;color:var(--muted);font-size:.9rem;display:grid;gap:4px}
+.src p{margin:10px 0 0;color:var(--muted);font-size:.9rem}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-top:16px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
+.foot a{text-decoration:none}
+@media print{
+  :root,:root:not([data-theme="light"]){
+    --bg:#fff; --surface:#fff; --code:#f4f4f4; --fg:#000; --muted:#444; --line:#c8c8c8;
+    --accent:#0b7480; --accent-ink:#fff; --warn-bg:#fff4e0; --warn-line:#e0a640; --warn-ink:#000;
+    color-scheme:light;
+  }
+  .back,.note,.toc,.copy,.raw{display:none}
+  .wrap{max-width:none;padding:0;gap:14px}
+  .part{border:0;border-radius:0;overflow:visible}
+  .part-head{padding:0 0 4px}
+  .body{padding:0}
+  figure.wiring{break-inside:avoid}
+  .body a,.src a{color:inherit}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="../">← 筆記站</a>
+    <p class="eyebrow">水下推進器・岸上通電測試・2026-11-03 版</p>
+    <h1>T200 推進器通電 SOP</h1>
+    <p class="lede">單顆 Blue Robotics T200 接電調、用直流電源供應器在岸上測：轉不轉、順不順、電流正不正常。</p>
+    <p class="note">這份 SOP 分成 4 則，可以直接貼到 Discord：按每段的「複製成 Discord 貼文」，貼上後標題、粗體、灰色小字會自動套用。貼第 1 則時記得附上接線圖。</p>
+  </header>
+
+  <nav class="toc" aria-label="段落">
+    <a href="#part1"><span>1</span>準備與接線</a>
+    <a href="#part2"><span>2</span>電源設定與通電</a>
+    <a href="#part3"><span>3</span>卡關與安全</a>
+    <a href="#part4"><span>4</span>Arduino 附錄</a>
+  </nav>
+
+<section class="part" id="part1" aria-labelledby="t1">
+  <div class="part-head">
+    <span class="num" aria-hidden="true">1</span>
+    <h2 id="t1">準備與接線</h2>
+    <button class="copy" type="button" data-target="raw1">複製成 Discord 貼文</button>
+  </div>
+  <div class="body">
+<h3>先過不通電的 3 關</h3>
+<p>看外觀 → 手轉＋短接 → 電表量三組電阻。三關都過再通電。</p>
+<p class="sub">體檢表（可印）：<a href="https://dandycheng110.github.io/notes/t200-checksheet-1029/">https://dandycheng110.github.io/notes/t200-checksheet-1029/</a></p>
+<h3>要準備</h3>
+<ul>
+  <li>T200 ×1、電調 ×1（Blue Robotics Basic ESC；無人機電調也能用，<a href="#part3">見第 3 段</a>）</li>
+  <li>直流電源供應器（要能限流）</li>
+  <li>伺服測試器或 Arduino：送油門訊號</li>
+  <li>5 V 電源：行動電源（接 USB 轉杜邦線）或 Arduino 的 5V 腳。電調細訊號線只有 2 條的不出 5 V，伺服測試器要另外供電</li>
+  <li>水桶＋夾子：推進器要整顆泡進水裡</li>
+  <li>三用電表：確認電源真的輸出 12 V</li>
+</ul>
+<h3>接線（照附圖，全程電源 OUTPUT 關著）</h3>
+<figure class="wiring">
+  <a href="t200-wiring.png"><img src="t200-wiring.png" width="2400" height="1760" alt="T200 通電接線圖：電源供應器設 12.0 V、限流 3 A，正負極接電調；電調三條馬達線接泡在水桶裡的 T200；電調細訊號線接伺服測試器，伺服測試器另接 5 V 電源；右下是通電順序。"></a>
+  <figcaption>接線圖（點圖看大圖）。貼 Discord 第 1 則時附上這張：<a href="t200-wiring.png" download>下載 PNG</a></figcaption>
+</figure>
+<ul>
+  <li>電源 ＋（紅）→ 電調紅線；電源 －（黑）→ 電調黑線。⚠️ <strong>正負接反會燒電調</strong></li>
+  <li>電調三條粗的馬達線 → T200 的綠、白、藍，顏色對顏色。任兩條對調＝反轉</li>
+  <li>電調細的訊號線 → 伺服測試器或 Arduino：訊號對訊號、地對地。通常白或黃是訊號、黑或棕是地，以電調上的標示為準</li>
+  <li>伺服測試器另外接 5 V 時，地線要互相接通</li>
+  <li>馬達線別用長鱷魚夾：接觸不良會轉得卡卡的，看起來像推進器壞了</li>
+</ul>
+  </div>
+  <details class="raw">
+    <summary>看 Discord 原文（第 1 則，646 字）</summary>
+    <pre id="raw1"># 🔌 T200 推進器通電 SOP
+-# 1/4｜單顆 T200 接電調、用電源供應器在岸上測：轉不轉、順不順、電流正不正常｜2026-11-03 版
+
+## 先過不通電的 3 關
+看外觀 → 手轉＋短接 → 電表量三組電阻。三關都過再通電。
+-# 體檢表（可印）：&lt;https://dandycheng110.github.io/notes/t200-checksheet-1029/&gt;
+
+## 要準備
+- T200 ×1、電調 ×1（Blue Robotics Basic ESC；無人機電調也能用，見 3/4）
+- 直流電源供應器（要能限流）
+- 伺服測試器或 Arduino：送油門訊號
+- 5 V 電源：行動電源（接 USB 轉杜邦線）或 Arduino 的 5V 腳。電調細訊號線只有 2 條的不出 5 V，伺服測試器要另外供電
+- 水桶＋夾子：推進器要整顆泡進水裡
+- 三用電表：確認電源真的輸出 12 V
+
+## 接線（照附圖，全程電源 OUTPUT 關著）
+- 電源 ＋（紅）→ 電調紅線；電源 －（黑）→ 電調黑線。⚠️ **正負接反會燒電調**
+- 電調三條粗的馬達線 → T200 的綠、白、藍，顏色對顏色。任兩條對調＝反轉
+- 電調細的訊號線 → 伺服測試器或 Arduino：訊號對訊號、地對地。通常白或黃是訊號、黑或棕是地，以電調上的標示為準
+- 伺服測試器另外接 5 V 時，地線要互相接通
+- 馬達線別用長鱷魚夾：接觸不良會轉得卡卡的，看起來像推進器壞了</pre>
+  </details>
+</section>
+<section class="part" id="part2" aria-labelledby="t2">
+  <div class="part-head">
+    <span class="num" aria-hidden="true">2</span>
+    <h2 id="t2">電源設定與通電</h2>
+    <button class="copy" type="button" data-target="raw2">複製成 Discord 貼文</button>
+  </div>
+  <div class="body">
+<h3>一、設定電源供應器（先不接電調）</h3>
+<ol>
+  <li>OUTPUT 關著，打開電源開關</li>
+  <li>雙通道機型：模式選 <strong>INDEP（獨立）</strong>。選到 SERIES（串聯）會變兩倍電壓</li>
+  <li>電壓轉到 <strong>12.0 V</strong>（T200 可用 7～20 V）。指針表看不準，用三用電表量輸出端</li>
+  <li>限流設 <strong>3 A</strong>，看你的機型：</li>
+</ol>
+<p><strong>看得到電流設定值的</strong>（關著 OUTPUT 時螢幕會顯示，或有 I-SET、LIMIT 鍵）：直接把 CURRENT 轉到 3.0 A<br>
+<strong>看不到的</strong>：CURRENT 先轉到最小 → 用粗線短接輸出 ＋－ → 開 OUTPUT → CURRENT 慢慢轉到 3.0 A → 關 OUTPUT → 拆掉短接線</p>
+<p class="sub warn">⚠️ 少數「折返式（foldback）」限流的電源不能短接，先查說明書</p>
+<h3>二、通電測試（照順序）</h3>
+<ol>
+  <li>推進器整顆泡進水桶，夾牢在桶邊</li>
+  <li>伺服測試器接上 5 V、切 <strong>Manual（手動）</strong>，旋鈕轉到正中間（約 1500 µs＝停）</li>
+  <li>開 OUTPUT。電調會叫幾聲；保持 1500 µs 幾秒，聽到確認音才會動</li>
+  <li>旋鈕<strong>慢慢</strong>推一點點（約 1550～1600 µs），看三件事：順不順、電流、溫度</li>
+  <li>結束：旋鈕<strong>慢慢</strong>轉回中間 → 關 OUTPUT → 再拆線</li>
+</ol>
+<ul>
+  <li><strong>順不順</strong>：一頓一頓，多半是馬達線有一條沒接好</li>
+  <li><strong>電流</strong>：看電源的顯示。每顆用同一個油門，好的幾顆會很接近；特別高的就是摩擦大</li>
+  <li><strong>溫度</strong>：測完摸摸馬達，特別燙的標起來</li>
+</ul>
+<p class="warn">⚠️ <strong>伺服測試器不要用 Auto 模式</strong>：它會自己來回掃到全油門</p>
+  </div>
+  <details class="raw">
+    <summary>看 Discord 原文（第 2 則，723 字）</summary>
+    <pre id="raw2">-# T200 通電 SOP 2/4
+## 一、設定電源供應器（先不接電調）
+1. OUTPUT 關著，打開電源開關
+2. 雙通道機型：模式選 **INDEP（獨立）**。選到 SERIES（串聯）會變兩倍電壓
+3. 電壓轉到 **12.0 V**（T200 可用 7～20 V）。指針表看不準，用三用電表量輸出端
+4. 限流設 **3 A**，看你的機型：
+
+**看得到電流設定值的**（關著 OUTPUT 時螢幕會顯示，或有 I-SET、LIMIT 鍵）：直接把 CURRENT 轉到 3.0 A
+**看不到的**：CURRENT 先轉到最小 → 用粗線短接輸出 ＋－ → 開 OUTPUT → CURRENT 慢慢轉到 3.0 A → 關 OUTPUT → 拆掉短接線
+-# ⚠️ 少數「折返式（foldback）」限流的電源不能短接，先查說明書
+
+## 二、通電測試（照順序）
+1. 推進器整顆泡進水桶，夾牢在桶邊
+2. 伺服測試器接上 5 V、切 **Manual（手動）**，旋鈕轉到正中間（約 1500 µs＝停）
+3. 開 OUTPUT。電調會叫幾聲；保持 1500 µs 幾秒，聽到確認音才會動
+4. 旋鈕**慢慢**推一點點（約 1550～1600 µs），看三件事：順不順、電流、溫度
+5. 結束：旋鈕**慢慢**轉回中間 → 關 OUTPUT → 再拆線
+
+- **順不順**：一頓一頓，多半是馬達線有一條沒接好
+- **電流**：看電源的顯示。每顆用同一個油門，好的幾顆會很接近；特別高的就是摩擦大
+- **溫度**：測完摸摸馬達，特別燙的標起來
+
+⚠️ **伺服測試器不要用 Auto 模式**：它會自己來回掃到全油門</pre>
+  </details>
+</section>
+<section class="part" id="part3" aria-labelledby="t3">
+  <div class="part-head">
+    <span class="num" aria-hidden="true">3</span>
+    <h2 id="t3">卡關與安全</h2>
+    <button class="copy" type="button" data-target="raw3">複製成 Discord 貼文</button>
+  </div>
+  <div class="body">
+<h3>卡關怎麼辦</h3>
+<ul>
+  <li><strong>伺服測試器不亮</strong>：電調細訊號線只有 2 條的不出 5 V → 另外給 5 V，地線要接通</li>
+  <li><strong>一直重播開機音</strong>：電壓被限流拉低，或訊號斷斷續續 → 限流往上調一點，檢查訊號線</li>
+  <li><strong>沒有確認音、推了不動</strong>：中間值沒對準 → 伺服測試器切 Neutral（固定 1500 µs）試試，切回 Manual 前旋鈕先轉回中間；Arduino 改送 1495 或 1505</li>
+  <li><strong>推油門時 CC 燈亮</strong>：電流撞到限流，電壓會掉 → 先收油門，查有沒有卡東西</li>
+  <li><strong>電源過壓保護（OVP）跳掉</strong>：馬達減速時電調把電灌回電源 → 油門慢慢收，不要從正轉直接打到反轉</li>
+  <li><strong>懷疑推進器壞了</strong>：跟好的那顆對調電調再測，分出是電調還是推進器的問題</li>
+</ul>
+<h3>用無人機電調</h3>
+<p>開 OUTPUT 前，旋鈕要轉到<strong>最小</strong>（不是中間）才會解鎖，而且只會往一個方向轉。測轉不轉夠用了</p>
+<h3>安全紅線</h3>
+<ul>
+  <li>乾轉最多 10 秒，原廠人員建議只點 1～2 秒（軸承靠水潤滑）</li>
+  <li>別直接接 LiPo 測：沒有限流，12 V 全油門會吃到 15～17 A</li>
+  <li>槳很利：通電前夾牢，手指、頭髮、電線都遠離</li>
+  <li>接線、拆線一律先關 OUTPUT</li>
+  <li>正負接反會燒電調：開 OUTPUT 前再看一次</li>
+</ul>
+<h3>測完分三堆</h3>
+<p>🟢 <strong>能用</strong>：四關都過<br>
+🟡 <strong>清再測</strong>：只有手轉沙沙、卡卡 → 清水沖、邊沖邊轉再測。要拆開清，先問器材負責人<br>
+🔴 <strong>先別用</strong>：電阻 OL、短接某組沒感覺、通電一頓一頓、電流特別高又燙、線皮破到見銅</p>
+<p class="sub">來源：Blue Robotics T200 規格頁、Thruster User Guide、原廠論壇。限流 3 A、油門 1550～1600 µs 是實務建議，不是原廠規格</p>
+  </div>
+  <details class="raw">
+    <summary>看 Discord 原文（第 3 則，782 字）</summary>
+    <pre id="raw3">-# T200 通電 SOP 3/4
+## 卡關怎麼辦
+- **伺服測試器不亮**：電調細訊號線只有 2 條的不出 5 V → 另外給 5 V，地線要接通
+- **一直重播開機音**：電壓被限流拉低，或訊號斷斷續續 → 限流往上調一點，檢查訊號線
+- **沒有確認音、推了不動**：中間值沒對準 → 伺服測試器切 Neutral（固定 1500 µs）試試，切回 Manual 前旋鈕先轉回中間；Arduino 改送 1495 或 1505
+- **推油門時 CC 燈亮**：電流撞到限流，電壓會掉 → 先收油門，查有沒有卡東西
+- **電源過壓保護（OVP）跳掉**：馬達減速時電調把電灌回電源 → 油門慢慢收，不要從正轉直接打到反轉
+- **懷疑推進器壞了**：跟好的那顆對調電調再測，分出是電調還是推進器的問題
+
+## 用無人機電調
+開 OUTPUT 前，旋鈕要轉到**最小**（不是中間）才會解鎖，而且只會往一個方向轉。測轉不轉夠用了
+
+## 安全紅線
+- 乾轉最多 10 秒，原廠人員建議只點 1～2 秒（軸承靠水潤滑）
+- 別直接接 LiPo 測：沒有限流，12 V 全油門會吃到 15～17 A
+- 槳很利：通電前夾牢，手指、頭髮、電線都遠離
+- 接線、拆線一律先關 OUTPUT
+- 正負接反會燒電調：開 OUTPUT 前再看一次
+
+## 測完分三堆
+🟢 **能用**：四關都過
+🟡 **清再測**：只有手轉沙沙、卡卡 → 清水沖、邊沖邊轉再測。要拆開清，先問器材負責人
+🔴 **先別用**：電阻 OL、短接某組沒感覺、通電一頓一頓、電流特別高又燙、線皮破到見銅
+-# 來源：Blue Robotics T200 規格頁、Thruster User Guide、原廠論壇。限流 3 A、油門 1550～1600 µs 是實務建議，不是原廠規格</pre>
+  </details>
+</section>
+<section class="part" id="part4" aria-labelledby="t4">
+  <div class="part-head">
+    <span class="num" aria-hidden="true">4</span>
+    <h2 id="t4">Arduino 附錄</h2>
+    <span class="chip">選用</span>
+    <button class="copy" type="button" data-target="raw4">複製成 Discord 貼文</button>
+  </div>
+  <div class="body">
+<h3>附錄：用 Arduino 送固定油門（Basic ESC）</h3>
+<p>伺服測試器的旋鈕很難每次轉到同一格。Arduino 每顆都送一模一樣的訊號，比電流最準。</p>
+<ul>
+  <li>訊號線接 D9、地線接 GND，Arduino 用 USB 供電</li>
+  <li><strong>先開電源 OUTPUT，再插 USB 或按 RESET</strong>。Arduino 先開機的話，電調會錯過開機訊號，推進器不會動</li>
+  <li>換下一顆：關 OUTPUT → 換推進器 → 開 OUTPUT → 按 RESET</li>
+</ul>
+<pre class="code"><code>#include &lt;Servo.h&gt;
+Servo esc;
+
+void setup() {
+  esc.attach(9);
+  esc.writeMicroseconds(1500);  // 停止：電調要先收到這個才會解鎖
+  delay(7000);                  // 等確認音
+  esc.writeMicroseconds(1600);  // 小油門，這時看電流
+  delay(5000);                  // 轉 5 秒
+  esc.writeMicroseconds(1500);  // 停
+}
+
+void loop() {}</code></pre>
+<p class="sub">1600 可以改（1100～1900，1500 是停）。寫法照 Blue Robotics 官方範例「Basic ESC R3 Example Code for Arduino」</p>
+  </div>
+  <details class="raw">
+    <summary>看 Discord 原文（第 4 則，644 字）</summary>
+    <pre id="raw4">-# T200 通電 SOP 4/4（選用）
+## 附錄：用 Arduino 送固定油門（Basic ESC）
+伺服測試器的旋鈕很難每次轉到同一格。Arduino 每顆都送一模一樣的訊號，比電流最準。
+- 訊號線接 D9、地線接 GND，Arduino 用 USB 供電
+- **先開電源 OUTPUT，再插 USB 或按 RESET**。Arduino 先開機的話，電調會錯過開機訊號，推進器不會動
+- 換下一顆：關 OUTPUT → 換推進器 → 開 OUTPUT → 按 RESET
+
+```cpp
+#include &lt;Servo.h&gt;
+Servo esc;
+
+void setup() {
+  esc.attach(9);
+  esc.writeMicroseconds(1500);  // 停止：電調要先收到這個才會解鎖
+  delay(7000);                  // 等確認音
+  esc.writeMicroseconds(1600);  // 小油門，這時看電流
+  delay(5000);                  // 轉 5 秒
+  esc.writeMicroseconds(1500);  // 停
+}
+
+void loop() {}
+```
+-# 1600 可以改（1100～1900，1500 是停）。寫法照 Blue Robotics 官方範例「Basic ESC R3 Example Code for Arduino」</pre>
+  </details>
+</section>
+
+  <section class="src" aria-labelledby="src-h">
+    <h2 id="src-h">內容來源</h2>
+    <ul>
+      <li><a href="https://bluerobotics.com/store/thrusters/t200-thruster/" rel="noopener">Blue Robotics T200 規格頁</a></li>
+      <li><a href="https://bluerobotics.com/learn/thruster-usage-guide" rel="noopener">Blue Robotics Thruster User Guide</a></li>
+      <li><a href="https://discuss.bluerobotics.com/t/surface-power-supply-back-emf-problem-with-basic-esc-r3/11966" rel="noopener">原廠論壇：用電源供應器時的回灌電壓</a></li>
+      <li><a href="https://discuss.bluerobotics.com/t/basic-esc-resets-when-thruster-operate-direction-reverse/460" rel="noopener">原廠論壇：正反轉切換時電調重開</a></li>
+      <li><a href="https://discuss.bluerobotics.com/t/a-few-t200-power-supply-questions/5816" rel="noopener">原廠論壇：T200 與電源供應器</a></li>
+      <li><a href="https://discuss.bluerobotics.com/t/new-esc-does-not-provide-power-to-a-servo-tester/1954" rel="noopener">原廠論壇：電調不供電給伺服測試器</a></li>
+      <li><a href="https://discuss.bluerobotics.com/t/basicesc-r3-trouble-with-arming-sequence/2214" rel="noopener">原廠論壇：Basic ESC 開機確認音</a></li>
+      <li><a href="https://bluerobotics.com/?p=115108" rel="noopener">Basic ESC R3 Example Code for Arduino</a></li>
+      <li><a href="https://www.bkprecision.com/knowledge/technical-notes/5/understanding-constant-voltage-cv-and-constant-current-cc-modes-in-regulated-power-supplies" rel="noopener">B&amp;K Precision：電源供應器的 CV／CC 模式</a></li>
+      <li><a href="https://components101.com/misc/ccpm-servo-tester" rel="noopener">CCPM 伺服測試器的三種模式</a></li>
+    </ul>
+    <p>限流 3 A、油門 1550～1600 µs 是實務建議，不是原廠規格。</p>
+  </section>
+
+  <footer class="foot">
+    <a href="../">← 回筆記列表</a>
+    <span>2026-11-03 整理 · 和 Claude 協作</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  function show(btn, label) {
+    btn.textContent = label;
+    clearTimeout(btn._t);
+    btn._t = setTimeout(function () { btn.textContent = btn.dataset.label; }, 2200);
+  }
+  function legacyCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.top = "0";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) {}
+    ta.remove();
+    return ok;
+  }
+  function selectText(pre) {
+    var d = pre.closest("details");
+    if (d) { d.open = true; }
+    var r = document.createRange();
+    r.selectNodeContents(pre);
+    var s = window.getSelection();
+    s.removeAllRanges();
+    s.addRange(r);
+  }
+  document.querySelectorAll(".copy").forEach(function (btn) {
+    btn.dataset.label = btn.textContent;
+    btn.addEventListener("click", function () {
+      var pre = document.getElementById(btn.dataset.target);
+      var text = pre.textContent;
+      var p;
+      try {
+        p = navigator.clipboard.writeText(text);
+      } catch (e) {
+        p = Promise.reject(e);
+      }
+      p.then(function () { show(btn, "已複製"); }, function () {
+        if (legacyCopy(text)) { show(btn, "已複製"); }
+        else { selectText(pre); show(btn, "已選取，請手動複製"); }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
