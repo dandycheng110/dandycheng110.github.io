@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>水下聲音信標測試報告</title>
+<meta name="description" content="水下機器人怎麼靠聲音找出藏在桶子裡的信標：六份測試報告的目錄。">
+<style>
+body{font-family:-apple-system,"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;max-width:760px;
+margin:0 auto;padding:26px 18px 64px;line-height:1.8;color:#1b1f23;background:#fff;font-size:17px}
+h1{font-size:26px;line-height:1.35;margin:.5em 0 .4em}
+h2{font-size:19px;margin:1.9em 0 .5em;padding-bottom:.25em;border-bottom:1px solid #c9ced6}
+p{margin:.75em 0}
+ul,ol{padding-left:1.4em}
+li{margin:.3em 0}
+table{border-collapse:collapse;width:100%;font-size:15px;margin:.6em 0 1em}
+th,td{border:1px solid #c9ced6;padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#f3f4f6;font-weight:600;white-space:nowrap}
+td.n,td:first-child{white-space:nowrap}
+.tw{overflow-x:auto}
+.note{border:1px solid #9aa3ad;padding:6px 14px;margin:1.1em 0;background:#fafbfc}
+figure{margin:1.3em 0}
+figcaption{font-size:15px;color:#444;margin-top:.3em;line-height:1.7}
+nav{font-size:15px;margin:.2em 0 1em}
+nav a{margin-right:1.3em}
+a{color:#0b57a4}
+.foot{margin-top:2.6em;font-size:14px;color:#555;border-top:1px solid #c9ced6;padding-top:.8em}
+</style>
+</head>
+<body>
+<h1>水下聲音信標測試報告</h1>
+<p>水下機器人比賽 SAUVC 有一道題目：池底放四個桶子，其中一個紅桶裡藏著一顆會發出聲音的信標。機器人要自己找出是哪一桶，把球丟進去。信標的聲音人耳聽不到，機器人得靠水下麥克風去聽。</p><p>這裡的六份報告，記錄怎麼測試「聽得到嗎」和「聽得出在哪裡嗎」這兩件事。</p><div class="note">這些報告的數字來自電腦模擬的聲音，目的是先確認分析方法正確。實際下水量到的結果，之後會另外更新。</div><h2>六份報告</h2><div class="tw"><table><thead><tr><th>報告</th><th>想回答的問題</th><th>這次模擬的結果</th></tr></thead><tbody><tr><td><a href="beacon-id.html">信標的身分證</a></td><td>信標發出的聲音，跟說明書寫的一樣嗎</td><td>頻率、長度、間隔都符合規格；分析程式量到的音量跟答案只差 0.1 dB</td></tr><tr><td><a href="match.html">四支水聽器比一比</a></td><td>四支水聽器聽同一個聲音，靈敏度差多少</td><td>量到的差距跟設定值最多差 0.01 dB</td></tr><tr><td><a href="noise.html">推進器有多吵</a></td><td>機器人自己的推進器，會不會蓋過信標的聲音</td><td>推進器高速時，信標頻率附近的雜訊大了 10.8 dB</td></tr><tr><td><a href="scan.html">哪一桶最大聲</a></td><td>只用一支水聽器，分得出信標在哪一桶嗎</td><td>六組全對，最大聲那一桶至少贏第二名 7.6 dB</td></tr><tr><td><a href="bearing.html">聲音從哪個方向來</a></td><td>用四支水聽器，算得出信標的方向嗎</td><td>七個位置的誤差中間值 0.6 度</td></tr><tr><td><a href="range.html">離多遠還聽得到</a></td><td>距離拉遠，聲音會小多少</td><td>近距離符合規律；5 公尺以上會被水面的反射抵銷</td></tr></tbody></table></div><p>建議照順序看。前三份確認設備和環境，後三份才是找信標的方法。</p><h2>先認識三樣東西</h2><p><strong>信標</strong>，英文叫 pinger，是一顆金屬圓筒。它碰到水就開始叫，每秒叫一聲，每聲大約百分之一秒。聲音的頻率是 45 kHz，比人耳聽得到的上限高出一倍多，所以人聽不到。</p><p><strong>水聽器</strong>是水下用的麥克風。測試用的這一款直徑大約 1 公分，從很低的聲音到 170 kHz 都收得到。</p><p><strong>直達聲和回音</strong>。游泳池像浴室，聲音會在水面、池底和池壁之間來回反射。每一聲最先到的那一小段，是從信標直接傳過來的，最可信。所以分析時只取每一聲最前面不到千分之一秒的部分。</p><h2>兩種找法</h2><p><strong>第一種是比大聲。</strong>機器人依序停在每個桶子的正上方，哪一桶上方最大聲，信標就在那一桶。只需要一支水聽器。</p><p><strong>第二種是聽方向。</strong>四支水聽器排成一個小方陣。聲音到達每一支的時間相差不到十萬分之一秒，從這個時間差可以算出聲音是從哪個方向來的。</p><p>兩種方法各有一份報告，分別是「哪一桶最大聲」和「聲音從哪個方向來」。</p><h2>名詞</h2><div class="tw"><table><thead><tr><th>名詞</th><th>意思</th></tr></thead><tbody><tr><td>kHz（千赫）</td><td>頻率的單位，每秒振動一千次。人耳大約聽得到 0.02 到 20 kHz。</td></tr><tr><td>dB（分貝）</td><td>比大小用的單位。差 6 dB 是兩倍，差 20 dB 是十倍。</td></tr><tr><td>毫秒、微秒</td><td>千分之一秒、百萬分之一秒。</td></tr><tr><td>訊號比雜訊大多少</td><td>想聽的聲音比背景雜訊大多少。20 dB 以上，量出來的數字才準。</td></tr><tr><td>信標的音量</td><td>正式名稱是聲源級，指離信標 1 公尺的地方有多大聲。新電池是 160.5 dB。</td></tr></tbody></table></div><h2>參考資料</h2><ul><li>比賽規則：<a href="https://github.com/sauvc/rulebook">SAUVC 規則書</a></li><li>水聽器：<a href="https://www.teledynemarine.com/en-us/products/Pages/RESON-TC4013-hydrophone.aspx">Teledyne RESON TC4013 產品頁</a></li></ul>
+<p class="foot">2026 年 11 月整理。信標型號 RJE ULB-362B，水聽器型號 Teledyne RESON TC4013。</p>
+</body>
+</html>

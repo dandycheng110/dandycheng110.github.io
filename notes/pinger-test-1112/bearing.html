@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>聲音從哪個方向來－水下聲音信標測試報告</title>
+<meta name="description" content="用四支水聽器，算得出信標的方向嗎">
+<style>
+body{font-family:-apple-system,"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;max-width:760px;
+margin:0 auto;padding:26px 18px 64px;line-height:1.8;color:#1b1f23;background:#fff;font-size:17px}
+h1{font-size:26px;line-height:1.35;margin:.5em 0 .4em}
+h2{font-size:19px;margin:1.9em 0 .5em;padding-bottom:.25em;border-bottom:1px solid #c9ced6}
+p{margin:.75em 0}
+ul,ol{padding-left:1.4em}
+li{margin:.3em 0}
+table{border-collapse:collapse;width:100%;font-size:15px;margin:.6em 0 1em}
+th,td{border:1px solid #c9ced6;padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#f3f4f6;font-weight:600;white-space:nowrap}
+td.n,td:first-child{white-space:nowrap}
+.tw{overflow-x:auto}
+.note{border:1px solid #9aa3ad;padding:6px 14px;margin:1.1em 0;background:#fafbfc}
+figure{margin:1.3em 0}
+figcaption{font-size:15px;color:#444;margin-top:.3em;line-height:1.7}
+nav{font-size:15px;margin:.2em 0 1em}
+nav a{margin-right:1.3em}
+a{color:#0b57a4}
+.foot{margin-top:2.6em;font-size:14px;color:#555;border-top:1px solid #c9ced6;padding-top:.8em}
+</style>
+</head>
+<body>
+<nav><a href="./">水下聲音信標測試報告（目錄）</a></nav><h1>聲音從哪個方向來</h1>
+<p>這是第二種找法。人靠兩隻耳朵聽出聲音的方向：聲音先到哪一隻耳朵，就在哪一邊。機器人也可以這樣做。</p><div class="note">這份報告的數字來自電腦模擬的聲音，目的是確認分析方法正確。實際下水量到的結果，之後會另外更新。</div><h2>怎麼測</h2><p>四支水聽器排成邊長 15 毫米的小方陣，頭朝下。信標放在方陣下方 1 公尺深的地方，位置分別在正下方、前、後、左、右等七處。分析程式比較聲音到達四支水聽器的先後，算出方向，再跟實際的方向比對。</p><h2>四支為什麼要靠這麼近</h2><p>直覺上，四支水聽器分開裝在機器人的四個角落，好像比較容易聽出方向。實際上不行，原因在信標發出的聲音。</p><p>信標發出的是一連串一模一樣的波，相鄰兩個波峰在水裡只相距 3.3 公分。兩支水聽器如果相距超過半個波長，也就是 1.65 公分，就分不出兩邊聽到的是不是同一個波峰，方向會算錯。靠得比半個波長近，聽到的一定是同一個波峰。</p><p>人的耳朵也是這樣。低沉的聲音波長很長，大腦靠兩耳的時間差判斷方向；尖銳的高音波長比頭還小，時間差會認錯，大腦就改用兩耳的音量差。</p><h2>結果</h2><p>方位 0 度是正前方，正的數字往左，負的數字往右。「偏離正下方」0 度代表信標就在方陣的正下方。</p><div class="tw"><table><thead><tr><th>信標的位置</th><th>實際方位</th><th>量到的方位</th><th>實際偏離正下方</th><th>量到偏離正下方</th><th>誤差</th></tr></thead><tbody><tr><td>後 1 m</td><td class='n'>+180 度</td><td class='n'>+180 度</td><td class='n'>45 度</td><td class='n'>44 度</td><td class='n'>0.6 度</td></tr><tr><td>右 1 m</td><td class='n'>-90 度</td><td class='n'>-90 度</td><td class='n'>45 度</td><td class='n'>44 度</td><td class='n'>0.7 度</td></tr><tr><td>正下方</td><td class='n'>不適用</td><td class='n'>正下方附近</td><td class='n'>0 度</td><td class='n'>0 度</td><td class='n'>0.0 度</td></tr><tr><td>左 1 m</td><td class='n'>+90 度</td><td class='n'>+90 度</td><td class='n'>45 度</td><td class='n'>44 度</td><td class='n'>0.6 度</td></tr><tr><td>前 1 m</td><td class='n'>0 度（正前方）</td><td class='n'>0 度（正前方）</td><td class='n'>45 度</td><td class='n'>44 度</td><td class='n'>0.7 度</td></tr><tr><td>前 2 m、左 1 m</td><td class='n'>+27 度</td><td class='n'>+27 度</td><td class='n'>66 度</td><td class='n'>66 度</td><td class='n'>0.3 度</td></tr><tr><td>前 0.5 m、右 0.5 m</td><td class='n'>-45 度</td><td class='n'>-45 度</td><td class='n'>35 度</td><td class='n'>37 度</td><td class='n'>2.1 度</td></tr></tbody></table></div><figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 542" width="100%" style="max-width:420px;font-family:-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;font-size:12px"><rect width="420" height="542" fill="#fff"/><circle cx="210.0" cy="210.0" r="164.0" fill="none" stroke="#d1d5db"/><text x="213.0" y="58.0" fill="#6b7280" font-size="10">90°</text><circle cx="210.0" cy="210.0" r="116.0" fill="none" stroke="#d1d5db"/><text x="213.0" y="106.0" fill="#6b7280" font-size="10">45°</text><circle cx="210.0" cy="210.0" r="56.1" fill="none" stroke="#d1d5db"/><text x="213.0" y="165.9" fill="#6b7280" font-size="10">20°</text><line x1="46.0" y1="210.0" x2="374.0" y2="210.0" stroke="#d1d5db"/><line x1="210.0" y1="46.0" x2="210.0" y2="374.0" stroke="#d1d5db"/><text x="210.0" y="38.0" text-anchor="middle" fill="#111">前</text><text x="210.0" y="392.0" text-anchor="middle" fill="#111">後</text><text x="30.0" y="214.0" text-anchor="middle" fill="#111">左</text><text x="390.0" y="214.0" text-anchor="middle" fill="#111">右</text><circle cx="209.9" cy="324.7" r="3" fill="#1f6feb" opacity="0.8"/><circle cx="210.0" cy="324.6" r="3" fill="#1f6feb" opacity="0.8"/><circle cx="210.0" cy="326.0" r="8" fill="none" stroke="#1f6feb" stroke-width="2"/><circle cx="14" cy="426" r="4" fill="#1f6feb"/><text x="24" y="430" fill="#111">信標在後 1 m</text><circle cx="324.5" cy="210.0" r="3" fill="#d1242f" opacity="0.8"/><circle cx="324.5" cy="209.9" r="3" fill="#d1242f" opacity="0.8"/><circle cx="326.0" cy="210.0" r="8" fill="none" stroke="#d1242f" stroke-width="2"/><circle cx="14" cy="442" r="4" fill="#d1242f"/><text x="24" y="446" fill="#111">信標在右 1 m</text><circle cx="210.0" cy="210.0" r="3" fill="#1a7f37" opacity="0.8"/><circle cx="210.1" cy="210.0" r="3" fill="#1a7f37" opacity="0.8"/><circle cx="210.0" cy="210.0" r="8" fill="none" stroke="#1a7f37" stroke-width="2"/><circle cx="14" cy="458" r="4" fill="#1a7f37"/><text x="24" y="462" fill="#111">信標在正下方</text><circle cx="95.3" cy="210.0" r="3" fill="#9a6700" opacity="0.8"/><circle cx="95.3" cy="210.0" r="3" fill="#9a6700" opacity="0.8"/><circle cx="94.0" cy="210.0" r="8" fill="none" stroke="#9a6700" stroke-width="2"/><circle cx="14" cy="474" r="4" fill="#9a6700"/><text x="24" y="478" fill="#111">信標在左 1 m</text><circle cx="209.9" cy="95.5" r="3" fill="#8250df" opacity="0.8"/><circle cx="210.1" cy="95.4" r="3" fill="#8250df" opacity="0.8"/><circle cx="210.0" cy="94.0" r="8" fill="none" stroke="#8250df" stroke-width="2"/><circle cx="14" cy="490" r="4" fill="#8250df"/><text x="24" y="494" fill="#111">信標在前 1 m</text><circle cx="142.9" cy="76.4" r="3" fill="#bf3989" opacity="0.8"/><circle cx="143.2" cy="76.5" r="3" fill="#bf3989" opacity="0.8"/><circle cx="143.0" cy="76.1" r="8" fill="none" stroke="#bf3989" stroke-width="2"/><circle cx="14" cy="506" r="4" fill="#bf3989"/><text x="24" y="510" fill="#111">信標在前 2 m、左 1 m</text><circle cx="280.2" cy="139.6" r="3" fill="#0a7ea4" opacity="0.8"/><circle cx="280.6" cy="139.7" r="3" fill="#0a7ea4" opacity="0.8"/><circle cx="277.0" cy="143.0" r="8" fill="none" stroke="#0a7ea4" stroke-width="2"/><circle cx="14" cy="522" r="4" fill="#0a7ea4"/><text x="24" y="526" fill="#111">信標在前 0.5 m、右 0.5 m</text><text x="8" y="16" font-size="13" font-weight="600" fill="#111">從上往下看</text></svg><figcaption>從上往下看的示意圖。圓心代表信標在正下方，越靠外圈代表方向越接近水平。空心圓是實際的方向，實心點是量到的方向，兩者幾乎重疊。</figcaption></figure><h2>這代表什麼</h2><p>七個位置的誤差，中間值是 0.6 度，最大 2.1 度。以這個準度，機器人可以朝信標的方向開過去，開到信標在正下方為止。</p><h2>要注意的地方</h2><p>模擬假設四支水聽器的位置完全準確。實際上，位置只要差 1 毫米，算出來的方向就會偏 5 度左右。所以需要一個做得很準的夾具固定四支水聽器，而且每次裝好之後，要先把信標放在正下方錄一次做校正。</p>
+<nav><a href="scan.html">上一份：哪一桶最大聲</a><a href="range.html">下一份：離多遠還聽得到</a><a href="./">回到目錄</a></nav><p class="foot">2026 年 11 月整理。信標型號 RJE ULB-362B，水聽器型號 Teledyne RESON TC4013。</p>
+</body>
+</html>
