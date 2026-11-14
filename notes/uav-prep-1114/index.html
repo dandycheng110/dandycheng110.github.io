@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="115-1 微學分「無人機探勘－可持續發展無人機技術」課前預習：單字、觀念、試算器、簡報骨架、試飛檢查表。">
+<style>:root{color-scheme:light}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>永續無人機課前手冊</title>
+<style>
+/* 版面：單欄閱讀（最寬 46rem）。四個階梯用階號標示；試算器是「輸入｜結果」兩欄，窄螢幕疊成一欄。 */
+:root{
+  --bg:#F3F6F9; --surface:#FFFFFF; --ink:#0B1626; --muted:#52627A; --line:#D3DCE6;
+  --accent:#0B7D6E; --accent-soft:#DDF2EE; --warm:#B4460F; --warm-soft:#FBE9DD;
+  --font-body:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  --font-mono:ui-monospace,"SF Mono","Space Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#060B17; --surface:#0B1322; --ink:#E6F4FF; --muted:#8CA0BE; --line:#22304A;
+    --accent:#36E2C8; --accent-soft:#0E2A2E; --warm:#FF8A4C; --warm-soft:#2B1A12;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#060B17; --surface:#0B1322; --ink:#E6F4FF; --muted:#8CA0BE; --line:#22304A;
+  --accent:#36E2C8; --accent-soft:#0E2A2E; --warm:#FF8A4C; --warm-soft:#2B1A12;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.75;margin:0}
+.wrap{max-width:46rem;margin-inline:auto;padding-block:2.25rem 4rem;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:3rem}
+section,header{display:flex;flex-direction:column;gap:1rem;scroll-margin-top:1rem}
+h1,h2,h3,p,ul,ol,dl,figure,table{margin:0}
+h1{font-size:clamp(1.7rem,5vw,2.25rem);line-height:1.25;font-weight:700;letter-spacing:.02em;text-wrap:balance}
+h2{font-size:1.3rem;line-height:1.35;font-weight:700;padding-top:1rem;border-top:2px solid var(--ink);text-wrap:balance}
+h3{font-size:1.02rem;line-height:1.45;font-weight:700;text-wrap:balance}
+a{color:var(--accent);text-underline-offset:.18em}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.kicker{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+.lede{color:var(--muted);font-size:.95rem}
+.small{font-size:.86rem;color:var(--muted)}
+.num{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+ul.plain,ol.plain{padding-left:1.2rem;display:flex;flex-direction:column;gap:.35rem}
+
+/* 目錄 */
+nav{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-size:.88rem;padding:.7rem 0;border-block:1px solid var(--line)}
+nav a{text-decoration:none;color:var(--ink)}
+nav a:hover{color:var(--accent);text-decoration:underline}
+
+/* 狀態標籤：查到／推定／沒查到 */
+.tag{display:inline-block;font-size:.72rem;line-height:1.5;padding:0 .45em;border-radius:3px;border:1px solid transparent;white-space:nowrap;vertical-align:.08em}
+.tag.fact{color:var(--accent);background:var(--accent-soft)}
+.tag.guess{color:var(--warm);background:var(--warm-soft)}
+.tag.none{color:var(--muted);border-color:var(--line)}
+
+/* 摘要 */
+dl.brief{display:grid;grid-template-columns:4.5rem minmax(0,1fr);gap:.55rem 1rem;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1rem 1.1rem}
+dl.brief dt{font-weight:700;color:var(--accent)}
+dl.brief dd{margin:0;min-width:0}
+
+/* 表格 */
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{text-align:left;vertical-align:top;padding:.55rem .6rem;border-bottom:1px solid var(--line)}
+th{font-size:.8rem;color:var(--muted);font-weight:600;border-bottom-color:var(--ink)}
+td.k{font-weight:700;white-space:nowrap}
+td.t{font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* 單字表 */
+.vgroup{display:flex;flex-direction:column;gap:.2rem}
+.vgroup ul{list-style:none;padding:0;display:flex;flex-direction:column}
+.vgroup li{display:grid;grid-template-columns:minmax(0,13.5rem) minmax(0,7.5rem) minmax(0,1fr);gap:.1rem .8rem;padding:.38rem 0;border-bottom:1px solid var(--line);font-size:.93rem}
+.vgroup .en{font-family:var(--font-mono);font-size:.86rem;min-width:0;overflow-wrap:anywhere}
+.vgroup .zh{font-weight:700;min-width:0}
+.vgroup .gl{color:var(--muted);min-width:0}
+.hide-zh .zh,.hide-zh .gl{visibility:hidden}
+@media (max-width:560px){
+  .vgroup li{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .vgroup .gl{grid-column:1 / -1}
+}
+
+/* 按鈕 */
+button{font:inherit;font-size:.86rem;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:.3rem .7rem;cursor:pointer}
+button:hover{border-color:var(--accent);color:var(--accent)}
+button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+
+/* 拆解列：把黏在一起的標示拆成一格一格 */
+.decode{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:.6rem}
+.tok{border:1px solid var(--line);background:var(--surface);border-radius:4px;padding:.6rem .7rem;display:flex;flex-direction:column;gap:.2rem;min-width:0}
+.tok b{font-family:var(--font-mono);font-size:1.25rem;line-height:1.2;color:var(--accent);font-weight:700}
+.tok span{font-size:.88rem;line-height:1.55}
+.tok small{font-size:.78rem;color:var(--muted)}
+.idea{display:flex;flex-direction:column;gap:.55rem;padding-bottom:1.1rem;border-bottom:1px solid var(--line)}
+.idea:last-child{border-bottom:0;padding-bottom:0}
+.formula{font-family:var(--font-mono);font-size:1.02rem;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:.45rem .7rem;overflow-x:auto;white-space:nowrap}
+
+/* 圖 */
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:1rem}
+figure{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:.6rem .6rem .7rem;display:flex;flex-direction:column;gap:.3rem;min-width:0}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:.82rem;color:var(--muted)}
+.fig-body{fill:var(--surface);stroke:var(--ink);stroke-width:1.5}
+.fig-wing{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+.fig-ink{stroke:var(--ink);fill:none;stroke-width:1.5}
+.fig-dim{stroke:var(--muted);fill:none;stroke-width:1}
+.fig-dot{fill:var(--ink);stroke:none}
+.fig-dot2{fill:var(--surface);stroke:var(--ink);stroke-width:1.5}
+.fig-a1{stroke:var(--accent);fill:var(--accent);stroke-width:2}
+.fig-a2{stroke:var(--warm);fill:var(--warm);stroke-width:2}
+.fig-a3{stroke:var(--ink);fill:var(--ink);stroke-width:2}
+.fig-t{fill:var(--ink);font-family:var(--font-body);font-size:12px;stroke:none}
+.fig-tm{fill:var(--muted);font-family:var(--font-body);font-size:11px;stroke:none}
+
+/* 試算器 */
+.calc{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.9rem}
+.calc-head{display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:baseline;justify-content:space-between}
+.calc-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.2rem}
+@media (max-width:620px){.calc-body{grid-template-columns:minmax(0,1fr)}}
+.fields{display:grid;grid-template-columns:minmax(0,1fr) 6.2rem;gap:.5rem .7rem;align-items:center;align-content:start}
+.fields label{font-size:.9rem;min-width:0}
+.fields label small{color:var(--muted);font-size:.78rem}
+.fields input{width:100%;font-family:var(--font-mono);font-size:.95rem;font-variant-numeric:tabular-nums;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:.32rem .45rem;text-align:right}
+dl.out{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.4rem .8rem;align-content:start;border-left:1px solid var(--line);padding-left:1.2rem}
+@media (max-width:620px){dl.out{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:.9rem}}
+dl.out dt{font-size:.88rem;color:var(--muted);min-width:0}
+dl.out dd{margin:0;text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+dl.out dd small{font-weight:400;color:var(--muted);font-size:.78rem}
+dl.out .note{grid-column:1 / -1;text-align:left;font-family:var(--font-body);font-weight:400;font-size:.84rem;color:var(--accent);white-space:normal;min-height:1.4em}
+dl.out .note.warn{color:var(--warm)}
+.how{font-size:.82rem;color:var(--muted)}
+
+/* 簡報骨架 */
+ol.pitch{list-style:none;padding:0;counter-reset:p;display:flex;flex-direction:column;gap:.7rem}
+ol.pitch li{counter-increment:p;display:grid;grid-template-columns:1.6rem minmax(0,1fr);gap:.1rem .5rem}
+ol.pitch li::before{content:counter(p);font-family:var(--font-mono);font-weight:700;color:var(--accent)}
+ol.pitch .zh{grid-column:2}
+ol.pitch .en{grid-column:2;font-size:.88rem;color:var(--muted)}
+.blank{display:inline-block;min-width:2.6em;border-bottom:1.5px solid var(--ink);margin-inline:.15em}
+
+/* 救援句 */
+.hide-en td.say{color:transparent;text-shadow:none;user-select:none}
+.hide-en td.say::selection{color:transparent}
+td.say{font-size:.95rem}
+#rescue td:first-child{width:7.5em;min-width:6.5em;font-weight:700}
+
+/* 檢查表 */
+.cks{display:flex;flex-direction:column}
+.cks label{display:grid;grid-template-columns:1.4rem minmax(0,1fr);gap:.5rem;padding:.45rem 0;border-bottom:1px solid var(--line);cursor:pointer;align-items:start}
+.cks input{width:1.05rem;height:1.05rem;margin-top:.35rem;accent-color:var(--accent)}
+.cks input:checked + span{color:var(--muted)}
+
+.srcs{display:flex;flex-direction:column;gap:.9rem;font-size:.88rem}
+.srcs ul{padding-left:1.1rem;display:flex;flex-direction:column;gap:.2rem}
+.srcs a{overflow-wrap:anywhere}
+footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padding-top:1rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">115-1 微學分 · 課前研究</p>
+  <h1>永續無人機課前手冊</h1>
+  <p class="lede">無人機探勘－可持續發展無人機技術（Sustainable UAV Technologies）。2026-11-14（六）到 11-15（日），光復校區工程一館 B06。整理於 2026-11-12。</p>
+  <p class="small">每項資訊都標了來歷：<span class="tag fact">查到</span> 有來源；<span class="tag guess">推定</span> 是照旁證推的；<span class="tag none">沒查到</span> 就是沒有。</p>
+
+  <dl class="brief">
+    <dt>時間</dt>
+    <dd>週六 <span class="num">08:00–21:20</span>（第 1–4、5–8、A–C 節），週日 <span class="num">08:00–17:20</span>（第 1–4、5–8 節）。照交大節次表換算，休息時間看老師。</dd>
+    <dt>老師</dt>
+    <dd>兩位都做空氣動力學。賴錦文研究非定常氣動力和拍翼，Jonathan Tay 在 NUS 研究表面凹坑減阻。課的重心應該是「怎麼飛得省力」。<span class="tag guess">推定</span></dd>
+    <dt>機型</dt>
+    <dd>公告沒寫。旁證指向電動固定翼小飛機，四軸也有可能。這份手冊以固定翼為主，四軸另放一節。<span class="tag guess">推定</span></dd>
+    <dt>成績</dt>
+    <dd>設計方案呈現與團隊合作 30%，製作組裝與測試 30%，試飛競賽與成果總結 40%。沒有筆試。</dd>
+    <dt>學分</dt>
+    <dd>共 20 小時。微學分每滿 8 小時算 0.5 學分，所以是 1 學分，課後問卷要填才能登錄。算不算無人機實作微學程的基礎類，要對 115 學年的認抵表。</dd>
+    <dt>要帶</dt>
+    <dd>官方寫的：帽子、太陽眼鏡、防曬，第二天在戶外試飛。另外建議帶：水、筆電、充飽的手機（拍製作過程，成果總結用得到）、包鞋。</dd>
+  </dl>
+
+  <h3>只有 60 分鐘的話，照這個順序</h3>
+  <ol class="plain">
+    <li>開 <a href="https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/foilsimstudent">NASA FoilSim</a>，只動攻角和翼面積，看升力怎麼變。用電腦開，載入要等一下。</li>
+    <li>讀 MIT 的短講義 <a href="https://web.mit.edu/16.unified/www/SPRING/systems/Lab_Notes/desrules.pdf">Basic Aircraft Design Rules</a>，只看重心和尾翼兩段。</li>
+    <li>用<a href="#calc">階梯 3 的試算器</a>算一台假想機，把數字填進<a href="#pitch">階梯 4 的簡報骨架</a>。</li>
+    <li>把<a href="#english">英文救援句</a>唸一遍，再按「遮住英文」自己講一次。</li>
+  </ol>
+
+  <nav aria-label="目錄">
+    <a href="#facts">課程實況</a>
+    <a href="#schedule">兩天流程</a>
+    <a href="#vocab">1 單字</a>
+    <a href="#concepts">2 觀念</a>
+    <a href="#calc">3 試算</a>
+    <a href="#pitch">4 簡報骨架</a>
+    <a href="#english">英文救援句</a>
+    <a href="#flight">試飛檢查</a>
+    <a href="#green">永續論點</a>
+    <a href="#quad">如果是四軸</a>
+    <a href="#rules">法規安全</a>
+    <a href="#gaps">沒查到的</a>
+    <a href="#sources">來源</a>
+  </nav>
+</header>
+
+<section id="facts">
+  <h2>課程實況</h2>
+  <div class="tw">
+  <table>
+    <thead><tr><th>項目</th><th>內容</th><th>來歷</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="k">賴錦文<br><span class="small">Kim-Boon Lua</span></td>
+        <td>陽明交大機械系教授。專長是非定常（unsteady）空氣動力學、流固耦合、高攻角空氣動力學、流體量測與可視化。台大學士（1994），NUS 流體力學博士（2001），之後在 NUS 做拍翼研究。指導陽明交大無人機團隊（固定翼，2024 台灣無人飛機創意設計競賽飛機設計組第二名）。聯合報報導過他共同指導 ORCA AUV。</td>
+        <td><span class="tag fact">查到</span></td>
+      </tr>
+      <tr>
+        <td class="k">Jonathan Tay<br><span class="small">Tay Chien Ming</span></td>
+        <td>NUS 機械系博士（2016），論文題目是 Flow Past Dimpled Surfaces，研究淺凹坑表面的減阻，量到最多約 3%。2024 年 11 月的研討會公告上，職稱是 NUS 淡馬錫實驗室（TL@NUS）Senior Research Scientist。</td>
+        <td><span class="tag fact">查到</span><br><span class="small">職稱是 2024 年的資料</span></td>
+      </tr>
+      <tr>
+        <td class="k">課名沿革</td>
+        <td>「可持續發展無人機技術」在 112、113 學年的無人機微學程認抵表就出現過，不是第一次開。113-1 另有「仿生智慧無人機」。往年課程頁的內文，搜尋引擎讀不到。</td>
+        <td><span class="tag fact">查到</span><br><span class="small">只看到搜尋摘要</span></td>
+      </tr>
+      <tr>
+        <td class="k">試飛地點</td>
+        <td>校規只開放五個地方飛無人機：竹湖、田徑場、棒壘球場、西區公園、電資大樓前荷花池區。教學飛行要三天前書面申請。試飛大概在其中一處。</td>
+        <td><span class="tag fact">查到</span> 規定<br><span class="tag guess">推定</span> 地點</td>
+      </tr>
+      <tr>
+        <td class="k">做什麼機型</td>
+        <td>公告只寫「電動無人飛行器」。指向固定翼的旁證：兩位老師都是空氣動力學背景，賴老師帶的校隊做固定翼，課綱強調流體力學與推進，還要到戶外試飛。反方向的線索：對應總課程名稱是「四軸無人飛行器實作」，不過這是微學分累計時數用的名稱，「無人機概論」也掛在它底下。</td>
+        <td><span class="tag guess">推定</span><br><span class="small">固定翼機率高</span></td>
+      </tr>
+      <tr>
+        <td class="k">競賽比什麼</td>
+        <td>沒寫。這類課常比滯空時間、飛行距離、載重、定點降落。課名是永續，比誰最省能也合理。</td>
+        <td><span class="tag none">沒查到</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="schedule">
+  <h2>兩天流程</h2>
+  <div class="tw">
+  <table>
+    <thead><tr><th>日期</th><th>時間</th><th>節次</th><th>照課綱推的內容</th></tr></thead>
+    <tbody>
+      <tr><td class="k" rowspan="3">11/14 六</td><td class="t">08:00–12:00</td><td class="t">1–4</td><td>跨域組隊、能源與環境、無人機設計與飛行原理（講授 4 小時）</td></tr>
+      <tr><td class="t">13:20–17:20</td><td class="t">5–8</td><td>製作講解與示範，開始做部件</td></tr>
+      <tr><td class="t">18:30–21:20</td><td class="t">A–C</td><td>製作、組裝</td></tr>
+      <tr><td class="k" rowspan="2">11/15 日</td><td class="t">08:00–12:00</td><td class="t">1–4</td><td>組裝收尾、控制與動力系統整合、檢查</td></tr>
+      <tr><td class="t">13:20–17:20</td><td class="t">5–8</td><td>調整測試、試飛競賽、成果總結</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="small">課綱寫講授 5 小時、示範 1 小時、習作 14 小時。各時段做什麼是照大綱排的，實際以老師為準。週六從早上八點到晚上九點二十，是整門課最長的一天。</p>
+</section>
+
+<section id="vocab">
+  <p class="kicker">階梯 1 / 4</p>
+  <h2>單字表：先認得字</h2>
+  <p>其中一位老師來自新加坡國立大學，講課可能用英文。先把這些字認熟，聽課才跟得上。卡住就回來查這一階。</p>
+  <div class="row">
+    <button type="button" id="btn-zh" aria-pressed="false">遮住中文，自己考自己</button>
+  </div>
+  <div id="vocab-list" style="display:flex;flex-direction:column;gap:1.4rem">
+    <div class="vgroup">
+      <h3>四個力</h3>
+      <ul>
+        <li><span class="en">lift</span><span class="zh">升力</span><span class="gl">機翼把空氣往下推，空氣把飛機往上托</span></li>
+        <li><span class="en">weight</span><span class="zh">重力</span><span class="gl">整台飛機的重量，永遠往下</span></li>
+        <li><span class="en">thrust</span><span class="zh">推力</span><span class="gl">螺旋槳把空氣往後推，飛機往前</span></li>
+        <li><span class="en">drag</span><span class="zh">阻力</span><span class="gl">空氣擋住飛機的力</span></li>
+      </ul>
+    </div>
+    <div class="vgroup">
+      <h3>機翼</h3>
+      <ul>
+        <li><span class="en">airfoil</span><span class="zh">翼型</span><span class="gl">機翼切開來的剖面形狀</span></li>
+        <li><span class="en">chord</span><span class="zh">弦長</span><span class="gl">機翼前緣到後緣的寬度</span></li>
+        <li><span class="en">wingspan</span><span class="zh">翼展</span><span class="gl">左翼尖到右翼尖的長度</span></li>
+        <li><span class="en">aspect ratio (AR)</span><span class="zh">展弦比</span><span class="gl">翼展 ÷ 弦長，數字越大機翼越細長</span></li>
+        <li><span class="en">angle of attack (AoA)</span><span class="zh">攻角</span><span class="gl">機翼迎著氣流抬起的角度</span></li>
+        <li><span class="en">stall</span><span class="zh">失速</span><span class="gl">攻角太大，氣流貼不住機翼，升力掉下來</span></li>
+        <li><span class="en">camber</span><span class="zh">彎度</span><span class="gl">翼型往上拱的程度</span></li>
+        <li><span class="en">dihedral</span><span class="zh">上反角</span><span class="gl">兩邊機翼往上翹的角度，幫飛機自己回正</span></li>
+        <li><span class="en">wing loading</span><span class="zh">翼面負載</span><span class="gl">重量 ÷ 翼面積</span></li>
+        <li><span class="en">Reynolds number</span><span class="zh">雷諾數</span><span class="gl">速度 × 尺寸 ÷ 空氣黏性。小飛機的雷諾數低，同一個翼型表現比大飛機差</span></li>
+      </ul>
+    </div>
+    <div class="vgroup">
+      <h3>機身與控制</h3>
+      <ul>
+        <li><span class="en">fuselage</span><span class="zh">機身</span><span class="gl"></span></li>
+        <li><span class="en">horizontal stabilizer</span><span class="zh">水平尾翼</span><span class="gl"></span></li>
+        <li><span class="en">vertical stabilizer / fin</span><span class="zh">垂直尾翼</span><span class="gl"></span></li>
+        <li><span class="en">elevator</span><span class="zh">升降舵</span><span class="gl">管抬頭低頭（pitch）</span></li>
+        <li><span class="en">rudder</span><span class="zh">方向舵</span><span class="gl">管機頭左右擺（yaw）</span></li>
+        <li><span class="en">aileron</span><span class="zh">副翼</span><span class="gl">管左右傾斜（roll）</span></li>
+        <li><span class="en">center of gravity (CG)</span><span class="zh">重心</span><span class="gl"></span></li>
+        <li><span class="en">neutral point</span><span class="zh">中性點</span><span class="gl">重心退到這裡，飛機就不會自己回正了</span></li>
+        <li><span class="en">static margin</span><span class="zh">靜穩定裕度</span><span class="gl">重心在中性點前面多遠，用弦長的百分比講</span></li>
+        <li><span class="en">trim</span><span class="zh">配平</span><span class="gl">微調舵面，讓飛機放手也直直飛</span></li>
+      </ul>
+    </div>
+    <div class="vgroup">
+      <h3>電動動力</h3>
+      <ul>
+        <li><span class="en">brushless motor</span><span class="zh">無刷馬達</span><span class="gl"></span></li>
+        <li><span class="en">ESC</span><span class="zh">電變</span><span class="gl">electronic speed controller，電子調速器</span></li>
+        <li><span class="en">LiPo battery</span><span class="zh">鋰聚電池</span><span class="gl"></span></li>
+        <li><span class="en">propeller / prop</span><span class="zh">螺旋槳</span><span class="gl"></span></li>
+        <li><span class="en">pitch (of a prop)</span><span class="zh">槳距</span><span class="gl">槳轉一圈，理論上前進的距離</span></li>
+        <li><span class="en">KV</span><span class="zh">KV 值</span><span class="gl">每 1 伏特的空載轉速（rpm/V）</span></li>
+        <li><span class="en">C-rating</span><span class="zh">放電倍率</span><span class="gl">電池一次能放多大的電流</span></li>
+        <li><span class="en">thrust-to-weight ratio</span><span class="zh">推重比</span><span class="gl">推力 ÷ 重量</span></li>
+        <li><span class="en">servo</span><span class="zh">伺服機</span><span class="gl">推動舵面的小馬達</span></li>
+        <li><span class="en">receiver / transmitter</span><span class="zh">接收機／遙控器</span><span class="gl"></span></li>
+        <li><span class="en">throttle</span><span class="zh">油門</span><span class="gl"></span></li>
+      </ul>
+    </div>
+    <div class="vgroup">
+      <h3>永續</h3>
+      <ul>
+        <li><span class="en">direct emissions</span><span class="zh">直接排放</span><span class="gl">飛行當下從機上排出來的</span></li>
+        <li><span class="en">life-cycle emissions</span><span class="zh">生命週期排放</span><span class="gl">發電、製造、回收全部算進去</span></li>
+        <li><span class="en">specific energy</span><span class="zh">比能量</span><span class="gl">每公斤裝多少能量（Wh/kg）</span></li>
+        <li><span class="en">emission factor</span><span class="zh">排放係數</span><span class="gl">每度電排多少 CO₂e</span></li>
+        <li><span class="en">sustainable aviation fuel (SAF)</span><span class="zh">永續航空燃料</span><span class="gl"></span></li>
+        <li><span class="en">net zero</span><span class="zh">淨零</span><span class="gl"></span></li>
+      </ul>
+    </div>
+    <div class="vgroup">
+      <h3>試飛</h3>
+      <ul>
+        <li><span class="en">pre-flight check</span><span class="zh">飛行前檢查</span><span class="gl"></span></li>
+        <li><span class="en">range check</span><span class="zh">拉距測試</span><span class="gl">走遠一點，確認遙控訊號還收得到</span></li>
+        <li><span class="en">hand launch</span><span class="zh">手擲起飛</span><span class="gl"></span></li>
+        <li><span class="en">glide test</span><span class="zh">滑翔測試</span><span class="gl">不開動力，輕輕丟出去看姿態</span></li>
+        <li><span class="en">nose-heavy / tail-heavy</span><span class="zh">頭重／尾重</span><span class="gl"></span></li>
+        <li><span class="en">failsafe</span><span class="zh">失控保護</span><span class="gl">斷訊時自動收油門</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="concepts">
+  <p class="kicker">階梯 2 / 4</p>
+  <h2>核心觀念：一次拆一格</h2>
+
+  <div class="figs">
+    <figure>
+      <svg viewBox="0 0 360 210" role="img" aria-label="飛機側視圖：升力向上、重力向下、推力向前、阻力向後，重心在中性點前面">
+        <rect x="52" y="100" width="258" height="18" rx="9" class="fig-body"/>
+        <line x1="48" y1="80" x2="48" y2="138" class="fig-ink" stroke-width="2.5"/>
+        <polygon points="282,100 312,100 312,62 302,62" class="fig-body"/>
+        <ellipse cx="150" cy="97" rx="46" ry="7" class="fig-wing"/>
+        <ellipse cx="296" cy="100" rx="20" ry="4" class="fig-wing"/>
+        <line x1="127" y1="88" x2="127" y2="36" class="fig-a1"/><polygon points="127,24 121,37 133,37" class="fig-a1"/>
+        <text x="137" y="34" class="fig-t">升力 lift</text>
+        <line x1="132" y1="120" x2="132" y2="178" class="fig-a3"/><polygon points="132,190 126,177 138,177" class="fig-a3"/>
+        <text x="142" y="187" class="fig-t">重力 weight</text>
+        <line x1="42" y1="109" x2="20" y2="109" class="fig-a1"/><polygon points="8,109 21,103 21,115" class="fig-a1"/>
+        <text x="6" y="72" class="fig-t">推力 thrust</text>
+        <line x1="316" y1="109" x2="338" y2="109" class="fig-a2"/><polygon points="350,109 337,103 337,115" class="fig-a2"/>
+        <text x="354" y="138" text-anchor="end" class="fig-t">阻力 drag</text>
+        <circle cx="132" cy="109" r="5" class="fig-dot"/>
+        <circle cx="158" cy="109" r="4.5" class="fig-dot2"/>
+        <text x="122" y="140" text-anchor="end" class="fig-tm">重心 CG</text>
+        <text x="166" y="140" class="fig-tm">中性點 NP</text>
+      </svg>
+      <figcaption>側視。等速平飛時，升力等於重力，推力等於阻力。重心（實心）要在中性點（空心）前面。</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 360 232" role="img" aria-label="飛機俯視圖：標出弦長、翼展、尾力臂和重心位置">
+        <rect x="40" y="104" width="285" height="12" rx="6" class="fig-body"/>
+        <rect x="110" y="18" width="60" height="184" class="fig-wing"/>
+        <rect x="288" y="72" width="28" height="76" class="fig-wing"/>
+        <line x1="110" y1="214" x2="170" y2="214" class="fig-dim"/><line x1="110" y1="209" x2="110" y2="219" class="fig-dim"/><line x1="170" y1="209" x2="170" y2="219" class="fig-dim"/>
+        <text x="140" y="229" text-anchor="middle" class="fig-tm">弦長 c</text>
+        <line x1="94" y1="18" x2="94" y2="202" class="fig-dim"/><line x1="89" y1="18" x2="99" y2="18" class="fig-dim"/><line x1="89" y1="202" x2="99" y2="202" class="fig-dim"/>
+        <text x="88" y="62" text-anchor="end" class="fig-tm">翼展 b</text>
+        <line x1="125" y1="50" x2="295" y2="50" class="fig-dim" stroke-dasharray="4 3"/><line x1="125" y1="45" x2="125" y2="55" class="fig-dim"/><line x1="295" y1="45" x2="295" y2="55" class="fig-dim"/>
+        <text x="232" y="43" text-anchor="middle" class="fig-tm">尾力臂</text>
+        <circle cx="128" cy="110" r="5" class="fig-dot"/>
+        <text x="178" y="134" class="fig-tm">重心</text>
+        <text x="178" y="149" class="fig-tm">前緣往後 25–33%</text>
+        <text x="40" y="96" class="fig-tm">← 機頭</text>
+      </svg>
+      <figcaption>俯視。下面公式裡的 c、b、尾力臂就是這幾段長度。</figcaption>
+    </figure>
+  </div>
+
+  <div class="idea">
+    <h3>升力公式，拆開來看</h3>
+    <p class="formula">L = ½ · ρ · V² · S · C<sub>L</sub></p>
+    <div class="decode">
+      <div class="tok"><b>ρ</b><span>空氣密度。海平面約 1.225 kg/m³。</span><small>你改不了</small></div>
+      <div class="tok"><b>V²</b><span>空速的平方。速度變 2 倍，升力變 4 倍。</span><small>飛的時候決定</small></div>
+      <div class="tok"><b>S</b><span>翼面積。翼越大，越能慢慢飛。</span><small>設計時決定</small></div>
+      <div class="tok"><b>C<sub>L</sub></b><span>升力係數。看翼型和攻角，攻角越大它越高，過頭就失速。</span><small>設計加上操作</small></div>
+    </div>
+    <p>白話：想飛得慢又不掉下來，翼要大、機要輕。<a href="https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/foilsimstudent">FoilSim</a> 可以一格一格調，看升力怎麼變。</p>
+  </div>
+
+  <div class="idea">
+    <h3>失速是攻角的問題，不是引擎熄火</h3>
+    <p>機翼抬得太高，氣流貼不住上表面，升力就突然掉下來。超過臨界攻角，任何速度都會失速，這是 FAA 飛行員手冊第 5 章的講法。新手最常在低速轉彎時拉桿拉太多。</p>
+  </div>
+
+  <div class="idea">
+    <h3>重心決定飛不飛得起來</h3>
+    <p>重心要在中性點前面，飛機被陣風吹歪才會自己回來。主翼在前、尾翼在後的傳統構型，起手式是把重心放在主翼前緣往後 25% 到 33% 弦長的地方。<span class="tag guess">經驗值</span></p>
+    <p>MIT 講義建議靜穩定裕度抓弦長的 5% 到 15%。<span class="tag guess">數字未逐字核對，請對原文</span></p>
+    <p>頭重只是難飛，尾重通常直接摔。寧可頭重一點。</p>
+  </div>
+
+  <div class="idea">
+    <h3>細長翼省力，短胖翼好做</h3>
+    <p class="formula">AR = b² ÷ S　（矩形翼就是 b ÷ c）</p>
+    <p>展弦比越大，翼尖漏掉的升力越少，誘導阻力越小，所以滑翔機的翼又細又長。短胖翼結構強、好做、轉得快。兩天做一台，取中間值比較實際。</p>
+  </div>
+
+  <div class="idea">
+    <h3>尾翼夠不夠大，看尾容積係數</h3>
+    <p class="formula">V<sub>h</sub> = (S<sub>h</sub> × 尾力臂) ÷ (S × c)　常見 0.30 到 0.60</p>
+    <p>意思是「尾翼面積 × 尾巴長度」要跟「主翼面積 × 弦長」成比例。尾巴短，尾翼就要做大片。這個範圍出自 MIT 講義。<span class="tag fact">查到</span></p>
+  </div>
+
+  <div class="idea">
+    <h3>電動動力鏈：電池 → 電變 → 馬達 → 螺旋槳</h3>
+    <p>電池上那串字，一格一格看：</p>
+    <div class="decode">
+      <div class="tok"><b>3S</b><span>3 顆串聯。標稱 3 × 3.7 = 11.1 V，滿電 12.6 V。</span></div>
+      <div class="tok"><b>1300 mAh</b><span>容量 1.3 Ah。能量是 11.1 × 1.3，約 14.4 Wh。</span></div>
+      <div class="tok"><b>30C</b><span>最大連續電流是 1.3 × 30 = 39 A。</span></div>
+    </div>
+    <p>馬達和螺旋槳：</p>
+    <div class="decode">
+      <div class="tok"><b>1000 KV</b><span>每 1 伏特空轉 1000 rpm。接 3S 大約 11,100 rpm。</span></div>
+      <div class="tok"><b>10 × 4.7</b><span>槳的直徑 10 吋，槳距 4.7 吋（轉一圈理論上前進 4.7 吋）。</span></div>
+    </div>
+    <p>大槳配低 KV，推力大又省電。小槳配高 KV，飛得快。電變的額定電流要大於馬達全油門的電流。</p>
+  </div>
+
+  <div class="idea">
+    <h3>推重比：動力夠不夠</h3>
+    <p>靜推力 ÷ 重量。固定翼有 0.5 上下就能正常起飛爬升，超過 1 可以垂直往上拉。多旋翼至少要 2，懸停才會落在半油門附近。<span class="tag guess">經驗值</span></p>
+  </div>
+
+  <div class="idea">
+    <h3>小飛機的空氣比較「黏」</h3>
+    <p>雷諾數 = 速度 × 弦長 ÷ 空氣的運動黏度。模型飛機大約只有幾萬到十幾萬，載人飛機是幾百萬。雷諾數低的時候氣流容易提早剝離，薄一點、彎一點的翼型反而好用。拍翼和小型無人機都是低雷諾數的題目，上課可能會提。<span class="tag guess">推定</span></p>
+  </div>
+</section>
+
+<section id="calc">
+  <p class="kicker">階梯 3 / 4</p>
+  <h2>試算器：改數字，看結果</h2>
+  <p>預設值是範例，不是課程規格。拿到實際材料後，把量到的數字填進來。</p>
+
+  <form class="calc" data-calc="wing" id="calc-wing">
+    <div class="calc-head">
+      <h3>A　機翼：飛得起來嗎</h3>
+      <div class="row" role="group" aria-label="範例機型">
+        <button type="button" data-preset='{"mass":300,"span":80,"chord":15,"cl":1.0}'>泡棉小機</button>
+        <button type="button" data-preset='{"mass":650,"span":110,"chord":19,"cl":1.0}'>練習機</button>
+        <button type="button" data-preset='{"mass":500,"span":150,"chord":14,"cl":1.0}'>滑翔型</button>
+      </div>
+    </div>
+    <div class="calc-body">
+      <div class="fields">
+        <label for="w-mass">全機重量 <small>g，含電池</small></label><input id="w-mass" name="mass" type="number" inputmode="decimal" min="1" step="any" value="650">
+        <label for="w-span">翼展 b <small>cm</small></label><input id="w-span" name="span" type="number" inputmode="decimal" min="1" step="any" value="110">
+        <label for="w-chord">平均弦長 c <small>cm</small></label><input id="w-chord" name="chord" type="number" inputmode="decimal" min="1" step="any" value="19">
+        <label for="w-cl">最大升力係數 <small>平板約 0.8，有彎度約 1.0–1.3</small></label><input id="w-cl" name="cl" type="number" inputmode="decimal" min="0.1" step="any" value="1.0">
+      </div>
+      <dl class="out">
+        <dt>翼面積 S</dt><dd><span data-out="area">—</span> <small>dm²</small></dd>
+        <dt>展弦比 AR</dt><dd><span data-out="ar">—</span></dd>
+        <dt>翼面負載</dt><dd><span data-out="load">—</span> <small>g/dm²</small></dd>
+        <dd class="note" data-out="loadnote"></dd>
+        <dt>失速速度</dt><dd><span data-out="vs">—</span> <small>m/s</small>（<span data-out="vskmh">—</span> <small>km/h</small>）</dd>
+        <dt>1.3 倍失速速度</dt><dd><span data-out="v13">—</span> <small>m/s</small></dd>
+        <dt>這個速度下的雷諾數</dt><dd><span data-out="re">—</span> <small>萬</small></dd>
+      </dl>
+    </div>
+    <p class="how">算法：失速速度 = √(2 × 重量 ÷ (ρ × S × 最大升力係數))，ρ 取 1.225 kg/m³。1.3 倍是進場常用的安全邊際。翼面負載的評語是模型圈的經驗值，各家說法不一，小飛機要抓得更低。</p>
+  </form>
+
+  <form class="calc" data-calc="power" id="calc-power">
+    <div class="calc-head">
+      <h3>B　動力：夠不夠力，能飛多久</h3>
+      <div class="row" role="group" aria-label="範例電池">
+        <button type="button" data-preset='{"cells":2,"mah":800,"crate":25,"imax":7,"iavg":3.5,"thrust":220,"mass":300}'>2S 小電池</button>
+        <button type="button" data-preset='{"cells":3,"mah":1300,"crate":30,"imax":12,"iavg":6,"thrust":450,"mass":650}'>3S 常見款</button>
+      </div>
+    </div>
+    <div class="calc-body">
+      <div class="fields">
+        <label for="p-cells">電池串數 <small>S</small></label><input id="p-cells" name="cells" type="number" inputmode="numeric" min="1" step="1" value="3">
+        <label for="p-mah">電池容量 <small>mAh</small></label><input id="p-mah" name="mah" type="number" inputmode="decimal" min="1" step="any" value="1300">
+        <label for="p-crate">放電倍率 <small>C</small></label><input id="p-crate" name="crate" type="number" inputmode="decimal" min="1" step="any" value="30">
+        <label for="p-imax">全油門電流 <small>A</small></label><input id="p-imax" name="imax" type="number" inputmode="decimal" min="0.1" step="any" value="12">
+        <label for="p-iavg">巡航平均電流 <small>A</small></label><input id="p-iavg" name="iavg" type="number" inputmode="decimal" min="0.1" step="any" value="6">
+        <label for="p-thrust">靜推力 <small>g</small></label><input id="p-thrust" name="thrust" type="number" inputmode="decimal" min="1" step="any" value="450">
+        <label for="p-mass">全機重量 <small>g</small></label><input id="p-mass" name="mass" type="number" inputmode="decimal" min="1" step="any" value="650">
+      </div>
+      <dl class="out">
+        <dt>電壓（標稱／滿電）</dt><dd><span data-out="volt">—</span> / <span data-out="vfull">—</span> <small>V</small></dd>
+        <dt>電池能量</dt><dd><span data-out="wh">—</span> <small>Wh</small></dd>
+        <dt>電池最大連續電流</dt><dd><span data-out="cont">—</span> <small>A</small></dd>
+        <dd class="note warn" data-out="contnote"></dd>
+        <dt>全油門功率</dt><dd><span data-out="pmax">—</span> <small>W</small></dd>
+        <dt>功率負載</dt><dd><span data-out="wkg">—</span> <small>W/kg</small></dd>
+        <dd class="note" data-out="wkgnote"></dd>
+        <dt>推重比</dt><dd><span data-out="twr">—</span></dd>
+        <dd class="note" data-out="twrnote"></dd>
+        <dt>預估飛行時間</dt><dd><span data-out="min">—</span> <small>分鐘</small></dd>
+        <dt>電變至少要</dt><dd><span data-out="esc">—</span> <small>A</small></dd>
+      </dl>
+    </div>
+    <p class="how">算法：能量 = 串數 × 3.7 V × 容量。飛行時間 = 容量 × 80% ÷ 平均電流，留兩成電不用完。功率負載的參考範圍 110–275 W/kg 換算自 Model Aviation 專欄的 50–125 W/lb（全油門輸入功率）。電變抓全油門電流的 1.2 倍是經驗值。</p>
+  </form>
+
+  <form class="calc" data-calc="cg" id="calc-cg">
+    <div class="calc-head"><h3>C　重心：標記畫在哪</h3></div>
+    <div class="calc-body">
+      <div class="fields">
+        <label for="c-chord">弦長 c <small>cm</small></label><input id="c-chord" name="chord" type="number" inputmode="decimal" min="1" step="any" value="19">
+        <label for="c-pct">重心位置 <small>% 弦長，建議 25–33</small></label><input id="c-pct" name="pct" type="number" inputmode="decimal" min="5" max="60" step="any" value="28">
+      </div>
+      <dl class="out">
+        <dt>從主翼前緣往後量</dt><dd><span data-out="pos">—</span> <small>cm</small></dd>
+        <dt>建議範圍（25–33%）</dt><dd><span data-out="range">—</span> <small>cm</small></dd>
+        <dd class="note" data-out="cgnote"></dd>
+      </dl>
+    </div>
+    <p class="how">只適用矩形翼。機翼有後掠或前後緣不平行時，要先找平均氣動弦，請老師帶著算。</p>
+  </form>
+
+  <form class="calc" data-calc="carbon" id="calc-carbon">
+    <div class="calc-head">
+      <h3>D　一趟飛行的碳足跡</h3>
+      <div class="row"><button type="button" id="btn-usewh">帶入 B 的電池能量</button></div>
+    </div>
+    <div class="calc-body">
+      <div class="fields">
+        <label for="e-wh">電池能量 <small>Wh</small></label><input id="e-wh" name="wh" type="number" inputmode="decimal" min="0.1" step="any" value="14.4">
+        <label for="e-eff">充電效率 <small>%，粗估</small></label><input id="e-eff" name="eff" type="number" inputmode="decimal" min="10" max="100" step="any" value="85">
+        <label for="e-ef">電力排碳係數 <small>kg CO₂e/度</small></label><input id="e-ef" name="ef" type="number" inputmode="decimal" min="0" step="any" value="0.467">
+      </div>
+      <dl class="out">
+        <dt>飛行中直接排放</dt><dd>0 <small>g</small></dd>
+        <dt>充滿要用的電</dt><dd><span data-out="grid">—</span> <small>Wh</small></dd>
+        <dt>充電的間接排放</dt><dd><span data-out="g">—</span> <small>g CO₂e</small></dd>
+        <dt>飛幾趟等於 1 公斤 CO₂e</dt><dd><span data-out="per">—</span> <small>趟</small></dd>
+      </dl>
+    </div>
+    <p class="how">0.467 是能源署 2026-06-02 公布的 114 年度台電電力排碳係數，113 年度是 0.474。這裡只算充電用的電，沒算電池和機體製造的排放。</p>
+  </form>
+</section>
+
+<section id="pitch">
+  <p class="kicker">階梯 4 / 4</p>
+  <h2>設計方案簡報骨架</h2>
+  <p>設計方案呈現佔 30%。五句話講完，數字從試算器抄過來。先記骨架，不用背逐字稿。</p>
+  <ol class="pitch">
+    <li><span class="zh">任務：我們的飛機要<span class="blank"></span>（飛最久／載最重／降最準）。</span><span class="en">Our aircraft is designed to <span class="blank"></span>.</span></li>
+    <li><span class="zh">機翼：翼展<span class="blank"></span>cm，重量<span class="blank"></span>g，翼面負載<span class="blank"></span>g/dm²，失速速度約<span class="blank"></span>m/s。</span><span class="en">The wingspan is <span class="blank"></span> cm and it weighs <span class="blank"></span> grams, so it stalls at about <span class="blank"></span> meters per second.</span></li>
+    <li><span class="zh">動力：<span class="blank"></span>S 電池、<span class="blank"></span>吋槳，推重比<span class="blank"></span>，預估飛<span class="blank"></span>分鐘。</span><span class="en">With a <span class="blank"></span>-cell battery and a <span class="blank"></span>-inch prop, the thrust-to-weight ratio is <span class="blank"></span>.</span></li>
+    <li><span class="zh">永續：飛行中直接排放是零，每趟充電的間接排放約<span class="blank"></span>g CO₂e。為了省能，我們做了<span class="blank"></span>（減重／細長翼／大槳低轉速）。</span><span class="en">It has zero direct emissions in flight. To save energy, we <span class="blank"></span>.</span></li>
+    <li><span class="zh">風險：最擔心<span class="blank"></span>，試飛前用<span class="blank"></span>確認（重心檢查／滑翔測試）。</span><span class="en">Our biggest risk is <span class="blank"></span>, so we will check it with <span class="blank"></span> before flying.</span></li>
+  </ol>
+  <p class="small">真的忘詞，只講這一句：We made the wing bigger and the plane lighter, so it flies slower and uses less energy.</p>
+</section>
+
+<section id="english">
+  <h2>英文救援句</h2>
+  <p>卡在哪個情況，就講哪一句。第二天把英文遮起來，看著情況自己講一次。</p>
+  <div class="row"><button type="button" id="btn-en" aria-pressed="false">遮住英文</button></div>
+  <div class="tw">
+  <table id="rescue">
+    <thead><tr><th>情況</th><th>說這句</th></tr></thead>
+    <tbody>
+      <tr><td>沒聽懂</td><td class="say">Sorry, could you say that again more slowly?</td></tr>
+      <tr><td>想確認自己聽對</td><td class="say">So you mean the CG should be in front of the neutral point, right?</td></tr>
+      <tr><td>不知道零件叫什麼</td><td class="say">What do you call this part?</td></tr>
+      <tr><td>問重心放哪</td><td class="say">Where should the center of gravity be on this wing?</td></tr>
+      <tr><td>請老師檢查</td><td class="say">Could you check our control surfaces before we fly?</td></tr>
+      <tr><td>飛機一直抬頭</td><td class="say">It keeps pitching up. Is it tail-heavy?</td></tr>
+      <tr><td>飛機一直往下鑽</td><td class="say">It keeps diving. Is it nose-heavy?</td></tr>
+      <tr><td>做到卡住</td><td class="say">We're stuck on the motor mount. Could you give us a hint?</td></tr>
+      <tr><td>跟組員分工</td><td class="say">I'll handle the electronics. Could you work on the wing?</td></tr>
+      <tr><td>說明設計取捨</td><td class="say">We chose a larger wing, so it flies slower but needs less power.</td></tr>
+      <tr><td>被問倒</td><td class="say">Good question. We haven't tested that yet, but our guess is that it would add drag.</td></tr>
+      <tr><td>請教減阻</td><td class="say">I read that dimples can reduce drag. Would that work on a small UAV wing?</td></tr>
+      <tr><td>請教拍翼</td><td class="say">At this small scale, what can flapping wings do that propellers can't?</td></tr>
+      <tr><td>問永續的好問題</td><td class="say">For a small UAV, which saves more energy: cutting weight or cutting drag?</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="flight">
+  <h2>試飛日檢查表</h2>
+  <p>試飛競賽佔 40%。飛機摔掉的原因大多在起飛前就看得出來。勾選會記在這台裝置上。</p>
+  <div class="cks" id="cks">
+    <label><input type="checkbox" id="ck-cg"><span>重心：兩根手指托在機翼下方的重心標記，機頭微微下垂才對。水平或機尾下垂就是太後面。</span></label>
+    <label><input type="checkbox" id="ck-ail"><span>副翼方向：站在機尾後面看。搖桿往右，右副翼往上、左副翼往下。</span></label>
+    <label><input type="checkbox" id="ck-ele"><span>升降舵方向：搖桿往後拉，升降舵往上翹。</span></label>
+    <label><input type="checkbox" id="ck-rud"><span>方向舵方向：搖桿往右，方向舵往右擺。</span></label>
+    <label><input type="checkbox" id="ck-surf"><span>舵面置中、不鬆動，連桿和膠都乾了。</span></label>
+    <label><input type="checkbox" id="ck-prop"><span>螺旋槳鎖緊，有字的那面朝飛行方向。短暫給油，風要往機尾吹。</span></label>
+    <label><input type="checkbox" id="ck-batt"><span>電池滿電、固定好，拉扯不會滑動。電池一移位，重心就跑掉。</span></label>
+    <label><input type="checkbox" id="ck-thr"><span>接電前油門在最低。接電後人不站在螺旋槳的旋轉平面上。</span></label>
+    <label><input type="checkbox" id="ck-range"><span>拉距測試，並確認斷訊時馬達會停。</span></label>
+    <label><input type="checkbox" id="ck-wind"><span>逆風起飛、逆風降落。手擲時機身水平或微微朝上，用力平推出去，不要往天上拋。</span></label>
+  </div>
+
+  <h3>飛上去之後</h3>
+  <ul class="plain">
+    <li>先爬到安全高度再微調配平，低空不要急轉彎。</li>
+    <li>一拉桿就猛抬頭、俯仰很敏感，是尾重。馬上降落，在機頭加配重。</li>
+    <li>一直往下鑽、要一直拉桿，是頭重。飛得回來，降落後把重心往後移一點。</li>
+    <li>轉彎時掉高度很正常，轉彎要帶一點升降舵，但速度慢時不要拉太多，會失速。</li>
+  </ul>
+
+  <h3>鋰聚電池</h3>
+  <ul class="plain">
+    <li>每顆滿電 4.2 V，不能超過。存放約 3.8 V（AMA 的建議）。</li>
+    <li>低於每顆約 3.0 V 會傷電池，習慣上降到 3.5 V 上下就降落。<span class="tag guess">經驗值</span></li>
+    <li>鼓起來、摔過、被刺到的電池不要用，也不要充。</li>
+    <li>充電時人要在旁邊，放在防火袋或不會燒起來的地方。</li>
+  </ul>
+</section>
+
+<section id="green">
+  <h2>永續論點：簡報和討論用的數字</h2>
+  <div class="tw">
+  <table>
+    <thead><tr><th>論點</th><th>數字</th><th>來歷</th></tr></thead>
+    <tbody>
+      <tr><td>航空的排放不小</td><td>2023 年約佔全球能源相關 CO₂ 排放的 2.5%（IEA）。</td><td><span class="tag fact">查到</span></td></tr>
+      <tr><td>國際目標</td><td>ICAO 在 2022 年通過國際航空 2050 淨零的長期願景目標，沒有約束力。</td><td><span class="tag fact">查到</span></td></tr>
+      <tr><td>電動的硬傷是電池太重</td><td>航空燃油淨熱值下限 42.8 MJ/kg，約 11.9 kWh/kg。Velis Electro 的電池組估計每公斤 150–170 Wh，差了大約 70 倍。</td><td><span class="tag fact">查到</span><br><span class="small">倍數為自行換算</span></td></tr>
+      <tr><td>馬達效率補回一些</td><td>電動馬達的效率約九成，小型內燃機約三成。算進去之後，差距還是有二十倍上下。</td><td><span class="tag guess">典型值估算</span></td></tr>
+      <tr><td>所以電動先用在小而短的飛行</td><td>Pipistrel Velis Electro 在 2020-06-10 拿到 EASA 型別認證，是第一架認證的電動飛機，報導的續航約 50 分鐘。小型無人機是電動最站得住腳的場合。</td><td><span class="tag fact">查到</span></td></tr>
+      <tr><td>零直接排放不等於零排放</td><td>充電的電有排放。台電 114 年度的係數是每度 0.467 kg CO₂e。電池和機體的製造也有排放。</td><td><span class="tag fact">查到</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <h3>設計上省能的四個槓桿</h3>
+  <ul class="plain">
+    <li>減重。升力要扛的重量少，需要的速度和功率都下降。</li>
+    <li>減阻。提高展弦比、把外形修順、接縫貼平。</li>
+    <li>大槳低轉速。同樣的推力，槳盤面積越大越省電。</li>
+    <li>飛在省能的速度。太快阻力大，太慢靠大攻角硬撐也耗能。</li>
+  </ul>
+</section>
+
+<section id="quad">
+  <h2>如果做的是四軸</h2>
+  <ul class="plain">
+    <li>四顆馬達兩顆順時針、兩顆逆時針，對角的同方向。槳也分正反，裝錯飛不起來。</li>
+    <li>前後馬達的轉速差管俯仰，左右差管滾轉，順逆兩組的差管偏航。</li>
+    <li>推重比至少 2。</li>
+    <li>固定翼靠機翼托住重量，馬達只要克服阻力，大約是重量的十分之一上下。多旋翼的槳要一直扛住全部重量。所以同樣重量、同樣電池，固定翼通常飛得久很多。這句話可以直接放進永續的論點。</li>
+  </ul>
+  <form class="calc" data-calc="hover" id="calc-hover">
+    <div class="calc-head"><h3>E　四軸懸停：能停多久</h3></div>
+    <div class="calc-body">
+      <div class="fields">
+        <label for="h-mass">全機重量 <small>g</small></label><input id="h-mass" name="mass" type="number" inputmode="decimal" min="1" step="any" value="800">
+        <label for="h-prop">槳徑 <small>吋</small></label><input id="h-prop" name="prop" type="number" inputmode="decimal" min="1" step="any" value="5">
+        <label for="h-n">槳數</label><input id="h-n" name="n" type="number" inputmode="numeric" min="1" step="1" value="4">
+        <label for="h-wh">電池能量 <small>Wh</small></label><input id="h-wh" name="wh" type="number" inputmode="decimal" min="0.1" step="any" value="22.2">
+        <label for="h-eff">整體效率 <small>%，粗估 35–50</small></label><input id="h-eff" name="eff" type="number" inputmode="decimal" min="5" max="100" step="any" value="40">
+      </div>
+      <dl class="out">
+        <dt>理想懸停功率</dt><dd><span data-out="ideal">—</span> <small>W</small></dd>
+        <dt>實際大約</dt><dd><span data-out="real">—</span> <small>W</small></dd>
+        <dt>預估懸停時間</dt><dd><span data-out="min">—</span> <small>分鐘</small></dd>
+      </dl>
+    </div>
+    <p class="how">算法：每顆槳的理想功率 = T<sup>1.5</sup> ÷ √(2 × ρ × 槳盤面積)，由 MIT 講義第 11.7 節的致動盤理論在懸停時推得。把槳徑從 5 改成 7，看功率掉多少。整體效率是槳、馬達、電變合起來的粗估值。</p>
+  </form>
+</section>
+
+<section id="rules">
+  <h2>法規與安全</h2>
+  <ul class="plain">
+    <li>試飛是課程安排的。校內只有五個地方能飛，而且要三天前書面申請，自己不要另外找地方飛。<span class="tag fact">查到</span></li>
+    <li>民航法第 99 條之 14 的一般限制：高度 400 呎以下、日出後到日落前、目視範圍內、不飛越人群、不投擲物品、一人一次只操作一架。<span class="tag guess">未逐字核對，請對法規原文</span></li>
+    <li>民航法第 99 條之 10：自然人的無人機 250 公克以上要註冊，學校和法人的無人機不分重量都要註冊，操作人要有操作證。這是老師和學校處理的事，課堂上需不需要另外辦什麼，報到時問一句。<span class="tag guess">未逐字核對</span></li>
+  </ul>
+</section>
+
+<section id="gaps">
+  <h2>沒查到的</h2>
+  <ul class="plain">
+    <li>這次做固定翼還是四軸。公告沒寫，往年課程頁的內文搜尋引擎讀不到。</li>
+    <li>試飛競賽比什麼項目、怎麼計分。</li>
+    <li>要不要自備筆電、怎麼分組、材料是套件還是從零做。</li>
+    <li>115 學年無人機微學程認抵表有沒有把這門列為基礎類。114 學年的表有列「無人機探勘」。</li>
+    <li>MIT 講義的靜穩定裕度範圍和民航法條文，還沒有逐字核對原文。</li>
+  </ul>
+  <p class="small">前三項報到時問助教最快。</p>
+</section>
+
+<section id="sources">
+  <h2>來源</h2>
+  <div class="srcs">
+    <div>
+      <h3>原著與官方工具</h3>
+      <ul>
+        <li><a href="https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/foilsimstudent">NASA Glenn：FoilSim Student 互動翼型模擬</a></li>
+        <li><a href="https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/four-forces-on-an-airplane/">NASA Glenn：Four Forces on an Airplane</a></li>
+        <li><a href="https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/learn-about-aerodynamics/">NASA Glenn：Guide to Aerodynamics</a></li>
+        <li><a href="https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/phak">FAA：Pilot's Handbook of Aeronautical Knowledge（第 4、5、6 章）</a></li>
+        <li><a href="https://web.mit.edu/16.unified/www/SPRING/systems/Lab_Notes/desrules.pdf">MIT Unified Engineering：Basic Aircraft Design Rules</a></li>
+        <li><a href="https://web.mit.edu/16.unified/www/SPRING/propulsion/notes/">MIT Unified Engineering：Thermodynamics and Propulsion 講義（第 11.7 節螺旋槳）</a></li>
+        <li><a href="https://m-selig.ae.illinois.edu/props/propDB.html">UIUC Propeller Database：小型螺旋槳的風洞實測數據</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>課程與老師</h3>
+      <ul>
+        <li><a href="https://me.nycu.edu.tw/zh_tw/people/teacher/%E8%B3%B4%E9%8C%A6%E6%96%87-14476310">陽明交大機械系：賴錦文教師頁</a></li>
+        <li><a href="https://aerotech.lab.nycu.edu.tw/?p=245">賴錦文實驗室：Lab Supervisor</a></li>
+        <li><a href="https://api.tll.org.sg/v1.3/attachment/event/abstract/549">2012 年 NUS 演講公告（Kim-Boon Lua 學經歷）</a></li>
+        <li><a href="https://me.nycu.edu.tw/zh_tw/news8/%E6%81%AD%E8%B3%80-%E9%99%BD%E6%98%8E%E4%BA%A4%E5%A4%A7%E7%84%A1%E4%BA%BA%E6%A9%9F%E5%9C%98%E9%9A%8A-NYCU-UAV-Team-%E6%96%BC2024%E5%8F%B0%E7%81%A3%E7%84%A1%E4%BA%BA%E9%A3%9B%E6%A9%9F%E5%89%B5%E6%84%8F%E8%A8%AD%E8%A8%88%E7%AB%B6%E8%B3%BD-%E6%88%90%E7%B8%BE%E6%96%90%E7%84%B6-57540058">機械系新聞：NYCU UAV Team 2024 競賽成績</a></li>
+        <li><a href="https://udn.com/news/story/6928/9540252">聯合報：陽明交大無人潛水艇參與國際賽</a></li>
+        <li><a href="https://core.ac.uk/download/48814368.pdf">Tay Chien Ming Jonathan 博士論文：Flow Past Dimpled Surfaces</a></li>
+        <li><a href="https://temasek-labs.nus.edu.sg/events/events_latest.html">TL@NUS 活動頁（2024-11-29 演講公告）</a></li>
+        <li><a href="https://ict.nycu.edu.tw/micro-program/unmanned-aerial-vehicles/">ICT 創創工坊：無人機實作微學程</a></li>
+        <li><a href="https://www.nycu.edu.tw/userfiles/aach/files/%E7%84%A1%E4%BA%BA%E6%A9%9F%E5%AF%A6%E4%BD%9C%E5%BE%AE%E5%AD%B8%E7%A8%8B_114%E6%9B%B4%E6%96%B0.pdf">無人機實作微學程認抵表（114 更新）</a></li>
+        <li><a href="https://ict.nycu.edu.tw/wp-content/uploads/%E5%9C%8B%E7%AB%8B%E9%99%BD%E6%98%8E%E4%BA%A4%E9%80%9A%E5%A4%A7%E5%AD%B8%E5%89%B5%E5%89%B5%E5%B7%A5%E5%9D%8A%E5%BE%AE%E5%AD%B8%E5%88%86%E8%AA%B2%E7%A8%8B%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D%E7%94%B3%E8%AB%8B%E8%A1%A8_1150129.docx">微學分課程學分抵免申請表（115/01/29，每滿 8 小時 0.5 學分）</a></li>
+        <li><a href="https://www.nycu.edu.tw/userfiles/gach/files/20250505144638262.pdf">陽明交大總務處文件：遙控無人機使用管理要點</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>永續數據</h3>
+      <ul>
+        <li><a href="https://iea.org/reports/aviation">IEA：Aviation</a></li>
+        <li><a href="https://theicct.org/wp-content/uploads/2022/12/global-aviation-ICAO-net-zero-goal-jan23.pdf">ICCT：ICAO 2050 淨零目標政策更新</a></li>
+        <li><a href="https://generalaviationnews.com/2020/06/10/pipistrel-electric-airplane-receives-easa-type-certificate">General Aviation News：Velis Electro 取得 EASA 型別認證</a></li>
+        <li><a href="https://www.avweb.com/features/pipistrel-velis-electro-certified-electric/">AVweb：Pipistrel Velis Electro（電池組比能量估算）</a></li>
+        <li><a href="https://www.mobil.com/en-us/commercial-fuel/pds/gl-xx-jetfuel-series">ExxonMobil Jet Fuel 規格表（淨熱值下限 42.8 MJ/kg）</a></li>
+        <li><a href="https://udn.com/news/story/7238/9540934">聯合報：114 年度電力排碳係數 0.467</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>模型圈經驗值、電池、法規</h3>
+      <ul>
+        <li><a href="https://library.modelaviation.com/article/radio-control-electrics-160">Model Aviation：Radio Control Electrics（每磅 50–125 W）</a></li>
+        <li><a href="https://amablog.modelaircraft.org/?p=22505">AMA：Battery Care and Safety（存放電壓 3.8 V）</a></li>
+        <li><a href="https://www.amaflightschool.org/getstarted/lipo-battery-basics">AMA Flight School：LiPo Battery Basics</a></li>
+        <li><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=K0090001">全國法規資料庫：民用航空法（第九章之二 遙控無人機）</a></li>
+        <li><a href="https://drone.caa.gov.tw/">民航局遙控無人機管理資訊系統</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  這份手冊依公開資料整理，沒有讀到創創工坊往年課程頁的內文。試算器的預設值是範例。上課時以老師講的為準。
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var RHO = 1.225, G = 9.80665, NU = 1.46e-5;
+
+  function num(fm, name){
+    var el = fm.elements[name];
+    var v = el ? parseFloat(el.value) : NaN;
+    return isFinite(v) ? v : NaN;
+  }
+  function put(fm, key, text){
+    var o = fm.querySelector('[data-out="' + key + '"]');
+    if (o) o.textContent = text;
+  }
+  function f(v, d){ return isFinite(v) ? v.toFixed(d) : '—'; }
+  function pos(){ for (var i = 0; i < arguments.length; i++){ if (!(arguments[i] > 0)) return false; } return true; }
+
+  var calcs = {
+    wing: function(fm){
+      var m = num(fm,'mass'), b = num(fm,'span'), c = num(fm,'chord'), cl = num(fm,'cl');
+      var ok = pos(m, b, c, cl);
+      var S = b * c / 1e4;                      /* m² */
+      var vs = ok ? Math.sqrt(2 * (m / 1000 * G) / (RHO * S * cl)) : NaN;
+      var load = ok ? m / (S * 100) : NaN;      /* g/dm² */
+      put(fm,'area', ok ? f(S * 100, 1) : '—');
+      put(fm,'ar', ok ? f(b / c, 1) : '—');
+      put(fm,'load', f(load, 1));
+      put(fm,'vs', f(vs, 1));
+      put(fm,'vskmh', f(vs * 3.6, 0));
+      put(fm,'v13', f(vs * 1.3, 1));
+      put(fm,'re', ok ? f(vs * 1.3 * (c / 100) / NU / 1e4, 1) : '—');
+      put(fm,'loadnote', !ok ? '' : load < 28 ? '滑翔機等級，很好飛' : load < 40 ? '練習機等級' : load < 55 ? '運動機等級，要有速度才撐得住' : '偏重，起飛和降落都會很快');
+    },
+    power: function(fm){
+      var s = num(fm,'cells'), mah = num(fm,'mah'), cr = num(fm,'crate'), imax = num(fm,'imax'),
+          iavg = num(fm,'iavg'), t = num(fm,'thrust'), m = num(fm,'mass');
+      var v = s * 3.7, wh = v * mah / 1000, cont = mah / 1000 * cr, pmax = v * imax;
+      var wkg = pos(pmax, m) ? pmax / (m / 1000) : NaN;
+      var twr = pos(t, m) ? t / m : NaN;
+      var min = pos(mah, iavg) ? (mah / 1000 * 0.8) / iavg * 60 : NaN;
+      put(fm,'volt', pos(s) ? f(v, 1) : '—');
+      put(fm,'vfull', pos(s) ? f(s * 4.2, 1) : '—');
+      put(fm,'wh', pos(s, mah) ? f(wh, 1) : '—');
+      put(fm,'cont', pos(mah, cr) ? f(cont, 0) : '—');
+      put(fm,'contnote', pos(mah, cr, imax) && cont < imax ? '電池的最大連續電流比全油門電流小，會傷電池。換高倍率或大容量的。' : '');
+      put(fm,'pmax', pos(s, imax) ? f(pmax, 0) : '—');
+      put(fm,'wkg', f(wkg, 0));
+      put(fm,'wkgnote', !isFinite(wkg) ? '' : wkg < 110 ? '低於常見範圍，可能爬不太動' : wkg <= 275 ? '落在一般模型的範圍（110–275）' : '動力很充裕');
+      put(fm,'twr', f(twr, 2));
+      put(fm,'twrnote', !isFinite(twr) ? '' : twr < 0.4 ? '起飛會吃力' : twr < 1 ? '正常起飛爬升' : '可以垂直往上拉');
+      put(fm,'min', f(min, 1));
+      put(fm,'esc', pos(imax) ? f(Math.ceil(imax * 1.2), 0) : '—');
+    },
+    cg: function(fm){
+      var c = num(fm,'chord'), p = num(fm,'pct');
+      var ok = pos(c, p);
+      put(fm,'pos', ok ? f(c * p / 100, 1) : '—');
+      put(fm,'range', pos(c) ? f(c * 0.25, 1) + ' – ' + f(c * 0.33, 1) : '—');
+      put(fm,'cgnote', !ok ? '' : p < 25 ? '偏前：很穩但抬頭吃力，降落要帶速度' : p <= 33 ? '在建議範圍內' : '偏後：俯仰會很敏感，第一次飛不建議');
+    },
+    carbon: function(fm){
+      var wh = num(fm,'wh'), eff = num(fm,'eff'), ef = num(fm,'ef');
+      var ok = pos(wh, eff) && ef >= 0;
+      var grid = wh / (eff / 100);              /* Wh */
+      var g = grid / 1000 * ef * 1000;          /* g CO2e */
+      put(fm,'grid', ok ? f(grid, 1) : '—');
+      put(fm,'g', ok ? f(g, 1) : '—');
+      put(fm,'per', ok && g > 0 ? f(1000 / g, 0) : '—');
+    },
+    hover: function(fm){
+      var m = num(fm,'mass'), d = num(fm,'prop'), n = num(fm,'n'), wh = num(fm,'wh'), eff = num(fm,'eff');
+      var ok = pos(m, d, n, wh, eff);
+      var T = m / 1000 * G / n, r = d * 0.0254 / 2, A = Math.PI * r * r;
+      var ideal = n * Math.pow(T, 1.5) / Math.sqrt(2 * RHO * A);
+      var real = ideal / (eff / 100);
+      put(fm,'ideal', ok ? f(ideal, 0) : '—');
+      put(fm,'real', ok ? f(real, 0) : '—');
+      put(fm,'min', ok ? f(wh * 0.8 / real * 60, 1) : '—');
+    }
+  };
+
+  var forms = Array.prototype.slice.call(document.querySelectorAll('form[data-calc]'));
+  forms.forEach(function(fm){
+    var run = function(){ calcs[fm.getAttribute('data-calc')](fm); };
+    fm.addEventListener('input', run);
+    fm.addEventListener('submit', function(e){ e.preventDefault(); });
+    Array.prototype.slice.call(fm.querySelectorAll('button[data-preset]')).forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var p = JSON.parse(btn.getAttribute('data-preset'));
+        Object.keys(p).forEach(function(k){ if (fm.elements[k]) fm.elements[k].value = p[k]; });
+        run();
+      });
+    });
+    run();
+  });
+
+  var useWh = document.getElementById('btn-usewh');
+  if (useWh) useWh.addEventListener('click', function(){
+    var pf = document.getElementById('calc-power'), cf = document.getElementById('calc-carbon');
+    var wh = num(pf,'cells') * 3.7 * num(pf,'mah') / 1000;
+    if (wh > 0){ cf.elements['wh'].value = wh.toFixed(1); calcs.carbon(cf); }
+  });
+
+  function toggle(btnId, targetId, cls, onText, offText){
+    var btn = document.getElementById(btnId), tg = document.getElementById(targetId);
+    if (!btn || !tg) return;
+    btn.addEventListener('click', function(){
+      var on = tg.classList.toggle(cls);
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.textContent = on ? onText : offText;
+    });
+  }
+  toggle('btn-zh', 'vocab-list', 'hide-zh', '顯示中文', '遮住中文，自己考自己');
+  toggle('btn-en', 'rescue', 'hide-en', '顯示英文', '遮住英文');
+
+  /* 檢查表：勾選狀態只存在這台裝置，讀不到就當作全部沒勾 */
+  var KEY = 'uav-prep-checks';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('#cks input[type="checkbox"]'));
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  boxes.forEach(function(b){
+    if (saved[b.id]) b.checked = true;
+    b.addEventListener('change', function(){
+      saved[b.id] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+    });
+  });
+})();
+</script>
+</body>
+</html>
